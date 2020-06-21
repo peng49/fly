@@ -1340,7 +1340,7 @@ a cite {
 }
 
 .layui-form input[type=checkbox], .layui-form input[type=radio], .layui-form select {
-    display: none
+    /*display: none*/
 }
 
 .layui-form [lay-ignore] {
