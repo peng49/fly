@@ -2,6 +2,7 @@ package fly.frontend.service;
 
 import fly.frontend.entity.Post;
 import fly.frontend.mapper.PostMapper;
+import fly.frontend.pojo.PostAdd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,14 @@ public class PostService {
         return postMapper.findById(id);
     }
 
-    public void create(Post post) {
+    public Post create(PostAdd postAdd) {
+        Post post = new Post();
+        post.setColumnId(postAdd.getColumnId());
+        post.setAuthorId(postAdd.getUserId());
+        post.setTitle(postAdd.getTitle());
+        post.setContent(postAdd.getContent());
         postMapper.create(post);
+        return post;
     }
 
     public void update(Post post) {

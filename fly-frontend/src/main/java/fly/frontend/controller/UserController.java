@@ -1,6 +1,5 @@
 package fly.frontend.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import fly.frontend.entity.User;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;

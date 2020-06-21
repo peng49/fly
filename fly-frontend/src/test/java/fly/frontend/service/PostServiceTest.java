@@ -27,6 +27,6 @@ public class PostServiceTest {
         Post post = new Post();
         post.setTitle("测试标题");
         post.setContent("测试内容");
-        postService.create(post);
+//        postService.create(post);
     }
 }

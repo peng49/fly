@@ -1,25 +1,51 @@
 package fly.frontend.controller;
 
+import fly.frontend.entity.Post;
+import fly.frontend.entity.User;
 import fly.frontend.pojo.PostAdd;
+import fly.frontend.service.ColumnService;
+import fly.frontend.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/post")
 public class PostController {
+    @Resource
+    private PostService postService;
+
+    @Resource
+    private ColumnService columnService;
+
     @GetMapping("/add")
     public ModelAndView add(ModelAndView view) {
+        view.addObject("columns", columnService.getAll());
         view.setViewName("/post/add");
         return view;
     }
 
     @PostMapping("/add")
     @ResponseBody
-    public Map add(@RequestBody PostAdd post) {
-        return null;
+    public Map add(@RequestBody PostAdd post, HttpSession httpSession) throws Exception {
+        User user = (User) httpSession.getAttribute("login-user");
+        if (user == null) {
+            throw new Exception("请先登录");
+        }
+
+        post.setUserId(user.getId());
+        Post po = postService.create(post);
+
+        Map<Object, Object> map = new HashMap<>();
+        map.put("code", "success");
+        map.put("message", "OK");
+        map.put("post", po);
+        return map;
     }
 
     @GetMapping("/edit/{id}")
@@ -30,6 +56,8 @@ public class PostController {
 
     @GetMapping("/detail/{id}")
     public ModelAndView detail(@PathVariable("id") int id, ModelAndView view) {
+        Post post = postService.findById(id);
+        view.addObject("post", post);
         view.setViewName("/post/detail");
         return view;
     }

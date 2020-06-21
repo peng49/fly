@@ -8,7 +8,7 @@
         select * from posts where id = #{id};
     </select>
     <insert id="create" parameterType="fly.frontend.entity.Post">
-        insert into posts(title,content,status,created_at,update_at,publish_at) values (#{title},#{content},#{status},#{createdAt},#{updateAt},#{publishAt});
+        insert into posts(column_id,author_id,title,content,status,created_at,update_at,publish_at) values (#{columnId},#{authorId},#{title},#{content},#{status},#{createdAt},#{updateAt},#{publishAt});
     </insert>
     <update id="update" parameterType="fly.frontend.entity.Post">
         update posts set title = #{title},content = #{content},update_at = #{updateAt},publish_at = #{publishAt} where  id = #{id};

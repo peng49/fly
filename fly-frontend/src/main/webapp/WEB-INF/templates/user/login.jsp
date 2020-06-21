@@ -77,7 +77,6 @@
         },
         methods: {
             loginSubmit: function () {
-                console.log(this.loginForm);
                 axios.post('/user/login', this.loginForm)
                     .then(function (response) {
                         if (response.code === "success") {
