@@ -4,8 +4,12 @@ import java.sql.Date;
 
 public class Post {
     private int id;
+    private int columnId;
+    private int authorId;
     private String title;
     private String content;
+    private int viewCount;
+    private int replyCount;
     private int status;
     private Date publishAt;
     private Date createdAt;
@@ -17,6 +21,22 @@ public class Post {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getColumnId() {
+        return columnId;
+    }
+
+    public void setColumnId(int columnId) {
+        this.columnId = columnId;
+    }
+
+    public int getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 
     public String getTitle() {
@@ -33,6 +53,22 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public int getReplyCount() {
+        return replyCount;
+    }
+
+    public void setReplyCount(int replyCount) {
+        this.replyCount = replyCount;
     }
 
     public int getStatus() {
@@ -71,6 +107,7 @@ public class Post {
     public String toString() {
         return "Post{" +
                 "id=" + id +
+                ", columnId=" + columnId +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", status=" + status +

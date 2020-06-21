@@ -1340,7 +1340,9 @@ a cite {
 }
 
 .layui-form input[type=checkbox], .layui-form input[type=radio], .layui-form select {
-    /*display: none*/
+    height: 38px;
+    width: 160px;
+    border: 1px solid #e6e6e6;
 }
 
 .layui-form [lay-ignore] {

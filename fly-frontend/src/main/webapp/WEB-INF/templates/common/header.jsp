@@ -13,7 +13,7 @@
                 <a href="case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
             </li>
             <li class="layui-nav-item">
-                <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>
+                <a href="javascript:" target="_blank"><i class="iconfont icon-ui"></i>框架</a>
             </li>
         </ul>
 
@@ -39,7 +39,6 @@
                    class="iconfont icon-weibo"></a>
             </li>
             <%} else {%>
-            <% %>
             <!-- 登入后的状态 -->
             <li class="layui-nav-item">
                 <a class="fly-nav-avatar" href="javascript:;">

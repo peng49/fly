@@ -1,3 +1,5 @@
+<%@ page import="java.util.List" %>
+<%@ page import="fly.frontend.entity.Column" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -29,14 +31,13 @@
                                 <div class="layui-col-md3">
                                     <label class="layui-form-label">所在专栏</label>
                                     <div class="layui-input-block">
-                                        <select lay-verify="required" name="class" lay-filter="column">
-                                            <option></option>
-                                            <option value="0">提问</option>
-                                            <option value="99">分享</option>
-                                            <option value="100">讨论</option>
-                                            <option value="101">建议</option>
-                                            <option value="168">公告</option>
-                                            <option value="169">动态</option>
+                                        <select v-model="postForm.columnId">
+                                            <% List<Column> columns = (List<Column>) request.getAttribute("columns"); %>
+                                            <% for (Column column : columns) {%>
+                                            <option value="<%=column.getId()%>">
+                                                <%=column.getName()%>
+                                            </option>
+                                            <%}%>
                                         </select>
                                     </div>
                                 </div>
@@ -83,31 +84,6 @@
                                               style="height: 260px;"></textarea>
                                 </div>
                             </div>
-                            <%--<div class="layui-form-item">
-                                <div class="layui-inline">
-                                    <label class="layui-form-label">悬赏飞吻</label>
-                                    <div class="layui-input-inline" style="width: 190px;">
-                                        <select name="experience">
-                                            <option value="20">20</option>
-                                            <option value="30">30</option>
-                                            <option value="50">50</option>
-                                            <option value="60">60</option>
-                                            <option value="80">80</option>
-                                        </select>
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">发表后无法更改飞吻</div>
-                                </div>
-                            </div>--%>
-                            <%--<div class="layui-form-item">--%>
-                            <%--<label for="L_vercode" class="layui-form-label">人类验证</label>--%>
-                            <%--<div class="layui-input-inline">--%>
-                            <%--<input type="text" id="L_vercode" name="vercode" required lay-verify="required"--%>
-                            <%--placeholder="请回答后面的问题" autocomplete="off" class="layui-input">--%>
-                            <%--</div>--%>
-                            <%--<div class="layui-form-mid">--%>
-                            <%--<span style="color: #c00;">1+1=?</span>--%>
-                            <%--</div>--%>
-                            <%--</div>--%>
                             <div class="layui-form-item">
                                 <button type="button" class="layui-btn" v-on:click="submitForm">立即发布</button>
                             </div>
@@ -124,13 +100,25 @@
         el: "#post-container",
         data: {
             postForm: {
+                columnId: 1,
                 title: "",
                 content: ""
             }
         },
         methods: {
             submitForm: function () {
-
+                axios.post('/post/add', this.postForm)
+                    .then(function (response) {
+                        if (response.code === "success") {
+                            //注册成功,转跳登录页面
+                            layer.msg('添加成功');
+                            return;
+                        }
+                        layer.msg(response.message)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         }
     })
