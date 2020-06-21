@@ -1,15 +1,27 @@
 <%@ page import="fly.frontend.entity.User" %>
+<%@ page import="java.util.List" %>
+<%@ page import="fly.frontend.entity.Column" %>
+<%@ page import="fly.frontend.service.ColumnService" %>
+<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
+<%@ page import="org.springframework.web.context.WebApplicationContext" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="fly-panel fly-column">
     <div class="layui-container">
         <ul class="layui-clear">
             <li class="layui-hide-xs layui-this"><a href="/">首页</a></li>
-            <li><a href="/category/1">提问</a></li>
-            <li><a href="/category/1">分享<span class="layui-badge-dot"></span></a></li>
-            <li><a href="/category/1">讨论</a></li>
-            <li><a href="/category/1">建议</a></li>
-            <li><a href="/category/1">公告</a></li>
-            <li><a href="/category/1">动态</a></li>
+            <%
+                WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
+                ColumnService columnService = webApplicationContext.getBean(ColumnService.class);
+                List<Column> columns = columnService.getAll();
+            %>
+
+            <% for (Column column : columns) {%>
+            <li>
+                <a href="/column/<%=column.getId()%>">
+                    <%=column.getName()%>
+                </a>
+            </li>
+            <%}%>
             <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
 
             <% User user = (User) request.getSession().getAttribute("login-user");%>

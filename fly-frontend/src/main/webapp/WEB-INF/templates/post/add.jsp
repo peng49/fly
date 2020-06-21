@@ -14,7 +14,7 @@
 
 <jsp:include page="../common/header.jsp"/>
 
-<div class="layui-container fly-marginTop">
+<div id="post-container" class="layui-container fly-marginTop">
     <div class="fly-panel" pad20 style="padding-top: 5px;">
         <!--<div class="fly-none">没有权限</div>-->
         <div class="layui-form layui-form-pane">
@@ -41,11 +41,9 @@
                                     </div>
                                 </div>
                                 <div class="layui-col-md9">
-                                    <label for="L_title" class="layui-form-label">标题</label>
+                                    <label class="layui-form-label">标题</label>
                                     <div class="layui-input-block">
-                                        <input type="text" id="L_title" name="title" required lay-verify="required"
-                                               autocomplete="off" class="layui-input">
-                                        <!-- <input type="hidden" name="id" value="{{d.edit.id}}"> -->
+                                        <input type="text" v-model="postForm.title" class="layui-input">
                                     </div>
                                 </div>
                             </div>
@@ -80,12 +78,12 @@
                             </div>
                             <div class="layui-form-item layui-form-text">
                                 <div class="layui-input-block">
-                                    <textarea id="L_content" name="content" required lay-verify="required"
-                                              placeholder="详细描述" class="layui-textarea fly-editor"
+                                    <textarea v-model="postForm.content"
+                                              class="layui-textarea fly-editor"
                                               style="height: 260px;"></textarea>
                                 </div>
                             </div>
-                            <div class="layui-form-item">
+                            <%--<div class="layui-form-item">
                                 <div class="layui-inline">
                                     <label class="layui-form-label">悬赏飞吻</label>
                                     <div class="layui-input-inline" style="width: 190px;">
@@ -99,19 +97,19 @@
                                     </div>
                                     <div class="layui-form-mid layui-word-aux">发表后无法更改飞吻</div>
                                 </div>
-                            </div>
+                            </div>--%>
+                            <%--<div class="layui-form-item">--%>
+                            <%--<label for="L_vercode" class="layui-form-label">人类验证</label>--%>
+                            <%--<div class="layui-input-inline">--%>
+                            <%--<input type="text" id="L_vercode" name="vercode" required lay-verify="required"--%>
+                            <%--placeholder="请回答后面的问题" autocomplete="off" class="layui-input">--%>
+                            <%--</div>--%>
+                            <%--<div class="layui-form-mid">--%>
+                            <%--<span style="color: #c00;">1+1=?</span>--%>
+                            <%--</div>--%>
+                            <%--</div>--%>
                             <div class="layui-form-item">
-                                <label for="L_vercode" class="layui-form-label">人类验证</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" id="L_vercode" name="vercode" required lay-verify="required"
-                                           placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
-                                </div>
-                                <div class="layui-form-mid">
-                                    <span style="color: #c00;">1+1=?</span>
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <button class="layui-btn" lay-filter="*" lay-submit>立即发布</button>
+                                <button type="button" class="layui-btn" v-on:click="submitForm">立即发布</button>
                             </div>
                         </form>
                     </div>
@@ -120,7 +118,22 @@
         </div>
     </div>
 </div>
-
 <jsp:include page="../common/footer.jsp"/>
+<script type="text/javascript">
+    new Vue({
+        el: "#post-container",
+        data: {
+            postForm: {
+                title: "",
+                content: ""
+            }
+        },
+        methods: {
+            submitForm: function () {
+
+            }
+        }
+    })
+</script>
 </body>
 </html>
