@@ -60,4 +60,11 @@ public class PostController {
         view.setViewName("/post/detail");
         return view;
     }
+
+    @PostMapping("/addComment")
+    @ResponseBody
+    public String addComment()
+    {
+        return "";
+    }
 }
