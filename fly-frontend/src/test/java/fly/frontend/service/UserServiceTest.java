@@ -27,7 +27,12 @@ public class UserServiceTest {
         System.out.println(encode);
 
         System.out.println(new BCryptPasswordEncoder().matches("1234",encode));
+    }
 
+    @Test
+    public void getByIdTest()
+    {
+        System.out.println(userService.getById(1));
     }
 
 }

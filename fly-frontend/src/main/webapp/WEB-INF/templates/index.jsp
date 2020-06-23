@@ -8,8 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
-    <link rel="stylesheet" href="/static/css/layui.css">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <jsp:include page="common/link.jsp" />
 </head>
 <body>
 
@@ -176,19 +175,19 @@
                 <ul class="fly-list">
                     <c:forEach items="${posts}" var="post">
                         <li>
-                            <a href="/user/${post.authorId}" class="fly-avatar">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                                     alt="贤心">
+                            <a href="/user/${post.author.id}" class="fly-avatar">
+                                <img src="${post.author.avatar}"
+                                     alt="${post.author.username}">
                             </a>
                             <h2>
                                 <a class="layui-badge">动态</a>
                                 <a href="/post/detail/${post.id}">${post.title}</a>
                             </h2>
                             <div class="fly-list-info">
-                                <a href="user/home.html" link>
-                                    <cite>贤心</cite>
+                                <a href="user/${post.author.id}" link>
+                                    <cite>${post.author.username}</cite>
                                     <!--<i class="iconfont icon-renzheng" title="认证信息：XXX"></i>-->
-                                    <i class="layui-badge fly-badge-vip">VIP3</i>
+                                        <%--                                    <i class="layui-badge fly-badge-vip">VIP3</i>--%>
                                 </a>
                                 <span>刚刚</span>
 
@@ -207,14 +206,12 @@
                 </ul>
                 <div style="text-align: center">
                     <div class="laypage-main">
-                        <a href="post/index.html" class="laypage-next">更多求解</a>
+                        <a href="javascript:" class="laypage-next">更多求解</a>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="layui-col-md4">
-
             <div class="fly-panel">
                 <h3 class="fly-panel-title">温馨通道</h3>
                 <ul class="fly-panel-main fly-list-static">

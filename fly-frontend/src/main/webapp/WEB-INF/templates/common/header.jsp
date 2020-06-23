@@ -10,7 +10,7 @@
                 <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
             </li>
             <li class="layui-nav-item">
-                <a href="case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
+                <a href="javascript:"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
             </li>
             <li class="layui-nav-item">
                 <a href="javascript:" target="_blank"><i class="iconfont icon-ui"></i>框架</a>

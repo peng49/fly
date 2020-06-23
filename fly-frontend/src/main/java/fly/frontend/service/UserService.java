@@ -43,4 +43,8 @@ public class UserService {
         System.out.println(id);
         return user;
     }
+
+    public User getById(int id) {
+        return userMapper.getById(id);
+    }
 }
