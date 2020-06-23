@@ -52,7 +52,7 @@
                              alt="${post.author.username}">
                     </a>
                     <div class="fly-detail-user">
-                        <a href="/user/${post.author.id}" class="fly-link">
+                        <a href="/user/index/${post.author.id}" class="fly-link">
                             <cite>${post.author.username}</cite>
                             <%--<i class="iconfont icon-renzheng" title="认证信息：{{ rows.user.approve }}"></i>
                             <i class="layui-badge fly-badge-vip">VIP3</i>--%>

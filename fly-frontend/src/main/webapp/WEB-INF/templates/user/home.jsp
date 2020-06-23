@@ -24,7 +24,7 @@
         data: function () {
             return {
                 navs: [
-                    {label: "我的主页", icon: "&#xe609;", href: "/user/1", component: ""},
+                    {label: "我的主页", icon: "&#xe609;", href: "/user/index/1", component: ""},
                     {label: "用户中心", icon: "&#xe612;", href: "javascript:", component: "user-center"},
                     {label: "基本设置", icon: "&#xe620;", href: "javascript:", component: "user-setting"},
                     {label: "我的消息", icon: "&#xe611;", href: "javascript:", component: "user-message"},
@@ -44,7 +44,7 @@
             window.removeEventListener('popstate', this.popstate, false);
         },
         methods: {
-            setActiveTabByHash:function(){
+            setActiveTabByHash: function () {
                 let hash = window.location.hash;
                 for (let index in this.navs) {
                     if (hash.slice(1) === this.navs[index].component && hash) {
@@ -53,7 +53,7 @@
                     }
                 }
             },
-            popstate:function(){
+            popstate: function () {
                 this.setActiveTabByHash()
             },
             activeNav: function (index) {
@@ -75,15 +75,30 @@
         data: function () {
             return {
                 tabs: [
-                    {label: "我发的贴", total: 0},
-                    {label: "我收藏的帖", total: 0}
+                    {label: "我发的贴", total: 0, key: "my"},
+                    {label: "我收藏的帖", total: 0, key: "collection"}
                 ],
                 active: 0,
+                posts: []
             }
+        },
+        created: function () {
+            this.flushPosts(this.active)
         },
         methods: {
             flushPosts: function (index) {
-                this.active = index;
+                let _this = this;
+                _this.active = index;
+
+                axios.get("/user/posts?type=" + this.tabs[index].key).then(function (response) {
+                    if (response.code === "success") {
+                        _this.posts = response.posts
+                    } else {
+                        console.log(response.message)
+                    }
+                }).catch(function (error) {
+                    console.log(error)
+                })
             }
         },
         template: ` <div class="layui-tab layui-tab-brief">
@@ -93,11 +108,11 @@
             <div class="layui-tab-content" style="padding: 20px 0;">
                 <div class="layui-tab-item layui-show">
                     <ul class="mine-view jie-row">
-                        <li>
-                            <a class="jie-title" href="/post/detail/1" target="_blank">基于 layui 的极简社区页面模版</a>
-                            <i>2017/3/14 上午8:30:00</i>
-                            <a class="mine-edit" href="/jie/edit/8116">编辑</a>
-                            <em>661阅/10答</em>
+                        <li v-for="post in posts">
+                            <a class="jie-title" :href="'/post/detail/'+post.id" target="_blank">{{post.title}}</a>
+                            <i>{{post.publishAt}}</i>
+                            <a class="mine-edit" :href="'/post/edit/'+post.id">编辑</a>
+                            <em>{{post.viewCount}}阅/{{post.replyCount}}答</em>
                         </li>
                     </ul>
                 </div>
@@ -107,11 +122,32 @@
     Vue.component("user-setting", {
         components: {
             "info": {
+                data: function () {
+                    return {
+                        info: {
+                            email: "",
+                            username: "",
+                            city: "",
+                            signature: ""
+                        }
+                    }
+                },
+                created: async function () {
+                    let info = await this.$parent.getInfo();
+                    this.info = info;
+                    console.log(this.info)
+
+
+
+                },
+                methods: function () {
+
+                },
                 template: '<div class="container">' +
                     '       <div class="layui-form-item">' +
                     '            <label class="layui-form-label">邮箱</label>' +
                     '            <div class="layui-input-inline">' +
-                    '                <input type="text" value="" class="layui-input">' +
+                    '                <input type="text" v-model="info.email" class="layui-input">' +
                     '            </div>' +
                     '            <div class="layui-form-mid layui-word-aux">' +
                     '               如果您在邮箱已激活的情况下，变更了邮箱，需<span style="font-size: 12px; color: #4f99cf;">重新验证邮箱</span>' +
@@ -120,7 +156,7 @@
                     '        <div class="layui-form-item">' +
                     '            <label class="layui-form-label">昵称</label>' +
                     '            <div class="layui-input-inline">' +
-                    '                <input type="text" value="" class="layui-input">' +
+                    '                <input type="text" v-model="info.username" class="layui-input">' +
                     '            </div>' +
                     '            <div class="layui-inline">' +
                     '                <div class="layui-input-inline">' +
@@ -132,13 +168,13 @@
                     '        <div class="layui-form-item">' +
                     '            <label class="layui-form-label">城市</label>' +
                     '            <div class="layui-input-inline">' +
-                    '                <input type="text" class="layui-input">' +
+                    '                <input type="text" v-model="info.city" class="layui-input">' +
                     '            </div>' +
                     '        </div>' +
                     '        <div class="layui-form-item layui-form-text">' +
                     '            <label class="layui-form-label">签名</label>' +
                     '            <div class="layui-input-block">' +
-                    '                <textarea placeholder="随便写些什么刷下存在感"  class="layui-textarea" style="height: 80px;"></textarea>' +
+                    '                <textarea placeholder="随便写些什么刷下存在感" v-model="info.signature" class="layui-textarea" style="height: 80px;"></textarea>' +
                     '            </div>' +
                     '        </div>' +
                     '        <div class="layui-form-item">' +
@@ -216,10 +252,24 @@
             }
         },
         methods: {
-            activeTab: function (index) {
+            activeTab:function (index) {
                 this.active = index;
                 this.component = this.tabs[index].component
-
+            },
+            getInfo:async function () {
+                let info = {};
+                await axios.get('/user/info')
+                    .then(function (response) {
+                        if (response.code === "success") {
+                            console.log("data:",response.user)
+                            info = response.user;
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                console.log(info);
+                return info;
             }
         },
         template: '<div class="layui-tab layui-tab-brief" lay-filter="user">' +

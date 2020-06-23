@@ -6,6 +6,7 @@ public class User {
     private String email;
     private String password;
     private String avatar;
+    private String signature;
 
     public int getId() {
         return id;
@@ -47,13 +48,23 @@ public class User {
         this.avatar = avatar;
     }
 
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", signature='" + signature + '\'' +
                 '}';
     }
 }

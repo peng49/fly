@@ -175,7 +175,7 @@
                 <ul class="fly-list">
                     <c:forEach items="${posts}" var="post">
                         <li>
-                            <a href="/user/${post.author.id}" class="fly-avatar">
+                            <a href="/user/index/${post.author.id}" class="fly-avatar">
                                 <img src="${post.author.avatar}"
                                      alt="${post.author.username}">
                             </a>
