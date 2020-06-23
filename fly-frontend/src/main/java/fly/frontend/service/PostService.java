@@ -1,6 +1,7 @@
 package fly.frontend.service;
 
 import fly.frontend.entity.Post;
+import fly.frontend.entity.User;
 import fly.frontend.mapper.PostMapper;
 import fly.frontend.pojo.PostAdd;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,22 @@ public class PostService {
         return postMapper.findAll();
     }
 
+    public List<Post> findByColumnId(int columnId) {
+        return postMapper.findByColumnId(columnId);
+    }
+
+    public List<Post> findByAuthorId(int id){
+        return postMapper.findByAuthorId(id);
+    }
+
     public Post findById(int id) {
         return postMapper.findById(id);
     }
 
-    public Post create(PostAdd postAdd) {
+    public Post create(PostAdd postAdd, User user) {
         Post post = new Post();
         post.setColumnId(postAdd.getColumnId());
-        post.setAuthorId(postAdd.getUserId());
+        post.setAuthor(user);
         post.setTitle(postAdd.getTitle());
         post.setContent(postAdd.getContent());
         postMapper.create(post);

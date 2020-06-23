@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Post {
     private int id;
     private int columnId;
-    private int authorId;
+    private User author;
     private String title;
     private String content;
     private int viewCount;
@@ -31,12 +31,12 @@ public class Post {
         this.columnId = columnId;
     }
 
-    public int getAuthorId() {
-        return authorId;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public String getTitle() {
@@ -108,8 +108,11 @@ public class Post {
         return "Post{" +
                 "id=" + id +
                 ", columnId=" + columnId +
+                ", author=" + author +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", viewCount=" + viewCount +
+                ", replyCount=" + replyCount +
                 ", status=" + status +
                 ", publishAt=" + publishAt +
                 ", createdAt=" + createdAt +

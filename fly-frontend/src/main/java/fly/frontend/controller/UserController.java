@@ -3,8 +3,8 @@ package fly.frontend.controller;
 import fly.frontend.entity.User;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;
+import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,9 +21,14 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private PostService postService;
+
     @GetMapping("/{id}")
     public ModelAndView index(@PathVariable("id") int id, ModelAndView view) {
-        view.setViewName("/user/index");
+        view.addObject("user",userService.getById(id));
+        view.addObject("posts",postService.findByAuthorId(id));
+        view.setViewName("user/index");
         return view;
     }
 
@@ -69,7 +74,7 @@ public class UserController {
 
     @GetMapping("/home")
     public ModelAndView home(ModelAndView view) {
-        view.setViewName("/user/home");
+        view.setViewName("user/home");
         return view;
     }
 }

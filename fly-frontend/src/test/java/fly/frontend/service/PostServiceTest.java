@@ -18,7 +18,7 @@ public class PostServiceTest {
     @Test
     public void findAllTest()
     {
-        System.out.println(postService.findAll());
+        System.out.println(postService.findByAuthorId(1));
     }
 
     @Test

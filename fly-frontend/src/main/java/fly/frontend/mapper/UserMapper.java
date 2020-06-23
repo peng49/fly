@@ -4,6 +4,7 @@ import fly.frontend.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -18,4 +19,7 @@ public interface UserMapper {
     public User getByUsername(String username);
 
     public User getByEmail(String email);
+
+    @Select("select * from users where id = #{id};")
+    public User getById(int id);
 }

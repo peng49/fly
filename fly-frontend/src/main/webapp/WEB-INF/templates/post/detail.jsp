@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
-    <link rel="stylesheet" href="/static/css/layui.css">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <jsp:include page="../common/link.jsp" />
 </head>
 <body>
 
@@ -48,20 +47,20 @@
           </span>
                 </div>
                 <div class="detail-about">
-                    <a class="fly-avatar" href="/user/home">
-                        <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                             alt="贤心">
+                    <a class="fly-avatar" href="/user/${post.author.id}">
+                        <img src="${post.author.avatar}"
+                             alt="${post.author.username}">
                     </a>
                     <div class="fly-detail-user">
-                        <a href="/user/home" class="fly-link">
-                            <cite>贤心</cite>
-                            <i class="iconfont icon-renzheng" title="认证信息：{{ rows.user.approve }}"></i>
-                            <i class="layui-badge fly-badge-vip">VIP3</i>
+                        <a href="/user/${post.author.id}" class="fly-link">
+                            <cite>${post.author.username}</cite>
+                            <%--<i class="iconfont icon-renzheng" title="认证信息：{{ rows.user.approve }}"></i>
+                            <i class="layui-badge fly-badge-vip">VIP3</i>--%>
                         </a>
-                        <span>2017-11-30</span>
+                        <span>${post.publishAt}</span>
                     </div>
                     <div class="detail-hits" id="LAY_jieAdmin" data-id="123">
-                        <span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>
+<%--                        <span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>--%>
                         <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a
                                 href="../post/add.html">编辑此贴</a></span>
                     </div>
@@ -100,7 +99,7 @@
                             </div>
 
                             <div class="detail-hits">
-                                <span>2017-11-30</span>
+                                <span>${post.publishAt}</span>
                             </div>
 
                             <i class="iconfont icon-caina" title="最佳答案"></i>

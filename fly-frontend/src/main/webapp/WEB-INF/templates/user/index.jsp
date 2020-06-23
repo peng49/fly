@@ -1,143 +1,112 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>用户中心</title>
+    <title>用户主页</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
-    <link rel="stylesheet" href="/static/css/layui.css">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <jsp:include page="../common/link.jsp" />
 </head>
-<body>
+<body style="margin-top: 65px;">
 
-<div class="fly-header layui-bg-black">
-    <div class="layui-container">
-        <a class="fly-logo" href="/">
-            <img src="/static/images/logo.png" alt="layui">
-        </a>
-        <ul class="layui-nav fly-nav layui-hide-xs">
-            <li class="layui-nav-item layui-this">
-                <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="../case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>
-            </li>
-        </ul>
+<jsp:include page="../common/header.jsp"/>
 
-        <ul class="layui-nav fly-nav-user">
-            <!-- 登入后的状态 -->
-            <li class="layui-nav-item">
-                <a class="fly-nav-avatar" href="javascript:;">
-                    <cite class="layui-hide-xs">贤心</cite>
-                    <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>
-                    <i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>
-                    <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
-                </a>
-                <dl class="layui-nav-child">
-                    <dd><a href="../user/set.html"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
-                    <dd><a href="../user/message.html"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a>
-                    </dd>
-                    <dd><a href="/user/home"><i class="layui-icon"
-                                                style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
-                    <hr style="margin: 5px 0;">
-                    <dd><a href="" style="text-align: center;">退出</a></dd>
-                </dl>
-            </li>
-        </ul>
+<div class="fly-home fly-panel" style="background-image: url('http://');">
+    <img src="${user.avatar}" alt="${user.username}">
+<%--    <i class="iconfont icon-renzheng" title=""></i>--%>
+    <h1>
+        ${user.username}
+        <i class="iconfont icon-nan"></i>
+        <!-- <i class="iconfont icon-nv"></i>  -->
+        <i class="layui-badge fly-badge-vip">VIP3</i>
+        <!--
+        <span style="color:#c00;">（管理员）</span>
+        <span style="color:#5FB878;">（社区之光）</span>
+        <span>（该号已被封）</span>
+        -->
+    </h1>
+
+    <p style="padding: 10px 0; color: #5FB878;">认证信息：layui 作者</p>
+
+    <p class="fly-home-info">
+        <i class="iconfont icon-kiss" title="飞吻"></i><span style="color: #FF7200;">66666 飞吻</span>
+        <i class="iconfont icon-shijian"></i><span>2015-6-17 加入</span>
+        <i class="iconfont icon-chengshi"></i><span>来自杭州</span>
+    </p>
+
+    <p class="fly-home-sign">（人生仿若一场修行）</p>
+
+    <div class="fly-sns" data-user="">
+        <a href="javascript:;" class="layui-btn layui-btn-primary fly-imActive" data-type="addFriend">加为好友</a>
+        <a href="javascript:;" class="layui-btn layui-btn-normal fly-imActive" data-type="chat">发起会话</a>
     </div>
+
 </div>
 
-<div class="layui-container fly-marginTop fly-user-main">
-    <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
-        <li class="layui-nav-item">
-            <a href="/user/home">
-                <i class="layui-icon">&#xe609;</i>
-                我的主页
-            </a>
-        </li>
-        <li class="layui-nav-item layui-this">
-            <a href="/user/1">
-                <i class="layui-icon">&#xe612;</i>
-                用户中心
-            </a>
-        </li>
-        <li class="layui-nav-item">
-            <a href="set.html">
-                <i class="layui-icon">&#xe620;</i>
-                基本设置
-            </a>
-        </li>
-        <li class="layui-nav-item">
-            <a href="message.html">
-                <i class="layui-icon">&#xe611;</i>
-                我的消息
-            </a>
-        </li>
-    </ul>
-
-    <div class="site-tree-mobile layui-hide">
-        <i class="layui-icon">&#xe602;</i>
-    </div>
-    <div class="site-mobile-shade"></div>
-
-    <div class="site-tree-mobile layui-hide">
-        <i class="layui-icon">&#xe602;</i>
-    </div>
-    <div class="site-mobile-shade"></div>
-
-
-    <div class="fly-panel fly-panel-user" pad20>
-        <!--
-        <div class="fly-msg" style="margin-top: 15px;">
-          您的邮箱尚未验证，这比较影响您的帐号安全，<a href="activate.html">立即去激活？</a>
+<div class="layui-container">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6 fly-home-jie">
+            <div class="fly-panel">
+                <h3 class="fly-panel-title">${user.username} 最近的提问</h3>
+                <ul class="jie-row">
+                    <c:choose>
+                        <c:when test="${posts.size() > 0}">
+                            <c:forEach items="${posts}" var="post">
+                                <li>
+                                    <span class="fly-jing">精</span>
+                                    <a href="/post/detail/${post.id}" class="jie-title">${post.title}</a>
+                                    <i>${post.publishAt}</i>
+                                    <em class="layui-hide-xs">${post.viewCount}阅/${post.replyCount}答</em>
+                                </li>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;">
+                                <i style="font-size:14px;">没有发表任何求解</i>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </div>
         </div>
-        -->
-        <div class="layui-tab layui-tab-brief" lay-filter="user">
-            <ul class="layui-tab-title" id="LAY_mine">
-                <li data-type="mine-jie" lay-id="index" class="layui-this">我发的帖（<span>89</span>）</li>
-                <li data-type="collection" data-url="/collection/find/" lay-id="collection">我收藏的帖（<span>16</span>）</li>
-            </ul>
-            <div class="layui-tab-content" style="padding: 20px 0;">
-                <div class="layui-tab-item layui-show">
-                    <ul class="mine-view jie-row">
-                        <li>
-                            <a class="jie-title" href="/post/detail/1" target="_blank">基于 layui 的极简社区页面模版</a>
-                            <i>2017/3/14 上午8:30:00</i>
-                            <a class="mine-edit" href="/jie/edit/8116">编辑</a>
-                            <em>661阅/10答</em>
-                        </li>
-                        <li>
-                            <a class="jie-title" href="/post/detail/1" target="_blank">基于 layui 的极简社区页面模版</a>
-                            <i>2017/3/14 上午8:30:00</i>
-                            <a class="mine-edit" href="/jie/edit/8116">编辑</a>
-                            <em>661阅/10答</em>
-                        </li>
-                        <li>
-                            <a class="jie-title" href="/post/detail/1" target="_blank">基于 layui 的极简社区页面模版</a>
-                            <i>2017/3/14 上午8:30:00</i>
-                            <a class="mine-edit" href="/jie/edit/8116">编辑</a>
-                            <em>661阅/10答</em>
-                        </li>
-                    </ul>
-                    <div id="LAY_page"></div>
-                </div>
-                <div class="layui-tab-item">
-                    <ul class="mine-view jie-row">
-                        <li>
-                            <a class="jie-title" href="/post/detail/1" target="_blank">基于 layui 的极简社区页面模版</a>
-                            <i>收藏于23小时前</i></li>
-                    </ul>
-                    <div id="LAY_page1"></div>
-                </div>
+
+        <div class="layui-col-md6 fly-home-da">
+            <div class="fly-panel">
+                <h3 class="fly-panel-title">${user.username} 最近的回答</h3>
+                <ul class="home-jieda">
+                    <li>
+                        <p>
+                            <span>1分钟前</span>
+                            在<a href="" target="_blank">tips能同时渲染多个吗?</a>中回答：
+                        </p>
+                        <div class="home-dacontent">
+                            尝试给layer.photos加上这个属性试试：
+                            <pre>
+full: true         
+</pre>
+                            文档没有提及
+                        </div>
+                    </li>
+                    <li>
+                        <p>
+                            <span>5分钟前</span>
+                            在<a href="" target="_blank">在Fly社区用的是什么系统啊?</a>中回答：
+                        </p>
+                        <div class="home-dacontent">
+                            Fly社区采用的是NodeJS。分享出来的只是前端模版
+                        </div>
+                    </li>
+
+                    <!-- <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><span>没有回答任何问题</span></div> -->
+                </ul>
             </div>
         </div>
     </div>
 </div>
+
 <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

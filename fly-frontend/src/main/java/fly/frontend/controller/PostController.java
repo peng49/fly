@@ -38,8 +38,7 @@ public class PostController {
             throw new Exception("请先登录");
         }
 
-        post.setUserId(user.getId());
-        Post po = postService.create(post);
+        Post po = postService.create(post,user);
 
         Map<Object, Object> map = new HashMap<>();
         map.put("code", "success");

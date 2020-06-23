@@ -174,8 +174,8 @@ a cite {
 
 @font-face {
     font-family: layui-icon;
-    src: url(../font/iconfont.eot?v=220);
-    src: url(../font/iconfont.eot?v=220#iefix) format('embedded-opentype'), url(../font/iconfont.svg?v=220#iconfont) format('svg'), url(../font/iconfont.woff?v=220) format('woff'), url(../font/iconfont.ttf?v=220) format('truetype')
+    src: url(./font/iconfont.eot?v=220);
+    src: url(./font/iconfont.eot?v=220#iefix) format('embedded-opentype'), url(./font/iconfont.svg?v=220#iconfont) format('svg'), url(./font/iconfont.woff?v=220) format('woff'), url(./font/iconfont.ttf?v=220) format('truetype')
 }
 
 .layui-icon {
@@ -2824,8 +2824,8 @@ body .layui-table-tips .layui-layer-content {
     background-color: #009688
 }
 
-.layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this > a, .layui-nav-tree .layui-this > a:hover {
-    background-color: #009688;
+.layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .active, .layui-nav-tree .active > a, .layui-nav-tree .active > a:hover {
+    background-color: #009688 !important;
     color: #fff
 }
 
@@ -3056,7 +3056,7 @@ body .layui-table-tips .layui-layer-content {
     color: #fff
 }
 
-.layui-tab-brief > .layui-tab-title .layui-this {
+.layui-tab-brief > .layui-tab-title .active {
     color: #009688
 }
 
