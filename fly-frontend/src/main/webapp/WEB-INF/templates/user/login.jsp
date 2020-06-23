@@ -33,7 +33,7 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">密码</label>
                                 <div class="layui-input-inline">
-                                    <input type="password" v-model="loginForm.password" class="layui-input">
+                                    <input type="password" v-model="loginForm.password" @keyup.enter="loginSubmit" class="layui-input">
                                 </div>
                             </div>
                             <%--                            <div class="layui-form-item">

@@ -1,5 +1,6 @@
 package fly.frontend.service;
 
+import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
 import fly.frontend.mapper.UserMapper;
 import fly.frontend.pojo.UserLogin;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 public class UserService {
+    public final static String LOGIN_KEY = "login-user";
 
     @Resource
     private UserMapper userMapper;
@@ -46,5 +48,10 @@ public class UserService {
 
     public User getById(int id) {
         return userMapper.getById(id);
+    }
+
+    public List<Post> findCollectionPosts(int userId) {
+        List<Post> posts = userMapper.findCollectionPosts(userId);
+        return posts;
     }
 }
