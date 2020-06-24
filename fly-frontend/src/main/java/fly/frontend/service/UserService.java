@@ -64,4 +64,11 @@ public class UserService {
         userMapper.updateInfo(user);
         return user;
     }
+
+    public User updateAvatar(User user,String avatar)
+    {
+        user.setAvatar(avatar);
+        userMapper.updateAvatar(user);
+        return user;
+    }
 }

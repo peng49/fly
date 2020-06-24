@@ -3748,3 +3748,6 @@ body .layui-util-face .layui-layer-content {
     -webkit-animation-name: layui-fadeout;
     animation-name: layui-fadeout
 }
+
+button.upload-img{position: relative}
+button.upload-img input[type=file]{position: absolute;top: 0;left: 0;width: 100%;height: 100%;opacity: 0}
