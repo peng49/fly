@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
-    <jsp:include page="../common/link.jsp" />
+    <jsp:include page="../common/link.jsp"/>
 </head>
 <body style="margin-top: 65px;">
 
@@ -16,7 +16,7 @@
 
 <div class="fly-home fly-panel" style="background-image: url('http://');">
     <img src="${user.avatar}" alt="${user.username}">
-<%--    <i class="iconfont icon-renzheng" title=""></i>--%>
+    <%--    <i class="iconfont icon-renzheng" title=""></i>--%>
     <h1>
         ${user.username}
         <i class="iconfont icon-nan"></i>
@@ -34,10 +34,10 @@
     <p class="fly-home-info">
         <i class="iconfont icon-kiss" title="飞吻"></i><span style="color: #FF7200;">66666 飞吻</span>
         <i class="iconfont icon-shijian"></i><span>2015-6-17 加入</span>
-        <i class="iconfont icon-chengshi"></i><span>来自杭州</span>
+        <i class="iconfont icon-chengshi"></i><span>来自${user.city}</span>
     </p>
 
-    <p class="fly-home-sign">（人生仿若一场修行）</p>
+    <p class="fly-home-sign">（${user.signature}）</p>
 
     <div class="fly-sns" data-user="">
         <a href="javascript:;" class="layui-btn layui-btn-primary fly-imActive" data-type="addFriend">加为好友</a>

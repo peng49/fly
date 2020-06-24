@@ -1,6 +1,7 @@
 package fly.frontend.mapper;
 
 import fly.frontend.entity.Post;
+import fly.frontend.entity.PostComment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -21,9 +22,9 @@ public interface PostMapper {
             @Result(property = "replyCount", column = "reply_count"),
             @Result(property = "status", column = "status"),
             @Result(property = "publishAt", column = "publish_at"),
-            @Result(property = "author.id",column = "author_id"),
-            @Result(property = "author.username",column = "username"),
-            @Result(property = "author.avatar",column = "avatar")
+            @Result(property = "author.id", column = "author_id"),
+            @Result(property = "author.username", column = "username"),
+            @Result(property = "author.avatar", column = "avatar")
     })
     public List<Post> findAll();
 
@@ -37,9 +38,9 @@ public interface PostMapper {
             @Result(property = "replyCount", column = "reply_count"),
             @Result(property = "status", column = "status"),
             @Result(property = "publishAt", column = "publish_at"),
-            @Result(property = "author.id",column = "author_id"),
-            @Result(property = "author.username",column = "username"),
-            @Result(property = "author.avatar",column = "avatar")
+            @Result(property = "author.id", column = "author_id"),
+            @Result(property = "author.username", column = "username"),
+            @Result(property = "author.avatar", column = "avatar")
     })
     public List<Post> findByColumnId(int columnId);
 
@@ -56,15 +57,24 @@ public interface PostMapper {
             @Result(property = "replyCount", column = "reply_count"),
             @Result(property = "status", column = "status"),
             @Result(property = "publishAt", column = "publish_at"),
-            @Result(property = "author.id",column = "author_id"),
-            @Result(property = "author.username",column = "username"),
-            @Result(property = "author.avatar",column = "avatar")
+            @Result(property = "author.id", column = "author_id"),
+            @Result(property = "author.username", column = "username"),
+            @Result(property = "author.avatar", column = "avatar")
     })
     public Post findById(int id);
-
 
 
     public void create(Post post);
 
     public void update(Post post);
+
+    @Select("select pc.*,u.username,u.avatar from post_comments as pc inner join users u on u.id = pc.user_id where pc.post_id = #{post_id}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "content", column = "content"),
+            @Result(property = "user.id", column = "user_id"),
+            @Result(property = "user.username", column = "username"),
+            @Result(property = "user.avatar", column = "avatar"),
+    })
+    public List<PostComment> getComments(int postId);
 }

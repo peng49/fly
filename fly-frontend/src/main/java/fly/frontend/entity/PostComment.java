@@ -8,6 +8,7 @@ public class PostComment {
     private Post post;
     private String content;
     private Date commentTime;
+    private int agreeCount;
 
     public int getId() {
         return id;
@@ -49,6 +50,14 @@ public class PostComment {
         this.commentTime = commentTime;
     }
 
+    public int getAgreeCount() {
+        return agreeCount;
+    }
+
+    public void setAgreeCount(int agreeCount) {
+        this.agreeCount = agreeCount;
+    }
+
     @Override
     public String toString() {
         return "PostComment{" +
@@ -57,6 +66,7 @@ public class PostComment {
                 ", post=" + post +
                 ", content='" + content + '\'' +
                 ", commentTime=" + commentTime +
+                ", agreeCount=" + agreeCount +
                 '}';
     }
 }

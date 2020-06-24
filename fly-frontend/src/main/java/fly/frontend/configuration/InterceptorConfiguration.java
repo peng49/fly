@@ -1,5 +1,6 @@
 package fly.frontend.configuration;
 
+import fly.frontend.interceptor.ExceptionResponseInterceptor;
 import fly.frontend.interceptor.UserAuthInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,9 +14,11 @@ public class InterceptorConfiguration {
     @Autowired
     private UserAuthInterceptor userAuthInterceptor;
 
+    @Autowired
+    private ExceptionResponseInterceptor exceptionResponseInterceptor;
+
     @Bean
-    public WebMvcConfigurer authInterceptor()
-    {
+    public WebMvcConfigurer authInterceptor() {
         return new WebMvcConfigurer() {
             /**
              * 添加拦截器
@@ -32,4 +35,14 @@ public class InterceptorConfiguration {
         };
     }
 
+    @Bean
+    public WebMvcConfigurer errorPageInterceptor() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(exceptionResponseInterceptor)
+                        .addPathPatterns("/**");
+            }
+        };
+    }
 }

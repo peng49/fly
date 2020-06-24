@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -7,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
-    <jsp:include page="../common/link.jsp" />
+    <jsp:include page="../common/link.jsp"/>
 </head>
 <body>
 
@@ -60,7 +61,7 @@
                         <span>${post.publishAt}</span>
                     </div>
                     <div class="detail-hits" id="LAY_jieAdmin" data-id="123">
-<%--                        <span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>--%>
+                        <%--                        <span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>--%>
                         <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a
                                 href="../post/add.html">编辑此贴</a></span>
                     </div>
@@ -76,92 +77,53 @@
                 </fieldset>
 
                 <ul class="jieda" id="jieda">
-                    <li data-id="111" class="jieda-daan">
-                        <a name="item-1111111111"></a>
-                        <div class="detail-about detail-about-reply">
-                            <a class="fly-avatar" href="">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                                     alt=" ">
-                            </a>
-                            <div class="fly-detail-user">
-                                <a href="" class="fly-link">
-                                    <cite>贤心</cite>
-                                    <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                                    <i class="layui-badge fly-badge-vip">VIP3</i>
-                                </a>
-
-                                <span>(楼主)</span>
-                                <!--
-                                <span style="color:#5FB878">(管理员)</span>
-                                <span style="color:#FF9E3F">（社区之光）</span>
-                                <span style="color:#999">（该号已被封）</span>
-                                -->
-                            </div>
-
-                            <div class="detail-hits">
-                                <span>${post.publishAt}</span>
-                            </div>
-
-                            <i class="iconfont icon-caina" title="最佳答案"></i>
-                        </div>
-                        <div class="detail-body jieda-body photos">
-                            <p>香菇那个蓝瘦，这是一条被采纳的回帖</p>
-                        </div>
-                        <div class="jieda-reply">
-              <span class="jieda-zan zanok" type="zan">
-                <i class="iconfont icon-zan"></i>
-                <em>66</em>
-              </span>
-                            <span type="reply">
-                <i class="iconfont icon-svgmoban53"></i>
-                回复
-              </span>
-                            <div class="jieda-admin">
-                                <span type="edit">编辑</span>
-                                <span type="del">删除</span>
-                                <!-- <span class="jieda-accept" type="accept">采纳</span> -->
-                            </div>
-                        </div>
-                    </li>
-
-                    <li data-id="111">
-                        <a name="item-1111111111"></a>
-                        <div class="detail-about detail-about-reply">
-                            <a class="fly-avatar" href="">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                                     alt=" ">
-                            </a>
-                            <div class="fly-detail-user">
-                                <a href="" class="fly-link">
-                                    <cite>贤心</cite>
-                                </a>
-                            </div>
-                            <div class="detail-hits">
-                                <span>2017-11-30</span>
-                            </div>
-                        </div>
-                        <div class="detail-body jieda-body photos">
-                            <p>蓝瘦那个香菇，这是一条没被采纳的回帖</p>
-                        </div>
-                        <div class="jieda-reply">
-              <span class="jieda-zan" type="zan">
-                <i class="iconfont icon-zan"></i>
-                <em>0</em>
-              </span>
-                            <span type="reply">
-                <i class="iconfont icon-svgmoban53"></i>
-                回复
-              </span>
-                            <div class="jieda-admin">
-                                <span type="edit">编辑</span>
-                                <span type="del">删除</span>
-                                <span class="jieda-accept" type="accept">采纳</span>
-                            </div>
-                        </div>
-                    </li>
-
-                    <!-- 无数据时 -->
-                    <!-- <li class="fly-none">消灭零回复</li> -->
+                    <c:choose>
+                        <c:when test="${comments.size() > 0}">
+                            <c:forEach items="${comments}" var="comment">
+                                <li data-id="111" class="jieda-daan">
+                                    <div class="detail-about detail-about-reply">
+                                        <a class="fly-avatar" href="/user/index/${comment.user.id}">
+                                            <img src="${comment.user.avatar}" alt=" ">
+                                        </a>
+                                        <div class="fly-detail-user">
+                                            <a href="/user/index/${comment.user.id}" class="fly-link">
+                                                <cite>${comment.user.username}</cite>
+                                                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
+                                                <i class="layui-badge fly-badge-vip">VIP3</i>
+                                            </a>
+                                            <c:if test="${post.author.id == comment.user.id}">
+                                                <span>(楼主)</span>
+                                            </c:if>
+                                        </div>
+                                        <div class="detail-hits">
+                                            <span>${comment.commentTime}</span>
+                                        </div>
+                                        <i class="iconfont icon-caina" title="最佳答案"></i>
+                                    </div>
+                                    <div class="detail-body jieda-body photos">
+                                        <p>${comment.content}</p>
+                                    </div>
+                                    <div class="jieda-reply">
+                                        <span class="jieda-zan zanok">
+                                            <i class="iconfont icon-zan"></i>
+                                            <em>${comment.agreeCount}</em>
+                                        </span>
+                                        <span>
+                                            <i class="iconfont icon-svgmoban53"></i>回复
+                                        </span>
+                                        <div class="jieda-admin">
+<%--                                            <span>编辑</span>--%>
+<%--                                            <span>删除</span>--%>
+                                            <!-- <span class="jieda-accept" type="accept">采纳</span> -->
+                                        </div>
+                                    </div>
+                                </li>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="fly-none">消灭零回复</li>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
 
                 <div class="layui-form layui-form-pane">

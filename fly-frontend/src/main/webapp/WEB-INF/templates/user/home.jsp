@@ -135,13 +135,21 @@
                 created: async function () {
                     let info = await this.$parent.getInfo();
                     this.info = info;
-                    console.log(this.info)
-
-
-
                 },
-                methods: function () {
-
+                methods: {
+                    updateInfo: function () {
+                        let _this = this;
+                        axios.post('/user/updateInfo', _this.info)
+                            .then(function (response) {
+                                if (response.code === "success") {
+                                    layer.msg("操作成功");
+                                    _this.info = response.user;
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    }
                 },
                 template: '<div class="container">' +
                     '       <div class="layui-form-item">' +
@@ -178,25 +186,68 @@
                     '            </div>' +
                     '        </div>' +
                     '        <div class="layui-form-item">' +
-                    '            <button class="layui-btn" type="button">确认修改</button>' +
+                    '            <button class="layui-btn" type="button" @click="updateInfo">确认修改</button>' +
                     '        </div>' +
                     '</div>'
             },
             "avatar": {
+                data: function () {
+                    return {
+                        avatar:{},
+                        previewUrl:"https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
+                    }
+                },
+                methods: {
+                    uploadAvatar: function (event) {
+                        this.avatar = event.target.files[0];
+                        let url = null;
+                        if (window.createObjectURL != undefined) { // basic
+                            url = window.createObjectURL(this.avatar);
+                        } else if (window.URL != undefined) { // mozilla(firefox)
+                            url = window.URL.createObjectURL(this.avatar);
+                        } else if (window.webkitURL != undefined) { // webkit or chrome
+                            url = window.webkitURL.createObjectURL(this.avatar);
+                        }
+                        this.previewUrl = url;
+
+                        let Form = new FormData();
+                        Form.append("avatar",Form);
+
+                        axios.post('/user/uploadAvatar',Form)
+                            .then(function (response) {
+                                if (response.code === "success") {
+
+                                }
+                                console.log(response)
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+
+
+
+                    }
+                },
                 template: '<div class="container">' +
                     '           <div class="layui-form-item">\n' +
                     '              <div class="avatar-add">\n' +
                     '                <p>建议尺寸168*168，支持jpg、png、gif，最大不能超过50KB</p>\n' +
-                    '                <button type="button" class="layui-btn upload-img">\n' +
+                    '                <button @click="uploadAvatar" type="button" class="layui-btn upload-img">\n' +
                     '                  <i class="layui-icon">&#xe67c;</i>上传头像\n' +
+                    '                  <input type="file" class="upload-avatar" @change="uploadAvatar" />' +
                     '                </button>\n' +
-                    '                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">\n' +
+                    '                <img :src="previewUrl">\n' +
                     '                <span class="loading"></span>\n' +
                     '              </div>\n' +
                     '            </div>' +
                     '       </div>'
             },
             "password": {
+                methods: {
+                    resetPassword: function () {
+
+                    },
+                },
                 template: '<div class="container">' +
                     '         <div class="layui-form-item">\n' +
                     '           <label class="layui-form-label">当前密码</label>\n' +
@@ -218,7 +269,7 @@
                     '           </div>\n' +
                     '         </div>\n' +
                     '         <div class="layui-form-item">\n' +
-                    '           <button class="layui-btn" type="submit">确认修改</button>\n' +
+                    '           <button class="layui-btn" type="submit" @click="resetPassword">确认修改</button>\n' +
                     '         </div>' +
                     '   </div>'
             },
@@ -252,16 +303,16 @@
             }
         },
         methods: {
-            activeTab:function (index) {
+            activeTab: function (index) {
                 this.active = index;
                 this.component = this.tabs[index].component
             },
-            getInfo:async function () {
+            getInfo: async function () {
                 let info = {};
                 await axios.get('/user/info')
                     .then(function (response) {
                         if (response.code === "success") {
-                            console.log("data:",response.user)
+                            console.log("data:", response.user)
                             info = response.user;
                         }
                     })
