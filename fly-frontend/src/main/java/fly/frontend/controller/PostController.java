@@ -57,6 +57,7 @@ public class PostController {
     public ModelAndView detail(@PathVariable("id") int id, ModelAndView view) {
         Post post = postService.findById(id);
         view.addObject("post", post);
+        view.addObject("comments",postService.getComments(id));
         view.setViewName("/post/detail");
         return view;
     }

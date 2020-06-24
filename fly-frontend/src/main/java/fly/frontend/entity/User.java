@@ -6,6 +6,7 @@ public class User {
     private String email;
     private String password;
     private String avatar;
+    private String city;
     private String signature;
 
     public int getId() {
@@ -48,6 +49,14 @@ public class User {
         this.avatar = avatar;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public String getSignature() {
         return signature;
     }
@@ -64,6 +73,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", city='" + city + '\'' +
                 ", signature='" + signature + '\'' +
                 '}';
     }

@@ -1,6 +1,7 @@
 package fly.frontend.service;
 
 import fly.frontend.entity.Post;
+import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
 import fly.frontend.mapper.PostMapper;
 import fly.frontend.pojo.PostAdd;
@@ -43,5 +44,10 @@ public class PostService {
 
     public void update(Post post) {
         postMapper.update(post);
+    }
+
+    public List<PostComment> getComments(int postId)
+    {
+        return postMapper.getComments(postId);
     }
 }

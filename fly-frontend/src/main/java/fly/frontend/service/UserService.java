@@ -3,6 +3,7 @@ package fly.frontend.service;
 import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
 import fly.frontend.mapper.UserMapper;
+import fly.frontend.pojo.UpdateUserInfo;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -53,5 +54,14 @@ public class UserService {
     public List<Post> findCollectionPosts(int userId) {
         List<Post> posts = userMapper.findCollectionPosts(userId);
         return posts;
+    }
+
+    public User updateInfo(User user,UpdateUserInfo userInfo) {
+        user.setEmail(userInfo.getEmail());
+        user.setUsername(userInfo.getUsername());
+        user.setCity(userInfo.getCity());
+        user.setSignature(userInfo.getSignature());
+        userMapper.updateInfo(user);
+        return user;
     }
 }

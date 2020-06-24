@@ -2,17 +2,25 @@ package fly.frontend.controller;
 
 import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
+import fly.frontend.pojo.UpdateUserInfo;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +51,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public Map login(@RequestBody UserLogin login, HttpSession httpSession) throws Exception {
+    public Map<Object, Object> login(@RequestBody UserLogin login, HttpSession httpSession) throws Exception {
 //        System.out.println(login);
         User user = userService.login(login);
         Map<Object, Object> map = new HashMap<>();
@@ -108,6 +116,51 @@ public class UserController {
         map.put("code", "success");
         map.put("message", "OK");
         map.put("user", user);
+        return map;
+    }
+
+    @PostMapping("/updateInfo")
+    @ResponseBody
+    public Map<Object, Object> updateInfo(@RequestBody UpdateUserInfo userInfo, HttpSession session) {
+        User user = (User) session.getAttribute(UserService.LOGIN_KEY);
+        User res = userService.updateInfo(user, userInfo);
+
+        Map<Object, Object> map = new HashMap<>();
+        map.put("code", "success");
+        map.put("message", "OK");
+        map.put("user", res);
+        return map;
+    }
+
+    @PostMapping("/uploadAvatar")
+    @ResponseBody
+    public Map<Object, Object> uploadAvatar(HttpServletRequest request, HttpSession session) throws IOException {
+//        User user = (User) session.getAttribute(UserService.LOGIN_KEY);
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        if (multipartResolver.isMultipart(request)) {
+            //将request变成多部分request
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+            //获取multiRequest 中所有的文件名
+            Iterator iter = multiRequest.getFileNames();
+            while (iter.hasNext()) {
+                //一次遍历所有文件
+                MultipartFile file = multiRequest.getFile(iter.next().toString());
+                if (file != null) {
+                    System.out.println(file.getOriginalFilename());
+                    String path = "C:/springUpload/" + file.getOriginalFilename();
+                    //上传
+                    file.transferTo(new File(path));
+                }
+            }
+        }
+
+//        System.out.println(userInfo);
+//        User res = userService.updateInfo(user, userInfo);
+//        System.out.println(userInfo);
+        Map<Object, Object> map = new HashMap<>();
+        map.put("code", "success");
+        map.put("message", "OK");
+//        map.put("user", res);
         return map;
     }
 }

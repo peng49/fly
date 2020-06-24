@@ -29,4 +29,10 @@ public class PostServiceTest {
         post.setContent("测试内容");
 //        postService.create(post);
     }
+
+    @Test
+    public void getCommentsTest()
+    {
+        System.out.println(postService.getComments(1));
+    }
 }

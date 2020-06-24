@@ -13,9 +13,14 @@ public class UserAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = (User) request.getSession().getAttribute(UserService.LOGIN_KEY);
-        if(user == null){
+        if (user != null) {
+            return true;
+        }
+
+        if ("XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
             throw new Exception("请先登录");
         }
-        return true;
+        response.sendRedirect("/user/login");
+        return false;
     }
 }
