@@ -83,7 +83,7 @@
                             layer.msg('登录成功');
                             setTimeout(function () {
                                 window.location.href = "/user/home";
-                            }, 3000);
+                            }, 1500);
                             return;
                         }
                         layer.msg(response.message)

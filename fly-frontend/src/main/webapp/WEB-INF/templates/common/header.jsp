@@ -45,7 +45,7 @@
                     <cite class="layui-hide-xs"><%=user.getUsername()%></cite>
                     <%--<i class="iconfont icon-renzheng layui-hide-xs" title=""></i>--%>
                     <%--<i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>--%>
-                    <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
+                    <img src="<%=user.getAvatar()%>">
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="/user/home#user-setting"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
