@@ -28,9 +28,11 @@ public class InterceptorConfiguration {
             public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(userAuthInterceptor)
                         .addPathPatterns("/user/**")
+                        .addPathPatterns("/post/**")
                         .excludePathPatterns("/user/index/{id}")
                         .excludePathPatterns("/user/login")
-                        .excludePathPatterns("/user/register");
+                        .excludePathPatterns("/user/register")
+                        .excludePathPatterns("/post/detail/{id}");
             }
         };
     }

@@ -1,10 +1,13 @@
 package fly.frontend.controller;
 
 import fly.frontend.entity.Post;
+import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
 import fly.frontend.pojo.PostAdd;
+import fly.frontend.pojo.PostCommentAdd;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
+import fly.frontend.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -64,8 +67,14 @@ public class PostController {
 
     @PostMapping("/addComment")
     @ResponseBody
-    public String addComment()
+    public Map<Object, Object> addComment(@RequestBody PostCommentAdd postCommentAdd, HttpSession httpSession)
     {
-        return "";
+        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+        PostComment comment = postService.addComment(user,postCommentAdd);
+        Map<Object, Object> map = new HashMap<>();
+        map.put("code", "success");
+        map.put("message", "OK");
+        map.put("comment", comment);
+        return map;
     }
 }

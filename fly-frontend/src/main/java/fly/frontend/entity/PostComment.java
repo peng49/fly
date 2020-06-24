@@ -6,6 +6,7 @@ public class PostComment {
     private int id;
     private User user;
     private Post post;
+    private Post parent;
     private String content;
     private Date commentTime;
     private int agreeCount;
@@ -32,6 +33,14 @@ public class PostComment {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public Post getParent() {
+        return parent;
+    }
+
+    public void setParent(Post parent) {
+        this.parent = parent;
     }
 
     public String getContent() {
