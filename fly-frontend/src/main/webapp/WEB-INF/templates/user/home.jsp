@@ -197,44 +197,40 @@
                         previewUrl:"https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
                     }
                 },
+                created: async function () {
+                    let info = await this.$parent.getInfo();
+                    this.previewUrl = info.avatar;
+                },
                 methods: {
                     uploadAvatar: function (event) {
+                        let _this = this;
                         this.avatar = event.target.files[0];
-                        let url = null;
-                        if (window.createObjectURL != undefined) { // basic
-                            url = window.createObjectURL(this.avatar);
-                        } else if (window.URL != undefined) { // mozilla(firefox)
-                            url = window.URL.createObjectURL(this.avatar);
-                        } else if (window.webkitURL != undefined) { // webkit or chrome
-                            url = window.webkitURL.createObjectURL(this.avatar);
-                        }
-                        this.previewUrl = url;
-
                         let Form = new FormData();
-                        Form.append("avatar",Form);
+                        Form.append("avatar",this.avatar);
 
-                        axios.post('/user/uploadAvatar',Form)
+                        axios.post('/user/uploadAvatar', Form, {
+                            headers: {"Content-Type": "multipart/form-data"}
+                        })
                             .then(function (response) {
                                 if (response.code === "success") {
-
+                                    _this.previewUrl = response.user.avatar;
+                                    layer.msg("上传成功")
+                                }else{
+                                    layer.msg(response.message)
                                 }
-                                console.log(response)
                             })
                             .catch(function (error) {
                                 console.log(error);
                             });
-
-
-
                     }
                 },
                 template: '<div class="container">' +
                     '           <div class="layui-form-item">\n' +
                     '              <div class="avatar-add">\n' +
                     '                <p>建议尺寸168*168，支持jpg、png、gif，最大不能超过50KB</p>\n' +
-                    '                <button @click="uploadAvatar" type="button" class="layui-btn upload-img">\n' +
+                    '                <button type="button" class="layui-btn upload-img">\n' +
                     '                  <i class="layui-icon">&#xe67c;</i>上传头像\n' +
-                    '                  <input type="file" class="upload-avatar" @change="uploadAvatar" />' +
+                    '                  <input type="file" class="upload-avatar" @change="uploadAvatar" accept="image/*" />' +
                     '                </button>\n' +
                     '                <img :src="previewUrl">\n' +
                     '                <span class="loading"></span>\n' +

@@ -26,4 +26,7 @@ public interface UserMapper {
 
     @Update("update users set email = #{email},username = #{username},city = #{city},signature = #{signature} where id = #{id};")
     public void updateInfo(User user);
+
+    @Update("update users set avatar = #{avatar} where id = #{id};")
+    public void updateAvatar(User user);
 }
