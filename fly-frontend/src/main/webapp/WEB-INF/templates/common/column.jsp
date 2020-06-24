@@ -7,8 +7,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="fly-panel fly-column">
     <div class="layui-container">
-        <ul class="layui-clear">
-            <li class="layui-hide-xs layui-this"><a href="/">首页</a></li>
+        <ul id="columns" class="layui-clear">
+            <li class="column"><a href="/">首页</a></li>
             <%
                 WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
                 ColumnService columnService = webApplicationContext.getBean(ColumnService.class);
@@ -16,7 +16,7 @@
             %>
 
             <% for (Column column : columns) {%>
-            <li>
+            <li class="column">
                 <a href="/column/<%=column.getId()%>">
                     <%=column.getName()%>
                 </a>
@@ -46,3 +46,11 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    let columns = document.getElementById("columns").getElementsByClassName("column")
+    for (let i in columns) {
+        if (window.location.pathname == columns.item(i).getElementsByTagName("a")[0].getAttribute("href")) {
+            columns.item(i).className = columns.item(i).className + " layui-this"
+        }
+    }
+</script>
