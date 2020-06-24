@@ -5,10 +5,12 @@ import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
 import fly.frontend.mapper.PostMapper;
 import fly.frontend.pojo.PostAdd;
+import fly.frontend.pojo.PostCommentAdd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -49,5 +51,17 @@ public class PostService {
     public List<PostComment> getComments(int postId)
     {
         return postMapper.getComments(postId);
+    }
+
+    public PostComment addComment(User user,PostCommentAdd postCommentAdd) {
+        PostComment comment = new PostComment();
+        comment.setCommentTime(new Date(System.currentTimeMillis()));
+        comment.setContent(postCommentAdd.getContent());
+        Post post = new Post();
+        post.setId(postCommentAdd.getPostId());
+        comment.setPost(post);
+        comment.setUser(user);
+        postMapper.addComment(comment);
+        return comment;
     }
 }

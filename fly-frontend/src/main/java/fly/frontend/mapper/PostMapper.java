@@ -2,10 +2,7 @@ package fly.frontend.mapper;
 
 import fly.frontend.entity.Post;
 import fly.frontend.entity.PostComment;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -77,4 +74,7 @@ public interface PostMapper {
             @Result(property = "user.avatar", column = "avatar"),
     })
     public List<PostComment> getComments(int postId);
+
+    @Insert("insert into post_comments(user_id,post_id,parent_id,content,comment_time) values(#{user.id},#{post.id},#{parent.id},#{content},#{commentTime});")
+    public void addComment(PostComment comment);
 }
