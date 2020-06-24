@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -61,6 +62,12 @@ public class UserController {
 
         httpSession.setAttribute(UserService.LOGIN_KEY, user);
         return map;
+    }
+
+    @GetMapping("/logout")
+    public void logout(HttpServletResponse response, HttpSession httpSession) throws IOException {
+        httpSession.removeAttribute(UserService.LOGIN_KEY);
+        response.sendRedirect("/");//重定向到首页
     }
 
     @GetMapping("/register")
