@@ -25,13 +25,23 @@
     <a href="?page=<%=currentPage-1%>&pageSize=<%=pageSize%>" class="laypage-prev">上一页</a>
     <%}%>
 
-    <% for (int i = 1; i <= pageCount; i++) {%>
-    <a href="?pageSize=<%=pageSize%>&page=<%=i%>"><%=i%>
-    </a>
-
-    <%}%>
     <% if (currentPage != 1) {%>
     <a href="?page=1&pageSize=<%=pageSize%>" class="laypage-next">首页</a>
+    <%}%>
+
+    <% for (int i = 1; i <= pageCount; i++) {%>
+
+    <% if (i == currentPage) {%>
+    <span class="laypage-curr"><%=i%></span>
+    <%} else {%>
+    <a href="?pageSize=<%=pageSize%>&page=<%=i%>">
+        <%=i%>
+    </a>
+    <%}%>
+    <%}%>
+
+    <% if (currentPage < pageCount) {%>
+    <a href="?page=<%=pageCount%>&pageSize=<%=pageSize%>" class="laypage-last">尾页</a>
     <%}%>
 
     <% if (currentPage != pageCount) {%>

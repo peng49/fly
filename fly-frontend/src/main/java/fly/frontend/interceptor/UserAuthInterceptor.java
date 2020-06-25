@@ -16,7 +16,6 @@ public class UserAuthInterceptor implements HandlerInterceptor {
         if (user != null) {
             return true;
         }
-
         if ("XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
             throw new Exception("请先登录");
         }

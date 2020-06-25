@@ -18,7 +18,7 @@ public class InterceptorConfiguration {
     private ExceptionResponseInterceptor exceptionResponseInterceptor;
 
     @Bean
-    public WebMvcConfigurer authInterceptor() {
+    public WebMvcConfigurer registerInterceptor() {
         return new WebMvcConfigurer() {
             /**
              * 添加拦截器
@@ -33,15 +33,6 @@ public class InterceptorConfiguration {
                         .excludePathPatterns("/user/login")
                         .excludePathPatterns("/user/register")
                         .excludePathPatterns("/post/detail/{id}");
-            }
-        };
-    }
-
-    @Bean
-    public WebMvcConfigurer errorPageInterceptor() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(exceptionResponseInterceptor)
                         .addPathPatterns("/**");
             }
