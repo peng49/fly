@@ -8,6 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface ColumnMapper {
-    @Select("select * from columns;")
+    @Select("select * from columns")
     public List<Column> getAll();
 }

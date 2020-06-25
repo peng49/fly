@@ -24,9 +24,9 @@ public interface UserMapper {
     @Select("select * from user_posts as up inner join posts as p on up.post_id = p.id where up.user_id = #{userId}")
     public List<Post> findCollectionPosts(int userId);
 
-    @Update("update users set email = #{email},username = #{username},city = #{city},signature = #{signature} where id = #{id};")
+    @Update("update users set email = #{email},username = #{username},city = #{city},signature = #{signature} where id = #{id}")
     public void updateInfo(User user);
 
-    @Update("update users set avatar = #{avatar} where id = #{id};")
+    @Update("update users set avatar = #{avatar} where id = #{id}")
     public void updateAvatar(User user);
 }
