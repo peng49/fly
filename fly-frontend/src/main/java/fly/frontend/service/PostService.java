@@ -1,5 +1,7 @@
 package fly.frontend.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.Post;
 import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
@@ -19,14 +21,17 @@ public class PostService {
     private PostMapper postMapper;
 
     public List<Post> findAll() {
-        return postMapper.findAll();
+        PageHelper.startPage(1, 10);
+        List<Post> all = postMapper.findAll();
+        PageHelper.clearPage();
+        return all;
     }
 
     public List<Post> findByColumnId(int columnId) {
         return postMapper.findByColumnId(columnId);
     }
 
-    public List<Post> findByAuthorId(int id){
+    public List<Post> findByAuthorId(int id) {
         return postMapper.findByAuthorId(id);
     }
 
@@ -48,12 +53,11 @@ public class PostService {
         postMapper.update(post);
     }
 
-    public List<PostComment> getComments(int postId)
-    {
+    public List<PostComment> getComments(int postId) {
         return postMapper.getComments(postId);
     }
 
-    public PostComment addComment(User user,PostCommentAdd postCommentAdd) {
+    public PostComment addComment(User user, PostCommentAdd postCommentAdd) {
         PostComment comment = new PostComment();
         comment.setCommentTime(new Date(System.currentTimeMillis()));
         comment.setContent(postCommentAdd.getContent());

@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface PostMapper {
 
-    @Select("select p.*,u.username,u.avatar from posts as p inner join users as u on u.id = p.author_id;")
+    @Select("select p.*,u.username,u.avatar from posts as p inner join users as u on u.id = p.author_id")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "columnId", column = "column_id"),
@@ -25,7 +25,7 @@ public interface PostMapper {
     })
     public List<Post> findAll();
 
-    @Select("select p.*,u.username,u.avatar from posts as p inner join users as u on u.id = p.author_id where p.column_id = #{columnId};")
+    @Select("select p.*,u.username,u.avatar from posts as p inner join users as u on u.id = p.author_id where p.column_id = #{columnId}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "columnId", column = "column_id"),
@@ -41,10 +41,10 @@ public interface PostMapper {
     })
     public List<Post> findByColumnId(int columnId);
 
-    @Select("select * from posts as p where p.author_id = #{id} order by p.id desc;")
+    @Select("select * from posts as p where p.author_id = #{id} order by p.id desc")
     public List<Post> findByAuthorId(int id);
 
-    @Select("select p.*,u.username,u.avatar from posts as p inner join users as u on u.id = p.author_id where p.id = #{id};")
+    @Select("select p.*,u.username,u.avatar from posts as p inner join users as u on u.id = p.author_id where p.id = #{id}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "columnId", column = "column_id"),
@@ -75,6 +75,6 @@ public interface PostMapper {
     })
     public List<PostComment> getComments(int postId);
 
-    @Insert("insert into post_comments(user_id,post_id,parent_id,content,comment_time) values(#{user.id},#{post.id},#{parent.id},#{content},#{commentTime});")
+    @Insert("insert into post_comments(user_id,post_id,parent_id,content,comment_time) values(#{user.id},#{post.id},#{parent.id},#{content},#{commentTime})")
     public void addComment(PostComment comment);
 }
