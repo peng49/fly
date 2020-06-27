@@ -8,7 +8,6 @@ import fly.frontend.entity.User;
 import fly.frontend.mapper.PostMapper;
 import fly.frontend.pojo.PostAdd;
 import fly.frontend.pojo.PostCommentAdd;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,6 +24,11 @@ public class PostService {
         List<Post> all = postMapper.findAll();
         PageHelper.clearPage();
         return all;
+    }
+
+    public List<Post> findTop(int limit)
+    {
+        return postMapper.findTop(4);
     }
 
     public List<Post> findByColumnId(int columnId) {
