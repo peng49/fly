@@ -1,12 +1,17 @@
 package fly.frontend.pojo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
 public class PostAdd {
     private int columnId;
 
     private int userId;
 
+    @NotBlank(message = "标题不能为空")
     private String title;
 
+    @NotBlank(message = "内容不能为空")
     private String content;
 
     public int getColumnId() {

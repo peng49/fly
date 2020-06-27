@@ -1,8 +1,10 @@
 package fly.frontend.pojo;
 
 public class PostFilter {
+    public final static int DEFAULT_PAGE_SIZE = 10;
+
     private int page = 1;
-    private int pageSize  = 10;
+    private int pageSize  = DEFAULT_PAGE_SIZE;
 
     public int getPage() {
         return page;

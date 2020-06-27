@@ -1,4 +1,4 @@
-<%--
+<%@ page import="fly.frontend.pojo.PostFilter" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2020/6/25
@@ -12,7 +12,7 @@
     if (request.getParameter("page") != null) {
         currentPage = Integer.valueOf(request.getParameter("page"));
     }
-    int pageSize = 3;
+    int pageSize = PostFilter.DEFAULT_PAGE_SIZE;
     if (request.getParameter("pageSize") != null) {
         pageSize = Integer.valueOf(request.getParameter("pageSize"));
     }
@@ -20,7 +20,7 @@
 
     int step = 2;
 
-    int pageCount = total / pageSize;
+    int pageCount = (int) Math.ceil((double) total / pageSize);
 
     int startPage = currentPage - step > 0 ? currentPage - step : 1;
 
