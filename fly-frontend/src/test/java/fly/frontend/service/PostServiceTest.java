@@ -1,6 +1,6 @@
 package fly.frontend.service;
 
-import fly.frontend.FrontendSpringBootApplication;
+import fly.frontend.SpringMainApplication;
 import fly.frontend.entity.Post;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {FrontendSpringBootApplication.class})
+@SpringBootTest(classes = {SpringMainApplication.class})
 public class PostServiceTest {
     @Resource
     private PostService postService;

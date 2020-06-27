@@ -9,6 +9,7 @@ import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -67,7 +68,7 @@ public class PostController {
 
     @PostMapping("/addComment")
     @ResponseBody
-    public Map<Object, Object> addComment(@RequestBody PostCommentAdd postCommentAdd, HttpSession httpSession)
+    public Map<Object, Object> addComment(@RequestBody @Validated PostCommentAdd postCommentAdd, HttpSession httpSession)
     {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         PostComment comment = postService.addComment(user,postCommentAdd);

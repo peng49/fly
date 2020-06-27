@@ -24,7 +24,7 @@
         data: function () {
             return {
                 navs: [
-                    {label: "我的主页", icon: "&#xe609;", href: "/user/index/1", component: ""},
+                    {label: "我的主页", icon: "&#xe609;", href: "/user/index/${user.id}", component: ""},
                     {label: "用户中心", icon: "&#xe612;", href: "javascript:", component: "user-center"},
                     {label: "基本设置", icon: "&#xe620;", href: "javascript:", component: "user-setting"},
                     {label: "我的消息", icon: "&#xe611;", href: "javascript:", component: "user-message"},
@@ -193,8 +193,8 @@
             "avatar": {
                 data: function () {
                     return {
-                        avatar:{},
-                        previewUrl:"https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
+                        avatar: {},
+                        previewUrl: "https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
                     }
                 },
                 created: async function () {
@@ -206,7 +206,7 @@
                         let _this = this;
                         this.avatar = event.target.files[0];
                         let Form = new FormData();
-                        Form.append("avatar",this.avatar);
+                        Form.append("avatar", this.avatar);
 
                         axios.post('/user/uploadAvatar', Form, {
                             headers: {"Content-Type": "multipart/form-data"}
@@ -215,7 +215,7 @@
                                 if (response.code === "success") {
                                     _this.previewUrl = response.user.avatar;
                                     layer.msg("上传成功")
-                                }else{
+                                } else {
                                     layer.msg(response.message)
                                 }
                             })

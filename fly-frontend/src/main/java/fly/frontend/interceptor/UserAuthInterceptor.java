@@ -19,6 +19,15 @@ public class UserAuthInterceptor implements HandlerInterceptor {
         if ("XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
             throw new Exception("请先登录");
         }
+
+/*        String url = "";
+        url = request.getScheme() + "://" + request.getServerName()
+                + ":" + request.getServerPort()
+                + request.getServletPath();
+        if (request.getQueryString() != null) {
+            url += "?" + request.getQueryString();
+        }*/
+
         response.sendRedirect("/user/login");
         return false;
     }

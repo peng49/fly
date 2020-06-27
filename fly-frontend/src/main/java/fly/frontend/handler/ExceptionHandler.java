@@ -1,9 +1,15 @@
 package fly.frontend.handler;
 
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.validation.ConstraintViolationException;
+import javax.xml.bind.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +21,54 @@ public class ExceptionHandler {
     public final Map handleAllExceptions(Exception ex, WebRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("code", "exception");
+        map.put("name", ex.getClass().getName());
         map.put("message", ex.getLocalizedMessage());
+        return map;
+    }
+
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
+    @ResponseBody
+    public final Map handleValidateExceptions(Exception ex, WebRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", "validate.error");
+
+        String msg = null;
+        /// BindException
+        if (ex instanceof BindException) {
+            // getFieldError获取的是第一个不合法的参数(P.S.如果有多个参数不合法的话)
+            FieldError fieldError = ((BindException) ex).getFieldError();
+            if (fieldError != null) {
+                msg = fieldError.getDefaultMessage();
+            }
+        } else if (ex instanceof MethodArgumentNotValidException) {
+            BindingResult bindingResult = ((MethodArgumentNotValidException) ex).getBindingResult();
+            // getFieldError获取的是第一个不合法的参数(P.S.如果有多个参数不合法的话)
+            FieldError fieldError = bindingResult.getFieldError();
+            if (fieldError != null) {
+                msg = fieldError.getDefaultMessage();
+            }
+            /// ValidationException 的子类异常ConstraintViolationException
+        } else if (ex instanceof ConstraintViolationException) {
+            /*
+             * ConstraintViolationException的e.getMessage()形如
+             *     {方法名}.{参数名}: {message}
+             *  这里只需要取后面的message即可
+             */
+            msg = ex.getMessage();
+            if (msg != null) {
+                int lastIndex = msg.lastIndexOf(':');
+                if (lastIndex >= 0) {
+                    msg = msg.substring(lastIndex + 1).trim();
+                }
+            }
+            /// ValidationException 的其它子类异常
+        } else {
+            msg = "处理参数时异常";
+        }
+
+        map.put("name", ex.getClass().getName());
+        map.put("message", msg);
         return map;
     }
 }
