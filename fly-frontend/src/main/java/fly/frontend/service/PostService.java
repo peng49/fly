@@ -5,9 +5,11 @@ import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.Post;
 import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
+import fly.frontend.event.CommentEvent;
 import fly.frontend.mapper.PostMapper;
 import fly.frontend.pojo.PostAdd;
 import fly.frontend.pojo.PostCommentAdd;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,6 +20,9 @@ import java.util.List;
 public class PostService {
     @Resource
     private PostMapper postMapper;
+
+    @Resource
+    private ApplicationEventPublisher publisher;
 
     public List<Post> findAll() {
         PageHelper.startPage(1, 10);
@@ -70,6 +75,8 @@ public class PostService {
         comment.setPost(post);
         comment.setUser(user);
         postMapper.addComment(comment);
+
+        publisher.publishEvent(new CommentEvent(comment));
         return comment;
     }
 }

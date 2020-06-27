@@ -91,6 +91,9 @@ public interface PostMapper {
     })
     public List<PostComment> getComments(int postId);
 
-    @Insert("insert into post_comments(user_id,post_id,parent_id,content,comment_time) values(#{user.id},#{post.id},#{parent.id},#{content},#{commentTime})")
+    @Insert("insert into post_comments(user_id,post_id,parent_id,content,comment_time,reply_count,view_count) values(#{user.id},#{post.id},#{parent.id},#{content},#{commentTime},0,0)")
     public void addComment(PostComment comment);
+
+    @Update("update posts set reply_count = reply_count + 1 where id = #{postId}")
+    public void replyCountInc(int postId);
 }
