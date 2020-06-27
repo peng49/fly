@@ -36,7 +36,7 @@ public class PostController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Map add(@RequestBody PostAdd post, HttpSession httpSession) throws Exception {
+    public Map add(@RequestBody @Validated PostAdd post, HttpSession httpSession) throws Exception {
         User user = (User) httpSession.getAttribute("login-user");
         if (user == null) {
             throw new Exception("请先登录");
