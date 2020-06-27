@@ -18,7 +18,13 @@
     }
     pageSize = pageSize > 0 ? pageSize : 3;
 
+    int step = 2;
+
     int pageCount = total / pageSize;
+
+    int startPage = currentPage - step > 0 ? currentPage - step : 1;
+
+    int endPage = currentPage + step < pageCount ? currentPage + step : pageCount;
 %>
 <div class="laypage-main">
     <% if (currentPage > 1) {%>
@@ -29,7 +35,7 @@
     <a href="?page=1&pageSize=<%=pageSize%>" class="laypage-next">首页</a>
     <%}%>
 
-    <% for (int i = 1; i <= pageCount; i++) {%>
+    <% for (int i = startPage; i <= endPage; i++) {%>
 
     <% if (i == currentPage) {%>
     <span class="laypage-curr"><%=i%></span>
@@ -44,7 +50,7 @@
     <a href="?page=<%=pageCount%>&pageSize=<%=pageSize%>" class="laypage-last">尾页</a>
     <%}%>
 
-    <% if (currentPage != pageCount) {%>
+    <% if (currentPage != pageCount && pageCount > currentPage) {%>
     <a href="?page=<%=currentPage+1%>&pageSize=<%=pageSize%>" class="laypage-next">下一页</a>
     <%}%>
 </div>

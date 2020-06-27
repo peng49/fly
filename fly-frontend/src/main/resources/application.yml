@@ -10,7 +10,7 @@ spring:
     static-path-pattern: /static/**
   resources:
     static-locations: classpath:/static/,file:F:/develop/vagrant-java/fly-avatar/
-  #数据源配置
+  # datasource config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.99.15:3307/fly?characterEncoding=utf-8&useSSL=false

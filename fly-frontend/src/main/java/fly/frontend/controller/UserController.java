@@ -1,10 +1,12 @@
 package fly.frontend.controller;
 
+import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
 import fly.frontend.pojo.UpdateUserInfo;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;
+import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,10 +37,17 @@ public class UserController {
     @Resource
     private PostService postService;
 
+    @Resource
+    private PostCommentService postCommentService;
+
     @GetMapping("/index/{id}")
     public ModelAndView index(@PathVariable("id") int id, ModelAndView view) {
         view.addObject("user", userService.getById(id));
         view.addObject("posts", postService.findByAuthorId(id));
+
+        PageHelper.startPage(1,5);
+        view.addObject("comments",postCommentService.getByUserId(id));
+        PageHelper.clearPage();
         view.setViewName("user/index");
         return view;
     }

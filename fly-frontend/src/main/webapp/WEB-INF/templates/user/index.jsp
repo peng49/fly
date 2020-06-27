@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -77,30 +78,26 @@
             <div class="fly-panel">
                 <h3 class="fly-panel-title">${user.username} 最近的回答</h3>
                 <ul class="home-jieda">
-                    <li>
-                        <p>
-                            <span>1分钟前</span>
-                            在<a href="" target="_blank">tips能同时渲染多个吗?</a>中回答：
-                        </p>
-                        <div class="home-dacontent">
-                            尝试给layer.photos加上这个属性试试：
-                            <pre>
-full: true         
-</pre>
-                            文档没有提及
-                        </div>
-                    </li>
-                    <li>
-                        <p>
-                            <span>5分钟前</span>
-                            在<a href="" target="_blank">在Fly社区用的是什么系统啊?</a>中回答：
-                        </p>
-                        <div class="home-dacontent">
-                            Fly社区采用的是NodeJS。分享出来的只是前端模版
-                        </div>
-                    </li>
-
-                    <!-- <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><span>没有回答任何问题</span></div> -->
+                    <c:choose>
+                        <c:when test="${comments.size() > 0}">
+                            <f:forEach items="${comments}" var="comment">
+                                <li>
+                                    <p>
+                                        <span>${comment.commentTime}</span>
+                                        在<a href="/post/detail/${comment.post.id}" target="_blank">${comment.post.title}</a>中回答：
+                                    </p>
+                                    <div class="home-dacontent">
+                                        ${comment.content}
+                                    </div>
+                                </li>
+                            </f:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;">
+                                <span>没有回答任何问题</span>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
             </div>
         </div>

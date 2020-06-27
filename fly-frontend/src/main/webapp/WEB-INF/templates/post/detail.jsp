@@ -48,7 +48,7 @@
           </span>
                 </div>
                 <div class="detail-about">
-                    <a class="fly-avatar" href="/user/${post.author.id}">
+                    <a class="fly-avatar" href="/user/index/${post.author.id}">
                         <img src="${post.author.avatar}"
                              alt="${post.author.username}">
                     </a>
