@@ -42,15 +42,17 @@
                                 </a>
                                 <span>刚刚</span>
 
-                                <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i
-                                        class="iconfont icon-kiss"></i> 60</span>
-                                <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
                                 <span class="fly-list-nums">
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
+                                    <i class="iconfont icon-pinglun1" title="回答"></i> ${post.replyCount}
+                                </span>
                             </div>
                             <div class="fly-list-badge">
-                                <span class="layui-badge layui-bg-red">精帖</span>
+                                <c:if test="${post.top == 1}">
+                                    <span class="layui-badge layui-bg-black">置顶</span>
+                                </c:if>
+                                <c:if test="${post.essence == 1}">
+                                    <span class="layui-badge layui-bg-red">精</span>
+                                </c:if>
                             </div>
                         </li>
                     </c:forEach>
@@ -59,20 +61,7 @@
 
             <div class="fly-panel" style="margin-bottom: 0;">
 
-                <div class="fly-panel-title fly-filter">
-                    <a href="" class="layui-this">综合</a>
-                    <span class="fly-mid"></span>
-                    <a href="">未结</a>
-                    <span class="fly-mid"></span>
-                    <a href="">已结</a>
-                    <span class="fly-mid"></span>
-                    <a href="">精华</a>
-                    <span class="fly-filter-right layui-hide-xs">
-            <a href="" class="layui-this">按最新</a>
-            <span class="fly-mid"></span>
-            <a href="">按热议</a>
-          </span>
-                </div>
+                <jsp:include page="common/filter.jsp"/>
 
                 <ul class="fly-list">
                     <c:forEach items="${posts}" var="post">
@@ -93,15 +82,17 @@
                                 </a>
                                 <span>刚刚</span>
 
-                                <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i
-                                        class="iconfont icon-kiss"></i> 60</span>
-                                <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
                                 <span class="fly-list-nums">
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
+                                    <i class="iconfont icon-pinglun1" title="回答"></i> ${post.replyCount}
+                                </span>
                             </div>
                             <div class="fly-list-badge">
-                                <span class="layui-badge layui-bg-red">精帖</span>
+                                <c:if test="${post.top == 1}">
+                                    <span class="layui-badge layui-bg-black">置顶</span>
+                                </c:if>
+                                <c:if test="${post.essence == 1}">
+                                    <span class="layui-badge layui-bg-red">精</span>
+                                </c:if>
                             </div>
                         </li>
                     </c:forEach>

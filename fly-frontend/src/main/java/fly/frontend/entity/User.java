@@ -1,5 +1,7 @@
 package fly.frontend.entity;
 
+import java.sql.Date;
+
 public class User {
     private int id;
     private String username;
@@ -7,7 +9,9 @@ public class User {
     private String password;
     private String avatar;
     private String city;
+    private int experience;
     private String signature;
+    private Date createTime;
 
     public int getId() {
         return id;
@@ -57,12 +61,28 @@ public class User {
         this.city = city;
     }
 
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
     public String getSignature() {
         return signature;
     }
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     @Override
