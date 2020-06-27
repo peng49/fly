@@ -44,6 +44,22 @@ public interface PostMapper {
     @Select("select * from posts as p where p.author_id = #{id} order by p.id desc")
     public List<Post> findByAuthorId(int id);
 
+    @Select("select p.*,u.username,u.avatar from posts as p inner join users as u on u.id = p.author_id where p.top = 1 limit #{limit}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "columnId", column = "column_id"),
+            @Result(property = "title", column = "title"),
+            @Result(property = "content", column = "content"),
+            @Result(property = "viewCount", column = "view_count"),
+            @Result(property = "replyCount", column = "reply_count"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "publishAt", column = "publish_at"),
+            @Result(property = "author.id", column = "author_id"),
+            @Result(property = "author.username", column = "username"),
+            @Result(property = "author.avatar", column = "avatar")
+    })
+    public List<Post> findTop(int limit);
+
     @Select("select p.*,u.username,u.avatar from posts as p inner join users as u on u.id = p.author_id where p.id = #{id}")
     @Results({
             @Result(id = true, property = "id", column = "id"),

@@ -18,6 +18,7 @@ public class HomepageController {
     @RequestMapping("/")
     public ModelAndView index(ModelAndView view) {
         List<Post> posts = postService.findAll();
+        view.addObject("topPosts",postService.findTop(4));
         view.addObject("posts",posts);
         view.setViewName("index");
         return view;
