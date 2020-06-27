@@ -14,6 +14,8 @@ public class Post {
     private Date publishAt;
     private Date createdAt;
     private Date updateAt;
+    private int essence;
+    private int top;
 
     public int getId() {
         return id;
@@ -101,6 +103,22 @@ public class Post {
 
     public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public int getEssence() {
+        return essence;
+    }
+
+    public void setEssence(int essence) {
+        this.essence = essence;
+    }
+
+    public int getTop() {
+        return top;
+    }
+
+    public void setTop(int top) {
+        this.top = top;
     }
 
     @Override

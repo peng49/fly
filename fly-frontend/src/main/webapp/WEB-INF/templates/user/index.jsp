@@ -20,9 +20,9 @@
     <%--    <i class="iconfont icon-renzheng" title=""></i>--%>
     <h1>
         ${user.username}
-        <i class="iconfont icon-nan"></i>
+        <%--<i class="iconfont icon-nan"></i>--%>
         <!-- <i class="iconfont icon-nv"></i>  -->
-        <i class="layui-badge fly-badge-vip">VIP3</i>
+        <%--<i class="layui-badge fly-badge-vip">VIP3</i>--%>
         <!--
         <span style="color:#c00;">（管理员）</span>
         <span style="color:#5FB878;">（社区之光）</span>
@@ -30,11 +30,11 @@
         -->
     </h1>
 
-    <p style="padding: 10px 0; color: #5FB878;">认证信息：layui 作者</p>
+    <%--<p style="padding: 10px 0; color: #5FB878;">认证信息：layui 作者</p>--%>
 
     <p class="fly-home-info">
-        <i class="iconfont icon-kiss" title="飞吻"></i><span style="color: #FF7200;">66666 飞吻</span>
-        <i class="iconfont icon-shijian"></i><span>2015-6-17 加入</span>
+        经验值: <span style="color: #FF7200;">${user.experience}</span>
+        <i class="iconfont icon-shijian"></i><span>${user.createTime} 加入</span>
         <i class="iconfont icon-chengshi"></i><span>来自${user.city}</span>
     </p>
 

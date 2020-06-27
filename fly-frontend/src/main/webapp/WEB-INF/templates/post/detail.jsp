@@ -88,8 +88,8 @@
                                         <div class="fly-detail-user">
                                             <a href="/user/index/${comment.user.id}" class="fly-link">
                                                 <cite>${comment.user.username}</cite>
-                                                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                                                <i class="layui-badge fly-badge-vip">VIP3</i>
+                                                    <%--<i class="iconfont icon-renzheng" title="认证信息：XXX"></i>--%>
+                                                    <%--<i class="layui-badge fly-badge-vip">VIP3</i>--%>
                                             </a>
                                             <c:if test="${post.author.id == comment.user.id}">
                                                 <span>(楼主)</span>
@@ -98,7 +98,6 @@
                                         <div class="detail-hits">
                                             <span>${comment.commentTime}</span>
                                         </div>
-                                        <i class="iconfont icon-caina" title="最佳答案"></i>
                                     </div>
                                     <div class="detail-body jieda-body photos">
                                         <p>${comment.content}</p>
@@ -112,8 +111,8 @@
                                             <i class="iconfont icon-svgmoban53"></i>回复
                                         </span>
                                         <div class="jieda-admin">
-<%--                                            <span>编辑</span>--%>
-<%--                                            <span>删除</span>--%>
+                                                <%--                                            <span>编辑</span>--%>
+                                                <%--                                            <span>删除</span>--%>
                                             <!-- <span class="jieda-accept" type="accept">采纳</span> -->
                                         </div>
                                     </div>
@@ -129,7 +128,8 @@
                 <div class="layui-form layui-form-pane">
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block">
-                            <textarea placeholder="请输入内容" v-model="comment.content" class="layui-textarea fly-editor" style="height: 150px;"></textarea>
+                            <div ref="toolbar" class="toolbar"></div>
+                            <div ref="editor" class="text"></div>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -139,29 +139,40 @@
             </div>
         </div>
         <div class="layui-col-md4">
-            <jsp:include page="../common/slider/top-comment.jsp" />
+            <jsp:include page="../common/slider/top-comment.jsp"/>
 
-            <jsp:include page="../common/slider/ad.jsp" />
+            <jsp:include page="../common/slider/ad.jsp"/>
 
-            <jsp:include page="../common/slider/wechat.jsp" />
+            <jsp:include page="../common/slider/wechat.jsp"/>
         </div>
     </div>
 </div>
 
 <jsp:include page="../common/footer.jsp"/>
+<script type="text/javascript" src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
 <script type="text/javascript">
     new Vue({
-        el:"#post-container",
-        data:{
-            comment:{
-                postId:'${post.id}',
-                content:"",
-                parentId:0
+        el: "#post-container",
+        data: {
+            editor: null,
+            comment: {
+                postId: '${post.id}',
+                content: "",
+                parentId: 0
             }
         },
-        methods:{
-            submitComment:function(){
-                console.log(this.comment)
+        mounted() {
+            this.initEditor()
+            this.editor.txt.html(this.comment.content)
+        },
+        methods: {
+            initEditor: function () {
+                var E = window.wangEditor
+                this.editor = new E(this.$refs.toolbar, this.$refs.editor);
+                this.editor.create()
+            },
+            submitComment: function () {
+                this.comment.content = this.editor.txt.html();
                 axios.post('/post/addComment', this.comment)
                     .then(function (response) {
                         if (response.code === "success") {
@@ -176,7 +187,7 @@
                     });
             }
         }
-    })
+    });
 </script>
 </body>
 </html>
