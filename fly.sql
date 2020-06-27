@@ -66,6 +66,16 @@ CREATE TABLE `users` (
 PRIMARY KEY ( `id` ) USING BTREE
 ) ENGINE = INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8 ROW_FORMAT = DYNAMIC;
 
+DROP TABLE IF EXISTS `user_message`;
+CREATE TABLE `user_message` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `type` varchar(64) DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `columns`;
 CREATE TABLE `columns` (
 	`id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,

@@ -11,6 +11,7 @@ import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -61,8 +62,8 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public Map<Object, Object> login(@RequestBody UserLogin login, HttpSession httpSession) throws Exception {
-//        System.out.println(login);
+    public Map<Object, Object> login(@RequestBody @Validated UserLogin login, HttpSession httpSession) throws Exception {
+        System.out.println(login);
         User user = userService.login(login);
         Map<Object, Object> map = new HashMap<>();
         map.put("code", "success");
@@ -99,7 +100,9 @@ public class UserController {
     }
 
     @GetMapping("/home")
-    public ModelAndView home(ModelAndView view) {
+    public ModelAndView home(ModelAndView view,HttpSession httpSession) {
+        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+        view.addObject("user",user);
         view.setViewName("user/home");
         return view;
     }

@@ -1,21 +1,25 @@
 package fly.frontend.service;
 
-import fly.frontend.FrontendSpringBootApplication;
+import fly.frontend.SpringMainApplication;
+import fly.frontend.pojo.UserLogin;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.ResourceUtils;
 
 
-import javax.annotation.Resource;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.io.FileNotFoundException;
+import java.util.Set;
 import java.util.UUID;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {FrontendSpringBootApplication.class})
+@SpringBootTest(classes = {SpringMainApplication.class})
 public class UserServiceTest {
 
     @Autowired
@@ -45,5 +49,23 @@ public class UserServiceTest {
 
         System.out.println("123.jpg".substring("123.jpg".indexOf('.')));
 //        System.out.println(ResourceUtils.getURL("classpath:").getPath());
+    }
+
+    @Test
+    public void validateTest()
+    {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+
+        UserLogin userLogin = new UserLogin();
+        userLogin.setUsername("");
+
+        Set<ConstraintViolation<UserLogin>> validate = validator.validate(userLogin);
+
+        for (ConstraintViolation<UserLogin> userLoginConstraintViolation : validate) {
+            System.out.println(userLoginConstraintViolation.getRootBean().getClass().getName());
+            System.out.println(userLoginConstraintViolation.getPropertyPath());
+            System.out.println(userLoginConstraintViolation.getMessage());
+        }
     }
 }

@@ -77,6 +77,7 @@ public interface PostMapper {
     public Post findById(int id);
 
 
+    @Insert("insert into posts(column_id,author_id,title,content,status,created_at,update_at,publish_at,reply_count,view_count) values (#{columnId},#{author.id},#{title},#{content},#{status},#{createdAt},#{updateAt},#{publishAt},0,0)")
     public void create(Post post);
 
     public void update(Post post);
@@ -91,7 +92,7 @@ public interface PostMapper {
     })
     public List<PostComment> getComments(int postId);
 
-    @Insert("insert into post_comments(user_id,post_id,parent_id,content,comment_time,reply_count,view_count) values(#{user.id},#{post.id},#{parent.id},#{content},#{commentTime},0,0)")
+    @Insert("insert into post_comments(user_id,post_id,parent_id,content,comment_time) values(#{user.id},#{post.id},#{parent.id},#{content},#{commentTime})")
     public void addComment(PostComment comment);
 
     @Update("update posts set reply_count = reply_count + 1 where id = #{postId}")
