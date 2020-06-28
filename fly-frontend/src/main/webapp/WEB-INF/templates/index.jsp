@@ -33,7 +33,7 @@
                                      alt="${post.author.username}">
                             </a>
                             <h2>
-                                <a class="layui-badge">动态</a>
+                                <a class="layui-badge">${post.column.name}</a>
                                 <a href="/post/detail/${post.id}">${post.title}</a>
                             </h2>
                             <div class="fly-list-info">
@@ -71,7 +71,7 @@
                                      alt="${post.author.username}">
                             </a>
                             <h2>
-                                <a class="layui-badge">动态</a>
+                                <a class="layui-badge">${post.column.name}</a>
                                 <a href="/post/detail/${post.id}">${post.title}</a>
                             </h2>
                             <div class="fly-list-info">

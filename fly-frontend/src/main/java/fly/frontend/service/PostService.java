@@ -2,6 +2,7 @@ package fly.frontend.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import fly.frontend.entity.Column;
 import fly.frontend.entity.Post;
 import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -50,16 +53,28 @@ public class PostService {
 
     public Post create(PostAdd postAdd, User user) {
         Post post = new Post();
-        post.setColumnId(postAdd.getColumnId());
         post.setAuthor(user);
         post.setTitle(postAdd.getTitle());
         post.setContent(postAdd.getContent());
+
+        Column column = new Column();
+        column.setId(postAdd.getColumnId());
+        post.setColumn(column);
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        post.setCreatedAt(timestamp);
+        post.setUpdateAt(timestamp);
         postMapper.create(post);
         return post;
     }
 
     public void update(Post post) {
         postMapper.update(post);
+    }
+
+    public List<Post> getEveryWeekCommentMax(int limit)
+    {
+        return postMapper.getEveryWeekCommentMax(limit);
     }
 
     public List<PostComment> getComments(int postId) {

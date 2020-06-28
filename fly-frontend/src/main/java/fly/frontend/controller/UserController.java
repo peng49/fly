@@ -88,7 +88,7 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    public Map<Object, Object> register(@RequestBody UserRegister register) {
+    public Map<Object, Object> register(@RequestBody UserRegister register) throws Exception {
         User user = userService.register(register);
         System.out.println(register);
 

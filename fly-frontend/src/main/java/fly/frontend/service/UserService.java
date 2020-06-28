@@ -37,8 +37,14 @@ public class UserService {
         return user;
     }
 
-    public User register(UserRegister register) {
+    public User register(UserRegister register) throws Exception {
         User user = new User();
+        User existed = userMapper.getByUsername(register.getUsername());
+        System.out.println(existed);
+        if(existed != null){
+            throw new Exception("用户名已存在");
+        }
+
         user.setUsername(register.getUsername());
         user.setEmail(register.getEmail());
         user.setPassword(register.getPassword());

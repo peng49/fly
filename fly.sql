@@ -63,6 +63,7 @@ CREATE TABLE `users` (
   `signature` varchar(255) DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL,
   `experience` int(11) NOT NULL DEFAULT '0' COMMENT '经验值',
+  `is_admin` tinyint(1) DEFAULT '0' COMMENT '是否管理员',
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
