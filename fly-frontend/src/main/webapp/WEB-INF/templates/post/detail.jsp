@@ -128,8 +128,8 @@
                 <div class="layui-form layui-form-pane">
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block">
-                            <div ref="toolbar" class="toolbar"></div>
-                            <div ref="editor" class="text"></div>
+                            <div ref="toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;" class="toolbar"></div>
+                            <div ref="editor" style="border:1px solid #ccc; border-top:none; height:180px; z-index:10000;" class="text"></div>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -172,6 +172,9 @@
                 this.editor.create()
             },
             submitComment: function () {
+                if(!this.editor.txt.text().trim()){
+                    return layer.msg("评论内容不能为空");
+                }
                 this.comment.content = this.editor.txt.html();
                 axios.post('/post/addComment', this.comment)
                     .then(function (response) {

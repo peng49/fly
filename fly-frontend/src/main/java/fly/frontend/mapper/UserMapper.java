@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserMapper {
     public List<User> findAll();
 
-    @Insert("insert into users (username,email,password) values (#{username},#{email},#{password})")
+    @Insert("insert into users (username,email,password,create_time) values (#{username},#{email},#{password},#{createTime,jdbcType=TIMESTAMP})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     public int create(User user);
 

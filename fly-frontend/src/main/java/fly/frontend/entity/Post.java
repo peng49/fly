@@ -1,19 +1,20 @@
 package fly.frontend.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Post {
     private int id;
-    private int columnId;
+    private Column column;
     private User author;
     private String title;
     private String content;
     private int viewCount;
     private int replyCount;
     private int status;
-    private Date publishAt;
-    private Date createdAt;
-    private Date updateAt;
+    private Timestamp publishAt;
+    private Timestamp createdAt;
+    private Timestamp updateAt;
     private int essence;
     private int top;
 
@@ -25,12 +26,12 @@ public class Post {
         this.id = id;
     }
 
-    public int getColumnId() {
-        return columnId;
+    public Column getColumn() {
+        return column;
     }
 
-    public void setColumnId(int columnId) {
-        this.columnId = columnId;
+    public void setColumn(Column column) {
+        this.column = column;
     }
 
     public User getAuthor() {
@@ -81,27 +82,27 @@ public class Post {
         this.status = status;
     }
 
-    public Date getPublishAt() {
+    public Timestamp getPublishAt() {
         return publishAt;
     }
 
-    public void setPublishAt(Date publishAt) {
+    public void setPublishAt(Timestamp publishAt) {
         this.publishAt = publishAt;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdateAt() {
+    public Timestamp getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(Date updateAt) {
+    public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
     }
 
@@ -125,7 +126,7 @@ public class Post {
     public String toString() {
         return "Post{" +
                 "id=" + id +
-                ", columnId=" + columnId +
+                ", column=" + column +
                 ", author=" + author +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
@@ -135,6 +136,8 @@ public class Post {
                 ", publishAt=" + publishAt +
                 ", createdAt=" + createdAt +
                 ", updateAt=" + updateAt +
+                ", essence=" + essence +
+                ", top=" + top +
                 '}';
     }
 }
