@@ -7,9 +7,12 @@ import fly.frontend.pojo.UpdateUserInfo;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;
 import org.apache.ibatis.javassist.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -18,6 +21,9 @@ public class UserService {
 
     @Resource
     private UserMapper userMapper;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<User> findAll() {
         return userMapper.findAll();
@@ -29,7 +35,7 @@ public class UserService {
             throw new NotFoundException("用户不存在");
         }
 
-        if (!user.getPassword().equals(login.getPassword())) {
+        if (!comparePassword(login.getPassword(),user.getPassword())) {
             //密码错误
             throw new Exception("密码错误");
         }
@@ -47,11 +53,24 @@ public class UserService {
 
         user.setUsername(register.getUsername());
         user.setEmail(register.getEmail());
-        user.setPassword(register.getPassword());
+        user.setPassword(getPassword(register.getPassword()));
+        user.setCreateTime(new Timestamp(System.currentTimeMillis()));
         int id = userMapper.create(user);
         System.out.println(id);
         return user;
     }
+
+    public String getPassword(String password)
+    {
+        return bCryptPasswordEncoder.encode(password);
+    }
+
+    public boolean comparePassword(String password,String hash)
+    {
+        return bCryptPasswordEncoder.matches(password,hash);
+    }
+
+
 
     public User getById(int id) {
         return userMapper.getById(id);

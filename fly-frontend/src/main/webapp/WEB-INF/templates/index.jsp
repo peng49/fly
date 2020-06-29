@@ -1,3 +1,4 @@
+<%@ page import="fly.frontend.utils.TextUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -40,7 +41,7 @@
                                 <a href="user/${post.author.id}" link>
                                     <cite>${post.author.username}</cite>
                                 </a>
-                                <span>刚刚</span>
+                                <span>${post.publishAt}</span>
 
                                 <span class="fly-list-nums">
                                     <i class="iconfont icon-pinglun1" title="回答"></i> ${post.replyCount}
@@ -77,10 +78,8 @@
                             <div class="fly-list-info">
                                 <a href="user/${post.author.id}" link>
                                     <cite>${post.author.username}</cite>
-                                    <!--<i class="iconfont icon-renzheng" title="认证信息：XXX"></i>-->
-                                        <%--                                    <i class="layui-badge fly-badge-vip">VIP3</i>--%>
                                 </a>
-                                <span>刚刚</span>
+                                <span>${post.publishAt}</span>
 
                                 <span class="fly-list-nums">
                                     <i class="iconfont icon-pinglun1" title="回答"></i> ${post.replyCount}
@@ -108,24 +107,6 @@
             <div class="fly-panel">
                 <h3 class="fly-panel-title">温馨通道</h3>
                 <ul class="fly-panel-main fly-list-static">
-                    <li>
-                        <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云)
-                            仓库，欢迎Star</a>
-                    </li>
-                    <li>
-                        <a href="http://fly.layui.com/jie/5366/" target="_blank">
-                            layui 常见问题的处理和实用干货集锦
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云)
-                            仓库，欢迎Star</a>
-                    </li>
-                    <li>
-                        <a href="http://fly.layui.com/jie/5366/" target="_blank">
-                            layui 常见问题的处理和实用干货集锦
-                        </a>
-                    </li>
                     <li>
                         <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云)
                             仓库，欢迎Star</a>

@@ -1,6 +1,7 @@
 package fly.frontend.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class User {
     private int id;
@@ -11,7 +12,7 @@ public class User {
     private String city;
     private int experience;
     private String signature;
-    private Date createTime;
+    private Timestamp createTime;
 
     public int getId() {
         return id;
@@ -77,11 +78,11 @@ public class User {
         this.signature = signature;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 

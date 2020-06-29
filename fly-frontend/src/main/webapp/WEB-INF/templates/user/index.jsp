@@ -57,7 +57,9 @@
                         <c:when test="${posts.size() > 0}">
                             <c:forEach items="${posts}" var="post">
                                 <li>
-                                    <span class="fly-jing">精</span>
+                                    <c:if test="${post.essence == 1}">
+                                        <span class="fly-jing">精</span>
+                                    </c:if>
                                     <a href="/post/detail/${post.id}" class="jie-title">${post.title}</a>
                                     <i>${post.publishAt}</i>
                                     <em class="layui-hide-xs">${post.viewCount}阅/${post.replyCount}答</em>
@@ -84,10 +86,11 @@
                                 <li>
                                     <p>
                                         <span>${comment.commentTime}</span>
-                                        在<a href="/post/detail/${comment.post.id}" target="_blank">${comment.post.title}</a>中回答：
+                                        在<a href="/post/detail/${comment.post.id}"
+                                            target="_blank">${comment.post.title}</a>中回答：
                                     </p>
                                     <div class="home-dacontent">
-                                        ${comment.content}
+                                            ${comment.content}
                                     </div>
                                 </li>
                             </f:forEach>
