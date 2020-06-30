@@ -25,23 +25,41 @@
             <div class="fly-panel detail-box">
                 <h1>${post.title}</h1>
                 <div class="fly-detail-info">
-                    <!-- <span class="layui-badge">审核中</span> -->
-                    <span class="layui-badge layui-bg-green fly-detail-column">动态</span>
+                    <span class="layui-badge layui-bg-green fly-detail-column">${post.column.name}</span>
 
-                    <span class="layui-badge" style="background-color: #999;">未结</span>
+                    <%--<span class="layui-badge" style="background-color: #999;">未结</span>--%>
                     <!-- <span class="layui-badge" style="background-color: #5FB878;">已结</span> -->
-
-                    <span class="layui-badge layui-bg-black">置顶</span>
-                    <span class="layui-badge layui-bg-red">精帖</span>
+                    <c:if test="${post.top == 1}">
+                        <span class="layui-badge layui-bg-black">置顶</span>
+                    </c:if>
+                    <c:if test="${post.essence == 1}">
+                        <span class="layui-badge layui-bg-red">精帖</span>
+                    </c:if>
 
                     <div class="fly-admin-box" data-id="123">
-                        <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
+                        <c:if test="${user != null && user.isAdmin == 1}">
+                            <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
 
-                        <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>
-                        <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span> -->
+                            <c:choose>
+                                <c:when test="${post.top == 1}">
+                                    <span @click="top" class="layui-btn layui-btn-xs jie-admin"
+                                          style="background-color:#ccc;">取消置顶</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span @click="top" class="layui-btn layui-btn-xs jie-admin">置顶</span>
+                                </c:otherwise>
+                            </c:choose>
 
-                        <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="1">加精</span>
-                        <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> -->
+                            <c:choose>
+                                <c:when test="${post.essence == 1}">
+                                    <span @click="essence" class="layui-btn layui-btn-xs jie-admin"
+                                          style="background-color:#ccc;">取消加精</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span @click="essence" class="layui-btn layui-btn-xs jie-admin">加精</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
                     </div>
                     <span class="fly-list-nums">
             <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> ${post.replyCount}</a>
@@ -61,13 +79,13 @@
                         </a>
                         <span>${post.publishAt}</span>
                     </div>
-                    <div class="detail-hits" id="LAY_jieAdmin" data-id="123">
+                    <div class="detail-hits">
                         <%--                        <span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>--%>
                         <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a
                                 href="../post/add.html">编辑此贴</a></span>
                     </div>
                 </div>
-                <div class="detail-body photos markdown-body editormd-preview-container">
+                <div class="detail-body photos markdown-body editormd-preview-container" style="padding: 0">
                     ${post.content}
                 </div>
             </div>
@@ -129,8 +147,11 @@
                 <div class="layui-form layui-form-pane">
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block">
-                            <div ref="toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;" class="toolbar"></div>
-                            <div ref="editor" style="border:1px solid #ccc; border-top:none; height:180px; z-index:10000;" class="text"></div>
+                            <div ref="toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;"
+                                 class="toolbar"></div>
+                            <div ref="editor"
+                                 style="border:1px solid #ccc; border-top:none; height:180px; z-index:10000;"
+                                 class="text"></div>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -173,15 +194,45 @@
                 this.editor.create()
             },
             submitComment: function () {
-                if(!this.editor.txt.text().trim()){
+                if (!this.editor.txt.text().trim()) {
                     return layer.msg("评论内容不能为空");
                 }
                 this.comment.content = this.editor.txt.html();
                 axios.post('/post/addComment', this.comment)
                     .then(function (response) {
                         if (response.code === "success") {
-                            //注册成功,转跳登录页面
                             layer.msg('评论成功');
+                            return;
+                        }
+                        layer.msg(response.message)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            top: function () {
+                var formData = new FormData();
+                formData.append("postId",${post.id});
+
+                axios.post('/post/top', formData)
+                    .then(function (response) {
+                        if (response.code === "success") {
+                            layer.msg('操作成功');
+                            return;
+                        }
+                        layer.msg(response.message)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            essence: function () {
+                var formData = new FormData();
+                formData.append("postId",${post.id});
+                axios.post('/post/essence', formData)
+                    .then(function (response) {
+                        if (response.code === "success") {
+                            layer.msg('操作成功');
                             return;
                         }
                         layer.msg(response.message)
