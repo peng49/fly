@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <div class="layui-form-item layui-form-text">
-                                <div class="editor-block" style="height: 500px">
+                                <div class="editor-block" style="height: 650px">
                                     <div id="editor" ref="editor"></div>
                                 </div>
                             </div>

@@ -13,6 +13,7 @@ public class User {
     private int experience;
     private String signature;
     private Timestamp createTime;
+    private int isAdmin;
 
     public int getId() {
         return id;
@@ -84,6 +85,14 @@ public class User {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public int getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(int isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     @Override

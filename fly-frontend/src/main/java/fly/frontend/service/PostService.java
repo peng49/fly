@@ -94,4 +94,12 @@ public class PostService {
         publisher.publishEvent(new CommentEvent(comment));
         return comment;
     }
+
+    public void top(Post post){
+        postMapper.top(post);
+    }
+
+    public void essence(Post post){
+        postMapper.essence(post);
+    }
 }
