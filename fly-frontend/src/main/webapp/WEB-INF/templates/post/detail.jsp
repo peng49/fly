@@ -9,6 +9,7 @@
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
     <jsp:include page="../common/link.jsp"/>
+    <link rel="stylesheet" href="/static/editor.md/css/editormd.min.css">
 </head>
 <body>
 
@@ -66,7 +67,7 @@
                                 href="../post/add.html">编辑此贴</a></span>
                     </div>
                 </div>
-                <div class="detail-body photos">
+                <div class="detail-body photos markdown-body editormd-preview-container">
                     ${post.content}
                 </div>
             </div>
