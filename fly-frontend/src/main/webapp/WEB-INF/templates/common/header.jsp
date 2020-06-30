@@ -60,7 +60,7 @@
                         </a>
                     </dd>
                     <dd>
-                        <a href="/user/home">
+                        <a href="/user/index/<%=user.getId()%>">
                             <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页
                         </a>
                     </dd>
