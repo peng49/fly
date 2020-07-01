@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Fly Template v3.0，基于 layui 的极简社区页面模版</title>
+    <title>${post.title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
@@ -126,7 +126,7 @@
                                             <i class="iconfont icon-zan"></i>
                                             <em>${comment.agreeCount}</em>
                                         </span>
-                                        <span>
+                                        <span @click="reply(this)" data-id="${comment.id}">
                                             <i class="iconfont icon-svgmoban53"></i>回复
                                         </span>
                                         <div class="jieda-admin">
@@ -147,10 +147,15 @@
                 <div class="layui-form layui-form-pane">
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block">
+                            <div id="repay-form">
+                                <pre>
+                                    回复信息
+                                </pre>
+
+                            </div>
                             <div ref="toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;"
                                  class="toolbar"></div>
-                            <div ref="editor"
-                                 style="border:1px solid #ccc; border-top:none; height:180px; z-index:10000;"
+                            <div ref="editor" style="border:1px solid #ccc; border-top:none; height:180px; z-index:10;"
                                  class="text"></div>
                         </div>
                     </div>
@@ -240,6 +245,9 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+            },
+            reply:function(ele){
+                console.log(ele.dataset)
             }
         }
     });
