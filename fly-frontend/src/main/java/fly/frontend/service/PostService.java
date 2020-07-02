@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.xml.stream.events.Comment;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -34,8 +35,7 @@ public class PostService {
         return all;
     }
 
-    public List<Post> findTop(int limit)
-    {
+    public List<Post> findTop(int limit) {
         return postMapper.findTop(4);
     }
 
@@ -72,8 +72,7 @@ public class PostService {
         postMapper.update(post);
     }
 
-    public List<Post> getEveryWeekCommentMax(int limit)
-    {
+    public List<Post> getEveryWeekCommentMax(int limit) {
         return postMapper.getEveryWeekCommentMax(limit);
     }
 
@@ -87,6 +86,12 @@ public class PostService {
         comment.setContent(postCommentAdd.getContent());
         Post post = new Post();
         post.setId(postCommentAdd.getPostId());
+
+        if (postCommentAdd.getParentId() != 0) {
+            PostComment parentComment = new PostComment();
+            parentComment.setId(postCommentAdd.getPostId());
+            comment.setParent(parentComment);
+        }
         comment.setPost(post);
         comment.setUser(user);
         postMapper.addComment(comment);
@@ -95,11 +100,11 @@ public class PostService {
         return comment;
     }
 
-    public void top(Post post){
+    public void top(Post post) {
         postMapper.top(post);
     }
 
-    public void essence(Post post){
+    public void essence(Post post) {
         postMapper.essence(post);
     }
 }

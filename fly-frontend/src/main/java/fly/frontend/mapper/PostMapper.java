@@ -86,13 +86,21 @@ public interface PostMapper {
 
     public void update(Post post);
 
-    @Select("select pc.*,u.username,u.avatar from post_comments as pc inner join users u on u.id = pc.user_id where pc.post_id = #{post_id}")
+    @Select("select pc.*,u.username,u.avatar,parent.content as parent_content,parent.user_id as parent_user_id,parent_user.username as parent_username from post_comments as pc " +
+            "inner join users u on u.id = pc.user_id " +
+            "left join post_comments as parent on parent.id = pc.parent_id " +
+            "left join users as parent_user on parent.user_id = parent_user.id " +
+            "where pc.post_id = #{post_id}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "content", column = "content"),
             @Result(property = "user.id", column = "user_id"),
             @Result(property = "user.username", column = "username"),
             @Result(property = "user.avatar", column = "avatar"),
+            @Result(property = "parent.id", column = "parent_id"),
+            @Result(property = "parent.content", column = "parent_content"),
+            @Result(property = "parent.user.id", column = "parent_user_id"),
+            @Result(property = "parent.user.username", column = "parent_username"),
     })
     public List<PostComment> getComments(int postId);
 
