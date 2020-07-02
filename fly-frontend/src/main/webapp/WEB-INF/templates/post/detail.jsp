@@ -107,8 +107,6 @@
                                         <div class="fly-detail-user">
                                             <a href="/user/index/${comment.user.id}" class="fly-link">
                                                 <cite>${comment.user.username}</cite>
-                                                    <%--<i class="iconfont icon-renzheng" title="认证信息：XXX"></i>--%>
-                                                    <%--<i class="layui-badge fly-badge-vip">VIP3</i>--%>
                                             </a>
                                             <c:if test="${post.author.id == comment.user.id}">
                                                 <span>(楼主)</span>
@@ -119,21 +117,20 @@
                                         </div>
                                     </div>
                                     <div class="detail-body jieda-body photos">
-                                        <p>${comment.content}</p>
+                                        <c:if test="${comment.parent.id != null}">
+                                            <p>@${comment.parent.user.username} ${comment.parent.content}</p>
+                                        </c:if>
+                                        <div class="comment-content">${comment.content}</div>
                                     </div>
                                     <div class="jieda-reply">
                                         <span class="jieda-zan zanok">
                                             <i class="iconfont icon-zan"></i>
                                             <em>${comment.agreeCount}</em>
                                         </span>
-                                        <span @click="reply(this)" data-id="${comment.id}">
+                                        <span @click="reply($event)" data-id="${comment.id}"
+                                              data-username="${comment.user.username}">
                                             <i class="iconfont icon-svgmoban53"></i>回复
                                         </span>
-                                        <div class="jieda-admin">
-                                                <%--                                            <span>编辑</span>--%>
-                                                <%--                                            <span>删除</span>--%>
-                                            <!-- <span class="jieda-accept" type="accept">采纳</span> -->
-                                        </div>
                                     </div>
                                 </li>
                             </c:forEach>
@@ -147,11 +144,10 @@
                 <div class="layui-form layui-form-pane">
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block">
-                            <div id="repay-form">
-                                <pre>
-                                    回复信息
-                                </pre>
-
+                            <div v-if="comment.parentId" class="repay-content">
+                                <p>
+                                    <a href="#">@{{parentCon.username}}</a><span v-html="parentCon.content"></span>
+                                </p>
                             </div>
                             <div ref="toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;"
                                  class="toolbar"></div>
@@ -182,6 +178,10 @@
         el: "#post-container",
         data: {
             editor: null,
+            parentCon: {
+                username: "回复用户",
+                content: "回复的内容"
+            },
             comment: {
                 postId: '${post.id}',
                 content: "",
@@ -217,7 +217,7 @@
             },
             top: function () {
                 var formData = new FormData();
-                formData.append("postId",${post.id});
+                formData.append("postId", ${post.id});
 
                 axios.post('/post/top', formData)
                     .then(function (response) {
@@ -233,7 +233,7 @@
             },
             essence: function () {
                 var formData = new FormData();
-                formData.append("postId",${post.id});
+                formData.append("postId", ${post.id});
                 axios.post('/post/essence', formData)
                     .then(function (response) {
                         if (response.code === "success") {
@@ -246,8 +246,11 @@
                         console.log(error);
                     });
             },
-            reply:function(ele){
-                console.log(ele.dataset)
+            reply: function (ele) {
+                let dom = ele.currentTarget;
+                this.comment.parentId = dom.getAttribute("data-id")
+                this.parentCon.username = dom.getAttribute("data-username");
+                this.parentCon.content = $(dom).parents('li').find(".comment-content").html()
             }
         }
     });
