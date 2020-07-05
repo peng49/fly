@@ -255,6 +255,7 @@
                 this.parentCon.username = dom.getAttribute("data-username");
                 this.parentCon.content = $(dom).parents('li').find(".comment-content").html();
                 document.getElementById("reply").scrollIntoView();
+                this.editor.selection.restoreSelection()
             },
             replyCancel:function(){
                 this.comment.parentId = 0;
