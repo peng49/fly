@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -20,4 +21,6 @@ public interface PostCommentMapper {
             @Result(property = "post.title", column = "post_title")
     })
     public List<PostComment> getByUserId(int userId);
+
+    List<PostComment> getCommentsByCommentIds(ArrayList commentIds);
 }

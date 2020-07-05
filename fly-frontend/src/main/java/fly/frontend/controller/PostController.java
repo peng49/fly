@@ -64,6 +64,7 @@ public class PostController {
         view.addObject("user", (User) httpSession.getAttribute(UserService.LOGIN_KEY));
         view.addObject("comments", postService.getComments(id));
         view.setViewName("/post/detail");
+        postService.viewCountInc(id);
         return view;
     }
 

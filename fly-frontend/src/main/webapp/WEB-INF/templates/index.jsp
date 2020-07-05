@@ -86,9 +86,9 @@
                                 </span>
                             </div>
                             <div class="fly-list-badge">
-                                <c:if test="${post.top == 1}">
+                             <%--   <c:if test="${post.top == 1}">
                                     <span class="layui-badge layui-bg-black">置顶</span>
-                                </c:if>
+                                </c:if>--%>
                                 <c:if test="${post.essence == 1}">
                                     <span class="layui-badge layui-bg-red">精</span>
                                 </c:if>

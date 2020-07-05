@@ -2,6 +2,7 @@ package fly.frontend.mapper;
 
 import fly.frontend.entity.Post;
 import fly.frontend.entity.PostComment;
+import fly.frontend.pojo.PostFilterCondition;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
@@ -9,24 +10,6 @@ import java.util.List;
 
 @Mapper
 public interface PostMapper {
-
-    @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p inner join users as u on u.id = p.author_id inner join columns as c on c.id = p.column_id")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(property = "column.id", column = "column_id"),
-            @Result(property = "column.name", column = "column_name"),
-            @Result(property = "title", column = "title"),
-            @Result(property = "content", column = "content"),
-            @Result(property = "viewCount", column = "view_count"),
-            @Result(property = "replyCount", column = "reply_count"),
-            @Result(property = "status", column = "status"),
-            @Result(property = "publishAt", column = "publish_at"),
-            @Result(property = "author.id", column = "author_id"),
-            @Result(property = "author.username", column = "username"),
-            @Result(property = "author.avatar", column = "avatar")
-    })
-    public List<Post> findAll();
-
     @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p inner join users as u on u.id = p.author_id inner join columns as c on c.id = p.column_id where p.column_id = #{columnId}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
@@ -87,31 +70,21 @@ public interface PostMapper {
 
     public void update(Post post);
 
-    @Select("select pc.*,u.username,u.avatar,parent.content as parent_content,parent.user_id as parent_user_id,parent_user.username as parent_username from post_comments as pc " +
-            "inner join users u on u.id = pc.user_id " +
-            "left join post_comments as parent on parent.id = pc.parent_id " +
-            "left join users as parent_user on parent.user_id = parent_user.id " +
-            "where pc.post_id = #{post_id}")
+    @Select("select pc.*,u.username,u.avatar from post_comments as pc inner join users u on u.id = pc.user_id where pc.post_id = #{post_id}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "content", column = "content"),
             @Result(property = "user.id", column = "user_id"),
             @Result(property = "user.username", column = "username"),
             @Result(property = "user.avatar", column = "avatar"),
-            @Result(property = "parent.id", column = "parent_id"),
-            @Result(property = "parent.content", column = "parent_content"),
-            @Result(property = "parent.user.id", column = "parent_user_id"),
-            @Result(property = "parent.user.username", column = "parent_username"),
+            @Result(property = "parent.id", column = "parent_id")
     })
     public List<PostComment> getComments(int postId);
-
-    public List<PostComment> getCommentsByCommentIds(ArrayList commentIds);
 
     @Insert("insert into post_comments(user_id,post_id,parent_id,content,comment_time) values(#{user.id},#{post.id},#{parent.id},#{content},#{commentTime})")
     public void addComment(PostComment comment);
 
-    @Update("update posts set reply_count = reply_count + 1 where id = #{postId}")
-    public void replyCountInc(int postId);
+
 
     @Select("select * from (select p.*,count(0) as week_comment_total from posts as p left join post_comments as c on c.post_id = p.id where c.comment_time > date_sub(curdate(), interval 7 day) group by p.id) as temp order by week_comment_total desc limit #{limit}")
     List<Post> getEveryWeekCommentMax(int limit);
@@ -121,4 +94,12 @@ public interface PostMapper {
 
     @Update("update posts set essence = 1 where id = #{id}")
     void essence(Post post);
+
+    List<Post> getByCondition(PostFilterCondition condition);
+
+    @Update("update posts set reply_count = reply_count + 1 where id = #{postId}")
+    public void replyCountInc(int postId);
+
+    @Update("update posts set view_count = view_count + 1 where id = #{postId}")
+    void viewCountInc(int postId);
 }

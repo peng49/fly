@@ -1,6 +1,5 @@
 package fly.frontend.service;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.Column;
 import fly.frontend.entity.Post;
@@ -10,13 +9,13 @@ import fly.frontend.event.CommentEvent;
 import fly.frontend.mapper.PostMapper;
 import fly.frontend.pojo.PostAdd;
 import fly.frontend.pojo.PostCommentAdd;
+import fly.frontend.pojo.PostFilterCondition;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.xml.stream.events.Comment;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,14 +27,16 @@ public class PostService {
     @Resource
     private PostMapper postMapper;
 
+    @Autowired
+    private PostCommentService postCommentService;
+
     @Resource
     private ApplicationEventPublisher publisher;
 
-    public List<Post> findAll() {
-        PageHelper.startPage(1, 10);
-        List<Post> all = postMapper.findAll();
-        PageHelper.clearPage();
-        return all;
+    public List<Post> getByCondition(PostFilterCondition condition)
+    {
+        List<Post> posts = postMapper.getByCondition(condition);
+        return posts;
     }
 
     public List<Post> findTop(int limit) {
@@ -79,6 +80,15 @@ public class PostService {
         return postMapper.getEveryWeekCommentMax(limit);
     }
 
+    public void replyCountInc(int postId)
+    {
+        postMapper.replyCountInc(postId);
+    }
+
+    public void viewCountInc(int postId){
+        postMapper.viewCountInc(postId);
+    }
+
     public List<PostComment> getComments(int postId) {
         List<PostComment> comments = postMapper.getComments(postId);
 
@@ -92,7 +102,7 @@ public class PostService {
         //去重
         ArrayList<Integer> ids = new ArrayList<>(new HashSet<>(parentIds));
         if (ids.size() > 0) {
-            List<PostComment> parentComments = getCommentByCommentIds(parentIds);
+            List<PostComment> parentComments =  postCommentService.getCommentsByCommentIds(parentIds);
             HashMap<Integer, PostComment> hashComments = new HashMap();
             for (PostComment parentComment : parentComments) {
                 hashComments.put(parentComment.getId(), parentComment);
@@ -108,10 +118,6 @@ public class PostService {
 
         System.out.println(comments);
         return comments;
-    }
-
-    public List<PostComment> getCommentByCommentIds(ArrayList commentIds){
-        return postMapper.getCommentsByCommentIds(commentIds);
     }
 
     public PostComment addComment(User user, PostCommentAdd postCommentAdd) {
