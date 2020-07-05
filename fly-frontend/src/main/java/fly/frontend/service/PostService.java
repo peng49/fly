@@ -1,13 +1,12 @@
 package fly.frontend.service;
 
-import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.Column;
 import fly.frontend.entity.Post;
 import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
 import fly.frontend.event.CommentEvent;
 import fly.frontend.mapper.PostMapper;
-import fly.frontend.pojo.PostAdd;
+import fly.frontend.pojo.PostEdit;
 import fly.frontend.pojo.PostCommentAdd;
 import fly.frontend.pojo.PostFilterCondition;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +32,7 @@ public class PostService {
     @Resource
     private ApplicationEventPublisher publisher;
 
-    public List<Post> getByCondition(PostFilterCondition condition)
-    {
+    public List<Post> getByCondition(PostFilterCondition condition) {
         List<Post> posts = postMapper.getByCondition(condition);
         return posts;
     }
@@ -51,18 +49,20 @@ public class PostService {
         return postMapper.findByAuthorId(id);
     }
 
-    public Post findById(int id) {
-        return postMapper.findById(id);
+    public Post get(int id) {
+        return postMapper.get(id);
     }
 
-    public Post create(PostAdd postAdd, User user) {
+    public Post create(PostEdit postEdit, User user) {
+        System.out.println(postEdit);
         Post post = new Post();
         post.setAuthor(user);
-        post.setTitle(postAdd.getTitle());
-        post.setContent(postAdd.getContent());
+        post.setTitle(postEdit.getTitle());
+        post.setOriginalContent(postEdit.getOriginalContent());
+        post.setContent(postEdit.getContent());
 
         Column column = new Column();
-        column.setId(postAdd.getColumnId());
+        column.setId(postEdit.getColumnId());
         post.setColumn(column);
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -80,12 +80,11 @@ public class PostService {
         return postMapper.getEveryWeekCommentMax(limit);
     }
 
-    public void replyCountInc(int postId)
-    {
+    public void replyCountInc(int postId) {
         postMapper.replyCountInc(postId);
     }
 
-    public void viewCountInc(int postId){
+    public void viewCountInc(int postId) {
         postMapper.viewCountInc(postId);
     }
 
@@ -94,7 +93,7 @@ public class PostService {
 
         ArrayList<Integer> parentIds = new ArrayList<>();
         for (PostComment comment : comments) {
-            if(comment.getParent() != null){
+            if (comment.getParent() != null) {
                 parentIds.add(comment.getParent().getId());
             }
         }
@@ -102,7 +101,7 @@ public class PostService {
         //去重
         ArrayList<Integer> ids = new ArrayList<>(new HashSet<>(parentIds));
         if (ids.size() > 0) {
-            List<PostComment> parentComments =  postCommentService.getCommentsByCommentIds(parentIds);
+            List<PostComment> parentComments = postCommentService.getCommentsByCommentIds(parentIds);
             HashMap<Integer, PostComment> hashComments = new HashMap();
             for (PostComment parentComment : parentComments) {
                 hashComments.put(parentComment.getId(), parentComment);
@@ -146,5 +145,16 @@ public class PostService {
 
     public void essence(Post post) {
         postMapper.essence(post);
+    }
+
+    public void edit(Post post, PostEdit postEdit) {
+        post.setOriginalContent(postEdit.getOriginalContent());
+        post.setContent(postEdit.getContent());
+        post.setTitle(postEdit.getTitle());
+        Column column = new Column();
+        column.setId(postEdit.getColumnId());
+        post.setColumn(column);
+        System.out.println(post);
+        postMapper.edit(post);
     }
 }

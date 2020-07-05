@@ -82,7 +82,7 @@
                     <div class="detail-hits">
                         <%--                        <span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>--%>
                         <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a
-                                href="../post/add.html">编辑此贴</a></span>
+                                href="/post/edit/${post.id}">编辑此贴</a></span>
                     </div>
                 </div>
                 <div class="detail-body photos markdown-body editormd-preview-container" style="padding: 0">
@@ -94,6 +94,27 @@
                 <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
                     <legend>回帖</legend>
                 </fieldset>
+
+                <div class="layui-form layui-form-pane">
+                    <div class="layui-form-item layui-form-text">
+                        <div class="layui-input-block" id="reply">
+                            <div v-if="comment.parentId" class="reply-content">
+                                <p>
+                                    <a class="fly-link" href="#">@{{parentCon.username}}</a>
+                                    <a class="reply-cancel fly-link" href="javascript:" @click="replyCancel">取消</a>
+                                    <span v-html="parentCon.content"></span>
+                                </p>
+                            </div>
+                            <div ref="toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;"
+                                 class="toolbar"></div>
+                            <div ref="editor" style="border:1px solid #ccc; border-top:none; height:180px; z-index:10;"
+                                 class="text"></div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button @click="submitComment" class="layui-btn">提交回复</button>
+                    </div>
+                </div>
 
                 <ul class="jieda" id="jieda">
                     <c:choose>
@@ -118,7 +139,9 @@
                                     </div>
                                     <div class="detail-body jieda-body photos">
                                         <c:if test="${comment.parent.id != null}">
-                                            <div class="reply-content"><a href="#reply${comment.parent.id}" class="fly-link" >@${comment.parent.user.username}</a>  ${comment.parent.content}</div>
+                                            <div class="reply-content"><a href="#reply${comment.parent.id}"
+                                                                          class="fly-link">@${comment.parent.user.username}</a> ${comment.parent.content}
+                                            </div>
                                         </c:if>
                                         <div class="comment-content">${comment.content}</div>
                                     </div>
@@ -141,26 +164,7 @@
                     </c:choose>
                 </ul>
 
-                <div class="layui-form layui-form-pane">
-                    <div class="layui-form-item layui-form-text">
-                        <div class="layui-input-block" id="reply">
-                            <div v-if="comment.parentId" class="reply-content">
-                                <p>
-                                    <a class="fly-link" href="#">@{{parentCon.username}}</a>
-                                    <a class="reply-cancel fly-link" href="javascript:" @click="replyCancel">取消</a>
-                                    <span v-html="parentCon.content"></span>
-                                </p>
-                            </div>
-                            <div ref="toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;"
-                                 class="toolbar"></div>
-                            <div ref="editor" style="border:1px solid #ccc; border-top:none; height:180px; z-index:10;"
-                                 class="text"></div>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <button @click="submitComment" class="layui-btn">提交回复</button>
-                    </div>
-                </div>
+
             </div>
         </div>
         <div class="layui-col-md4">
@@ -257,7 +261,7 @@
                 document.getElementById("reply").scrollIntoView();
                 this.editor.selection.restoreSelection()
             },
-            replyCancel:function(){
+            replyCancel: function () {
                 this.comment.parentId = 0;
             }
         }

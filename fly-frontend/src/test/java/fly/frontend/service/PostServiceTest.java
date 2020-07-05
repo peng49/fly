@@ -2,9 +2,8 @@ package fly.frontend.service;
 
 import fly.frontend.SpringMainApplication;
 import fly.frontend.entity.Post;
-import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
-import fly.frontend.pojo.PostAdd;
+import fly.frontend.pojo.PostEdit;
 import fly.frontend.pojo.PostFilterCondition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {SpringMainApplication.class})
@@ -51,7 +47,7 @@ public class PostServiceTest {
     @Test
     public void timestampTest()
     {
-        PostAdd postAdd = new PostAdd();
+        PostEdit postAdd = new PostEdit();
         postAdd.setColumnId(1);
         postAdd.setTitle("test");
         postAdd.setContent("test content");
