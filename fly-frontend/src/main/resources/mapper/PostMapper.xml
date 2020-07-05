@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fly.frontend.mapper.PostMapper">
-    <resultMap id="postComment" type="fly.frontend.entity.PostComment">
+    <resultMap id="post" type="fly.frontend.entity.Post">
         <id column="id" property="id"/>
         <result property="content" column="content"/>
-        <result property="user.id" column="user_id"/>
-        <result property="user.username" column="username" />
-        <result property="user.avatar" column="userAvatar" />
+        <result property="author.id" column="author_id"/>
+        <result property="author.username" column="username"/>
+        <result property="author.avatar" column="userAvatar"/>
+        <result property="column.id" column="column_id"/>
+        <result property="column.name" column="columnName"/>
     </resultMap>
+
 
     <update id="update" parameterType="fly.frontend.entity.Post">
         update posts set title = #{title},content = #{content},update_at = #{updateAt},publish_at = #{publishAt} where  id = #{id};
     </update>
 
-    <select id="getCommentsByCommentIds" resultMap="postComment">
-        select pc.*,u.username,u.avatar as userAvatar from post_comments as pc left join users as u on pc.user_id = u.id  where pc.id in
-        <foreach collection="list" item="id" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
+    <select id="getByCondition" resultMap="post" parameterType="fly.frontend.pojo.PostFilterCondition">
+        select p.*,u.username,u.avatar as userAvatar,col.name as columnName from posts as p
+            inner join users as u on u.id = p.author_id
+            inner join `columns` as col on col.id = p.column_id
+        <where>
+            <if test="authorId != 0">
+                and p.author_id = #{authorId}
+            </if>
+            <if test="columnId != 0">
+                and p.column_id = #{columnId}
+            </if>
+            <if test="list == 'essence'">
+                and p.essence = 1
+            </if>
+        </where>
     </select>
 </mapper>

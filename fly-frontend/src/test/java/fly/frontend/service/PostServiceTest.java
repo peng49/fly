@@ -5,6 +5,7 @@ import fly.frontend.entity.Post;
 import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
 import fly.frontend.pojo.PostAdd;
+import fly.frontend.pojo.PostFilterCondition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,15 +38,14 @@ public class PostServiceTest {
     }
 
     @Test
-    public void getCommentsTest()
+    public void getByConditionTest()
     {
-        ArrayList<Object> commentIds = new ArrayList<>();
-        commentIds.add(1);
-        commentIds.add(2);
+        PostFilterCondition condition = new PostFilterCondition();
+        condition.setList("essence");
+        condition.setAuthorId(1);
+        condition.setColumnId(10);
 
-        List<PostComment> list = postService.getCommentByCommentIds(commentIds);
-
-        System.out.println(list);
+        System.out.println(postService.getByCondition(condition));
     }
 
     @Test

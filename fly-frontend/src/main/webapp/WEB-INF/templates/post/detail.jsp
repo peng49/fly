@@ -99,7 +99,7 @@
                     <c:choose>
                         <c:when test="${comments.size() > 0}">
                             <c:forEach items="${comments}" var="comment">
-                                <li data-id="111" class="jieda-daan">
+                                <li id="reply${comment.id}" class="jieda-daan">
                                     <div class="detail-about detail-about-reply">
                                         <a class="fly-avatar" href="/user/index/${comment.user.id}">
                                             <img src="${comment.user.avatar}" alt=" ">
@@ -118,7 +118,7 @@
                                     </div>
                                     <div class="detail-body jieda-body photos">
                                         <c:if test="${comment.parent.id != null}">
-                                            <div class="reply-content">@${comment.parent.user.username} ${comment.parent.content}</div>
+                                            <div class="reply-content"><a href="#reply${comment.parent.id}" class="fly-link" >@${comment.parent.user.username}</a>  ${comment.parent.content}</div>
                                         </c:if>
                                         <div class="comment-content">${comment.content}</div>
                                     </div>
@@ -146,8 +146,8 @@
                         <div class="layui-input-block" id="reply">
                             <div v-if="comment.parentId" class="reply-content">
                                 <p>
-                                    <a href="#">@{{parentCon.username}}</a>
-                                    <a href="javascript:" @click="replyCancel">取消</a>
+                                    <a class="fly-link" href="#">@{{parentCon.username}}</a>
+                                    <a class="reply-cancel fly-link" href="javascript:" @click="replyCancel">取消</a>
                                     <span v-html="parentCon.content"></span>
                                 </p>
                             </div>

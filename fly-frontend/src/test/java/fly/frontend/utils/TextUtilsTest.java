@@ -24,4 +24,11 @@ public class TextUtilsTest {
         ArrayList<Integer> ids = new ArrayList<Integer>(new HashSet<Integer>(Arrays.asList(array)));
         System.out.println(ids);
     }
+
+    @Test
+    public void regexTest()
+    {
+        String path = "id=3&v=6&name=id";
+        System.out.println(path.replaceAll("name=.*?(&|$)","id=7$1"));
+    }
 }
