@@ -4,6 +4,7 @@ import fly.frontend.entity.Post;
 import fly.frontend.entity.PostComment;
 import org.apache.ibatis.annotations.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -103,6 +104,8 @@ public interface PostMapper {
             @Result(property = "parent.user.username", column = "parent_username"),
     })
     public List<PostComment> getComments(int postId);
+
+    public List<PostComment> getCommentsByCommentIds(ArrayList commentIds);
 
     @Insert("insert into post_comments(user_id,post_id,parent_id,content,comment_time) values(#{user.id},#{post.id},#{parent.id},#{content},#{commentTime})")
     public void addComment(PostComment comment);

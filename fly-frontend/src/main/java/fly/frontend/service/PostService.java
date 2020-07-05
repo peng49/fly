@@ -18,6 +18,9 @@ import javax.xml.stream.events.Comment;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -77,7 +80,38 @@ public class PostService {
     }
 
     public List<PostComment> getComments(int postId) {
-        return postMapper.getComments(postId);
+        List<PostComment> comments = postMapper.getComments(postId);
+
+        ArrayList<Integer> parentIds = new ArrayList<>();
+        for (PostComment comment : comments) {
+            if(comment.getParent() != null){
+                parentIds.add(comment.getParent().getId());
+            }
+        }
+
+        //去重
+        ArrayList<Integer> ids = new ArrayList<>(new HashSet<>(parentIds));
+        if (ids.size() > 0) {
+            List<PostComment> parentComments = getCommentByCommentIds(parentIds);
+            HashMap<Integer, PostComment> hashComments = new HashMap();
+            for (PostComment parentComment : parentComments) {
+                hashComments.put(parentComment.getId(), parentComment);
+            }
+
+            for (PostComment comment : comments) {
+                if (comment.getParent() != null) {
+                    comment.setParent(hashComments.get(comment.getParent().getId()));
+                }
+            }
+        }
+
+
+        System.out.println(comments);
+        return comments;
+    }
+
+    public List<PostComment> getCommentByCommentIds(ArrayList commentIds){
+        return postMapper.getCommentsByCommentIds(commentIds);
     }
 
     public PostComment addComment(User user, PostCommentAdd postCommentAdd) {
@@ -89,7 +123,7 @@ public class PostService {
 
         if (postCommentAdd.getParentId() != 0) {
             PostComment parentComment = new PostComment();
-            parentComment.setId(postCommentAdd.getPostId());
+            parentComment.setId(postCommentAdd.getParentId());
             comment.setParent(parentComment);
         }
         comment.setPost(post);
