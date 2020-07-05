@@ -53,6 +53,7 @@ public interface PostMapper {
             @Result(property = "column.id", column = "column_id"),
             @Result(property = "column.name", column = "column_name"),
             @Result(property = "title", column = "title"),
+            @Result(property = "originalContent", column = "original_content"),
             @Result(property = "content", column = "content"),
             @Result(property = "viewCount", column = "view_count"),
             @Result(property = "replyCount", column = "reply_count"),
@@ -62,10 +63,10 @@ public interface PostMapper {
             @Result(property = "author.username", column = "username"),
             @Result(property = "author.avatar", column = "avatar")
     })
-    public Post findById(int id);
+    public Post get(int id);
 
 
-    @Insert("insert into posts(column_id,author_id,title,content,status,created_at,update_at,publish_at,reply_count,view_count) values (#{column.id},#{author.id},#{title},#{content},#{status},#{createdAt,jdbcType=TIMESTAMP},#{updateAt,jdbcType=TIMESTAMP},#{publishAt,jdbcType=TIMESTAMP},0,0)")
+    @Insert("insert into posts(column_id,author_id,title,original_content,content,status,created_at,update_at,publish_at,reply_count,view_count) values (#{column.id},#{author.id},#{title},#{originalContent},#{content},#{status},#{createdAt,jdbcType=TIMESTAMP},#{updateAt,jdbcType=TIMESTAMP},#{publishAt,jdbcType=TIMESTAMP},0,0)")
     public void create(Post post);
 
     public void update(Post post);
@@ -102,4 +103,7 @@ public interface PostMapper {
 
     @Update("update posts set view_count = view_count + 1 where id = #{postId}")
     void viewCountInc(int postId);
+
+    @Update("update posts set column_id = #{column.id}, title = #{title}, content = #{content}, original_content = #{originalContent} where id = #{id} ")
+    void edit(Post post);
 }

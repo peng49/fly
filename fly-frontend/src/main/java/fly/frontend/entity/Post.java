@@ -8,6 +8,7 @@ public class Post {
     private Column column;
     private User author;
     private String title;
+    private String originalContent;
     private String content;
     private int viewCount;
     private int replyCount;
@@ -48,6 +49,14 @@ public class Post {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getOriginalContent() {
+        return originalContent;
+    }
+
+    public void setOriginalContent(String originalContent) {
+        this.originalContent = originalContent;
     }
 
     public String getContent() {

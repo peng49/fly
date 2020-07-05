@@ -3,7 +3,7 @@ package fly.frontend.controller;
 import fly.frontend.entity.Post;
 import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
-import fly.frontend.pojo.PostAdd;
+import fly.frontend.pojo.PostEdit;
 import fly.frontend.pojo.PostCommentAdd;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
@@ -36,7 +36,7 @@ public class PostController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Map add(@RequestBody @Validated PostAdd post, HttpSession httpSession) throws Exception {
+    public Map add(@RequestBody @Validated PostEdit post, HttpSession httpSession) throws Exception {
         User user = (User) httpSession.getAttribute("login-user");
         if (user == null) {
             throw new Exception("请先登录");
@@ -53,13 +53,30 @@ public class PostController {
 
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") int id, ModelAndView view) {
+        Post post = postService.get(id);
+        view.addObject("columns", columnService.getAll());
+        view.addObject("post", post);
         view.setViewName("/post/add");
         return view;
     }
 
+    @PostMapping("/edit/{id}")
+    @ResponseBody
+    public Map edit(@PathVariable("id") int id,@RequestBody @Validated PostEdit postEdit) {
+        Post post = postService.get(id);
+        System.out.println(post);
+        System.out.println(postEdit);
+        postService.edit(post,postEdit);
+
+        Map<Object, Object> map = new HashMap<>();
+        map.put("code", "success");
+        map.put("message", "OK");
+        return map;
+    }
+
     @GetMapping("/detail/{id}")
     public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession) {
-        Post post = postService.findById(id);
+        Post post = postService.get(id);
         view.addObject("post", post);
         view.addObject("user", (User) httpSession.getAttribute(UserService.LOGIN_KEY));
         view.addObject("comments", postService.getComments(id));
@@ -93,7 +110,7 @@ public class PostController {
             throw new Exception("您不是管理员，不能进行此操作");
         }
 
-        Post post = postService.findById(postId);
+        Post post = postService.get(postId);
         postService.top(post);
 
         Map<Object, Object> map = new HashMap<>();
@@ -115,7 +132,7 @@ public class PostController {
             throw new Exception("您不是管理员，不能进行此操作");
         }
 
-        Post post = postService.findById(postId);
+        Post post = postService.get(postId);
         postService.essence(post);
 
         Map<Object, Object> map = new HashMap<>();

@@ -46,7 +46,7 @@
                             </div>
                             <div class="layui-form-item layui-form-text">
                                 <div class="editor-block" style="height: 650px">
-                                    <div id="editor" ref="editor"></div>
+                                    <div id="editor" ref="editor"><textarea>${post.originalContent}</textarea></div>
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -73,7 +73,8 @@
             editor:'',
             postForm: {
                 columnId: 1,
-                title: "",
+                title: "${post.title}",
+                originalContent:"",
                 content: ""
             }
         },
@@ -90,12 +91,13 @@
                 console.log(this.editor.getHTML());
                 console.log(this.editor.getPreviewedHTML());
 
+                this.postForm.originalContent = this.editor.getMarkdown();
                 this.postForm.content = this.editor.getPreviewedHTML();
-                axios.post('/post/add', this.postForm)
+                axios.post(window.location.pathname, this.postForm)
                     .then(function (response) {
                         if (response.code === "success") {
                             //注册成功,转跳登录页面
-                            layer.msg('添加成功');
+                            layer.msg('操作成功');
                             return;
                         }
                         layer.msg(response.message)
