@@ -502,6 +502,14 @@ body .fly-user-main{position: relative; min-height: 600px;}
 .fly-none p{margin-top: 50px; padding: 0 15px; font-size: 20px; color: #999; font-weight: 300;}
 .fly-list-one .fly-none{min-height: 70px;}
 
+.reply-content{
+  line-height: 1.65;
+  background: #F2F2F5;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 4px;
+}
+
 
 @media screen and (max-width: 768px) {
 	.fly-main{width: 100%;}

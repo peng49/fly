@@ -2,6 +2,7 @@ package fly.frontend.service;
 
 import fly.frontend.SpringMainApplication;
 import fly.frontend.entity.Post;
+import fly.frontend.entity.PostComment;
 import fly.frontend.entity.User;
 import fly.frontend.pojo.PostAdd;
 import org.junit.Test;
@@ -10,7 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {SpringMainApplication.class})
@@ -36,7 +39,13 @@ public class PostServiceTest {
     @Test
     public void getCommentsTest()
     {
-        System.out.println(postService.getComments(1));
+        ArrayList<Object> commentIds = new ArrayList<>();
+        commentIds.add(1);
+        commentIds.add(2);
+
+        List<PostComment> list = postService.getCommentByCommentIds(commentIds);
+
+        System.out.println(list);
     }
 
     @Test

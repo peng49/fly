@@ -118,7 +118,7 @@
                                     </div>
                                     <div class="detail-body jieda-body photos">
                                         <c:if test="${comment.parent.id != null}">
-                                            <p>@${comment.parent.user.username} ${comment.parent.content}</p>
+                                            <div class="reply-content">@${comment.parent.user.username} ${comment.parent.content}</div>
                                         </c:if>
                                         <div class="comment-content">${comment.content}</div>
                                     </div>
@@ -143,10 +143,12 @@
 
                 <div class="layui-form layui-form-pane">
                     <div class="layui-form-item layui-form-text">
-                        <div class="layui-input-block">
-                            <div v-if="comment.parentId" class="repay-content">
+                        <div class="layui-input-block" id="reply">
+                            <div v-if="comment.parentId" class="reply-content">
                                 <p>
-                                    <a href="#">@{{parentCon.username}}</a><span v-html="parentCon.content"></span>
+                                    <a href="#">@{{parentCon.username}}</a>
+                                    <a href="javascript:" @click="replyCancel">取消</a>
+                                    <span v-html="parentCon.content"></span>
                                 </p>
                             </div>
                             <div ref="toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;"
@@ -202,6 +204,7 @@
                 if (!this.editor.txt.text().trim()) {
                     return layer.msg("评论内容不能为空");
                 }
+                console.log(this.comment)
                 this.comment.content = this.editor.txt.html();
                 axios.post('/post/addComment', this.comment)
                     .then(function (response) {
@@ -250,7 +253,11 @@
                 let dom = ele.currentTarget;
                 this.comment.parentId = dom.getAttribute("data-id")
                 this.parentCon.username = dom.getAttribute("data-username");
-                this.parentCon.content = $(dom).parents('li').find(".comment-content").html()
+                this.parentCon.content = $(dom).parents('li').find(".comment-content").html();
+                document.getElementById("reply").scrollIntoView();
+            },
+            replyCancel:function(){
+                this.comment.parentId = 0;
             }
         }
     });
