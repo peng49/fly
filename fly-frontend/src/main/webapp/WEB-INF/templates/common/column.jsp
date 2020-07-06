@@ -37,11 +37,9 @@
         </ul>
 
         <div class="fly-column-right layui-hide-xs">
-            <span class="fly-search"><i class="layui-icon"></i></span>
-            <a href="/post/add" class="layui-btn">发表新帖</a>
-        </div>
-        <div class="layui-hide-sm layui-show-xs-block"
-             style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
+            <span class="fly-search">
+                <i class="layui-icon icon-sousuo"></i>
+            </span>
             <a href="/post/add" class="layui-btn">发表新帖</a>
         </div>
     </div>

@@ -30,7 +30,7 @@ public class PostController {
     @GetMapping("/add")
     public ModelAndView add(ModelAndView view) {
         view.addObject("columns", columnService.getAll());
-        view.setViewName("/post/add");
+        view.setViewName("/post/edit");
         return view;
     }
 
@@ -56,7 +56,7 @@ public class PostController {
         Post post = postService.get(id);
         view.addObject("columns", columnService.getAll());
         view.addObject("post", post);
-        view.setViewName("/post/add");
+        view.setViewName("/post/edit");
         return view;
     }
 
@@ -77,9 +77,16 @@ public class PostController {
     @GetMapping("/detail/{id}")
     public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession) {
         Post post = postService.get(id);
+        boolean allowEdit = false;
+        User user = (User)httpSession.getAttribute(UserService.LOGIN_KEY);
+        if(user != null && user.getId() == post.getAuthor().getId()){
+            allowEdit = true;
+        }
+        System.out.println(allowEdit);
         view.addObject("post", post);
-        view.addObject("user", (User) httpSession.getAttribute(UserService.LOGIN_KEY));
+        view.addObject("user", user);
         view.addObject("comments", postService.getComments(id));
+        view.addObject("allowEdit",allowEdit);
         view.setViewName("/post/detail");
         postService.viewCountInc(id);
         return view;
@@ -120,9 +127,11 @@ public class PostController {
     }
 
     /**
-     * 加精
-     *
-     * @return
+     *  加精
+     * @param postId 文章Id
+     * @param httpSession session
+     * @return map response json
+     * @throws Exception
      */
     @PostMapping("/essence")
     @ResponseBody

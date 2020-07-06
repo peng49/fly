@@ -26,6 +26,7 @@ CREATE TABLE `posts`  (
   `column_id` int(11) DEFAULT NULL,
   `author_id` int(11) DEFAULT NULL COMMENT 'users 表Id',
   `title` varchar(255) DEFAULT NULL,
+  `original_content` text,
   `content` text,
   `status` tinyint(1) DEFAULT NULL,
   `reply_count` int(11) DEFAULT NULL,
