@@ -68,6 +68,7 @@ public class PostService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         post.setCreatedAt(timestamp);
         post.setUpdateAt(timestamp);
+        post.setPublishAt(timestamp);
         postMapper.create(post);
         return post;
     }
@@ -113,9 +114,6 @@ public class PostService {
                 }
             }
         }
-
-
-        System.out.println(comments);
         return comments;
     }
 

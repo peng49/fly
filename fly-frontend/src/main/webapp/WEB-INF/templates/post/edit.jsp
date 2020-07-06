@@ -19,7 +19,10 @@
         <div class="layui-form layui-form-pane">
             <div class="layui-tab layui-tab-brief">
                 <ul class="layui-tab-title">
-                    <li class="layui-this">发表新帖<!-- 编辑帖子 --></li>
+                    <li class="layui-this">
+                        <span v-if="postId > 0">编辑帖子</span>
+                        <span v-else>发表新帖</span>
+                    </li>
                 </ul>
                 <div class="layui-form layui-tab-content" style="padding: 20px 0;">
                     <div class="layui-tab-item layui-show">
@@ -71,8 +74,9 @@
         el: "#post-container",
         data: {
             editor:'',
+            postId:'${post.id}',
             postForm: {
-                columnId: 1,
+                columnId: '${post.column.id}',
                 title: "${post.title}",
                 originalContent:"",
                 content: ""

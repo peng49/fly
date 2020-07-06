@@ -1,0 +1,13 @@
+html,body{background: #F2F2F2;}
+.header {
+    padding: 0 5px;
+    text-align: center;
+    background-color: white;
+    height: 44px;
+    font-size: 15px;
+    font-weight: 500;
+    background-size: 44px 44px;
+    border-bottom: 1px solid rgba(0, 0, 0, .22);
+}
+
+.list-avatar{width: 30px;height: 30px}

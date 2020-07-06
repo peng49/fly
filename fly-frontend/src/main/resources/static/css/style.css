@@ -10,7 +10,7 @@
 /* 全局 */
 html,body{overflow-x: hidden;}
 html body{margin-top: 61px;}
-html{background-color: #F2F2F2;}
+html,body{background-color: #F2F2F2;}
 i{font-style: normal;}
 
 /* 图标 */
@@ -89,6 +89,7 @@ i{font-style: normal;}
 .icon-pinglun2:before{content:"\e62c"}
 .icon-jiaoliu:before{content:"\e6b7"}
 .icon-renzheng:before{content:"\e62e"}
+.icon-shoucang:before{content: "\f005";}
 
 
 /* 辅助 */
@@ -261,6 +262,7 @@ pre{padding: 10px 15px; margin: 10px 0; font-size: 12px; background-color: #f8f8
 .fly-list-one dd a{max-width: 85%; margin-right: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px;}
 .fly-list-one dd span{font-size: 12px; color: #ccc;}
 .fly-list-one dd:last-child{padding-bottom: 5px;}
+
 
 body .layui-edit-face{ border:none; background:none;}
 body .layui-edit-face  .layui-layer-content{padding:0; background-color:#fff; color:#666; box-shadow:none}
@@ -511,6 +513,12 @@ body .fly-user-main{position: relative; min-height: 600px;}
 }
 .reply-cancel{
   float: right;
+}
+.detail-handle{text-align: center;margin-bottom: 35px;}
+.detail-handle a{
+  border: 1px solid rgba(34,36,38,.15);
+  font-weight: 400;
+  padding: 1rem;
 }
 
 
