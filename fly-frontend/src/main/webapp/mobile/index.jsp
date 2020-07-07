@@ -12,30 +12,36 @@
 <jsp:include page="common/nav.jsp"/>
 
 <div class="weui-panel weui-panel_access">
-    <div class="weui-panel__hd">图文组合列表</div>
-    <div class="weui-panel__bd">
-        <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
-            <div class="weui-media-box__hd list-avatar">
-                <img class="weui-media-box__thumb" src="">
+    <div class="weui-panel__hd"><h3 class="black">全部</h3></div>
+    <ul class="weui-panel__bd">
+        <li>
+            <div class="item">
+                <div class="avatar">
+                    <a href="">
+                        <img src="https://img.boxopened.com/avatars/x129s291i.png">
+                    </a>
+                </div>
+                <div class="content">
+                    <div class="title">
+                        <a href="/mobile/post/view.jsp">title</a>
+                    </div>
+                    <div class="bottom">
+                        <span><a class="column" href="">column</a></span>
+                        <span class="point">•</span>
+                        <span><a class="author" href="">author</a></span>
+                        <span class="point">•</span>
+                        <span><time>time</time></span>
+                    </div>
+                </div>
+                <div class="right">
+                    <a class="number" href="">0</a>
+                </div>
             </div>
-            <div class="weui-media-box__bd">
-                <h4 class="weui-media-box__title">标题一</h4>
-                <p class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
-            </div>
-        </a>
-        <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
-            <div class="weui-media-box__hd">
-                <img class="weui-media-box__thumb" src="">
-            </div>
-            <div class="weui-media-box__bd">
-                <h4 class="weui-media-box__title">标题二</h4>
-                <p class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
-            </div>
-        </a>
-    </div>
+        </li>
+    </ul>
     <div class="weui-panel__ft">
         <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
-            <div class="weui-cell__bd">查看更多</div>
+            <div class="weui-cell__bd">下一页</div>
             <span class="weui-cell__ft"></span>
         </a>
     </div>
