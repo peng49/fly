@@ -24,12 +24,6 @@ public class ColumnController {
     public ModelAndView show(@PathVariable("id") int id, PostFilter filter, ModelAndView view, HttpServletRequest request) {
         PageHelper.startPage(filter.getPage(),filter.getPageSize());
 
-        System.out.println(request.getParameter("list"));
-
-
-
-        System.out.println(request.getQueryString());
-
         PostFilterCondition condition = new PostFilterCondition();
         condition.setColumnId(id);
         condition.setList(filter.getList());

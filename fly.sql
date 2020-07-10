@@ -32,6 +32,7 @@ CREATE TABLE `posts`  (
   `reply_count` int(11) DEFAULT NULL,
   `view_count` int(11) DEFAULT NULL,
   `publish_at` datetime DEFAULT NULL,
+  `heat` double(12,4) DEFAULT NULL COMMENT '热度',
   `created_at` datetime DEFAULT NULL,
   `update_at` datetime DEFAULT NULL,
   `essence` tinyint(1) DEFAULT NULL COMMENT '是否加精',

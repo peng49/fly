@@ -10,12 +10,16 @@
 }
 
 html, body {
-    background: #F2F2F2;
+    background: #e5ecf5;
 }
 
 a {
     color: inherit;
     text-decoration: none;
+}
+
+.panel-head{
+    padding: 0px 15px 0px;
 }
 
 .black {
@@ -30,7 +34,6 @@ a {
     font-size: 15px;
     font-weight: 500;
     background-size: 44px 44px;
-    border-bottom: 1px solid rgba(0, 0, 0, .22);
 }
 
 .list-avatar {
@@ -100,4 +103,28 @@ a {
     background: var(--tag-bg);
     border-radius: 12px;
     display: inline-block;
+}
+
+.view-content h3{
+    color: black;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
+}
+
+.view-content h1{
+    color: black;
+    font-size: 18px;
+    line-height: 1.5;
+    padding: 9px 0;
+    vertical-align: baseline;
+    font-weight: 700;
+}
+
+.content{
+    padding: 10px 10px 10px 10px;
+    border-bottom: 1px solid #e5ecf5;
+}
+.content .markdown-body{
+    padding: 0;
 }

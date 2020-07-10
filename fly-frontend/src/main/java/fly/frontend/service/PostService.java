@@ -69,12 +69,19 @@ public class PostService {
         post.setCreatedAt(timestamp);
         post.setUpdateAt(timestamp);
         post.setPublishAt(timestamp);
+
+        post.setHeat(calculationHeat(post));
+
         postMapper.create(post);
         return post;
     }
 
     public void update(Post post) {
         postMapper.update(post);
+    }
+
+    public void updateHeat(Post post){
+        postMapper.updateHeat(post);
     }
 
     public List<Post> getEveryWeekCommentMax(int limit) {
@@ -154,5 +161,27 @@ public class PostService {
         post.setColumn(column);
         System.out.println(post);
         postMapper.edit(post);
+    }
+
+    /**
+     * 计算文章热度
+     * @param post 文章
+     * @return 热度值
+     */
+    public double calculationHeat(Post post) {
+        int start = 10;
+
+        // 1*click + 5*favor + 10*comment + 20*share
+
+        //100个查看等于一个回复
+        double user = post.getViewCount() * 0.01 + post.getReplyCount();
+
+        double time = (System.currentTimeMillis() - post.getPublishAt().getTime()) / 1000.00 / 3600.00;
+
+        if (time <= 1) {
+            time = 1.00;
+        }
+
+        return (start + user) / time;
     }
 }
