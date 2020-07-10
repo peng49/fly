@@ -66,10 +66,13 @@ public interface PostMapper {
     public Post get(int id);
 
 
-    @Insert("insert into posts(column_id,author_id,title,original_content,content,status,created_at,update_at,publish_at,reply_count,view_count) values (#{column.id},#{author.id},#{title},#{originalContent},#{content},#{status},#{createdAt,jdbcType=TIMESTAMP},#{updateAt,jdbcType=TIMESTAMP},#{publishAt,jdbcType=TIMESTAMP},0,0)")
+    @Insert("insert into posts(column_id,author_id,title,original_content,content,status,created_at,update_at,publish_at,reply_count,view_count,heat) values (#{column.id},#{author.id},#{title},#{originalContent},#{content},#{status},#{createdAt,jdbcType=TIMESTAMP},#{updateAt,jdbcType=TIMESTAMP},#{publishAt,jdbcType=TIMESTAMP},0,0,#{heat})")
     public void create(Post post);
 
     public void update(Post post);
+
+    @Update("update posts set heat = #{heat} where id = #{id}")
+    public void updateHeat(Post post);
 
     @Select("select pc.*,u.username,u.avatar from post_comments as pc inner join users u on u.id = pc.user_id where pc.post_id = #{post_id}")
     @Results({

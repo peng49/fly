@@ -7,7 +7,7 @@ public class PostFilterCondition {
 
     private int columnId;
 
-    private String orderBy = "id desc";
+    private String orderBy = "heat desc";
 
     public String getList() {
         return list;

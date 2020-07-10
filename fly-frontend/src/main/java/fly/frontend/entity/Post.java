@@ -12,6 +12,7 @@ public class Post {
     private String content;
     private int viewCount;
     private int replyCount;
+    private double heat;
     private int status;
     private Timestamp publishAt;
     private Timestamp createdAt;
@@ -81,6 +82,14 @@ public class Post {
 
     public void setReplyCount(int replyCount) {
         this.replyCount = replyCount;
+    }
+
+    public double getHeat() {
+        return heat;
+    }
+
+    public void setHeat(double heat) {
+        this.heat = heat;
     }
 
     public int getStatus() {
