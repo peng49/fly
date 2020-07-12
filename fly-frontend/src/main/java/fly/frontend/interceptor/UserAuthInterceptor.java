@@ -20,15 +20,15 @@ public class UserAuthInterceptor implements HandlerInterceptor {
             throw new Exception("请先登录");
         }
 
-/*        String url = "";
+        String url = "";
         url = request.getScheme() + "://" + request.getServerName()
                 + ":" + request.getServerPort()
                 + request.getServletPath();
         if (request.getQueryString() != null) {
             url += "?" + request.getQueryString();
-        }*/
+        }
 
-        response.sendRedirect("/user/login");
+        response.sendRedirect("/user/login?redirect="+url);
         return false;
     }
 }

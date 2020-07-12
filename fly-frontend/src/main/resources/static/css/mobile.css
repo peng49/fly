@@ -11,6 +11,7 @@
 
 html, body {
     background: #e5ecf5;
+    font-size: 13px;
 }
 
 a {
@@ -18,8 +19,18 @@ a {
     text-decoration: none;
 }
 
-.panel-head{
-    padding: 0px 15px 0px;
+ul, ol {
+    list-style: none;
+}
+.left{float: left}
+.right{float: right}
+.clear{clear: both}
+
+
+.breadcrumb{
+    font-size: 13px;
+    color: #93989f;
+    font-weight: 500;
 }
 
 .black {
@@ -36,6 +47,34 @@ a {
     background-size: 44px 44px;
 }
 
+.header .right {
+    float: right;
+    font-size: 14px;
+    line-height: 45px;
+    margin-right: 5px;
+    vertical-align: baseline;
+}
+
+.nav-container{
+    background: white;
+    border: 1px solid #e5ecf5;
+    border-left: none;
+    border-right: none;
+    padding: 8px;
+    font-size: 13px;
+}
+.nav-container .nav{
+    display: flex;
+}
+.nav-container .nav ul{
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+}
+.nav-container .nav ul li{
+    margin-right: 10px;
+    line-height: 25px;
+}
 .list-avatar {
     width: 30px;
     height: 30px
@@ -43,10 +82,11 @@ a {
 
 .item {
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
     padding: 10px;
     border-bottom: 1px solid #e5ecf5;
 }
+
 
 .item .avatar {
     font-size: 0;
@@ -105,14 +145,86 @@ a {
     display: inline-block;
 }
 
-.view-content h3{
+/* panel style */
+.panel{
+    background: white;
+    margin-top: 10px;
+}
+.panel .panel-head{
+    font-weight: 700;
+    line-height: 34px;
+    padding: 0 10px;
+    font-size: 13px;
+    border-bottom: 1px solid #e5ecf5;
+}
+.panel .panel-content{
+    padding: 10px;
+}
+.panel .panel-footer{
+    font-size: 12px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    border-top: 1px solid #e5ecf5;
+}
+
+
+/* form */
+.input-group {
+    padding: 10px 15px;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.input-group .input-label {
+    display: block;
+    width: 75px;
+    word-wrap: break-word;
+    word-break: break-all;
+    text-align: right;
+    padding-right: 8px;
+}
+.input-group .input-block {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    border: 1px solid #e5ecf5;
+    border-radius: 2px;
+}
+.input-group .input-block .input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    -webkit-appearance: none;
+    background-color: transparent;
+    font-size: inherit;
+    color: inherit;
+    height: 30px;
+    line-height: 1.47058824;
+    padding-left: 5px;
+}
+
+
+
+.panel-head h1.title {
+    line-height: 1.5;
+    font: inherit;
+    font-size: 16px;
+    vertical-align: baseline;
+}
+
+.view-content h3 {
     color: black;
     font-size: 14px;
     line-height: 24px;
     font-weight: 500;
 }
 
-.view-content h1{
+.view-content h1 {
     color: black;
     font-size: 18px;
     line-height: 1.5;
@@ -121,10 +233,27 @@ a {
     font-weight: 700;
 }
 
-.content{
-    padding: 10px 10px 10px 10px;
-    border-bottom: 1px solid #e5ecf5;
-}
-.content .markdown-body{
+.panel-content .markdown-body {
     padding: 0;
+}
+
+.comment-head{
+    font-size: 12px;
+    line-height: 18px;
+}
+.comment-head .username{
+    font-weight: 600;
+    color: #728297;
+    line-height: 18px;
+}
+.comment{
+    margin-top: 6px;
+}
+.comment-parent{
+    color: #728297;
+    background: #f1f4f9;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    border: 1px solid #e5ecf5;
 }

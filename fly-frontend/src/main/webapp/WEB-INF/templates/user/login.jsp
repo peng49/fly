@@ -36,16 +36,6 @@
                                     <input type="password" v-model="loginForm.password" @keyup.enter="loginSubmit" class="layui-input">
                                 </div>
                             </div>
-                            <%--                            <div class="layui-form-item">
-                                                            <label for="L_vercode" class="layui-form-label">人类验证</label>
-                                                            <div class="layui-input-inline">
-                                                                <input type="text" id="L_vercode" name="vercode" required lay-verify="required"
-                                                                       placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
-                                                            </div>
-                                                            <div class="layui-form-mid">
-                                                                <span style="color: #c00;">{{d.vercode}}</span>
-                                                            </div>
-                                                        </div>--%>
                             <div class="layui-form-item">
                                 <button type="button" class="layui-btn" @click="loginSubmit">立即登录</button>
                                 <span style="padding-left:20px;"><a href="forget.html">忘记密码？</a></span>
@@ -82,7 +72,11 @@
                             //注册成功,转跳登录页面
                             layer.msg('登录成功');
                             setTimeout(function () {
-                                window.location.href = "/user/home";
+                                let redirect = '${redirect}';
+                                if(redirect === ''){
+                                    redirect = '/user/home'
+                                }
+                                window.location.href = redirect;
                             }, 1500);
                             return;
                         }

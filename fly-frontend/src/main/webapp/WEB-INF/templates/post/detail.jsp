@@ -85,13 +85,14 @@
                                 <a href="/post/edit/${post.id}">编辑此贴</a>
                             </span>
                         </c:if>
+                        &nbsp;
                     </div>
                 </div>
                 <div class="detail-body photos markdown-body editormd-preview-container" style="padding: 0">
                     ${post.content}
                 </div>
                 <div class="detail-handle" style="text-align: center">
-                    <a href="javascript:"><i class="iconfont"></i> 收藏(0)</a>
+                    <a href="javascript:"><i class="layui-icon"></i> 收藏(0)</a>
                     <a href="javascript:">分享</a>
                 </div>
             </div>
