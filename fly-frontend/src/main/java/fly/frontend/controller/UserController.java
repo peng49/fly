@@ -54,8 +54,10 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public ModelAndView login(ModelAndView view, HttpSession httpSession) {
+    public ModelAndView login(ModelAndView view, HttpSession httpSession,@RequestParam(value = "redirect",defaultValue = "") String redirect) {
 //        System.out.println(httpSession.getAttribute("login-user"));
+        System.out.println(redirect);
+        view.addObject("redirect",redirect);
         view.setViewName("user/login");
         return view;
     }

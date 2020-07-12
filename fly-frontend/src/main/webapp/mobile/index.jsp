@@ -23,18 +23,42 @@
                 </div>
                 <div class="content">
                     <div class="title">
-                        <a href="/mobile/post/view.jsp">title</a>
+                        <a href="/mobile/post/view.jsp">这是一个中文标题</a>
                     </div>
                     <div class="bottom">
-                        <span><a class="column" href="">column</a></span>
+                        <span><a class="column" href="">栏目</a></span>
                         <span class="point">•</span>
-                        <span><a class="author" href="">author</a></span>
+                        <span><a class="author" href="">作者</a></span>
                         <span class="point">•</span>
-                        <span><time>time</time></span>
+                        <span><time>3分钟前</time></span>
                     </div>
                 </div>
                 <div class="right">
                     <a class="number" href="">0</a>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="item">
+                <div class="avatar">
+                    <a href="">
+                        <img src="https://img.boxopened.com/avatars/x129s291i.png">
+                    </a>
+                </div>
+                <div class="content">
+                    <div class="title">
+                        <a href="/mobile/post/view.jsp">这是一个中文标题</a>
+                    </div>
+                    <div class="bottom">
+                        <span><a class="column" href="">栏目</a></span>
+                        <span class="point">•</span>
+                        <span><a class="author" href="">作者</a></span>
+                        <span class="point">•</span>
+                        <span><time>3分钟前</time></span>
+                    </div>
+                </div>
+                <div class="right">
+                    <a class="number" href="">8</a>
                 </div>
             </div>
         </li>
