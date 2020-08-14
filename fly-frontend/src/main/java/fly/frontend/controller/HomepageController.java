@@ -1,6 +1,5 @@
 package fly.frontend.controller;
 
-import fly.frontend.entity.Post;
 import fly.frontend.pojo.PostFilterCondition;
 import fly.frontend.service.PostService;
 import org.springframework.stereotype.Controller;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Controller
 @RequestMapping("/")

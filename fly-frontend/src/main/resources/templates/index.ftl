@@ -1,5 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
-    <jsp:include page="common/link.jsp"/>
+
+    <#include "common/link.ftl"/>
+
 </head>
 <body>
+<#include "common/header.ftl"/>
 
-<jsp:include page="common/header.jsp"/>
-
-<jsp:include page="common/column.jsp"/>
+<#include "common/column.ftl"/>
 
 <div class="layui-container">
     <div class="layui-row layui-col-space15">
@@ -26,11 +25,10 @@
                        style="color: #FF5722;">去签到</a>
                 </div>
                 <ul class="fly-list">
-                    <c:forEach items="${topPosts}" var="post">
+                    <#list topPosts as post>
                         <li>
                             <a href="/user/index/${post.author.id}" class="fly-avatar">
-                                <img src="${post.author.avatar}"
-                                     alt="${post.author.username}">
+                                <img src="${post.author.avatar}" alt="${post.author.username}">
                             </a>
                             <h2>
                                 <a class="layui-badge">${post.column.name}</a>
@@ -41,34 +39,31 @@
                                     <cite>${post.author.username}</cite>
                                 </a>
                                 <span>${post.publishAt}</span>
-
                                 <span class="fly-list-nums">
                                     <i class="iconfont icon-pinglun1" title="回答"></i> ${post.replyCount}
                                 </span>
                             </div>
                             <div class="fly-list-badge">
-                                <c:if test="${post.top == 1}">
+                                <#if post.top == 1>
                                     <span class="layui-badge layui-bg-black">置顶</span>
-                                </c:if>
-                                <c:if test="${post.essence == 1}">
+                                </#if>
+                                <#if post.essence == 1>
                                     <span class="layui-badge layui-bg-red">精</span>
-                                </c:if>
+                                </#if>
                             </div>
                         </li>
-                    </c:forEach>
+                    </#list>
                 </ul>
             </div>
 
             <div class="fly-panel" style="margin-bottom: 0;">
 
-                <jsp:include page="common/filter.jsp"/>
-
+                <#include "common/filter.ftl"/>
                 <ul class="fly-list">
-                    <c:forEach items="${posts}" var="post">
+                    <#list posts as post>
                         <li>
                             <a href="/user/index/${post.author.id}" class="fly-avatar">
-                                <img src="${post.author.avatar}"
-                                     alt="${post.author.username}">
+                                <img src="${post.author.avatar}" alt="${post.author.username}">
                             </a>
                             <h2>
                                 <a class="layui-badge">${post.column.name}</a>
@@ -79,21 +74,20 @@
                                     <cite>${post.author.username}</cite>
                                 </a>
                                 <span>${post.publishAt}</span>
-
                                 <span class="fly-list-nums">
                                     <i class="iconfont icon-pinglun1" title="回答"></i> ${post.replyCount}
                                 </span>
                             </div>
                             <div class="fly-list-badge">
-                                    <%--   <c:if test="${post.top == 1}">
-                                           <span class="layui-badge layui-bg-black">置顶</span>
-                                       </c:if>--%>
-                                <c:if test="${post.essence == 1}">
+                                <#if post.top == 1>
+                                    <span class="layui-badge layui-bg-black">置顶</span>
+                                </#if>
+                                <#if post.essence == 1>
                                     <span class="layui-badge layui-bg-red">精</span>
-                                </c:if>
+                                </#if>
                             </div>
                         </li>
-                    </c:forEach>
+                    </#list>
                 </ul>
                 <div style="text-align: center">
                     <div class="laypage-main">
@@ -107,33 +101,26 @@
                 <h3 class="fly-panel-title">温馨通道</h3>
                 <ul class="fly-panel-main fly-list-static">
                     <li>
-                        <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云)
-                            仓库，欢迎Star</a>
+                        <a href="http://fly.layui.com/jie/4281/" target="_blank">
+                            layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star
+                        </a>
                     </li>
                 </ul>
             </div>
 
-            <jsp:include page="common/slider/sign-in.jsp"/>
+            <#include "common/slider/sign-in.ftl"/>
 
-            <jsp:include page="common/slider/top-comment-user.jsp"/>
+            <#include "common/slider/top-comment-user.ftl"/>
 
-            <jsp:include page="common/slider/top-comment.jsp"/>
+            <#include "common/slider/top-comment.ftl"/>
 
+            <#include "common/slider/ad.ftl"/>
 
-            <div class="fly-panel">
-                <div class="fly-panel-title">
-                    这里可作为广告区域
-                </div>
-                <div class="fly-panel-main">
-                    <a href="http://layim.layui.com/?from=fly" target="_blank" class="fly-zanzhu"
-                       time-limit="2017.09.25-2099.01.01" style="background-color: #5FB878;">LayIM 3.0 - layui 旗舰之作</a>
-                </div>
-            </div>
-            <jsp:include page="common/slider/friend-link.jsp"/>
+            <#include "common/slider/friend-link.ftl"/>
         </div>
     </div>
 </div>
 
-<jsp:include page="common/footer.jsp"/>
+
 </body>
 </html>
