@@ -38,7 +38,7 @@ public class PostService {
     }
 
     public List<Post> findTop(int limit) {
-        return postMapper.findTop(4);
+        return postMapper.findTop(limit);
     }
 
     public List<Post> findByColumnId(int columnId) {
