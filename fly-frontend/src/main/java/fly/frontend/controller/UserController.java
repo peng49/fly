@@ -44,20 +44,21 @@ public class UserController {
     @GetMapping("/index/{id}")
     public ModelAndView index(@PathVariable("id") int id, ModelAndView view) {
         view.addObject("user", userService.getById(id));
-        PageHelper.startPage(1,10);
+        PageHelper.startPage(1, 10);
         view.addObject("posts", postService.findByAuthorId(id));
-        PageHelper.startPage(1,5);
-        view.addObject("comments",postCommentService.getByUserId(id));
+        PageHelper.startPage(1, 5);
+        view.addObject("comments", postCommentService.getByUserId(id));
         PageHelper.clearPage();
         view.setViewName("user/index");
         return view;
     }
 
     @GetMapping("/login")
-    public ModelAndView login(ModelAndView view, HttpSession httpSession,@RequestParam(value = "redirect",defaultValue = "") String redirect) {
-//        System.out.println(httpSession.getAttribute("login-user"));
-        System.out.println(redirect);
-        view.addObject("redirect",redirect);
+    public ModelAndView login(ModelAndView view, HttpSession httpSession, @RequestParam(value = "redirect", defaultValue = "") String redirect) {
+        if (httpSession.getAttribute("login-user") != null) {
+            //todo redirect
+        }
+        view.addObject("redirect", redirect);
         view.setViewName("user/login");
         return view;
     }
@@ -90,7 +91,7 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    public Map<Object, Object> register(@RequestBody UserRegister register) throws Exception {
+    public Map<Object, Object> register(@RequestBody @Validated UserRegister register) throws Exception {
         User user = userService.register(register);
         System.out.println(register);
 
@@ -102,9 +103,9 @@ public class UserController {
     }
 
     @GetMapping("/home")
-    public ModelAndView home(ModelAndView view,HttpSession httpSession) {
+    public ModelAndView home(ModelAndView view, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        view.addObject("user",user);
+        view.addObject("user", user);
         view.setViewName("user/home");
         return view;
     }
@@ -167,14 +168,14 @@ public class UserController {
                 //一次遍历所有文件
                 MultipartFile file = multiRequest.getFile(iter.next().toString());
                 if (file != null) {
-                    String filename = UUID.randomUUID()+file.getOriginalFilename().substring(file.getOriginalFilename().indexOf('.')).toLowerCase();
+                    String filename = UUID.randomUUID() + file.getOriginalFilename().substring(file.getOriginalFilename().indexOf('.')).toLowerCase();
 
                     String path = userDir + filename;
                     //上传
                     file.transferTo(new File(path));
                     System.out.println(path);
                     System.out.println(filename);
-                    userService.updateAvatar(user,"/static/"+filename);
+                    userService.updateAvatar(user, "/static/" + filename);
                 }
             }
         }

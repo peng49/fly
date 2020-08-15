@@ -13,7 +13,7 @@
 <#include "../common/header.ftl" />
 
 <div class="fly-home fly-panel" style="background-image: url('http://');">
-    <img src="${user.avatar}" alt="${user.username}">
+    <img src="${(user.avatar)!}" alt="${user.username}">
     <h1>
         ${user.username}
     </h1>
