@@ -184,7 +184,7 @@
 </div>
 
 <jsp:include page="../common/footer.jsp"/>
-<script type="text/javascript" src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/wangEditor/10.0.13/wangEditor.min.js"></script>
 <script type="text/javascript">
     new Vue({
         el: "#post-container",
