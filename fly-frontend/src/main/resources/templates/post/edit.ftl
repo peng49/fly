@@ -74,7 +74,7 @@
             editor: '',
             postId: '${(post.id)!}',
             postForm: {
-                columnId: '${(post.column.id)!}',
+                columnId: '${(post.column.id)!1}',
                 title: "${(post.title)!}",
                 originalContent: "",
                 content: ""
