@@ -2,18 +2,16 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>基于 layui 的极简社区页面模版</title>
+    <title>技术社区</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="fly,layui,前端社区">
-    <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+    <meta name="keywords" content="未定">
+    <meta name="description" content="未定">
 
     <#include "common/link.ftl"/>
-
 </head>
 <body>
 <#include "common/header.ftl"/>
 
-<#include "common/column.ftl"/>
 
 <div class="layui-container">
     <div class="layui-row layui-col-space15">
@@ -97,17 +95,6 @@
             </div>
         </div>
         <div class="layui-col-md4">
-            <div class="fly-panel">
-                <h3 class="fly-panel-title">温馨通道</h3>
-                <ul class="fly-panel-main fly-list-static">
-                    <li>
-                        <a href="http://fly.layui.com/jie/4281/" target="_blank">
-                            layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
             <#include "common/slider/sign-in.ftl"/>
 
             <#include "common/slider/top-comment-user.ftl"/>
@@ -121,6 +108,7 @@
     </div>
 </div>
 
+<#include "common/footer.ftl"/>
 
 </body>
 </html>

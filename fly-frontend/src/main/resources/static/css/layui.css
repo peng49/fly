@@ -595,7 +595,7 @@ a cite {
     }
 
     .layui-col-md4 {
-        width: 33.33333333%
+        width: 30.333333%
     }
 
     .layui-col-md5 {
@@ -611,7 +611,7 @@ a cite {
     }
 
     .layui-col-md8 {
-        width: 66.66666667%
+        width: 69.666667%;
     }
 
     .layui-col-md9 {
@@ -681,7 +681,7 @@ a cite {
 
 @media screen and (min-width: 1200px) {
     .layui-container {
-        width: 1170px
+        width: 980px;
     }
 
     .layui-hide-lg {
