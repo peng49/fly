@@ -89,7 +89,7 @@
                 </ul>
                 <div style="text-align: center">
                     <div class="laypage-main">
-                        <a href="javascript:" class="laypage-next">更多求解</a>
+                        <a href="javascript:" class="laypage-next">更多</a>
                     </div>
                 </div>
             </div>
