@@ -83,18 +83,28 @@
         mounted: function () {
             this.editor = editormd('editor', {
                 path: "/static/editor.md/lib/",
+                /**
+                 *  full:["undo","redo","|","bold","del","italic","quote","ucwords","uppercase","lowercase","|","h1","h2","h3","h4","h5","h6","|","list-ul","list-ol","hr","|","link","reference-link","image","code","preformatted-text","code-block","table","datetime","emoji","html-entities","pagebreak","|","goto-line","watch","preview","fullscreen","clear","search","|","help","info"],
+                 simple:["undo","redo","|","bold","del","italic","quote","uppercase","lowercase","|","h1","h2","h3","h4","h5","h6","|","list-ul","list-ol","hr","|","watch","preview","fullscreen","|","help","info"],
+                 mini:["undo","redo","|","watch","preview","|","help","info"]
+                 * @returns {string[]}
+                 */
+                toolbarIcons: function () {
+                    return ["undo", "redo", "|", "bold", "hr", "watch"]
+                },
                 saveHTMLToTextarea: true,
                 height: "100%",
+                watch: true
             })
         },
         methods: {
             submitForm: function () {
                 console.log(this.editor.getMarkdown());
                 console.log(this.editor.getHTML());
-                console.log(this.editor.getPreviewedHTML());
+                console.log(this.editor.previewContainer.html());
 
                 this.postForm.originalContent = this.editor.getMarkdown();
-                this.postForm.content = this.editor.getPreviewedHTML();
+                this.postForm.content = this.editor.previewContainer.html();
                 axios.post(window.location.pathname, this.postForm)
                     .then(function (response) {
                         if (response.code === "success") {

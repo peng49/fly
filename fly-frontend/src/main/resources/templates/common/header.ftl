@@ -1,72 +1,31 @@
-<div class="fly-header layui-bg-black">
+<div class="fly-header fly-panel fly-column">
     <div class="layui-container">
-        <a class="fly-logo" href="/">
-            <img src="/static/images/logo.png" alt="layui">
-        </a>
-        <ul class="layui-nav fly-nav layui-hide-xs">
-            <li class="layui-nav-item layui-this">
-                <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="javascript:"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="javascript:"><i class="iconfont icon-ui"></i>框架</a>
-            </li>
-        </ul>
+        <ul id="columns" class="layui-clear">
+            <li class="column"><a href="/">首页</a></li>
 
-        <ul class="layui-nav fly-nav-user">
-            <#if Session["login-user"]??>
-                <!-- 登入后的状态 -->
-                <li class="layui-nav-item">
-                    <a class="fly-nav-avatar" href="javascript:;">
-                        <cite class="layui-hide-xs">
-                            ${Session["login-user"].username!''}
-                        </cite>
-                        <img src="${Session["login-user"].avatar!''}">
+            <#list columns as column>
+                <li class="column">
+                    <a href="/column/${column.id}">
+                        ${column.name}
                     </a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="/user/home#user-setting">
-                                <i class="layui-icon">&#xe620;</i>基本设置
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="/user/home#user-message">
-                                <i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="/user/index/${Session["login-user"].id!''}">
-                                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页
-                            </a>
-                        </dd>
-                        <hr style="margin: 5px 0;">
-                        <dd>
-                            <a href="/user/logout/" style="text-align: center;">退出</a>
-                        </dd>
-                    </dl>
                 </li>
-            <#else >
-                <!-- 未登入的状态 -->
-                <li class="layui-nav-item">
-                    <a class="iconfont icon-touxiang layui-hide-xs" href="/user/login"></a>
+            </#list>
+
+            <#if Session["login-user"]??>
+                <!-- 用户登入后显示 -->
+                <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">
+                    <a href="/user/home">我发表的贴</a>
                 </li>
-                <li class="layui-nav-item">
-                    <a href="/user/login">登入</a>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="/user/register">注册</a>
-                </li>
-                <li class="layui-nav-item layui-hide-xs">
-                    <a href="" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入"
-                       class="iconfont icon-qq"></a>
-                </li>
-                <li class="layui-nav-item layui-hide-xs">
-                    <a href="" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入"
-                       class="iconfont icon-weibo"></a>
-                </li>
+                <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">
+                    <a href="/user/home#collection">我收藏的贴</a></li>
             </#if>
         </ul>
+
+        <div class="fly-column-right layui-hide-xs">
+            <span class="fly-search">
+                <i class="layui-icon icon-sousuo"></i>
+            </span>
+            <a href="/post/add" class="layui-btn">发表新帖</a>
+        </div>
     </div>
 </div>

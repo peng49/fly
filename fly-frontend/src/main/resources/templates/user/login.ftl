@@ -76,7 +76,7 @@
                                     redirect = '/user/home'
                                 }
                                 window.location.href = redirect;
-                            }, 1500);
+                            }, 500);
                             return;
                         }
                         layer.msg(response.message)
