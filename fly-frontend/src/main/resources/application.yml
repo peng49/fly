@@ -11,6 +11,7 @@ spring:
   freemarker:
     template-loader-path: classpath:/templates/
     suffix: .ftl
+    request-context-attribute: request
   resources:
     static-locations: classpath:/static/,file:F:/develop/vagrant-java/fly-avatar/
   #数据源配置

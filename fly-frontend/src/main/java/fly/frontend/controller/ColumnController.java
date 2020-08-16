@@ -28,7 +28,12 @@ public class ColumnController {
         condition.setColumnId(id);
         condition.setList(filter.getList());
 
-        view.addObject("posts",(Page)postService.getByCondition(condition));
+        Page posts = (Page) postService.getByCondition(condition);
+        view.addObject("posts",posts);
+
+        view.addObject("list_total",posts.getTotal());
+        view.addObject("current_page",posts.getPageNum());
+        view.addObject("page_size",posts.getPageSize());
         view.setViewName("post/list");
         return view;
     }

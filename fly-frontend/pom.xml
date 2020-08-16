@@ -85,13 +85,13 @@
             </plugin>
         </plugins>
         <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>**.yml</exclude>
-                </excludes>
-            </resource>
+            <!--<resource>-->
+                <!--<directory>src/main/resources</directory>-->
+                <!--<filtering>false</filtering>-->
+                <!--<excludes>-->
+                    <!--<exclude>**.yml</exclude>-->
+                <!--</excludes>-->
+            <!--</resource>-->
         </resources>
     </build>
 </project>
