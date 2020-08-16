@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.regex.*;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/")
@@ -15,14 +18,25 @@ public class HomepageController {
     @Resource
     private PostService postService;
 
+    protected boolean isMobile(HttpServletRequest request) {
+        String userAgent = request.getHeader("User-Agent");
+        boolean matches = Pattern.matches(".*(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone).*", userAgent);
+        return matches;
+    }
+
     @RequestMapping("/")
-    public ModelAndView index(ModelAndView view, @RequestParam(defaultValue = "all") String list) {
+    public ModelAndView index(HttpServletRequest request, ModelAndView view, @RequestParam(defaultValue = "all") String list) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setList(list);
 
-        view.addObject("topPosts",postService.findTop(4));
-        view.addObject("posts",postService.getByCondition(condition));
-        view.setViewName("index");
+        view.addObject("topPosts", postService.findTop(4));
+        view.addObject("posts", postService.getByCondition(condition));
+
+        if (this.isMobile(request)) {
+            view.setViewName("m/index");
+        } else {
+            view.setViewName("index");
+        }
         return view;
     }
 

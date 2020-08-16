@@ -23,8 +23,4 @@ public class TextUtils {
         }
         return timestamp.toString();
     }
-
-    public static String renderPageTpl(int total, int currentPage, int pageSize) {
-        return "";
-    }
 }
