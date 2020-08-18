@@ -5,11 +5,11 @@
     <meta charset='utf-8'>
     <title>详情页</title>
     <link rel="stylesheet" href="/static/editor.md/css/editormd.min.css"/>
-    <#include "../common/link.ftl" />
+    <#include "../base/link.ftl" />
 </head>
 <body>
-<#include "../common/header.ftl" />
-<#include "../common/nav.ftl" />
+<#include "../base/header.ftl" />
+<#include "../base/nav.ftl" />
 
 <div class="panel">
     <div class="panel-head">
@@ -73,6 +73,6 @@
     </div>
 </div>
 
-<#include "../common/footer.ftl"/>
+<#include "../base/footer.ftl"/>
 </body>
 </html>

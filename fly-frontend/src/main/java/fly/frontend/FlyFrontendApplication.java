@@ -8,9 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @MapperScan("fly.frontend.mapper")
-public class SpringMainApplication {
+public class FlyFrontendApplication {
     public static void main(String[] args) {
-        org.springframework.boot.SpringApplication.run(SpringMainApplication.class, args);
+        org.springframework.boot.SpringApplication.run(FlyFrontendApplication.class, args);
     }
 
     @Bean

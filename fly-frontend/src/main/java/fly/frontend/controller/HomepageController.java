@@ -20,8 +20,7 @@ public class HomepageController {
 
     protected boolean isMobile(HttpServletRequest request) {
         String userAgent = request.getHeader("User-Agent");
-        boolean matches = Pattern.matches(".*(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone).*", userAgent);
-        return matches;
+        return Pattern.matches(".*(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone).*", userAgent);
     }
 
     @RequestMapping("/")
@@ -33,17 +32,10 @@ public class HomepageController {
         view.addObject("posts", postService.getByCondition(condition));
 
         if (this.isMobile(request)) {
-            view.setViewName("m/index");
+            view.setViewName("wap/index");
         } else {
             view.setViewName("index");
         }
-        return view;
-    }
-
-    @RequestMapping("/test")
-    public ModelAndView test() {
-        ModelAndView view = new ModelAndView("test");
-        view.addObject("word", "test");
         return view;
     }
 }
