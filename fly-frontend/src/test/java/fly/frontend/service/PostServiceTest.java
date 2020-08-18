@@ -1,6 +1,6 @@
 package fly.frontend.service;
 
-import fly.frontend.SpringMainApplication;
+import fly.frontend.FlyFrontendApplication;
 import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
 import fly.frontend.pojo.PostEdit;
@@ -13,10 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {SpringMainApplication.class})
+@SpringBootTest(classes = {FlyFrontendApplication.class})
 public class PostServiceTest {
     @Resource
     private PostService postService;
+    
 
     @Test
     public void findAllTest()
@@ -54,5 +55,11 @@ public class PostServiceTest {
         User user = new User();
         user.setId(1);
         postService.create(postAdd,user);
+    }
+
+    @Test
+    public void templateTest()
+    {
+        String tpl = "m/common/link.ftl";
     }
 }

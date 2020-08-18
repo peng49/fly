@@ -1,6 +1,6 @@
 package fly.frontend.service;
 
-import fly.frontend.SpringMainApplication;
+import fly.frontend.FlyFrontendApplication;
 import fly.frontend.pojo.UserLogin;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {SpringMainApplication.class})
+@SpringBootTest(classes = {FlyFrontendApplication.class})
 public class UserServiceTest {
 
     @Autowired

@@ -4,11 +4,11 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset='utf-8'>
     <title>首页</title>
-    <#include "common/link.ftl "/>
+    <#include "base/link.ftl" />
 </head>
 <body>
-<#include "common/header.ftl "/>
-<#include "common/nav.ftl "/>
+<#include "base/header.ftl" />
+<#include "base/nav.ftl" />
 
 <div class="weui-panel weui-panel_access">
     <div class="weui-panel__hd"><h3 class="black">全部</h3></div>
@@ -47,6 +47,6 @@
         </a>
     </div>
 </div>
-<#include "common/footer.ftl "/>
+<#include "base/footer.ftl" />
 </body>
 </html>
