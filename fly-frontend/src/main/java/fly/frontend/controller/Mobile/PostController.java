@@ -27,7 +27,7 @@ public class PostController {
         List<PostComment> comments = postService.getComments(post.getId());
         view.addObject("comments",comments);
 
-        view.setViewName("m/post/detail");
+        view.setViewName("wap/post/detail");
         return view;
     }
 }
