@@ -81,7 +81,8 @@
             }
         },
         mounted: function () {
-            this.editor = editormd('editor', {
+            let _this = this;
+            _this.editor = editormd('editor', {
                 path: "/static/editor.md/lib/",
                 /**
                  *  full:["undo","redo","|","bold","del","italic","quote","ucwords","uppercase","lowercase","|","h1","h2","h3","h4","h5","h6","|","list-ul","list-ol","hr","|","link","reference-link","image","code","preformatted-text","code-block","table","datetime","emoji","html-entities","pagebreak","|","goto-line","watch","preview","fullscreen","clear","search","|","help","info"],
@@ -94,7 +95,15 @@
                 },
                 saveHTMLToTextarea: true,
                 height: "100%",
-                watch: true
+                watch: true,
+                imageUpload: true, //开启图片上传
+                imageUploadURL: '/post/upload', //图片上传后台地址
+                onload: function() {
+                    // 引入插件 执行监听方法
+                    editormd.loadPlugin("/static/editor.md/plugins/image-handle-paste/image-handle-paste", function(){
+                        _this.editor.imagePaste();
+                    });
+                }
             })
         },
         methods: {

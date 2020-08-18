@@ -163,7 +163,7 @@ public class UserController {
             //将request变成多部分request
             MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
             //获取multiRequest 中所有的文件名
-            Iterator iter = multiRequest.getFileNames();
+            Iterator<String> iter = multiRequest.getFileNames();
             while (iter.hasNext()) {
                 //一次遍历所有文件
                 MultipartFile file = multiRequest.getFile(iter.next().toString());
