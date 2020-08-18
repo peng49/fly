@@ -8,21 +8,30 @@ import fly.frontend.pojo.PostCommentAdd;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 @RequestMapping("/post")
 public class PostController {
     @Resource
     private PostService postService;
+
+    @Value("${user.avatar-dir}")
+    private String userDir;
 
     @Resource
     private ColumnService columnService;
@@ -62,11 +71,11 @@ public class PostController {
 
     @PostMapping("/edit/{id}")
     @ResponseBody
-    public Map edit(@PathVariable("id") int id,@RequestBody @Validated PostEdit postEdit) {
+    public Map edit(@PathVariable("id") int id, @RequestBody @Validated PostEdit postEdit) {
         Post post = postService.get(id);
         System.out.println(post);
         System.out.println(postEdit);
-        postService.edit(post,postEdit);
+        postService.edit(post, postEdit);
 
         Map<Object, Object> map = new HashMap<>();
         map.put("code", "success");
@@ -78,15 +87,15 @@ public class PostController {
     public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession) {
         Post post = postService.get(id);
         boolean allowEdit = false;
-        User user = (User)httpSession.getAttribute(UserService.LOGIN_KEY);
-        if(user != null && user.getId() == post.getAuthor().getId()){
+        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+        if (user != null && user.getId() == post.getAuthor().getId()) {
             allowEdit = true;
         }
         System.out.println(allowEdit);
         view.addObject("post", post);
         view.addObject("user", user);
         view.addObject("comments", postService.getComments(id));
-        view.addObject("allowEdit",allowEdit);
+        view.addObject("allowEdit", allowEdit);
         view.setViewName("/post/detail");
         postService.viewCountInc(id);
         return view;
@@ -127,8 +136,9 @@ public class PostController {
     }
 
     /**
-     *  加精
-     * @param postId 文章Id
+     * 加精
+     *
+     * @param postId      文章Id
      * @param httpSession session
      * @return map response json
      * @throws Exception
@@ -147,6 +157,37 @@ public class PostController {
         Map<Object, Object> map = new HashMap<>();
         map.put("code", "success");
         map.put("message", "OK");
+        return map;
+    }
+
+
+    @PostMapping("/upload")
+    @ResponseBody
+    public Map<Object, Object> upload(HttpServletRequest request, HttpSession session) throws IOException {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        String url = "";
+        if (multipartResolver.isMultipart(request)) {
+            //将request变成多部分request
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+            //获取multiRequest 中所有的文件名
+            Iterator<String> iter = multiRequest.getFileNames();
+            while (iter.hasNext()) {
+                //一次遍历所有文件
+                MultipartFile file = multiRequest.getFile(iter.next().toString());
+                if (file != null) {
+                    String filename = UUID.randomUUID() + Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().indexOf('.')).toLowerCase();
+                    String path = userDir + filename;
+                    //上传
+                    file.transferTo(new File(path));
+                    url = "/static/" + filename;
+                }
+            }
+        }
+        
+        Map<Object, Object> map = new HashMap<>();
+        map.put("code", "success");
+        map.put("message", "OK");
+        map.put("url", url);
         return map;
     }
 }
