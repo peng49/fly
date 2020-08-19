@@ -11,22 +11,36 @@
 <#include "../base/header.ftl" />
 <#include "../base/nav.ftl" />
 
-<div class="panel">
-    <div class="panel-head">
-        <p class="breadcrumb"><span>首页</span> / <a href="">详情</a></p>
+<div class="post-box">
+    <div class="post-detail">
         <h1 class="title">${post.title!}</h1>
-    </div>
-    <div class="panel-content">
-        <div class="markdown-body editormd-preview-container">
+
+        <div class="post-info">
+            <span class="column">${(post.column.name)!}</span>
+
+            <span class="post-nums" style="position: absolute;right: 0;font-size: 16px;">
+                <a href="javascript:"><i title="回复" class="iconfont"></i> ${(post.replyCount)!0}</a>
+                <i title="点击" class="iconfont"></i> ${(post.viewCount)!0}
+            </span>
+        </div>
+        <div class="post-about">
+            <a href="/user/index/${(post.author.id)!}" class="avatar">
+                <img src="${(post.author.avatar)!''}" alt="knight">
+            </a>
+            <div class="post-author">
+                <a href="/user/index/${(post.author.id)!}" class="link">
+                    <cite>${(post.author.username)!}</cite>
+                </a>
+                <span>${post.publishAt}</span>
+            </div>
+            <div class="post-hits">
+                &nbsp;
+            </div>
+        </div>
+
+        <div class="markdown-body editormd-preview-container post-content">
             ${post.content!}
         </div>
-    </div>
-    <div class="panel-footer">
-        <span><a class="column" href="">${(post.column.name)!}</a></span>
-        <span class="point">•</span>
-        <span><a class="author" href="">${(post.author.username)!}</a></span>
-        <span class="point">•</span>
-        <span><time>6分钟前</time></span>
     </div>
 </div>
 

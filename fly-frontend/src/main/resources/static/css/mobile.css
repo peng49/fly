@@ -9,6 +9,12 @@
     border: 0;
 }
 
+@font-face {
+    font-family: layui-icon;
+    src: url(./font/iconfont.eot?v=220);
+    src: url(./font/iconfont.eot?v=220#iefix) format('embedded-opentype'), url(./font/iconfont.svg?v=220#iconfont) format('svg'), url(./font/iconfont.woff?v=220) format('woff'), url(./font/iconfont.ttf?v=220) format('truetype')
+}
+
 html, body {
     background: #e5ecf5;
     font-size: 13px;
@@ -19,15 +25,42 @@ a {
     text-decoration: none;
 }
 
+a cite {
+    font-style: normal;
+}
+
 ul, ol {
     list-style: none;
 }
-.left{float: left}
-.right{float: right}
-.clear{clear: both}
+pre {
+    white-space: nowrap !important;
+}
+
+.iconfont {
+    font-family: "layui-icon" !important;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+}
+
+.left {
+    float: left
+}
+
+.right {
+    float: right
+}
+
+.clear {
+    clear: both
+}
+
+.link {
+    color: #01AAED;
+}
 
 
-.breadcrumb{
+.breadcrumb {
     font-size: 13px;
     color: #93989f;
     font-weight: 500;
@@ -55,7 +88,7 @@ ul, ol {
     vertical-align: baseline;
 }
 
-.nav-container{
+.nav-container {
     background: white;
     border: 1px solid #e5ecf5;
     border-left: none;
@@ -63,18 +96,22 @@ ul, ol {
     padding: 8px;
     font-size: 13px;
 }
-.nav-container .nav{
+
+.nav-container .nav {
     display: flex;
 }
-.nav-container .nav ul{
+
+.nav-container .nav ul {
     display: flex;
     flex: 1;
     flex-wrap: wrap;
 }
-.nav-container .nav ul li{
+
+.nav-container .nav ul li {
     margin-right: 10px;
     line-height: 25px;
 }
+
 .list-avatar {
     width: 30px;
     height: 30px
@@ -146,21 +183,24 @@ ul, ol {
 }
 
 /* panel style */
-.panel{
+.panel {
     background: white;
     margin-top: 10px;
 }
-.panel .panel-head{
+
+.panel .panel-head {
     font-weight: 700;
     line-height: 34px;
     padding: 0 10px;
     font-size: 13px;
     border-bottom: 1px solid #e5ecf5;
 }
-.panel .panel-content{
+
+.panel .panel-content {
     padding: 10px;
 }
-.panel .panel-footer{
+
+.panel .panel-footer {
     font-size: 12px;
     height: 30px;
     line-height: 30px;
@@ -180,6 +220,7 @@ ul, ol {
     -webkit-align-items: center;
     align-items: center;
 }
+
 .input-group .input-label {
     display: block;
     width: 75px;
@@ -188,6 +229,7 @@ ul, ol {
     text-align: right;
     padding-right: 8px;
 }
+
 .input-group .input-block {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
@@ -195,6 +237,7 @@ ul, ol {
     border: 1px solid #e5ecf5;
     border-radius: 2px;
 }
+
 .input-group .input-block .input {
     width: 100%;
     border: 0;
@@ -207,7 +250,6 @@ ul, ol {
     line-height: 1.47058824;
     padding-left: 5px;
 }
-
 
 
 .panel-head h1.title {
@@ -233,23 +275,84 @@ ul, ol {
     font-weight: 700;
 }
 
-.panel-content .markdown-body {
-    padding: 0;
+.post-box {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 10px
 }
 
-.comment-head{
+.post-box h1 {
+    font: 24px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+    line-height: 36px;
+}
+
+.post-box .post-info {
+    position: relative;
+    margin: 10px 0 15px;
+}
+
+.post-box .post-about {
+    position: relative;
+    line-height: 20px;
+    padding: 15px 15px 15px 75px;
+    font-size: 13px;
+    background-color: #f8f8f8;
+    color: #999;
+}
+
+.post-box .post-about .avatar {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+}
+
+.post-box .post-about img {
+    display: block;
+    width: 45px;
+    height: 45px;
+    margin: 0;
+    border-radius: 2px;
+}
+
+.post-box .post-about .post-author {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+
+.post-box .post-content {
+    padding: 0;
+    margin: 20px 0 0;
+}
+
+.post-nums{
+    position: absolute;
+    right: 0;
+    font-size: 16px;
+    top: -6px;
+}
+.post-nums i{
+    padding: 0 3px 0 15px;
+    font-size: 22px;
+    color: #999;
+}
+
+.comment-head {
     font-size: 12px;
     line-height: 18px;
 }
-.comment-head .username{
+
+.comment-head .username {
     font-weight: 600;
     color: #728297;
     line-height: 18px;
 }
-.comment{
+
+.comment {
     margin-top: 6px;
 }
-.comment-parent{
+
+.comment-parent {
     color: #728297;
     background: #f1f4f9;
     padding: 8px;
