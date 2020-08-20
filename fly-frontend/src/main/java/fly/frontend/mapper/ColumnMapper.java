@@ -10,4 +10,7 @@ import java.util.List;
 public interface ColumnMapper {
     @Select("select * from columns")
     public List<Column> getAll();
+
+    @Select("select * from columns where id = #{id}")
+    Column get(int id);
 }

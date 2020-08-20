@@ -8,6 +8,7 @@ import fly.frontend.pojo.PostCommentAdd;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
+import fly.frontend.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -84,19 +85,23 @@ public class PostController {
     }
 
     @GetMapping("/detail/{id}")
-    public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession) {
+    public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession, HttpServletRequest request) {
         Post post = postService.get(id);
         boolean allowEdit = false;
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         if (user != null && user.getId() == post.getAuthor().getId()) {
             allowEdit = true;
         }
-        System.out.println(allowEdit);
+
         view.addObject("post", post);
         view.addObject("user", user);
         view.addObject("comments", postService.getComments(id));
         view.addObject("allowEdit", allowEdit);
-        view.setViewName("/post/detail");
+        if (HttpUtils.isMobile(request)) {
+            view.setViewName("wap/post/detail");
+        } else {
+            view.setViewName("/post/detail");
+        }
         postService.viewCountInc(id);
         return view;
     }
@@ -183,7 +188,7 @@ public class PostController {
                 }
             }
         }
-        
+
         Map<Object, Object> map = new HashMap<>();
         map.put("code", "success");
         map.put("message", "OK");

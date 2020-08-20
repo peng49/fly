@@ -3,7 +3,7 @@
         <ul>
             <li class=""><a href="/">全部</a></li>
             <#list columns as column>
-                <li><a href="">${column.name}</a></li>
+                <li><a href="/column/${column.id}">${column.name}</a></li>
             </#list>
         </ul>
         <a class="" href="/">发布</a></div>
