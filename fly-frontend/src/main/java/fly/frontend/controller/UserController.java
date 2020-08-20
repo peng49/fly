@@ -9,6 +9,7 @@ import fly.frontend.pojo.UserRegister;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
+import fly.frontend.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -54,12 +55,18 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public ModelAndView login(ModelAndView view, HttpSession httpSession, @RequestParam(value = "redirect", defaultValue = "") String redirect) {
+    public ModelAndView login(ModelAndView view, HttpSession httpSession, @RequestParam(value = "redirect", defaultValue = "") String redirect, HttpServletRequest request) {
         if (httpSession.getAttribute("login-user") != null) {
             //todo redirect
         }
         view.addObject("redirect", redirect);
-        view.setViewName("user/login");
+
+        if (HttpUtils.isMobile(request)) {
+            view.setViewName("wap/user/login");
+        } else {
+            view.setViewName("user/login");
+        }
+
         return view;
     }
 
@@ -84,8 +91,12 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public ModelAndView register(ModelAndView view) {
-        view.setViewName("user/register");
+    public ModelAndView register(ModelAndView view, HttpServletRequest request) {
+        if (HttpUtils.isMobile(request)) {
+            view.setViewName("wap/user/register");
+        } else {
+            view.setViewName("user/register");
+        }
         return view;
     }
 

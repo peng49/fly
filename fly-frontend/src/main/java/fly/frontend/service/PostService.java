@@ -159,7 +159,7 @@ public class PostService {
         Column column = new Column();
         column.setId(postEdit.getColumnId());
         post.setColumn(column);
-        System.out.println(post);
+
         postMapper.edit(post);
     }
 

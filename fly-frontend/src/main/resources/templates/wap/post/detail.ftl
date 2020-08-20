@@ -46,7 +46,7 @@
 
 <div class="panel">
     <div class="panel-head">
-        <p>共1条评论</p>
+        <p>共${comments?size}条评论</p>
     </div>
     <div class="panel-content">
         <ul class="comments">
@@ -81,7 +81,7 @@
                     </div>
                 </li>
             <#else>
-            <#--暂无评论-->
+                <li>暂无评论</li>
             </#list>
         </ul>
     </div>
