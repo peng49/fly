@@ -251,6 +251,18 @@ pre {
     padding-left: 5px;
 }
 
+.btn-group{
+    padding: 5px 15px;
+}
+
+.btn-group span.btn-left-text{display: inline-block;
+    line-height: 2.3;
+    font-size: 13px;
+    padding-right: 12px;
+    position: relative;
+    top: -9px;
+}
+
 
 .panel-head h1.title {
     line-height: 1.5;

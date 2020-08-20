@@ -182,6 +182,7 @@
         mounted() {
             this.initEditor()
             this.editor.txt.html(this.comment.content)
+            this.initCopyBtn()
         },
         methods: {
             initEditor: function () {
@@ -263,6 +264,9 @@
             },
             replyCancel: function () {
                 this.comment.parentId = 0;
+            },
+            initCopyBtn: function(){
+
             }
         }
     });
