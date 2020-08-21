@@ -49,6 +49,8 @@
                             <i>${post.publishAt}</i>
                             <em class="layui-hide-xs">${post.viewCount}阅/${post.replyCount}答</em>
                         </li>
+                    <#else>
+                        <li>无</li>
                     </#list>
                 </ul>
             </div>
@@ -69,6 +71,8 @@
                                 ${comment.content}
                             </div>
                         </li>
+                    <#else>
+                        <li>无</li>
                     </#list>
                 </ul>
             </div>
