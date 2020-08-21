@@ -34,6 +34,7 @@ public class HomepageController {
         condition.setList(list);
 
         view.addObject("topPosts", postService.findTop(4));
+
         view.addObject("posts", postService.getByCondition(condition));
 
         if (HttpUtils.isMobile(request)) {

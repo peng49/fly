@@ -17,7 +17,7 @@
 
 html, body {
     background: #e5ecf5;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 a {
@@ -191,6 +191,7 @@ pre {
 .panel, .row {
     background: white;
     margin-top: 10px;
+    font-size: 13px;
 }
 
 .panel .panel-head {
@@ -300,7 +301,8 @@ pre {
 .post-box {
     background-color: #fff;
     padding: 20px;
-    margin-top: 10px
+    margin-top: 10px;
+    font-size: 13px;
 }
 
 .post-box h1 {

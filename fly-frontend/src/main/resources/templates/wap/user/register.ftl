@@ -17,49 +17,53 @@
         </div>
         <div class="panel-content">
             <div class="form">
-                <div class="input-group">
-                    <div class="input-label">
-                        <label class="label">用户名</label>
+                <form action="">
+                    <div class="input-group">
+                        <div class="input-label">
+                            <label class="label">用户名</label>
+                        </div>
+                        <div class="input-block">
+                            <input class="input" name="username" type="text"/>
+                        </div>
                     </div>
-                    <div class="input-block">
-                        <input class="input" type="text"/>
+                    <div class="input-group">
+                        <div class="input-label">
+                            <label class="label">邮箱</label>
+                        </div>
+                        <div class="input-block">
+                            <input class="input" name="email" type="text"/>
+                        </div>
                     </div>
-                </div>
-                <div class="input-group">
-                    <div class="input-label">
-                        <label class="label">邮箱</label>
+                    <div class="input-group">
+                        <div class="input-label">
+                            <label class="label">密码</label>
+                        </div>
+                        <div class="input-block">
+                            <input class="input" name="password" type="password"/>
+                        </div>
                     </div>
-                    <div class="input-block">
-                        <input class="input" type="text"/>
+                    <div class="input-group">
+                        <div class="input-label">
+                            <label class="label">确认密码</label>
+                        </div>
+                        <div class="input-block">
+                            <input class="input" name="confirmPassword" type="password"/>
+                        </div>
                     </div>
-                </div>
-                <div class="input-group">
-                    <div class="input-label">
-                        <label class="label">密码</label>
-                    </div>
-                    <div class="input-block">
-                        <input class="input" type="text"/>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <div class="input-label">
-                        <label class="label">确认密码</label>
-                    </div>
-                    <div class="input-block">
-                        <input class="input" type="text"/>
-                    </div>
-                </div>
 
-                <div class="btn-group">
-                    <div class="right">
-                        <span class="btn-left-text">已有账号？去<a href="/user/login">登录</a></span>
-                        <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default">注册</a>
+                    <div class="btn-group">
+                        <div class="right">
+                            <span class="btn-left-text">已有账号？去<a href="/user/login">登录</a></span>
+                            <a href="javascript:;" onclick="registerSubmit(this)"
+                               class="weui-btn weui-btn_mini weui-btn_default">注册</a>
+                        </div>
                     </div>
-                </div>
-                <div class="clear"></div>
+                    <div class="clear"></div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+<#include "../base/footer.ftl" />
 </body>
 </html>
