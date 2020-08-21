@@ -17,32 +17,36 @@
         </div>
         <div class="panel-content">
             <div class="form">
-                <div class="input-group">
-                    <div class="input-label">
-                        <label class="label">用户名</label>
+                <form action="">
+                    <div class="input-group">
+                        <div class="input-label">
+                            <label class="label">用户名</label>
+                        </div>
+                        <div class="input-block">
+                            <input class="input" name="username" type="text"/>
+                        </div>
                     </div>
-                    <div class="input-block">
-                        <input class="input" type="text"/>
+                    <div class="input-group">
+                        <div class="input-label">
+                            <label class="label">密码</label>
+                        </div>
+                        <div class="input-block">
+                            <input class="input" name="password" type="password"/>
+                        </div>
                     </div>
-                </div>
-                <div class="input-group">
-                    <div class="input-label">
-                        <label class="label">密码</label>
+                    <div class="btn-group">
+                        <div class="right">
+                            <span class="btn-left-text">没有账号？前往 <a href="/user/register">注册</a></span>
+                            <a href="javascript:;" onclick="loginSubmit(this)"
+                               class="weui-btn weui-btn_mini weui-btn_default">登录</a>
+                        </div>
                     </div>
-                    <div class="input-block">
-                        <input class="input" type="text"/>
-                    </div>
-                </div>
-                <div class="btn-group">
-                    <div class="right">
-                        <span class="btn-left-text">没有账号？前往 <a href="/user/register">注册</a></span>
-                        <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default">登录</a>
-                    </div>
-                </div>
+                </form>
                 <div class="clear"></div>
             </div>
         </div>
     </div>
 </div>
+<#include "../base/footer.ftl" />
 </body>
 </html>

@@ -4,15 +4,30 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Pattern;
 
 public class HttpUtils {
-    public static String setParameter(HttpServletRequest request, String name, String value) {
-        String path;
-        if (request.getParameter(name) == null) {
-            path = request.getQueryString() == null ? name + "=" + value : request.getQueryString() + "&" + name + "=" + value;
-        } else {
-            String queryString = request.getQueryString();
-            path = queryString.replaceAll(name + "=.*?(&|$)", name + "=" + value + "$1");
+
+    public static String getCurrentUrl(HttpServletRequest request) {
+        String url;
+        url = request.getScheme() + "://" + request.getServerName()
+                + ":" + request.getServerPort()
+                + request.getServletPath();
+        if (request.getQueryString() != null) {
+            url += "?" + request.getQueryString();
         }
-        return path;
+        return url;
+    }
+
+    public static String setUrlParam(String url, String name, String value) {
+        if (url.matches(".*[&|?]" + name + "=.*")) {
+            url = url.replaceAll(name + "=.*?(&|$)", name + "=" + value + "$1");
+        } else {
+            int i = url.indexOf("?");
+            if (i > 0) {
+                url = url + "&" + name + "=" + value;
+            } else {
+                url = url + "?" + name + "=" + value;
+            }
+        }
+        return url;
     }
 
     public static boolean isMobile(HttpServletRequest request) {

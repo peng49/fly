@@ -69,5 +69,6 @@
         </div>
     </div>
 </div>
+<#include "../base/footer.ftl" />
 </body>
 </html>

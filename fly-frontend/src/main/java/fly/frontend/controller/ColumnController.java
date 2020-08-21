@@ -41,7 +41,10 @@ public class ColumnController {
 
         view.addObject("list_total", posts.getTotal());
         view.addObject("current_page", posts.getPageNum());
+
         view.addObject("page_size", posts.getPageSize() > 0 ? posts.getPageSize() : 10);
+
+        view.addObject("next_url", HttpUtils.setUrlParam(HttpUtils.getCurrentUrl(request), "page", String.valueOf(posts.getPageNum() + 1)));
 
         if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/post/list");
