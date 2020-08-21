@@ -73,7 +73,7 @@
                             setTimeout(function () {
                                 let redirect = '${redirect}';
                                 if(redirect === ''){
-                                    redirect = '/user/home'
+                                    redirect = '/user/center'
                                 }
                                 window.location.href = redirect;
                             }, 500);

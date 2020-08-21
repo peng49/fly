@@ -52,12 +52,12 @@
           </span>
                 </div>
                 <div class="detail-about">
-                    <a class="fly-avatar" href="/user/index/${post.author.id}">
+                    <a class="fly-avatar" href="/u/${post.author.id}">
                         <img src="${post.author.avatar}"
                              alt="${post.author.username}">
                     </a>
                     <div class="fly-detail-user">
-                        <a href="/user/index/${post.author.id}" class="fly-link">
+                        <a href="/u/${post.author.id}" class="fly-link">
                             <cite>${post.author.username}</cite>
                         </a>
                         <span>${post.publishAt}</span>
@@ -89,11 +89,11 @@
                     <#list comments as comment>
                         <li id="reply${comment.id}" class="jieda-daan">
                             <div class="detail-about detail-about-reply">
-                                <a class="fly-avatar" href="/user/index/${comment.user.id}">
+                                <a class="fly-avatar" href="/u/${comment.user.id}">
                                     <img src="${comment.user.avatar}" alt=" ">
                                 </a>
                                 <div class="fly-detail-user">
-                                    <a href="/user/index/${comment.user.id}" class="fly-link">
+                                    <a href="/u/${comment.user.id}" class="fly-link">
                                         <cite>${comment.user.username}</cite>
                                     </a>
                                     <#if post.author.id == comment.user.id >

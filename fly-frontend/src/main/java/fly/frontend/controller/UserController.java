@@ -39,20 +39,9 @@ public class UserController {
     @Resource
     private PostService postService;
 
-    @Resource
-    private PostCommentService postCommentService;
 
-    @GetMapping("/index/{id}")
-    public ModelAndView index(@PathVariable("id") int id, ModelAndView view) {
-        view.addObject("user", userService.getById(id));
-        PageHelper.startPage(1, 10);
-        view.addObject("posts", postService.findByAuthorId(id));
-        PageHelper.startPage(1, 5);
-        view.addObject("comments", postCommentService.getByUserId(id));
-        PageHelper.clearPage();
-        view.setViewName("user/index");
-        return view;
-    }
+
+
 
     @GetMapping("/login")
     public ModelAndView login(ModelAndView view, HttpSession httpSession, @RequestParam(value = "redirect", defaultValue = "") String redirect, HttpServletRequest request) {
@@ -113,11 +102,11 @@ public class UserController {
         return map;
     }
 
-    @GetMapping("/home")
+    @GetMapping("/center")
     public ModelAndView home(ModelAndView view, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         view.addObject("user", user);
-        view.setViewName("user/home");
+        view.setViewName("user/center");
         return view;
     }
 
