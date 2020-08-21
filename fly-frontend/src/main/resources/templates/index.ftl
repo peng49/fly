@@ -25,7 +25,7 @@
                 <ul class="fly-list">
                     <#list topPosts as post>
                         <li>
-                            <a href="/user/index/${post.author.id}" class="fly-avatar">
+                            <a href="/u/${post.author.id}" class="fly-avatar">
                                 <img src="${post.author.avatar}" alt="${post.author.username}">
                             </a>
                             <h2>
@@ -60,7 +60,7 @@
                 <ul class="fly-list">
                     <#list posts as post>
                         <li>
-                            <a href="/user/index/${post.author.id}" class="fly-avatar">
+                            <a href="/u/${post.author.id}" class="fly-avatar">
                                 <img src="${post.author.avatar}" alt="${post.author.username}">
                             </a>
                             <h2>

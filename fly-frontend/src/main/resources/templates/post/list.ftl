@@ -21,7 +21,7 @@
                 <ul class="fly-list">
                     <#list posts as post>
                         <li>
-                            <a href="/user/index/${post.author.id}" class="fly-avatar">
+                            <a href="/u/${post.author.id}" class="fly-avatar">
                                 <img src="${post.author.avatar}" alt="${post.author.username}">
                             </a>
                             <h2>
@@ -29,7 +29,7 @@
                                 <a href="/post/detail/${post.id}">${post.title}</a>
                             </h2>
                             <div class="fly-list-info">
-                                <a href="/user/index/${post.author.id}" link>
+                                <a href="/u/${post.author.id}" link>
                                     <cite>${post.author.username}</cite>
                                 </a>
                                 <span>刚刚</span>
