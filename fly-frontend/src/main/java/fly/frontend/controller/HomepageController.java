@@ -46,15 +46,21 @@ public class HomepageController {
 
 
     @GetMapping("/u/{id}")
-    public ModelAndView index(@PathVariable("id") int id, ModelAndView view) {
+    public ModelAndView index(@PathVariable("id") int id, ModelAndView view,HttpServletRequest request) {
         view.addObject("user", userService.getById(id));
         PageHelper.startPage(1, 10);
         view.addObject("posts", postService.findByAuthorId(id));
         PageHelper.startPage(1, 5);
         view.addObject("comments", postCommentService.getByUserId(id));
         PageHelper.clearPage();
-        System.out.println(id);
-        view.setViewName("user/home");
+
+        if(HttpUtils.isMobile(request)){
+            view.setViewName("wap/user/home");
+        }else{
+            view.setViewName("user/home");
+        }
+
+
         return view;
     }
 }
