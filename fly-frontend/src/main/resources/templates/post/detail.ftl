@@ -270,6 +270,32 @@
             }
         }
     });
+    $(function(){
+        $('pre').append("<div class='code-copy' style='position: absolute;top: 5px;right: 5px;background: black;opacity: 0.2;border-radius: 4px;cursor: pointer;color: white;padding: 2px;font-size: 12px;'>点击复制</div>")
+        $('.code-copy').click(function(){
+            let pre = $(this).parent('pre');
+            let div = pre[0];
+
+            let range;
+            if (document.body.createTextRange) {//$.browser.msie
+                range = document.body.createTextRange();
+                range.moveToElementText(div);
+                range.select();
+            } else if (document.createRange) { //$.browser.mozilla || $.browser.opera
+                let selection = window.getSelection();
+                range = document.createRange();
+                range.selectNodeContents(div);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            } else if (window.getSelection) { //$.browser.safari
+                let selection = window.getSelection();
+                selection.setBaseAndExtent(div, 0, div, 1);
+            }
+
+            document.execCommand("Copy");
+            layer.msg("复制成功")
+        })
+    })
 </script>
 </body>
 </html>
