@@ -265,35 +265,38 @@
             replyCancel: function () {
                 this.comment.parentId = 0;
             },
-            initCopyBtn: function(){
+            initCopyBtn: function () {
 
             }
         }
     });
-    $(function(){
-        $('pre').append("<div class='code-copy' style='position: absolute;top: 5px;right: 5px;background: black;opacity: 0.2;border-radius: 4px;cursor: pointer;color: white;padding: 2px;font-size: 12px;'>点击复制</div>")
-        $('.code-copy').click(function(){
+    $(function () {
+        $('pre').append("<div class='code-copy' style='position: absolute;top: 5px;right: 5px;border-radius: 4px;cursor: pointer;color: white;padding: 2px;font-size: 12px;width:30px;height:30px;  display: none;  background: url(/static/images/copy.png) no-repeat;  background-size: 100% 100%;  border: 1px solid #ddd;  opacity: 0.6;'></div>")
+        $('.code-copy').click(function () {
             let pre = $(this).parent('pre');
-            let div = pre[0];
+            let text = pre[0];
 
             let range;
             if (document.body.createTextRange) {//$.browser.msie
                 range = document.body.createTextRange();
-                range.moveToElementText(div);
+                range.moveToElementText(text);
                 range.select();
             } else if (document.createRange) { //$.browser.mozilla || $.browser.opera
                 let selection = window.getSelection();
                 range = document.createRange();
-                range.selectNodeContents(div);
+                range.selectNodeContents(text);
                 selection.removeAllRanges();
                 selection.addRange(range);
-            } else if (window.getSelection) { //$.browser.safari
+            } else if (window.getSelection && window.getSelection().setBaseAndExtent) { //$.browser.safari
                 let selection = window.getSelection();
-                selection.setBaseAndExtent(div, 0, div, 1);
+                selection.setBaseAndExtent(text, 0, text, 1);
             }
 
             document.execCommand("Copy");
+
             layer.msg("复制成功")
+
+            window.getSelection().empty();
         })
     })
 </script>
