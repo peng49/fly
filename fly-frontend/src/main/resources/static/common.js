@@ -21,6 +21,7 @@ let loginSubmit = function (ele) {
         success: function (res) {
             if (res.code === 'success') {
                 $.toast("登录成功");
+                return window.location.href = "/user/center";
             } else {
                 $.toast(res.message, "text");
             }

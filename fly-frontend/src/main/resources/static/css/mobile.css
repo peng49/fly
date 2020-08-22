@@ -33,14 +33,17 @@ ul, ol {
     list-style: none;
 }
 
-pre{
+pre {
     position: relative;
 }
+
 .post-box pre {
     white-space: pre !important;
 }
 
-pre .code-copy{display: block !important;}
+pre .code-copy {
+    display: block !important;
+}
 
 .iconfont {
     font-family: "layui-icon" !important;
@@ -48,6 +51,7 @@ pre .code-copy{display: block !important;}
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.2px;
 }
+
 .icon-shijian:before {
     content: "\e60a";
 }
@@ -108,6 +112,13 @@ pre .code-copy{display: block !important;}
 
 .nav-container .nav {
     display: flex;
+}
+
+.nav-container .nav a.active{
+    background: black;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
 }
 
 .nav-container .nav ul {
@@ -391,11 +402,18 @@ pre .code-copy{display: block !important;}
 }
 
 /*用户中心*/
-.home-user-info{
+.home-user-info {
     position: relative;
     padding: 30px 0 30px;
     text-align: center;
 }
+
+.home-user-info img {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+}
+
 .user-posts li.user-post {
     position: relative;
     margin-bottom: 10px;
