@@ -33,10 +33,14 @@ ul, ol {
     list-style: none;
 }
 
-#post-container pre {
-    white-space: nowrap !important;
+pre{
+    position: relative;
+}
+.post-box pre {
+    white-space: pre !important;
 }
 
+pre .code-copy{display: block !important;}
 
 .iconfont {
     font-family: "layui-icon" !important;

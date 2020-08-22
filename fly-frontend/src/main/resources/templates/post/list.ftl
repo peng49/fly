@@ -25,7 +25,7 @@
                                 <img src="${post.author.avatar}" alt="${post.author.username}">
                             </a>
                             <h2>
-                                <a class="layui-badge">分享</a>
+                                <a class="layui-badge">${(post.column.name)!}</a>
                                 <a href="/post/detail/${post.id}">${post.title}</a>
                             </h2>
                             <div class="fly-list-info">

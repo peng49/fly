@@ -7,6 +7,7 @@
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
     <#include "../common/link.ftl" />
+    <style>.fly-header{z-index: 0}</style>
 </head>
 <body>
 
@@ -91,7 +92,7 @@
                  * @returns {string[]}
                  */
                 toolbarIcons: function () {
-                    return ["undo", "redo", "|", "bold", "hr", "watch"]
+                    return ["undo", "redo", "|", "bold", "hr", "watch", "fullscreen"]
                 },
                 saveHTMLToTextarea: true,
                 height: "100%",
@@ -103,17 +104,31 @@
                     editormd.loadPlugin("/static/editor.md/plugins/image-handle-paste/image-handle-paste", function(){
                         _this.editor.imagePaste();
                     });
+                },
+                state: {
+                    preview: true
                 }
             })
         },
         methods: {
             submitForm: function () {
-                console.log(this.editor.getMarkdown());
-                console.log(this.editor.getHTML());
-                console.log(this.editor.previewContainer.html());
+                let _this = this;
+                // console.log(this.editor.getMarkdown());
+                // console.log(this.editor.getHTML());
+                // console.log(this.editor.watch().getPreviewedHTML());
+
+                let originWatch = this.editor.settings.watch;
+
+                //开启预览，获取预览html
+                let previewContent = this.editor.watch().getPreviewedHTML();
+
+                if(!originWatch){
+                    //如果原本预览是关闭的,获取预览html后就关闭预览
+                    this.editor.unwatch()
+                }
 
                 this.postForm.originalContent = this.editor.getMarkdown();
-                this.postForm.content = this.editor.previewContainer.html();
+                this.postForm.content = previewContent;
                 axios.post(window.location.pathname, this.postForm)
                     .then(function (response) {
                         if (response.code === "success") {
