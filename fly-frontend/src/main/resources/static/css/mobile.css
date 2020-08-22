@@ -33,7 +33,7 @@ ul, ol {
     list-style: none;
 }
 
-pre {
+#post-container pre {
     white-space: nowrap !important;
 }
 
