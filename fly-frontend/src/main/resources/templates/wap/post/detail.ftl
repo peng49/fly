@@ -86,7 +86,32 @@
         </ul>
     </div>
 </div>
-
+<div class="panel">
+    <div class="panel-head">
+        <p>添加回复</p>
+    </div>
+    <div class="panel-content">
+        <div id="comment-editor-toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;"></div>
+        <div id="comment-editor" style="border:1px solid #ccc; border-top:none; height:120px; z-index:10;" class="text"></div>
+    </div>
+</div>
 <#include "../base/footer.ftl"/>
+
+<script type="text/javascript" src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
+<script type="text/javascript">
+    let editor = new wangEditor(document.getElementById("comment-editor-toolbar"),document.getElementById("comment-editor"));
+    editor.customConfig.menus = [
+        'italic',  // 斜体
+        'underline',  // 下划线
+        'strikeThrough',  // 删除线
+        'list',  // 列表
+        'justify',  // 对齐方式
+        'quote',  // 引用
+        'code',  // 插入代码
+        'undo',  // 撤销
+        'redo'  // 重复
+    ];
+    editor.create();
+</script>
 </body>
 </html>
