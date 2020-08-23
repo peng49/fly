@@ -186,7 +186,7 @@
         },
         methods: {
             initEditor: function () {
-                var E = window.wangEditor
+                let E = window.wangEditor
                 this.editor = new E(this.$refs.toolbar, this.$refs.editor);
                 //文档: https://www.kancloud.cn/wangfupeng/wangeditor3/335777
                 this.editor.customConfig.menus = [
@@ -197,7 +197,6 @@
                     'list',  // 列表
                     'justify',  // 对齐方式
                     'quote',  // 引用
-                    'image',  // 插入图片
                     'code',  // 插入代码
                     'undo',  // 撤销
                     'redo'  // 重复
