@@ -5,6 +5,8 @@ public class PostFilterCondition {
 
     private int authorId;
 
+    private int status;
+
     private int columnId;
 
     private String orderBy = "heat desc";
@@ -39,5 +41,13 @@ public class PostFilterCondition {
 
     public void setOrderBy(String orderBy) {
         this.orderBy = orderBy;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

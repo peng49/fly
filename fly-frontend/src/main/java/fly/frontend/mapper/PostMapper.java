@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface PostMapper {
-    @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p inner join users as u on u.id = p.author_id inner join columns as c on c.id = p.column_id where p.column_id = #{columnId}")
+    @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p inner join users as u on u.id = p.author_id inner join columns as c on c.id = p.column_id where p.column_id = #{columnId} and p.status = 1")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "column.id", column = "column_id"),
@@ -28,7 +28,10 @@ public interface PostMapper {
     public List<Post> findByColumnId(int columnId);
 
     @Select("select * from posts as p where p.author_id = #{id} order by p.id desc")
-    public List<Post> findByAuthorId(int id);
+    public List<Post> findAllByAuthorId(int id);
+
+    @Select("select * from posts as p where p.author_id = #{id} and p.status = 1 order by p.id desc")
+    List<Post> findAllPublishByAuthorId(int id);
 
     @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p inner join users as u on u.id = p.author_id inner join columns as c on c.id = p.column_id where p.top = 1 limit #{limit}")
     @Results({
@@ -107,6 +110,6 @@ public interface PostMapper {
     @Update("update posts set view_count = view_count + 1 where id = #{postId}")
     void viewCountInc(int postId);
 
-    @Update("update posts set column_id = #{column.id}, title = #{title}, content = #{content}, original_content = #{originalContent} where id = #{id} ")
+    @Update("update posts set column_id = #{column.id}, title = #{title}, content = #{content}, status = #{status},publish_at = #{publishAt,jdbcType=TIMESTAMP}, original_content = #{originalContent} where id = #{id} ")
     void edit(Post post);
 }

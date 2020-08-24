@@ -45,8 +45,12 @@ public class PostService {
         return postMapper.findByColumnId(columnId);
     }
 
-    public List<Post> findByAuthorId(int id) {
-        return postMapper.findByAuthorId(id);
+    public List<Post> findAllByAuthorId(int id) {
+        return postMapper.findAllByAuthorId(id);
+    }
+
+    public List<Post> findAllPublishByAuthorId(int id) {
+        return postMapper.findAllPublishByAuthorId(id);
     }
 
     public Post get(int id) {
@@ -68,9 +72,13 @@ public class PostService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         post.setCreatedAt(timestamp);
         post.setUpdateAt(timestamp);
-        post.setPublishAt(timestamp);
 
-        post.setHeat(calculationHeat(post));
+        //发布
+        if ("publish".equals(postEdit.getAction())) {
+            post.setStatus(1);
+            post.setPublishAt(timestamp);
+            post.setHeat(calculationHeat(post));
+        }
 
         postMapper.create(post);
         return post;
@@ -80,7 +88,7 @@ public class PostService {
         postMapper.update(post);
     }
 
-    public void updateHeat(Post post){
+    public void updateHeat(Post post) {
         postMapper.updateHeat(post);
     }
 
@@ -160,11 +168,20 @@ public class PostService {
         column.setId(postEdit.getColumnId());
         post.setColumn(column);
 
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        //发布
+        if ("publish".equals(postEdit.getAction())) {
+            post.setStatus(1);
+            post.setPublishAt(timestamp);
+            post.setUpdateAt(timestamp);
+        }
+
         postMapper.edit(post);
     }
 
     /**
      * 计算文章热度
+     *
      * @param post 文章
      * @return 热度值
      */

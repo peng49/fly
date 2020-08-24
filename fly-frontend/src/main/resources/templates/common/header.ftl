@@ -33,7 +33,7 @@
         for (let i in columns) {
             if (/^\d+/.test(i)) {
                 let column = columns[i]
-                console.log(column)
+                // console.log(column)
                 let a = column.getElementsByTagName('a')[0]
                 if(a.getAttribute("href") === window.location.pathname){
                     column.setAttribute("class",column.getAttribute("class")+" layui-this")
