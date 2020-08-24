@@ -44,6 +44,8 @@ public class CalculationHeatTask {
     public Page<Post> getPosts(int page,int pageSize)
     {
         PageHelper.startPage(page,pageSize);
-        return (Page)postService.getByCondition(new PostFilterCondition());
+        PostFilterCondition condition = new PostFilterCondition();
+        condition.setStatus(1);
+        return (Page)postService.getByCondition(condition);
     }
 }

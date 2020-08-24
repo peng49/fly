@@ -575,6 +575,4 @@ body .fly-user-main{position: relative; min-height: 600px;}
   .site-mobile .site-mobile-shade{content: ''; position: fixed; top: 0; bottom: 0; left: 0; right: 0; background-color: rgba(0,0,0,.9); z-index: 999;}
 }
 
-
-.editormd-menu li:last-child,.editormd-menu li:nth-last-of-type(2){float: right}
 .editormd-menu li .layui-btn{height: 28px; line-height: 28px;}
