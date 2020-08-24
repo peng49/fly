@@ -108,7 +108,7 @@
                 <div class="layui-tab-item layui-show">
                     <ul class="mine-view jie-row">
                         <li v-for="post in posts">
-                            <span style="background:black;color:white;" v-if="post.status==0">草稿</span>
+                            <span style="background:#393D49;color:white;" v-if="post.status==0">草稿</span>
                             <a class="jie-title" :href="'/post/detail/'+post.id" target="_blank">{{post.title}}</a>
                             <i>{{post.publishAt}}</i>
                             <a class="mine-edit" :href="'/post/edit/'+post.id">编辑</a>
