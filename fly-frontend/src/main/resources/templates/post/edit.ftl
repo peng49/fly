@@ -125,6 +125,8 @@
                 imageUpload: true, //开启图片上传
                 imageUploadURL: '/post/upload', //图片上传后台地址
                 onload: function () {
+                    $('.editormd-menu li .layui-btn').parent('li').addClass('pull-right');
+
                     // 引入插件 执行监听方法
                     editormd.loadPlugin("/static/editor.md/plugins/image-handle-paste/image-handle-paste", function () {
                         _this.editor.imagePaste();
