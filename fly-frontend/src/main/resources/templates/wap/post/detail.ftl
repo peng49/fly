@@ -63,7 +63,7 @@
                             <a href="">${comment.user.username}</a>
                         </span>
                             <span>
-                            <time date="" title="">4 天前</time>
+                            <time date="" title="">${comment.commentTime}</time>
                         </span>
                             <span class="right">#1</span>
                         </div>
@@ -92,14 +92,21 @@
     </div>
     <div class="panel-content">
         <div id="comment-editor-toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;"></div>
-        <div id="comment-editor" style="border:1px solid #ccc; border-top:none; height:120px; z-index:10;" class="text"></div>
+        <div id="comment-editor" style="border:1px solid #ccc; border-top:none; height:120px; z-index:10;"
+             class="text"></div>
+        <div>
+            <div class="right" style="margin-top: 5px">
+                <a id="submit-comment" href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default">提交</a>
+            </div>
+            <div class="clear"></div>
+        </div>
     </div>
 </div>
 <#include "../base/footer.ftl"/>
 
 <script type="text/javascript" src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
 <script type="text/javascript">
-    let editor = new wangEditor(document.getElementById("comment-editor-toolbar"),document.getElementById("comment-editor"));
+    let editor = new wangEditor(document.getElementById("comment-editor-toolbar"), document.getElementById("comment-editor"));
     editor.customConfig.menus = [
         'italic',  // 斜体
         'underline',  // 下划线
@@ -112,6 +119,30 @@
         'redo'  // 重复
     ];
     editor.create();
+    $('body').on('click', '#submit-comment', function () {
+        let postId =
+        ${post.id}
+        if (!editor.txt.text().trim()) {
+            return $.toast("评论内容不能为空", 'cancel');
+        }
+        $.ajax('/post/addComment', {
+            method: "POST",
+            data: JSON.stringify({postId: postId, content: editor.txt.html()}),
+            dataType: 'json',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+                if (res.code === 'success') {
+                    $.toast("提交成功");
+                    return;
+                } else {
+                    $.toast(res.message, "text");
+                }
+            }
+        });
+    })
+
 </script>
 </body>
 </html>

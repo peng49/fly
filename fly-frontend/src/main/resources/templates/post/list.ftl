@@ -32,7 +32,7 @@
                                 <a href="/u/${post.author.id}" link>
                                     <cite>${post.author.username}</cite>
                                 </a>
-                                <span>${post.publishAt}</span>
+                                <span>${(post.publishAt)!}</span>
 
                                 <span class="fly-list-nums">
                                     <i class="iconfont icon-pinglun1" title="回答"></i> ${post.replyCount}
