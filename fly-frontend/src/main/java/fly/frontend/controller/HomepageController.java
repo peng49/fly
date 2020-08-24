@@ -32,6 +32,7 @@ public class HomepageController {
     public ModelAndView index(HttpServletRequest request, ModelAndView view, @RequestParam(defaultValue = "all") String list) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setList(list);
+        condition.setStatus(1);//已发布的
 
         view.addObject("topPosts", postService.findTop(4));
 
@@ -47,17 +48,17 @@ public class HomepageController {
 
 
     @GetMapping("/u/{id}")
-    public ModelAndView index(@PathVariable("id") int id, ModelAndView view,HttpServletRequest request) {
+    public ModelAndView index(@PathVariable("id") int id, ModelAndView view, HttpServletRequest request) {
         view.addObject("user", userService.getById(id));
         PageHelper.startPage(1, 10);
-        view.addObject("posts", postService.findByAuthorId(id));
+        view.addObject("posts", postService.findAllPublishByAuthorId(id));
         PageHelper.startPage(1, 5);
         view.addObject("comments", postCommentService.getByUserId(id));
         PageHelper.clearPage();
 
-        if(HttpUtils.isMobile(request)){
+        if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/user/home");
-        }else{
+        } else {
             view.setViewName("user/home");
         }
 

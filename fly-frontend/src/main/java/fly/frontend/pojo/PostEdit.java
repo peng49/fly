@@ -4,6 +4,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 public class PostEdit {
+    private String action;
+
     private int columnId;
 
     private int userId;
@@ -54,6 +56,14 @@ public class PostEdit {
 
     public void setOriginalContent(String originalContent) {
         this.originalContent = originalContent;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
     @Override

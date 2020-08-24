@@ -60,7 +60,7 @@
                         <a href="/u/${post.author.id}" class="fly-link">
                             <cite>${post.author.username}</cite>
                         </a>
-                        <span>${post.publishAt}</span>
+                        <span>${(post.publishAt)!}</span>
                     </div>
                     <div class="detail-hits">
                         <#if allowEdit == true>

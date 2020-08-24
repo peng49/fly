@@ -31,6 +31,7 @@ public class ColumnController {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setColumnId(id);
         condition.setList(filter.getList());
+        condition.setStatus(1);//已发布的
 
         PageHelper.startPage(filter.getPage(), filter.getPageSize());
         Page posts = (Page) postService.getByCondition(condition);

@@ -30,6 +30,9 @@
             <if test="list == 'essence'">
                 and p.essence = 1
             </if>
+            <if test="status != null">
+                and p.status = #{status}
+            </if>
         </where>
     </select>
 </mapper>

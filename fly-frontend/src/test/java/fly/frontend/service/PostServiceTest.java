@@ -25,14 +25,6 @@ public class PostServiceTest {
         System.out.println(postService.findByColumnId(1));
     }
 
-    @Test
-    public void createTest()
-    {
-        Post post = new Post();
-        post.setTitle("测试标题");
-        post.setContent("测试内容");
-//        postService.create(post);
-    }
 
     @Test
     public void getByConditionTest()

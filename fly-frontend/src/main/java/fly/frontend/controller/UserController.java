@@ -117,7 +117,7 @@ public class UserController {
 
         List<Post> posts = null;
         if ("my".equals(type)) {
-            posts = postService.findByAuthorId(user.getId());
+            posts = postService.findAllByAuthorId(user.getId());
         } else {
             posts = userService.findCollectionPosts(user.getId());
         }

@@ -7,7 +7,11 @@
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
     <#include "../common/link.ftl" />
-    <style>.fly-header{z-index: 0}</style>
+    <style>
+        .fly-header {
+            z-index: 0
+        }
+    </style>
 </head>
 <body>
 
@@ -48,12 +52,13 @@
                             </div>
                             <div class="layui-form-item layui-form-text">
                                 <div class="editor-block" style="height: 650px">
-                                    <div id="editor" ref="editor"><textarea>${(post.originalContent)!}</textarea></div>
+                                    <div id="editor"><textarea>${(post.originalContent)!}</textarea>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="layui-form-item">
+               <#--             <div class="layui-form-item">
                                 <button type="button" class="layui-btn" @click="submitForm">立即发布</button>
-                            </div>
+                            </div>-->
                         </form>
                     </div>
                 </div>
@@ -74,7 +79,9 @@
         data: {
             editor: '',
             postId: '${(post.id)!}',
+            postStatus: '${(post.status)!}',
             postForm: {
+                action: '',
                 columnId: '${(post.column.id)!1}',
                 title: "${(post.title)!}",
                 originalContent: "",
@@ -83,6 +90,19 @@
         },
         mounted: function () {
             let _this = this;
+            let editorBar = ["undo", "redo", "|", "bold", "hr", "watch", "fullscreen"];
+
+
+            if (_this.postId > 0) {
+                if (_this.postStatus === '0') {//如果未发布
+                    editorBar.push('publish');
+                }
+                editorBar.push('update');
+            } else {
+                editorBar.push('publish');
+                editorBar.push('save2draft');
+            }
+
             _this.editor = editormd('editor', {
                 path: "/static/editor.md/lib/",
                 /**
@@ -92,22 +112,34 @@
                  * @returns {string[]}
                  */
                 toolbarIcons: function () {
-                    return ["undo", "redo", "|", "bold", "hr", "watch", "fullscreen"]
+                    return editorBar
+                },
+                toolbarCustomIcons: {
+                    save2draft: "<button type='button' data-action='draft' class='layui-btn post-submit-btn'>保存到草稿</button>",
+                    update: "<button type='button' data-action='update' class='layui-btn post-submit-btn'>更新</button>",
+                    publish: "<button type='button' data-action='publish' class='layui-btn post-submit-btn'>立即发布</button>"
                 },
                 saveHTMLToTextarea: true,
                 height: "100%",
                 watch: true,
                 imageUpload: true, //开启图片上传
                 imageUploadURL: '/post/upload', //图片上传后台地址
-                onload: function() {
+                onload: function () {
                     // 引入插件 执行监听方法
-                    editormd.loadPlugin("/static/editor.md/plugins/image-handle-paste/image-handle-paste", function(){
+                    editormd.loadPlugin("/static/editor.md/plugins/image-handle-paste/image-handle-paste", function () {
                         _this.editor.imagePaste();
                     });
                 },
                 state: {
                     preview: true
                 }
+            });
+
+            //通过jquery监听新加的按钮触发提交
+            $('body').on('click', '.post-submit-btn', function () {
+                let action = $(this).data('action');
+                _this.postForm.action = action;
+                _this.submitForm()
             })
         },
         methods: {
@@ -122,7 +154,7 @@
                 //开启预览，获取预览html
                 let previewContent = this.editor.watch().getPreviewedHTML();
 
-                if(!originWatch){
+                if (!originWatch) {
                     //如果原本预览是关闭的,获取预览html后就关闭预览
                     this.editor.unwatch()
                 }
