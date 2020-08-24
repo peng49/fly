@@ -225,7 +225,7 @@ pre .code-copy {
     padding: 10px;
 }
 
-.panel .panel-content ul {
+.panel .panel-content > ul {
     min-height: 120px;
 }
 
@@ -478,6 +478,9 @@ pre .code-copy {
     padding: 0 !important;
     text-align: center !important;
     color: #999 !important;
+}
+.CodeMirror-gutters{
+    height: 100% !important;
 }
 .editormd{border: none !important;}
 
