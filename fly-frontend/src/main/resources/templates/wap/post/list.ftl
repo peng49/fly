@@ -31,7 +31,7 @@
                             <span class="point">•</span>
                             <span><a class="author" href="">${(post.author.username)!}</a></span>
                             <span class="point">•</span>
-                            <span><time>3分钟前</time></span>
+                            <span><time>${(post.publishAt)!}</time></span>
                         </div>
                     </div>
                     <div class="right">
