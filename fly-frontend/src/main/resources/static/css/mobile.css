@@ -45,6 +45,10 @@ pre .code-copy {
     display: block !important;
 }
 
+.container{
+    margin-top: 5px;
+}
+
 .iconfont {
     font-family: "layui-icon" !important;
     font-style: normal;
@@ -466,4 +470,21 @@ pre .code-copy {
     background-color: #F2F2F5;
     border-radius: 5px;
     word-wrap: break-word;
+}
+
+/* 强制覆盖editor.md编辑器原样式 */
+.CodeMirror-linenumber {
+    min-width: 24px !important;
+    padding: 0 !important;
+    text-align: center !important;
+    color: #999 !important;
+}
+.editormd{border: none !important;}
+
+.post-submit-btn{
+    background: black;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
 }

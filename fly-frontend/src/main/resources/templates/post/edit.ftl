@@ -70,10 +70,6 @@
 <link rel="stylesheet" href="/static/editor.md/css/editormd.min.css"/>
 <script src="/static/editor.md/editormd.min.js"></script>
 <script type="text/javascript">
-
-</script>
-
-<script type="text/javascript">
     new Vue({
         el: "#post-container",
         data: {
