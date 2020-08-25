@@ -18,8 +18,8 @@
         </h1>
 
         <p class="home-info">
-            经验值:  <span style="color: #FF7200;">${user.experience!''}</span>
-            注册时间:  <span>${user.createTime!''}</span>
+            经验值: <span style="color: #FF7200;">${user.experience!''}</span>
+            注册时间: <span>${user.createTime!''}</span>
         </p>
     </div>
 
@@ -55,8 +55,7 @@
                     <li>
                         <p>
                             <span>${comment.commentTime}</span>
-                            在<a href="/post/detail/${comment.post.id}"
-                                target="_blank"><strong>${comment.post.title}</strong></a>中回答：
+                            在<a href="/post/detail/${comment.post.id}"><strong>${comment.post.title}</strong></a>中回答：
                         </p>
                         <div class="content">
                             ${comment.content}

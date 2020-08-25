@@ -222,7 +222,7 @@
                         console.log(error);
                     });
             },
-            top: function () {
+            top: function () {//置顶
                 var formData = new FormData();
                 formData.append("postId", ${post.id});
 
@@ -238,7 +238,7 @@
                         console.log(error);
                     });
             },
-            essence: function () {
+            essence: function () {//加精
                 var formData = new FormData();
                 formData.append("postId", ${post.id});
                 axios.post('/post/essence', formData)
