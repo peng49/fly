@@ -7,7 +7,7 @@
             </#list>
         </ul>
 
-        <a class="" href="/">发布</a></div>
+        <a class="" href="/post/add">发布</a></div>
 </div>
 <script type="text/javascript">
     let columns = document.getElementById("nav-list").getElementsByTagName("a")
