@@ -213,6 +213,7 @@
                     .then(function (response) {
                         if (response.code === "success") {
                             layer.msg('评论成功');
+                            window.location.reload();
                             return;
                         }
                         layer.msg(response.message)
