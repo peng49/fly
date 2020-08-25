@@ -116,7 +116,7 @@
                                 <div class="comment-content">${comment.content}</div>
                             </div>
                             <div class="jieda-reply">
-                                        <span class="jieda-zan zanok">
+                                        <span class="jieda-zan">
                                             <i class="iconfont icon-zan"></i>
                                             <em>${comment.agreeCount}</em>
                                         </span>

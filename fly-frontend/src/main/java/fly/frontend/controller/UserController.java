@@ -40,9 +40,6 @@ public class UserController {
     private PostService postService;
 
 
-
-
-
     @GetMapping("/login")
     public ModelAndView login(ModelAndView view, HttpSession httpSession, @RequestParam(value = "redirect", defaultValue = "") String redirect, HttpServletRequest request) {
         if (httpSession.getAttribute("login-user") != null) {
@@ -103,10 +100,15 @@ public class UserController {
     }
 
     @GetMapping("/center")
-    public ModelAndView home(ModelAndView view, HttpSession httpSession) {
+    public ModelAndView home(ModelAndView view, HttpSession httpSession, HttpServletRequest request) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         view.addObject("user", user);
-        view.setViewName("user/center");
+
+        if (HttpUtils.isMobile(request)) {
+            view.setViewName("wap/user/center");
+        } else {
+            view.setViewName("user/center");
+        }
         return view;
     }
 
