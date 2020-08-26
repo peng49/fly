@@ -33,14 +33,21 @@
 <template id="posts-template">
     <div class="panel">
         <div class="panel-head">
-            <p>文章列表</p>
+            <p>我的文章</p>
         </div>
         <div class="cells">
-            <div v-for="post in posts" class="weui-cell">
-                <div class="weui-cell__bd">
-                    <p>{{post.title}}</p>
+            <div v-for="post in posts" class="cell">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p>
+                            <span style="background:#393D49;color:white;margin-right: 4px; padding: 1px 5px; border-radius: 3px;"
+                                  v-if="post.status ==0">草稿</span>
+                            {{post.title}}
+                        </p>
+                    </div>
+                    <div class="weui-cell__ft">{{post.publishAt}}</div>
                 </div>
-                <div class="weui-cell__ft">{{post.publishAt}}</div>
+                <div style="text-align: right;padding: 5px 15px"><a :href="'/post/edit/'+post.id">编辑</a></div>
             </div>
         </div>
     </div>
@@ -70,14 +77,23 @@
 
     <br/>
     <div style="text-align: center">
-        <button class="weui-btn weui-btn_mini weui-btn_default">退出/返回</button>
+        <button class="weui-btn weui-btn_mini weui-btn_default" @click="backOrLogout">退出/返回</button>
     </div>
 </div>
 <#include "../base/footer.ftl" />
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
 <script type="text/javascript">
     let request = function (data) {
-
+        $.ajax({
+            url: data.url,
+            method: data.method ? data.method : "GET",
+            data: JSON.stringify(data.data),
+            dataType: 'json',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            success: data.success
+        })
     };
     Vue.component("center", {
         data: function () {
@@ -102,6 +118,17 @@
                 ]
             }
         },
+        created: function () {
+            let _this = this
+            request({
+                url: "/user/posts?type=my",
+                success: function (res) {
+                    console.log(res);
+                    console.log(_this.posts);
+                    _this.posts = res.posts
+                }
+            })
+        },
         template: "#posts-template"
     });
 
@@ -121,12 +148,23 @@
     new Vue({
         el: "#app",
         data: {
+            list: ['center'],
             component: "center"
         },
         methods: {
             loadComponent: function (component) {
                 if (!component) {
                     return false;
+                }
+                this.component = component
+                this.list.push(component)
+                console.log(this.list)
+            },
+            backOrLogout: function () {
+                this.list.pop();
+                let component = this.list.pop();
+                if (!component) {
+                    component = "center";
                 }
                 this.component = component
             }
