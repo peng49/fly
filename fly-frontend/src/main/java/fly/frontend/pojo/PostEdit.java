@@ -1,8 +1,10 @@
 package fly.frontend.pojo;
 
-import javax.validation.constraints.Min;
+import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 
+@Data
 public class PostEdit {
     private String action;
 
@@ -17,63 +19,4 @@ public class PostEdit {
     private String content;
 
     private String originalContent;
-
-    public int getColumnId() {
-        return columnId;
-    }
-
-    public void setColumnId(int columnId) {
-        this.columnId = columnId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getOriginalContent() {
-        return originalContent;
-    }
-
-    public void setOriginalContent(String originalContent) {
-        this.originalContent = originalContent;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    @Override
-    public String toString() {
-        return "PostEdit{" +
-                "columnId=" + columnId +
-                ", userId=" + userId +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", originalContent='" + originalContent + '\'' +
-                '}';
-    }
 }
