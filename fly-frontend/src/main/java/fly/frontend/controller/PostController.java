@@ -38,9 +38,14 @@ public class PostController {
     private ColumnService columnService;
 
     @GetMapping("/add")
-    public ModelAndView add(ModelAndView view) {
+    public ModelAndView add(ModelAndView view, HttpServletRequest request) {
         view.addObject("columns", columnService.getAll());
-        view.setViewName("/post/edit");
+
+        if (HttpUtils.isMobile(request)) {
+            view.setViewName("wap/post/edit");
+        } else {
+            view.setViewName("/post/edit");
+        }
         return view;
     }
 
@@ -62,7 +67,7 @@ public class PostController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable("id") int id, ModelAndView view,HttpServletRequest request) {
+    public ModelAndView edit(@PathVariable("id") int id, ModelAndView view, HttpServletRequest request) {
         Post post = postService.get(id);
         view.addObject("columns", columnService.getAll());
         view.addObject("post", post);
