@@ -44,7 +44,11 @@ let loginSubmit = function (ele) {
         success: function (res) {
             if (res.code === 'success') {
                 $.toast("登录成功");
-                return window.location.href = "/user/center";
+                let redirect = getUrlParam('redirect');
+                if(!redirect){
+                    redirect = '/user/center'
+                }
+                return window.location.href = redirect;
             } else {
                 $.toast(res.message, "text");
             }
