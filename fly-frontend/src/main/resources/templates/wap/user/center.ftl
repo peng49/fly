@@ -83,18 +83,6 @@
 <#include "../base/footer.ftl" />
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
 <script type="text/javascript">
-    let request = function (data) {
-        $.ajax({
-            url: data.url,
-            method: data.method ? data.method : "GET",
-            data: JSON.stringify(data.data),
-            dataType: 'json',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            success: data.success
-        })
-    };
     Vue.component("center", {
         data: function () {
             return {
@@ -161,6 +149,10 @@
                 console.log(this.list)
             },
             backOrLogout: function () {
+                if(this.component === "center"){
+                    //退出
+                    return window.location.href = "/user/logout";
+                }
                 this.list.pop();
                 let component = this.list.pop();
                 if (!component) {

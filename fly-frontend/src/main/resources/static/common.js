@@ -1,10 +1,33 @@
-//login
 let serializeArrayToJson = function (array) {
     let object = {};
     array.forEach(function (item) {
         object[item['name']] = item['value']
     });
     return object;
+};
+
+let request = function (data) {
+    $.ajax({
+        url: data.url,
+        method: data.method ? data.method : "GET",
+        data: JSON.stringify(data.data),
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        success: data.success
+    })
+};
+
+let getUrlParam = function(key){
+    let queryString = window.location.search.replace(/^\?/, '');
+    let array = queryString.split('&');
+    let item = {};
+    for(let i in array){
+        let kv = array[i].split('=')
+        item[kv[0]] = decodeURIComponent(kv[1])
+    }
+    return item[key]
 };
 
 let loginSubmit = function (ele) {
