@@ -37,18 +37,52 @@
         </div>
         <div class="cells">
             <div v-for="post in posts" class="cell">
-                <div class="weui-cell">
-                    <div class="weui-cell__bd">
-                        <p>
+                <template v-if="posts.length > 0">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <p>
                             <span style="background:#393D49;color:white;margin-right: 4px; padding: 1px 5px; border-radius: 3px;"
                                   v-if="post.status ==0">草稿</span>
-                            {{post.title}}
-                        </p>
+                                {{post.title}}
+                            </p>
+                        </div>
+                        <div class="weui-cell__ft">{{post.publishAt}}</div>
                     </div>
-                    <div class="weui-cell__ft">{{post.publishAt}}</div>
-                </div>
-                <div style="text-align: right;padding: 5px 15px"><a :href="'/post/edit/'+post.id">编辑</a></div>
+                    <div style="text-align: right;padding: 5px 15px"><a :href="'/post/edit/'+post.id">编辑</a></div>
+                </template>
+                <template v-else>
+                    <div class="cell" style="padding: 5px 15px">
+                        暂无文章
+                    </div>
+                </template>
             </div>
+        </div>
+    </div>
+</template>
+<template id="collection-template">
+    <div class="panel">
+        <div class="panel-head">
+            <p>我的收藏</p>
+        </div>
+        <div class="cells">
+            <template v-if="posts.length > 0">
+                <div v-for="post in posts" class="cell">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <p>
+                                {{post.title}}
+                            </p>
+                        </div>
+                        <div class="weui-cell__ft">{{post.publishAt}}</div>
+                    </div>
+                    <div style="text-align: right;padding: 5px 15px"><a :href="'/post/detail/'+post.id">查看</a></div>
+                </div>
+            </template>
+            <template v-else>
+                <div class="cell" style="padding: 5px 15px">
+                    暂无收藏
+                </div>
+            </template>
         </div>
     </div>
 </template>
@@ -58,6 +92,9 @@
             <div class="weui-navbar">
                 <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
                     基本信息
+                </a>
+                <a class="weui-navbar__item" href="#tab1">
+                    头像
                 </a>
             </div>
             <div class="weui-tab__bd">
@@ -119,6 +156,27 @@
         },
         template: "#posts-template"
     });
+    Vue.component("collection", {
+        data: function () {
+            return {
+                posts: [
+                    // {title: "标题", publishAt: "发布时间", status: "", top: 0}
+                ]
+            }
+        },
+        created: function () {
+            let _this = this
+            request({
+                url: "/user/posts?type=collection",
+                success: function (res) {
+                    console.log(res);
+                    console.log(_this.posts);
+                    _this.posts = res.posts
+                }
+            })
+        },
+        template: "#collection-template"
+    });
 
     Vue.component("settings", {
         data: function () {
@@ -149,7 +207,7 @@
                 console.log(this.list)
             },
             backOrLogout: function () {
-                if(this.component === "center"){
+                if (this.component === "center") {
                     //退出
                     return window.location.href = "/user/logout";
                 }

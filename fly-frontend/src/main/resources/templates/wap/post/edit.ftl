@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="weui-cells__title">内容</div>
-                <div id="editor" style="min-height: 400px;height: 400px;z-index: 100;"><textarea>${(post.originalContent)!}</textarea></div>
+                <div id="editor" style="min-height: 400px;height: 400px;z-index: 100;border: 1px solid #e5ecf5"><textarea>${(post.originalContent)!}</textarea></div>
             </div>
         </div>
     </div>
@@ -92,8 +92,27 @@
                 height: "100%",
                 watch: false,
                 onwatch: function () {
-                    $('#editor .CodeMirror').css({width: 0});
+                    $('#editor .CodeMirror').css({display: 'none'});
                     $('#editor .editormd-preview').css({width: '100%'});
+                },
+                onunwatch:function(){
+                    $('#editor .CodeMirror').css({display: 'block'});
+                },
+                onfullscreen: function() {
+                    if(this.settings.watch){
+                        $('#editor .CodeMirror').css({display: 'none'});
+                        $('#editor .editormd-preview').css({width: '100%'});
+                    }else{
+                        $('#editor .CodeMirror').css({display: 'block'});
+                    }
+                },
+                onfullscreenExit: function() {
+                    if(this.settings.watch){
+                        $('#editor .CodeMirror').css({display: 'none'});
+                        $('#editor .editormd-preview').css({width: '100%'});
+                    }else{
+                        $('#editor .CodeMirror').css({display: 'block'});
+                    }
                 },
                 imageUpload: true, //开启图片上传
                 imageUploadURL: '/post/upload', //图片上传后台地址
@@ -101,9 +120,9 @@
                     $('.editormd-menu li .layui-btn').parent('li').addClass('pull-right');
 
                     // 引入插件 执行监听方法
-                    editormd.loadPlugin("/static/editor.md/plugins/image-handle-paste/image-handle-paste", function () {
-                        _this.editor.imagePaste();
-                    });
+                    // editormd.loadPlugin("/static/editor.md/plugins/image-handle-paste/image-handle-paste", function () {
+                    //     _this.editor.imagePaste();
+                    // });
                 }
             });
 

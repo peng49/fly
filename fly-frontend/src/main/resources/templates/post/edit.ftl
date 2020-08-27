@@ -127,9 +127,6 @@
                     editormd.loadPlugin("/static/editor.md/plugins/image-handle-paste/image-handle-paste", function () {
                         _this.editor.imagePaste();
                     });
-                },
-                state: {
-                    preview: true
                 }
             });
 
