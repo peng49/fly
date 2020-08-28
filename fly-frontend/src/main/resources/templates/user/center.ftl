@@ -91,7 +91,7 @@
 
                 axios.get("/user/posts?type=" + this.tabs[index].key).then(function (response) {
                     if (response.code === "success") {
-                        _this.posts = response.posts
+                        _this.posts = response.data
                     } else {
                         console.log(response.message)
                     }
@@ -143,7 +143,7 @@
                             .then(function (response) {
                                 if (response.code === "success") {
                                     layer.msg("操作成功");
-                                    _this.info = response.user;
+                                    _this.info = response.data;
                                 }
                             })
                             .catch(function (error) {
@@ -213,7 +213,7 @@
                         })
                             .then(function (response) {
                                 if (response.code === "success") {
-                                    _this.previewUrl = response.user.avatar;
+                                    _this.previewUrl = response.data.avatar;
                                     layer.msg("上传成功")
                                 } else {
                                     layer.msg(response.message)
@@ -309,7 +309,7 @@
                     .then(function (response) {
                         if (response.code === "success") {
                             console.log("data:", response.user)
-                            info = response.user;
+                            info = response.data;
                         }
                     })
                     .catch(function (error) {

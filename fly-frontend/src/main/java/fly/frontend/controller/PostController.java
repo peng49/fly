@@ -51,19 +51,13 @@ public class PostController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Map add(@RequestBody @Validated PostEdit post, HttpSession httpSession) throws Exception {
+    public Object add(@RequestBody @Validated PostEdit post, HttpSession httpSession) throws Exception {
         User user = (User) httpSession.getAttribute("login-user");
         if (user == null) {
             throw new Exception("请先登录");
         }
-
         Post po = postService.create(post, user);
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        map.put("post", po);
-        return map;
+        return HttpUtils.success(po);
     }
 
     @GetMapping("/edit/{id}")
@@ -81,16 +75,10 @@ public class PostController {
 
     @PostMapping("/edit/{id}")
     @ResponseBody
-    public Map edit(@PathVariable("id") int id, @RequestBody @Validated PostEdit postEdit) {
+    public Object edit(@PathVariable("id") int id, @RequestBody @Validated PostEdit postEdit) {
         Post post = postService.get(id);
-        System.out.println(post);
-        System.out.println(postEdit);
         postService.edit(post, postEdit);
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        return map;
+        return HttpUtils.success();
     }
 
     @GetMapping("/detail/{id}")
@@ -117,14 +105,10 @@ public class PostController {
 
     @PostMapping("/addComment")
     @ResponseBody
-    public Map<Object, Object> addComment(@RequestBody @Validated PostCommentAdd postCommentAdd, HttpSession httpSession) {
+    public Object addComment(@RequestBody @Validated PostCommentAdd postCommentAdd, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         PostComment comment = postService.addComment(user, postCommentAdd);
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        map.put("comment", comment);
-        return map;
+        return HttpUtils.success(comment);
     }
 
     /**
@@ -134,19 +118,18 @@ public class PostController {
      */
     @PostMapping("/top")
     @ResponseBody
-    public Map<Object, Object> top(@RequestParam(value = "postId") int postId, HttpSession httpSession) throws Exception {
+    public Object top(@RequestParam(value = "postId") int postId, HttpSession httpSession) throws Exception {
+        adminCheck(httpSession);
+        Post post = postService.get(postId);
+        postService.top(post);
+        return HttpUtils.success();
+    }
+
+    private void adminCheck(HttpSession httpSession) throws Exception {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         if (user.getIsAdmin() != 1) {
             throw new Exception("您不是管理员，不能进行此操作");
         }
-
-        Post post = postService.get(postId);
-        postService.top(post);
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        return map;
     }
 
     /**
@@ -159,25 +142,18 @@ public class PostController {
      */
     @PostMapping("/essence")
     @ResponseBody
-    public Map<Object, Object> essence(@RequestParam("postId") int postId, HttpSession httpSession) throws Exception {
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        if (user.getIsAdmin() != 1) {
-            throw new Exception("您不是管理员，不能进行此操作");
-        }
+    public Object essence(@RequestParam("postId") int postId, HttpSession httpSession) throws Exception {
+        adminCheck(httpSession);
 
         Post post = postService.get(postId);
         postService.essence(post);
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        return map;
+        return HttpUtils.success();
     }
 
 
     @PostMapping("/upload")
     @ResponseBody
-    public Map<Object, Object> upload(HttpServletRequest request, HttpSession session) throws IOException {
+    public Object upload(HttpServletRequest request, HttpSession session) throws IOException {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
         String url = "";
         if (multipartResolver.isMultipart(request)) {
@@ -197,11 +173,6 @@ public class PostController {
                 }
             }
         }
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        map.put("url", url);
-        return map;
+        return HttpUtils.success(url);
     }
 }

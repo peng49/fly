@@ -150,7 +150,7 @@
                 success: function (res) {
                     console.log(res);
                     console.log(_this.posts);
-                    _this.posts = res.posts
+                    _this.posts = res.data
                 }
             })
         },
@@ -171,7 +171,7 @@
                 success: function (res) {
                     console.log(res);
                     console.log(_this.posts);
-                    _this.posts = res.posts
+                    _this.posts = res.data
                 }
             })
         },
