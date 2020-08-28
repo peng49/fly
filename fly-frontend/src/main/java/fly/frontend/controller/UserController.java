@@ -1,12 +1,10 @@
 package fly.frontend.controller;
 
-import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
 import fly.frontend.pojo.UpdateUserInfo;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;
-import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
 import fly.frontend.utils.HttpUtils;
@@ -58,16 +56,11 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public Map<Object, Object> login(@RequestBody @Validated UserLogin login, HttpSession httpSession) throws Exception {
+    public Object login(@RequestBody @Validated UserLogin login, HttpSession httpSession) throws Exception {
         System.out.println(login);
         User user = userService.login(login);
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        map.put("user", user);
-
         httpSession.setAttribute(UserService.LOGIN_KEY, user);
-        return map;
+        return HttpUtils.success(user);
     }
 
     @GetMapping("/logout")
@@ -88,15 +81,9 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    public Map<Object, Object> register(@RequestBody @Validated UserRegister register) throws Exception {
+    public Object register(@RequestBody @Validated UserRegister register) throws Exception {
         User user = userService.register(register);
-        System.out.println(register);
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        map.put("user", user);
-        return map;
+        return HttpUtils.success(user);
     }
 
     @GetMapping("/center")
@@ -114,7 +101,7 @@ public class UserController {
 
     @GetMapping("/posts")
     @ResponseBody
-    public Map<Object, Object> posts(@RequestParam("type") String type, HttpSession httpSession) {
+    public Object posts(@RequestParam("type") String type, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
 
         List<Post> posts = null;
@@ -123,42 +110,28 @@ public class UserController {
         } else {
             posts = userService.findCollectionPosts(user.getId());
         }
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        map.put("posts", posts);
-        return map;
+        return HttpUtils.success(posts);
     }
 
     @GetMapping("/info")
     @ResponseBody
-    public Map<Object, Object> info(HttpSession session) {
+    public Object info(HttpSession session) {
         User user = (User) session.getAttribute(UserService.LOGIN_KEY);
         user = userService.getById(user.getId());
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        map.put("user", user);
-        return map;
+        return HttpUtils.success(user);
     }
 
     @PostMapping("/updateInfo")
     @ResponseBody
-    public Map<Object, Object> updateInfo(@RequestBody UpdateUserInfo userInfo, HttpSession session) {
+    public Object updateInfo(@RequestBody UpdateUserInfo userInfo, HttpSession session) {
         User user = (User) session.getAttribute(UserService.LOGIN_KEY);
         User res = userService.updateInfo(user, userInfo);
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        map.put("user", res);
-        return map;
+        return HttpUtils.success(res);
     }
 
     @PostMapping("/uploadAvatar")
     @ResponseBody
-    public Map<Object, Object> uploadAvatar(HttpServletRequest request, HttpSession session) throws IOException {
+    public Object uploadAvatar(HttpServletRequest request, HttpSession session) throws IOException {
         User user = (User) session.getAttribute(UserService.LOGIN_KEY);
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
         if (multipartResolver.isMultipart(request)) {
@@ -181,11 +154,7 @@ public class UserController {
                 }
             }
         }
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("code", "success");
-        map.put("message", "OK");
-        map.put("user", user);
-        return map;
+        
+        return HttpUtils.success(user);
     }
 }
