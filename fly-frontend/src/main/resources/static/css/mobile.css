@@ -473,16 +473,16 @@ pre .code-copy {
 }
 
 /* 强制覆盖editor.md编辑器原样式 */
-/*.CodeMirror-linenumber {
+.CodeMirror-linenumber {
     min-width: 24px !important;
     padding: 0 !important;
     text-align: center !important;
     color: #999 !important;
-}*/
-/*.CodeMirror-gutters{
+}
+.CodeMirror-gutters{
     height: 100% !important;
 }
-.editormd{border: none !important;}*/
+.editormd{border: none !important;}
 
 .post-submit-btn{
     background: black;

@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="weui-cells__title">内容</div>
-                <div id="editor" style="min-height: 400px;height: 400px;z-index: 100;border: 1px solid #e5ecf5"><textarea>${(post.originalContent)!}</textarea></div>
+                <div id="editor" style="min-height: 400px;height: 400px;"><textarea>${(post.originalContent)!}</textarea></div>
             </div>
         </div>
     </div>
