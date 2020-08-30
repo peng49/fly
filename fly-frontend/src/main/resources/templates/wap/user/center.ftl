@@ -99,7 +99,38 @@
             </div>
             <div class="weui-tab__bd">
                 <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
-                    <h1>页面一</h1>
+                    <div class="input-group">
+                        <div class="input-label">
+                            <label class="label">邮箱</label>
+                        </div>
+                        <div class="input-block">
+                            <input class="input" v-model="user.email" type="text"/>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">
+                            <label class="label">昵称</label>
+                        </div>
+                        <div class="input-block">
+                            <input class="input" v-model="user.username" type="text"/>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">
+                            <label class="label">城市</label>
+                        </div>
+                        <div class="input-block">
+                            <input class="input" v-model="user.city" type="text"/>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">
+                            <label class="label">签名</label>
+                        </div>
+                        <div class="input-block">
+                            <textarea v-model="user.signature"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -180,7 +211,14 @@
 
     Vue.component("settings", {
         data: function () {
-            return {}
+            return {
+                user:{
+                    email:"",
+                    username:"",
+                    city:"",
+                    signature:""
+                }
+            }
         },
         template: "#settings-template"
     });
