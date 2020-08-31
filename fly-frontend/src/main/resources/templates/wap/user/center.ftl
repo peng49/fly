@@ -93,7 +93,7 @@
                 <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
                     基本信息
                 </a>
-                <a class="weui-navbar__item" href="#tab1">
+                <a class="weui-navbar__item" href="#tab2">
                     头像
                 </a>
             </div>
@@ -129,6 +129,35 @@
                         </div>
                         <div class="input-block">
                             <textarea v-model="user.signature"></textarea>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <div class="right">
+                            <a href="javascript:;" @click="submitForm"
+                               class="weui-btn weui-btn_mini weui-btn_default">提交</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab2" class="weui-tab__bd-item">
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <div class="weui-uploader">
+                                    <div class="weui-uploader__hd">
+                                        <p class="weui-uploader__title">修改头像</p>
+                                    </div>
+                                    <div class="weui-uploader__bd">
+                                        <ul class="weui-uploader__files">
+                                            <li class="weui-uploader__file" :style="avatarBg">
+                                                <div class="weui-uploader__input-box">
+                                                    <input class="weui-uploader__input" type="file" @change="uploadAvatar" accept="image/*" multiple="">
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -212,15 +241,62 @@
     Vue.component("settings", {
         data: function () {
             return {
-                user:{
-                    email:"",
-                    username:"",
-                    city:"",
-                    signature:""
-                }
+                user: {
+                    email: "",
+                    username: "",
+                    city: "",
+                    signature: "",
+                    avatar: ""
+                },
+                avatar:"",
+                avatarBg:''
             }
         },
-        template: "#settings-template"
+        created: function () {
+            let _this = this
+            request({
+                url: '/user/info',
+                success: function (res) {
+                    if (res.code === 'success') {
+                        _this.user = res.data
+                        _this.avatarBg = 'background:url("'+_this.user.avatar+'")'
+                    }
+                }
+            })
+        },
+        template: "#settings-template",
+        methods: {
+            submitForm: function () {
+                let _this = this
+                request({
+                    url: "/user/updateInfo",
+                    method: "POST",
+                    data: _this.user
+                })
+            },
+            uploadAvatar: function (event) {
+                let _this = this;
+                _this.avatar = event.target.files[0];
+                let Form = new FormData();
+                Form.append("avatar", _this.avatar);
+                console.log(_this.avatar)
+
+                uploadFile({
+                    url: "/user/uploadAvatar",
+                    data: Form,
+                    success: function (res) {
+                        if(typeof(res) == 'string'){
+                            res = JSON.parse(res)
+                        }
+                        console.log(res)
+                        _this.user = res.data;
+                        _this.avatarBg = 'background:url("'+_this.user.avatar+'")'
+
+                        console.log(_this.avatarBg)
+                    }
+                })
+            }
+        }
     });
     Vue.component("reset-password", {
         data: function () {

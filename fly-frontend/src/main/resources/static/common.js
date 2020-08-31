@@ -15,15 +15,41 @@ let request = function (data) {
         headers: {
             'Content-Type': 'application/json',
         },
-        success: data.success
+        success: data.success ? data.success : function (res) {
+            if (res.code === 'success') {
+                $.toast("操作成功");
+            } else {
+                $.toast(res.message, "text");
+            }
+        }
     })
 };
 
-let getUrlParam = function(key){
+let uploadFile = function (data) {
+    $.ajax({
+        "type": 'post',
+        "cache": false,
+        "url": data.url,
+        "data": data.data,
+        "dateType": "json",
+        "processData": false,
+        "contentType": false,
+        "mimeType": "multipart/form-data",
+        success: data.success ? data.success : function (res) {
+            if (res.code === 'success') {
+                $.toast("操作成功");
+            } else {
+                $.toast(res.message, "text");
+            }
+        }
+    })
+};
+
+let getUrlParam = function (key) {
     let queryString = window.location.search.replace(/^\?/, '');
     let array = queryString.split('&');
     let item = {};
-    for(let i in array){
+    for (let i in array) {
         let kv = array[i].split('=')
         item[kv[0]] = decodeURIComponent(kv[1])
     }
@@ -45,7 +71,7 @@ let loginSubmit = function (ele) {
             if (res.code === 'success') {
                 $.toast("登录成功");
                 let redirect = getUrlParam('redirect');
-                if(!redirect){
+                if (!redirect) {
                     redirect = '/user/center'
                 }
                 return window.location.href = redirect;
