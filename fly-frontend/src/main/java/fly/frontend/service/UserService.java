@@ -2,11 +2,14 @@ package fly.frontend.service;
 
 import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
+import fly.frontend.event.RegisteredEvent;
 import fly.frontend.mapper.UserMapper;
+import fly.frontend.pojo.UpdatePassword;
 import fly.frontend.pojo.UpdateUserInfo;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;
 import org.apache.ibatis.javassist.NotFoundException;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,9 @@ public class UserService {
 
     @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Resource
+    private ApplicationEventPublisher publisher;
 
     public List<User> findAll() {
         return userMapper.findAll();
@@ -55,7 +61,9 @@ public class UserService {
         user.setPassword(getPassword(register.getPassword()));
         user.setCreateTime(new Timestamp(System.currentTimeMillis()));
         int id = userMapper.create(user);
-        System.out.println(id);
+
+        publisher.publishEvent(new RegisteredEvent(user));
+
         return user;
     }
 
@@ -92,16 +100,16 @@ public class UserService {
         return user;
     }
 
-    public void updatePassword(User user, String oldPassword, String password, String confirmPassword) throws Exception {
+    public void updatePassword(User user, UpdatePassword updatePassword) throws Exception {
         //验证原密码是否正确
-        if (!comparePassword(oldPassword, user.getPassword())) {
+        if (!comparePassword(updatePassword.getOldPassword(), user.getPassword())) {
             throw new Exception("原密码错误");
         }
-        if (!password.equals(confirmPassword)) {
+        if (!updatePassword.getPassword().equals(updatePassword.getConfirmPassword())) {
             throw new Exception("新密码和确认密码不一致");
         }
         //修改密码
-        user.setPassword(getPassword(password));
+        user.setPassword(getPassword(updatePassword.getPassword()));
         userMapper.updatePassword(user);
     }
 }

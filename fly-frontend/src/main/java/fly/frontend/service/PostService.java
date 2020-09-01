@@ -33,8 +33,7 @@ public class PostService {
     private ApplicationEventPublisher publisher;
 
     public List<Post> getByCondition(PostFilterCondition condition) {
-        List<Post> posts = postMapper.getByCondition(condition);
-        return posts;
+        return postMapper.getByCondition(condition);
     }
 
     public List<Post> findTop(int limit) {
@@ -118,7 +117,7 @@ public class PostService {
         ArrayList<Integer> ids = new ArrayList<>(new HashSet<>(parentIds));
         if (ids.size() > 0) {
             List<PostComment> parentComments = postCommentService.getCommentsByCommentIds(parentIds);
-            HashMap<Integer, PostComment> hashComments = new HashMap();
+            HashMap<Integer, PostComment> hashComments = new HashMap<>();
             for (PostComment parentComment : parentComments) {
                 hashComments.put(parentComment.getId(), parentComment);
             }

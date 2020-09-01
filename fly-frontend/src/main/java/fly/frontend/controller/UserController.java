@@ -2,6 +2,7 @@ package fly.frontend.controller;
 
 import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
+import fly.frontend.pojo.UpdatePassword;
 import fly.frontend.pojo.UpdateUserInfo;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;
@@ -132,12 +133,10 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     @ResponseBody
-    public Object updatePassword(@RequestParam("oldPassword") String oldPassword,
-                                 @RequestParam("password") String password,
-                                 @RequestParam("confirmPassword") String confirmPassword,
+    public Object updatePassword(@RequestBody UpdatePassword updatePassword,
                                  HttpSession httpSession) throws Exception {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        userService.updatePassword(user, oldPassword, password, confirmPassword);
+        userService.updatePassword(user, updatePassword);
 
         //退出重新登录
         httpSession.removeAttribute(UserService.LOGIN_KEY);

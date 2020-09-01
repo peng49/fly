@@ -1,5 +1,13 @@
 package fly.frontend.event;
 
-public class RegisteredEvent {
+import fly.frontend.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
+@Getter
+@ToString
+@AllArgsConstructor
+public class RegisteredEvent {
+    private User user;
 }

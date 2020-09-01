@@ -150,7 +150,8 @@
                                         <ul class="weui-uploader__files">
                                             <li class="weui-uploader__file" :style="avatarBg">
                                                 <div class="weui-uploader__input-box">
-                                                    <input class="weui-uploader__input" type="file" @change="uploadAvatar" accept="image/*" multiple="">
+                                                    <input class="weui-uploader__input" type="file"
+                                                           @change="uploadAvatar" accept="image/*" multiple="">
                                                 </div>
                                             </li>
 
@@ -166,7 +167,44 @@
     </div>
 </template>
 <template id="reset-password-template">
-    <p> 重置密码</p>
+    <div class="panel">
+        <div class="panel-head">
+            修改密码
+        </div>
+        <div class="panel-content">
+            <div class="input-group">
+                <div class="input-label">
+                    <label class="label">原密码</label>
+                </div>
+                <div class="input-block">
+                    <input class="input"  v-model="resetData.oldPassword" type="password"/>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-label">
+                    <label class="label">新密码</label>
+                </div>
+                <div class="input-block">
+                    <input class="input" v-model="resetData.password" type="password"/>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-label">
+                    <label class="label">确认密码</label>
+                </div>
+                <div class="input-block">
+                    <input class="input" v-model="resetData.confirmPassword" type="password"/>
+                </div>
+            </div>
+            <div class="btn-group">
+                <div class="right">
+                    <a href="javascript:;" @click="updatePassword"
+                       class="weui-btn weui-btn_mini weui-btn_default">提交</a>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
 </template>
 
 <div id="app" class="container">
@@ -248,8 +286,8 @@
                     signature: "",
                     avatar: ""
                 },
-                avatar:"",
-                avatarBg:''
+                avatar: "",
+                avatarBg: ''
             }
         },
         created: function () {
@@ -259,7 +297,7 @@
                 success: function (res) {
                     if (res.code === 'success') {
                         _this.user = res.data
-                        _this.avatarBg = 'background:url("'+_this.user.avatar+'")'
+                        _this.avatarBg = 'background:url("' + _this.user.avatar + '")'
                     }
                 }
             })
@@ -285,12 +323,12 @@
                     url: "/user/uploadAvatar",
                     data: Form,
                     success: function (res) {
-                        if(typeof(res) == 'string'){
+                        if (typeof (res) == 'string') {
                             res = JSON.parse(res)
                         }
                         console.log(res)
                         _this.user = res.data;
-                        _this.avatarBg = 'background:url("'+_this.user.avatar+'")'
+                        _this.avatarBg = 'background:url("' + _this.user.avatar + '")'
 
                         console.log(_this.avatarBg)
                     }
@@ -300,9 +338,25 @@
     });
     Vue.component("reset-password", {
         data: function () {
-            return {}
+            return {
+                resetData: {
+                    oldPassword: "",
+                    password: "",
+                    confirmPassword: ""
+                }
+            }
         },
-        template: "#reset-password-template"
+        template: "#reset-password-template",
+        methods: {
+            updatePassword: function () {
+                let _this = this
+                request({
+                    url: "/user/updatePassword",
+                    method: "POST",
+                    data: _this.resetData
+                })
+            }
+        }
     });
 
     new Vue({

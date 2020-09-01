@@ -1,8 +1,6 @@
 package fly.frontend.listener;
 
-import fly.frontend.entity.Post;
 import fly.frontend.event.CommentEvent;
-import fly.frontend.mapper.PostMapper;
 import fly.frontend.service.PostService;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;

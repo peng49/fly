@@ -41,11 +41,11 @@ public class CalculationHeatTask {
         System.out.println("task run complete");
     }
 
-    public Page<Post> getPosts(int page,int pageSize)
+    public Page<Post> getPosts(int page, int pageSize)
     {
         PageHelper.startPage(page,pageSize);
         PostFilterCondition condition = new PostFilterCondition();
         condition.setStatus(1);
-        return (Page)postService.getByCondition(condition);
+        return (Page<Post>)postService.getByCondition(condition);
     }
 }

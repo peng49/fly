@@ -239,29 +239,50 @@
                     '       </div>'
             },
             "password": {
+                data: function () {
+                    return {
+                        resetData: {
+                            oldPassword: "",
+                            password: "",
+                            confirmPassword: ""
+                        }
+                    }
+                },
                 methods: {
                     resetPassword: function () {
-
+                        let _this = this
+                        console.log(_this.resetData);
+                        axios.post('/user/updatePassword', _this.resetData)
+                            .then(function (response) {
+                                if (response.code === "success") {
+                                    layer.msg("操作成功")
+                                } else {
+                                    layer.msg(response.message)
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
                     },
                 },
                 template: '<div class="container">' +
                     '         <div class="layui-form-item">\n' +
                     '           <label class="layui-form-label">当前密码</label>\n' +
                     '           <div class="layui-input-inline">\n' +
-                    '             <input type="password" class="layui-input">\n' +
+                    '             <input type="password" v-model="resetData.oldPassword" class="layui-input">\n' +
                     '           </div>\n' +
                     '         </div>\n' +
                     '         <div class="layui-form-item">\n' +
                     '           <label  class="layui-form-label">新密码</label>\n' +
                     '           <div class="layui-input-inline">\n' +
-                    '             <input type="password"  class="layui-input">\n' +
+                    '             <input type="password" v-model="resetData.password"  class="layui-input">\n' +
                     '           </div>\n' +
                     '           <div class="layui-form-mid layui-word-aux">6到16个字符</div>\n' +
                     '         </div>\n' +
                     '         <div class="layui-form-item">\n' +
                     '           <label class="layui-form-label">确认密码</label>\n' +
                     '           <div class="layui-input-inline">\n' +
-                    '             <input type="password"  class="layui-input">\n' +
+                    '             <input type="password"  v-model="resetData.confirmPassword"  class="layui-input">\n' +
                     '           </div>\n' +
                     '         </div>\n' +
                     '         <div class="layui-form-item">\n' +
