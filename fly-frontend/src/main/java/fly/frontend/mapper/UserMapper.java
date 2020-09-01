@@ -29,4 +29,7 @@ public interface UserMapper {
 
     @Update("update users set avatar = #{avatar} where id = #{id}")
     public void updateAvatar(User user);
+
+    @Update("update users set password = #{password} where id = #{id}")
+    void updatePassword(User user);
 }

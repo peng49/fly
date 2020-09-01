@@ -129,6 +129,21 @@ public class UserController {
         return HttpUtils.success(res);
     }
 
+
+    @PostMapping("/updatePassword")
+    @ResponseBody
+    public Object updatePassword(@RequestParam("oldPassword") String oldPassword,
+                                 @RequestParam("password") String password,
+                                 @RequestParam("confirmPassword") String confirmPassword,
+                                 HttpSession httpSession) throws Exception {
+        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+        userService.updatePassword(user, oldPassword, password, confirmPassword);
+
+        //退出重新登录
+        httpSession.removeAttribute(UserService.LOGIN_KEY);
+        return HttpUtils.success();
+    }
+
     @PostMapping("/uploadAvatar")
     @ResponseBody
     public Object uploadAvatar(HttpServletRequest request, HttpSession session) throws IOException {
@@ -141,20 +156,18 @@ public class UserController {
             Iterator<String> iter = multiRequest.getFileNames();
             while (iter.hasNext()) {
                 //一次遍历所有文件
-                MultipartFile file = multiRequest.getFile(iter.next().toString());
+                MultipartFile file = multiRequest.getFile(iter.next());
                 if (file != null) {
-                    String filename = UUID.randomUUID() + file.getOriginalFilename().substring(file.getOriginalFilename().indexOf('.')).toLowerCase();
+                    String filename = UUID.randomUUID() + Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().indexOf('.')).toLowerCase();
 
                     String path = userDir + filename;
                     //上传
                     file.transferTo(new File(path));
-                    System.out.println(path);
-                    System.out.println(filename);
                     userService.updateAvatar(user, "/static/" + filename);
                 }
             }
         }
-        
+
         return HttpUtils.success(user);
     }
 }
