@@ -120,4 +120,32 @@ CREATE TABLE `users`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `sender` varchar(255) DEFAULT NULL COMMENT '发送人',
+  `receiver` varchar(255) NOT NULL COMMENT '接收人',
+  `type` varchar(16) DEFAULT NULL COMMENT '类型',
+  `title` varchar(255) DEFAULT NULL COMMENT '标题',
+  `content` varchar(255) DEFAULT NULL COMMENT '内容',
+  `attachment` varchar(255) DEFAULT NULL COMMENT '附件',
+  `status` tinyint(255) DEFAULT NULL COMMENT '状态',
+  `fail_number` int(11) DEFAULT '0' COMMENT '失败次数',
+  `fail_message` varchar(255) DEFAULT NULL COMMENT '失败原因',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `user_token`;
+CREATE TABLE `user_token` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL COMMENT '用户Id',
+  `type` varchar(16) DEFAULT NULL COMMENT 'token类型',
+  `token` varchar(255) DEFAULT NULL COMMENT 'token',
+  `create_at` int(255) DEFAULT NULL COMMENT '创建时间',
+  `expire_in` bigint(255) DEFAULT NULL COMMENT '过期时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 SET FOREIGN_KEY_CHECKS = 1;

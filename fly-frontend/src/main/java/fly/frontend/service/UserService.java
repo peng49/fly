@@ -7,7 +7,6 @@ import fly.frontend.pojo.UpdateUserInfo;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;
 import org.apache.ibatis.javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
-    @Autowired
+    @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<User> findAll() {
@@ -35,7 +34,7 @@ public class UserService {
             throw new NotFoundException("用户不存在");
         }
 
-        if (!comparePassword(login.getPassword(),user.getPassword())) {
+        if (!comparePassword(login.getPassword(), user.getPassword())) {
             //密码错误
             throw new Exception("密码错误");
         }
@@ -47,7 +46,7 @@ public class UserService {
         User user = new User();
         User existed = userMapper.getByUsername(register.getUsername());
         System.out.println(existed);
-        if(existed != null){
+        if (existed != null) {
             throw new Exception("用户名已存在");
         }
 
@@ -60,16 +59,13 @@ public class UserService {
         return user;
     }
 
-    public String getPassword(String password)
-    {
+    public String getPassword(String password) {
         return bCryptPasswordEncoder.encode(password);
     }
 
-    public boolean comparePassword(String password,String hash)
-    {
-        return bCryptPasswordEncoder.matches(password,hash);
+    public boolean comparePassword(String password, String hash) {
+        return bCryptPasswordEncoder.matches(password, hash);
     }
-
 
 
     public User getById(int id) {
@@ -81,7 +77,7 @@ public class UserService {
         return posts;
     }
 
-    public User updateInfo(User user,UpdateUserInfo userInfo) {
+    public User updateInfo(User user, UpdateUserInfo userInfo) {
         user.setEmail(userInfo.getEmail());
         user.setUsername(userInfo.getUsername());
         user.setCity(userInfo.getCity());
@@ -90,10 +86,22 @@ public class UserService {
         return user;
     }
 
-    public User updateAvatar(User user,String avatar)
-    {
+    public User updateAvatar(User user, String avatar) {
         user.setAvatar(avatar);
         userMapper.updateAvatar(user);
         return user;
+    }
+
+    public void updatePassword(User user, String oldPassword, String password, String confirmPassword) throws Exception {
+        //验证原密码是否正确
+        if (!comparePassword(oldPassword, user.getPassword())) {
+            throw new Exception("原密码错误");
+        }
+        if (!password.equals(confirmPassword)) {
+            throw new Exception("新密码和确认密码不一致");
+        }
+        //修改密码
+        user.setPassword(getPassword(password));
+        userMapper.updatePassword(user);
     }
 }
