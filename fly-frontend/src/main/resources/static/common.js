@@ -5,6 +5,19 @@ let serializeArrayToJson = function (array) {
     });
     return object;
 };
+let message = function (msg, type) {
+    if ($.toast) {
+        if (type && type === 'error') {
+            $.toast(msg, 'text')
+        } else {
+            $.toast(msg)
+        }
+    } else if (layer) {
+        layer.msg(msg)
+    } else {
+        alert(msg)
+    }
+};
 
 let request = function (data) {
     $.ajax({
@@ -17,9 +30,9 @@ let request = function (data) {
         },
         success: data.success ? data.success : function (res) {
             if (res.code === 'success') {
-                $.toast("操作成功");
+                message("操作成功");
             } else {
-                $.toast(res.message, "text");
+                message(res.message, "error");
             }
         }
     })
@@ -37,9 +50,9 @@ let uploadFile = function (data) {
         "mimeType": "multipart/form-data",
         success: data.success ? data.success : function (res) {
             if (res.code === 'success') {
-                $.toast("操作成功");
+                message("操作成功");
             } else {
-                $.toast(res.message, "text");
+                message(res.message, "error");
             }
         }
     })
@@ -69,14 +82,14 @@ let loginSubmit = function (ele) {
         },
         success: function (res) {
             if (res.code === 'success') {
-                $.toast("登录成功");
+                message("登录成功");
                 let redirect = getUrlParam('redirect');
                 if (!redirect) {
                     redirect = '/user/center'
                 }
                 return window.location.href = redirect;
             } else {
-                $.toast(res.message, "text");
+                message(res.message, "error");
             }
         }
     })
@@ -96,10 +109,10 @@ let registerSubmit = function (ele) {
         success: function (res) {
             console.log(res);
             if (res.code === 'success') {
-                $.toast("注册成功");
+                message("注册成功");
                 return window.location.href = '/user/login'
             } else {
-                $.toast(res.message, "text");
+                message(res.message, "text");
             }
         }
     })
@@ -129,7 +142,7 @@ $(function () {
 
         document.execCommand("Copy");
 
-        $.toast("复制成功")
+        message("复制成功")
 
         window.getSelection().empty();
     })

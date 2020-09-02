@@ -11,6 +11,7 @@
 
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
+<script src="/static/common.js"></script>
 
 <script type="text/javascript">
     // 添加请求拦截器

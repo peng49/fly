@@ -143,6 +143,13 @@ public class UserController {
         return HttpUtils.success();
     }
 
+    @GetMapping("/messages")
+    public Object messages()
+    {
+
+        return HttpUtils.success();
+    }
+
     @PostMapping("/uploadAvatar")
     @ResponseBody
     public Object uploadAvatar(HttpServletRequest request, HttpSession session) throws IOException {
@@ -166,7 +173,6 @@ public class UserController {
                 }
             }
         }
-
         return HttpUtils.success(user);
     }
 }
