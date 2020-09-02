@@ -13,8 +13,11 @@ public class CommentEventListener {
     private PostService postService;
 
     @EventListener
-    public void postReplyCountInc(CommentEvent event) {
+    public void execute(CommentEvent event) {
         System.out.println("comment post id:"+event.getPostComment().getPost().getId());
+        //文章的评论数加1
         postService.replyCountInc(event.getPostComment().getPost().getId());
+
+        //todo 是否需要发送消息
     }
 }
