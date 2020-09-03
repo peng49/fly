@@ -7,8 +7,7 @@ import java.util.regex.Pattern;
 public class HttpUtils {
 
     public static String getCurrentUrl(HttpServletRequest request) {
-        String url;
-        url = request.getScheme() + "://" + request.getServerName()
+        String url = request.getScheme() + "://" + request.getServerName()
                 + ":" + request.getServerPort()
                 + request.getServletPath();
         if (request.getQueryString() != null) {
@@ -41,28 +40,18 @@ public class HttpUtils {
     }
 
     public static Object success() {
-        HashMap<Object, Object> resp = new HashMap<>();
-        resp.put("code", "success");
-        resp.put("message", "OK");
-        return resp;
+        return HttpUtils.response("success", "OK");
     }
 
     public static Object success(Object data) {
-        HashMap<Object, Object> resp = new HashMap<>();
-        resp.put("code", "success");
-        resp.put("message", "OK");
-        resp.put("data", data);
-        return resp;
+        return HttpUtils.response("success", "OK", data);
     }
 
     public static Object fail(String message) {
-        HashMap<Object, Object> resp = new HashMap<>();
-        resp.put("code", "fail");
-        resp.put("message", message);
-        return resp;
+        return HttpUtils.response("fail", message);
     }
 
-    public static Object fail(String message, String code) {
+    public static HashMap<Object, Object> response(String code, String message) {
         HashMap<Object, Object> resp = new HashMap<>();
         resp.put("code", code);
         resp.put("message", message);
@@ -70,9 +59,7 @@ public class HttpUtils {
     }
 
     public static Object response(String code, String message, Object data) {
-        HashMap<Object, Object> resp = new HashMap<>();
-        resp.put("code", code);
-        resp.put("message", message);
+        HashMap<Object, Object> resp = HttpUtils.response(code, message);
         resp.put("data", data);
         return resp;
     }
