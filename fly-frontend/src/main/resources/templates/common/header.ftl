@@ -22,9 +22,12 @@
         </ul>
 
         <div class="fly-column-right layui-hide-xs">
-            <span class="fly-search">
-                <i class="layui-icon icon-sousuo"></i>
-            </span>
+            <div class="fly-search">
+                <p class="search-container">
+                    <input type="text" name="keyword" value="" placeholder="请输入查询内容">
+                    <i class="layui-icon icon-sousuo"></i>
+                </p>
+            </div>
             <a href="/post/add" class="layui-btn">发表新帖</a>
         </div>
     </div>

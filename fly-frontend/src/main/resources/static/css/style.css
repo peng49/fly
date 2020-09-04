@@ -196,8 +196,23 @@ pre:hover .code-copy{display: block !important;}
 .fly-column .layui-badge-dot{position: absolute; top: 50%; left: 50%; margin: -4px 0 0 20px;}
 
 /* 搜索 */
-.fly-search{display: inline-block; vertical-align: top; width: 50px; height: 50px; margin-right: 10px; text-align: center; cursor: pointer; font-size: 20px;}
-.fly-search .layui-icon{font-size: 20px;}
+.fly-search{display: inline-block; vertical-align: top; height: 50px; margin-right: 10px; text-align: center; cursor: pointer; font-size: 20px;}
+
+.fly-search .search-container {
+  height: 30px;
+  line-height: 50px;
+  display: inline;
+  padding: 5px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.fly-search .search-container input {
+  border: none;
+  text-indent: 8px;
+  width: 145px;
+}
+.fly-search .layui-icon{font-size: 16px;}
 .fly-search:hover{color: #5FB878;}
 .fly-layer-search input{height: 75px; line-height: 75px; width: 500px; padding: 0 15px; font-size: 20px; border: none 0; background: none;}
 
