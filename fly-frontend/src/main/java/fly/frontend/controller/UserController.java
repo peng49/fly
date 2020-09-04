@@ -2,11 +2,13 @@ package fly.frontend.controller;
 
 import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
+import fly.frontend.entity.UserMessage;
 import fly.frontend.pojo.UpdatePassword;
 import fly.frontend.pojo.UpdateUserInfo;
 import fly.frontend.pojo.UserLogin;
 import fly.frontend.pojo.UserRegister;
 import fly.frontend.service.PostService;
+import fly.frontend.service.UserMessageService;
 import fly.frontend.service.UserService;
 import fly.frontend.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +39,9 @@ public class UserController {
 
     @Resource
     private PostService postService;
+
+    @Resource
+    private UserMessageService userMessageService;
 
 
     @GetMapping("/login")
@@ -144,10 +149,12 @@ public class UserController {
     }
 
     @GetMapping("/messages")
-    public Object messages()
+    public Object messages(HttpSession httpSession)
     {
-
-        return HttpUtils.success();
+        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+        List<UserMessage> messages = userMessageService.getMessagesForUser(user);
+        
+        return HttpUtils.success(messages);
     }
 
     @PostMapping("/uploadAvatar")
