@@ -60,7 +60,8 @@ public class UserService {
         user.setEmail(register.getEmail());
         user.setPassword(getPassword(register.getPassword()));
         user.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        int id = userMapper.create(user);
+
+        userMapper.create(user);
 
         publisher.publishEvent(new RegisteredEvent(user));
 

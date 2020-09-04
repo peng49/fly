@@ -18,7 +18,11 @@ public class PostCommentService {
         return postCommentMapper.getByUserId(userId);
     }
 
-    public List<PostComment> getCommentsByCommentIds(ArrayList commentIds){
+    public List<PostComment> getCommentsByCommentIds(ArrayList<Integer> commentIds){
         return postCommentMapper.getCommentsByCommentIds(commentIds);
+    }
+
+    public PostComment get(int id) {
+        return postCommentMapper.get(id);
     }
 }

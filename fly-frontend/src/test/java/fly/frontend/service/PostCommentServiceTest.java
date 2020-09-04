@@ -17,6 +17,6 @@ public class PostCommentServiceTest {
     @Test
     public void getByUserId()
     {
-        System.out.println(postCommentService.getByUserId(1));
+        System.out.println(postCommentService.get(1));
     }
 }
