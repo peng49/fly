@@ -139,8 +139,7 @@ public class PostService {
         post.setId(postCommentAdd.getPostId());
 
         if (postCommentAdd.getParentId() != 0) {
-            PostComment parentComment = new PostComment();
-            parentComment.setId(postCommentAdd.getParentId());
+            PostComment parentComment = postCommentService.get(postCommentAdd.getParentId());
             comment.setParent(parentComment);
         }
         comment.setPost(post);
