@@ -31,4 +31,11 @@ public class UserMessageServiceTest {
         int id = userMessageService.create(userMessage);
         System.out.println(id);
     }
+
+    @Test
+    public void getMessagesForUserTest(){
+        User user = new User();
+        user.setId(1);
+        System.out.println(userMessageService.getMessagesForUser(user));
+    }
 }

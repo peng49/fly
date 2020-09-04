@@ -26,15 +26,24 @@ public class CommentEventListener {
         //文章的评论数加1
         postService.replyCountInc(postComment.getPost().getId());
 
-        //是否需要发送消息
-       if(postComment.getParent() != null){
-           UserMessage userMessage = new UserMessage();
-           userMessage.setType("reply");
-           userMessage.setSender(postComment.getUser());
-           userMessage.setReceiver(postComment.getParent().getUser());
-           userMessage.setContent("回复消息");
-           userMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-           userMessageService.create(userMessage);
-       }
+        //添加评论发送消息
+        UserMessage commentMessage = new UserMessage();
+        commentMessage.setType("comment");
+        commentMessage.setReceiver(postComment.getUser());
+        commentMessage.setReceiver(postService.get(postComment.getPost().getId()).getAuthor());
+        commentMessage.setContent(postComment.getContent());
+        commentMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        userMessageService.create(commentMessage);
+
+        //回复评论发送消息
+        if (postComment.getParent() != null) {
+            UserMessage userMessage = new UserMessage();
+            userMessage.setType("reply");
+            userMessage.setSender(postComment.getUser());
+            userMessage.setReceiver(postComment.getParent().getUser());
+            userMessage.setContent("回复消息");
+            userMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            userMessageService.create(userMessage);
+        }
     }
 }
