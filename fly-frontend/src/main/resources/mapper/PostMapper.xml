@@ -34,5 +34,9 @@
                 and p.status = #{status}
             </if>
         </where>
+
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
     </select>
 </mapper>

@@ -29,6 +29,7 @@ mybatis:
   #允许驼峰命名
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #pagehelper 分页
 pagehelper:
   helperDialect: mysql
@@ -36,6 +37,6 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
 # set log level
-logging:
-    level:
-      root: DEBUG
+#logging:
+#    level:
+#      root: DEBUG

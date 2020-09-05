@@ -12,5 +12,5 @@ public class PostFilterCondition {
 
     private int columnId;
 
-    private String orderBy = "heat desc";
+    private String orderBy;
 }

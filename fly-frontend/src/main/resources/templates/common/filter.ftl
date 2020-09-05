@@ -4,9 +4,9 @@
     <a href="" class="filter-essence">精华</a>
 
     <span class="fly-filter-right layui-hide-xs">
-        <a href="" class="order-publishAt">按最新</a>
+        <a href="" class="order-publish_at">按最新</a>
         <span class="fly-mid"></span>
-        <a href="" class="order-replyCount">按热议</a>
+        <a href="" class="order-reply_count">按热议</a>
     </span>
 </div>
 <script type="text/javascript">
