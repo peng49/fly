@@ -29,7 +29,7 @@ public class CommentEventListener {
         //添加评论发送消息
         UserMessage commentMessage = new UserMessage();
         commentMessage.setType("comment");
-        commentMessage.setReceiver(postComment.getUser());
+        commentMessage.setSender(postComment.getUser());
         commentMessage.setReceiver(postService.get(postComment.getPost().getId()).getAuthor());
         commentMessage.setContent(postComment.getContent());
         commentMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
@@ -41,7 +41,7 @@ public class CommentEventListener {
             userMessage.setType("reply");
             userMessage.setSender(postComment.getUser());
             userMessage.setReceiver(postComment.getParent().getUser());
-            userMessage.setContent("回复消息");
+            userMessage.setContent(postComment.getContent());
             userMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             userMessageService.create(userMessage);
         }

@@ -56,6 +56,8 @@
             </div>
         </div>
         <div class="layui-col-md4">
+            <#include "../common/slider/sign-in.ftl"/>
+
             <#include "../common/slider/top-comment.ftl" />
 
             <#include "../common/slider/ad.ftl" />

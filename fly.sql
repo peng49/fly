@@ -55,6 +55,17 @@ CREATE TABLE `post_comments`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+DROP TABLE IF EXISTS `post_comment_agree`;
+CREATE TABLE `post_comment_agree`
+(
+  `id`         int(11) NOT NULL AUTO_INCREMENT,
+  `user_id`    int(11)  DEFAULT NULL COMMENT '用户Id',
+  `post_id`    int(11)  DEFAULT NULL,
+  `comment_id` int(11)  DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB  DEFAULT CHARSET = utf8;
+
 -- ----------------------------
 -- Table structure for posts
 -- ----------------------------
@@ -122,8 +133,8 @@ CREATE TABLE `users`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 
-DROP TABLE IF EXISTS `message`;
-CREATE TABLE `message` (
+DROP TABLE IF EXISTS `message_queue`;
+CREATE TABLE `message_queue` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `sender` varchar(255) DEFAULT NULL COMMENT '发送人',
   `receiver` varchar(255) NOT NULL COMMENT '接收人',

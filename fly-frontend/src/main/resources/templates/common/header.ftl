@@ -13,11 +13,9 @@
 
             <#if Session["login-user"]??>
                 <!-- 用户登入后显示 -->
-                <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">
-                    <a href="/user/center">我发表的贴</a>
+                <li class="layui-hide-xs layui-show-md-inline-block">
+                    <a href="/user/center">个人中心</a>
                 </li>
-                <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">
-                    <a href="/user/center#collection">我收藏的贴</a></li>
             </#if>
         </ul>
 

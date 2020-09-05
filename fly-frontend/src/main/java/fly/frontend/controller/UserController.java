@@ -149,11 +149,11 @@ public class UserController {
     }
 
     @GetMapping("/messages")
-    public Object messages(HttpSession httpSession)
-    {
+    @ResponseBody
+    public Object messages(HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         List<UserMessage> messages = userMessageService.getMessagesForUser(user);
-        
+
         return HttpUtils.success(messages);
     }
 
