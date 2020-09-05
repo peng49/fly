@@ -1,11 +1,12 @@
 package fly.frontend.utils;
 
+import fly.frontend.entity.User;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class HttpUtils {
-
     public static String getCurrentUrl(HttpServletRequest request) {
         String url = request.getScheme() + "://" + request.getServerName()
                 + ":" + request.getServerPort()

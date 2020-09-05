@@ -17,6 +17,29 @@
         <component :is="component"></component>
     </div>
 </div>
+<template id="user-message">
+    <div class="layui-tab layui-tab-brief" style="margin-top: 15px;">
+        <button class="layui-btn layui-btn-danger">清空全部消息</button>
+        <div style="margin-top: 10px;">
+            <ul class="mine-msg">
+
+                <li v-for="message in messages">
+                    <blockquote class="layui-elem-quote">
+                        <a href="" target="_blank" v-if="message.sender"><cite>{{message.sender.username}}</cite></a>
+                        <span v-if="message.type == 'reply'">回复了你的评论</span>
+
+                        <span v-if="message.type == 'comment'">评论了你的文章</span>
+                        <p v-html="message.content"></p>
+                    </blockquote>
+                    <p>
+                        <span>{{message.createAt}}</span>
+                        <a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</template>
 <#include "../common/footer.ftl" />
 <script type="text/javascript">
     Vue.component('user-nav', {
@@ -352,34 +375,24 @@
             '        </div>'
     });
     Vue.component("user-message", {
-        template: `<div class="layui-tab layui-tab-brief" style="margin-top: 15px;">
-            <button class="layui-btn layui-btn-danger">清空全部消息</button>
-            <div style="margin-top: 10px;">
-                <ul class="mine-msg">
-                    <li data-id="123">
-                        <blockquote class="layui-elem-quote">
-                            <a href="/jump?username=Absolutely" target="_blank"><cite>Absolutely</cite></a>回答了您的求解
-                            <a target="_blank" href="/jie/8153.html/page/0/#item-1489505778669">
-                                <cite>layui后台框架</cite>
-                            </a>
-                        </blockquote>
-                        <p>
-                            <span>1小时前</span>
-                            <a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a>
-                        </p>
-                    </li>
-                    <li data-id="123">
-                        <blockquote class="layui-elem-quote">
-                            系统消息：欢迎使用 layui
-                        </blockquote>
-                        <p>
-                            <span>1小时前</span>
-                            <a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a>
-                        </p>
-                    </li>
-                </ul>
-            </div>
-        </div>`
+        data: function () {
+            return {
+                messages: []
+            }
+        },
+        template: "#user-message",
+        created: async function () {
+            this.messages = await this.getMessages();
+        },
+        methods: {
+            getMessages: async function () {
+                let messages
+                await axios.get("/user/messages").then(function (resp) {
+                    messages = resp.data
+                })
+                return messages
+            }
+        }
     });
 
     new Vue({
