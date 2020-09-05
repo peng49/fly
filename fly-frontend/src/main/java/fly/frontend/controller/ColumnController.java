@@ -33,6 +33,8 @@ public class ColumnController {
         condition.setList(filter.getList());
         condition.setStatus(1);//已发布的
 
+        condition.setOrderBy("heat desc");
+
         PageHelper.startPage(filter.getPage(), filter.getPageSize());
         Page posts = (Page) postService.getByCondition(condition);
         view.addObject("posts", posts);

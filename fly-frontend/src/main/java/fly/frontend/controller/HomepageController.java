@@ -29,10 +29,18 @@ public class HomepageController {
     private PostCommentService postCommentService;
 
     @RequestMapping("/")
-    public ModelAndView index(HttpServletRequest request, ModelAndView view, @RequestParam(defaultValue = "all") String list) {
+    public ModelAndView index(HttpServletRequest request, ModelAndView view, @RequestParam(defaultValue = "all") String list,
+                              @RequestParam(value = "orderBy", defaultValue = "") String orderBy) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setList(list);
         condition.setStatus(1);//已发布的
+
+        if (!"".equals(orderBy) && PostService.ALLOW_ORDER_FIELD.contains(orderBy)) {
+            condition.setOrderBy(orderBy + " desc");
+        } else {
+            condition.setOrderBy("heat desc");
+        }
+        System.out.println(condition);
 
         view.addObject("topPosts", postService.findTop(4));
 

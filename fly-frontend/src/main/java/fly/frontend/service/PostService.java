@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PostService {
@@ -28,6 +25,8 @@ public class PostService {
 
     @Autowired
     private PostCommentService postCommentService;
+
+    public final static List<String> ALLOW_ORDER_FIELD = Arrays.asList("heat", "publish_at", "reply_count");
 
     @Resource
     private ApplicationEventPublisher publisher;
