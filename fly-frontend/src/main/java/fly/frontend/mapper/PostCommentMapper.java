@@ -1,16 +1,16 @@
 package fly.frontend.mapper;
 
 import fly.frontend.entity.PostComment;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
 public interface PostCommentMapper {
+    @Insert("insert into post_comments(user_id,post_id,parent_id,level,content,comment_time) values(#{user.id},#{post.id},#{parent.id},#{level},#{content},#{commentTime})")
+    int create(PostComment comment);
+
     @Select("select c.*,p.title as post_title from post_comments as c inner join posts as p on p.id=c.post_id where c.user_id = #{userId}")
     @Results({
             @Result(id = true, property = "id", column = "id"),

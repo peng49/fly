@@ -28,9 +28,6 @@ public class PostService {
 
     public final static List<String> ALLOW_ORDER_FIELD = Arrays.asList("heat", "publish_at", "reply_count");
 
-    @Resource
-    private ApplicationEventPublisher publisher;
-
     public List<Post> getByCondition(PostFilterCondition condition) {
         return postMapper.getByCondition(condition);
     }
@@ -128,25 +125,6 @@ public class PostService {
             }
         }
         return comments;
-    }
-
-    public PostComment addComment(User user, PostCommentAdd postCommentAdd) {
-        PostComment comment = new PostComment();
-        comment.setCommentTime(new Date(System.currentTimeMillis()));
-        comment.setContent(postCommentAdd.getContent());
-        Post post = new Post();
-        post.setId(postCommentAdd.getPostId());
-
-        if (postCommentAdd.getParentId() != 0) {
-            PostComment parentComment = postCommentService.get(postCommentAdd.getParentId());
-            comment.setParent(parentComment);
-        }
-        comment.setPost(post);
-        comment.setUser(user);
-        postMapper.addComment(comment);
-
-        publisher.publishEvent(new CommentEvent(comment));
-        return comment;
     }
 
     public void top(Post post) {

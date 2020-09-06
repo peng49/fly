@@ -23,9 +23,6 @@ public class CommentEventListener {
     public void execute(CommentEvent event) {
         PostComment postComment = event.getPostComment();
 
-        //文章的评论数加1
-        postService.replyCountInc(postComment.getPost().getId());
-
         //添加评论发送消息
         UserMessage commentMessage = new UserMessage();
         commentMessage.setType("comment");

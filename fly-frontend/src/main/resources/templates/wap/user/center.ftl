@@ -177,7 +177,7 @@
                     <label class="label">原密码</label>
                 </div>
                 <div class="input-block">
-                    <input class="input"  v-model="resetData.oldPassword" type="password"/>
+                    <input class="input" v-model="resetData.oldPassword" type="password"/>
                 </div>
             </div>
             <div class="input-group">
@@ -206,6 +206,24 @@
         </div>
     </div>
 </template>
+<template id="user-message">
+    <div class="panel">
+        <div class="panel-head">
+            我的消息
+        </div>
+        <div class="panel-content">
+            <ul>
+                <li v-for="message in messages">
+                    <a href="" target="_blank" v-if="message.sender"><cite>{{message.sender.username}}</cite></a>
+                    <span v-if="message.type == 'reply'">回复了你的评论</span>
+                    <span v-if="message.type == 'comment'">评论了你的文章</span>
+                    <p v-html="message.content"></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</template>
 
 <div id="app" class="container">
     <component :is="component"></component>
@@ -226,7 +244,7 @@
                     {label: "我的收藏", url: "javascript:", component: "collection"},
                     {label: "用户设置", url: "javascript:", component: "settings"},
                     {label: "修改密码", url: "javascript:", component: "reset-password"},
-                    {label: "我的消息", url: "javascript:", component: "message"}
+                    {label: "我的消息", url: "javascript:", component: "messages"}
                 ]
             }
         },
@@ -257,9 +275,7 @@
     Vue.component("collection", {
         data: function () {
             return {
-                posts: [
-                    // {title: "标题", publishAt: "发布时间", status: "", top: 0}
-                ]
+                posts: []
             }
         },
         created: function () {
@@ -358,6 +374,30 @@
             }
         }
     });
+
+    Vue.component("messages", {
+        template: "#user-message",
+        data: function () {
+            return {
+                messages: []
+            }
+        },
+        created: function () {
+            this.requestMessages()
+        },
+        methods: {
+            requestMessages: function () {
+                let _this = this
+                request({
+                    url: "/user/messages",
+                    success: function (resp) {
+                        console.log(resp)
+                        _this.messages = resp.data
+                    }
+                });
+            }
+        }
+    })
 
     new Vue({
         el: "#app",

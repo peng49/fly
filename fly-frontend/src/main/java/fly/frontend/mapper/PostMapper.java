@@ -88,8 +88,7 @@ public interface PostMapper {
     })
     public List<PostComment> getComments(int postId);
 
-    @Insert("insert into post_comments(user_id,post_id,parent_id,content,comment_time) values(#{user.id},#{post.id},#{parent.id},#{content},#{commentTime})")
-    public void addComment(PostComment comment);
+
 
 
 

@@ -33,7 +33,11 @@ public class ColumnController {
         condition.setList(filter.getList());
         condition.setStatus(1);//已发布的
 
-        condition.setOrderBy("heat desc");
+        if (filter.getOrderBy() != null && PostService.ALLOW_ORDER_FIELD.contains(filter.getOrderBy())) {
+            condition.setOrderBy(filter.getOrderBy() + " desc");
+        } else {
+            condition.setOrderBy("heat desc");
+        }
 
         PageHelper.startPage(filter.getPage(), filter.getPageSize());
         Page posts = (Page) postService.getByCondition(condition);

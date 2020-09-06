@@ -11,4 +11,5 @@ public class PostFilter {
     private int pageSize  = DEFAULT_PAGE_SIZE;
 
     private String list;
+    private String orderBy;
 }
