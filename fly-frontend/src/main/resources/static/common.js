@@ -72,7 +72,7 @@ let getUrlParam = function (key) {
 let loginSubmit = function (ele) {
     let Form = $(ele).parents('form');
     let data = JSON.stringify(serializeArrayToJson(Form.serializeArray()));
-    console.log(data);
+    let reload = Form.data("reload");
     $.ajax('/user/login', {
         method: "POST",
         data: data,
@@ -83,6 +83,9 @@ let loginSubmit = function (ele) {
         success: function (res) {
             if (res.code === 'success') {
                 message("登录成功");
+                if(reload){
+                    return window.location.reload();
+                }
                 let redirect = getUrlParam('redirect');
                 if (!redirect) {
                     redirect = '/user/center'
