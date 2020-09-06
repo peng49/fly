@@ -15,7 +15,7 @@
         </div>
         <div class="fly-panel-main">
             <#-- 登录 -->
-            <form action="" method="post">
+            <form action="" method="post" data-reload="true">
                 <div class="layui-form-item">
                     <div class="layui-input-inline">
                         <input type="text" name="username" placeholder="请输入用户名/邮箱" class="layui-input">
