@@ -66,7 +66,7 @@
                             <span>
                             <time date="" title="">${comment.commentTime}</time>
                         </span>
-                            <span class="right">#1</span>
+                            <span class="right">#${comment.level}</span>
                         </div>
                         <div class="comment">
                             <#if (comment.parent)??>

@@ -1,28 +1,18 @@
 package fly.frontend.service;
 
 import fly.frontend.entity.PostComment;
-import fly.frontend.mapper.PostCommentMapper;
-import org.springframework.stereotype.Service;
+import fly.frontend.entity.User;
+import fly.frontend.pojo.PostCommentAdd;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class PostCommentService {
-    @Resource
-    private PostCommentMapper postCommentMapper;
+public interface PostCommentService {
+    PostComment create(User user,PostCommentAdd postCommentAdd);
 
+    PostComment get(int id);
 
-    public List<PostComment> getByUserId(int userId) {
-        return postCommentMapper.getByUserId(userId);
-    }
+    List<PostComment> getByUserId(int userId);
 
-    public List<PostComment> getCommentsByCommentIds(ArrayList<Integer> commentIds){
-        return postCommentMapper.getCommentsByCommentIds(commentIds);
-    }
-
-    public PostComment get(int id) {
-        return postCommentMapper.get(id);
-    }
+    List<PostComment> getCommentsByCommentIds(ArrayList<Integer> commentIds);
 }

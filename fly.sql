@@ -50,6 +50,7 @@ CREATE TABLE `post_comments`  (
   `post_id` int(11) NULL DEFAULT NULL,
   `parent_id` int(11) NULL DEFAULT NULL,
   `agree_count` int(11) NULL DEFAULT NULL,
+  `level` int(11) NULL DEFAULT 1,
   `comment_time` datetime(0) NULL DEFAULT NULL,
   `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`id`) USING BTREE

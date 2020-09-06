@@ -6,6 +6,7 @@ import fly.frontend.entity.User;
 import fly.frontend.pojo.PostEdit;
 import fly.frontend.pojo.PostCommentAdd;
 import fly.frontend.service.ColumnService;
+import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
 import fly.frontend.utils.HttpUtils;
@@ -36,6 +37,9 @@ public class PostController {
 
     @Resource
     private ColumnService columnService;
+
+    @Resource
+    private PostCommentService postCommentService;
 
     @GetMapping("/add")
     public ModelAndView add(ModelAndView view, HttpServletRequest request) {
@@ -107,8 +111,16 @@ public class PostController {
     @ResponseBody
     public Object addComment(@RequestBody @Validated PostCommentAdd postCommentAdd, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        PostComment comment = postService.addComment(user, postCommentAdd);
+        PostComment comment = postCommentService.create(user, postCommentAdd);
         return HttpUtils.success(comment);
+    }
+
+    @PostMapping("/commentAgree")
+    public Object commentAgree(){
+
+
+
+        return HttpUtils.success();
     }
 
     /**
