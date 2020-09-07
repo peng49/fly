@@ -471,6 +471,16 @@ pre .code-copy {
     border-radius: 5px;
     word-wrap: break-word;
 }
+.messages .message{
+    margin-bottom: 20px;
+    line-height: 24px;
+}
+.messages .message-content{
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #F2F2F5;
+    border-radius: 5px;
+}
 
 /* 强制覆盖editor.md编辑器原样式 */
 .CodeMirror-linenumber {

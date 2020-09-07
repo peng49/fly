@@ -212,12 +212,14 @@
             我的消息
         </div>
         <div class="panel-content">
-            <ul>
-                <li v-for="message in messages">
-                    <a href="" target="_blank" v-if="message.sender"><cite>{{message.sender.username}}</cite></a>
-                    <span v-if="message.type == 'reply'">回复了你的评论</span>
-                    <span v-if="message.type == 'comment'">评论了你的文章</span>
-                    <p v-html="message.content"></p>
+            <ul class="messages">
+                <li class="message" v-for="message in messages">
+                    <p>
+                        <a href="" target="_blank" v-if="message.sender"><cite>{{message.sender.username}}</cite></a>
+                        <span v-if="message.type == 'reply'">回复了你的评论</span>
+                        <span v-if="message.type == 'comment'">评论了你的文章</span>
+                    </p>
+                    <div class="message-content" v-html="message.content"></div>
                 </li>
             </ul>
         </div>
