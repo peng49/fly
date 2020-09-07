@@ -154,11 +154,11 @@ public class UserController {
     @ResponseBody
     public Object collection(@RequestBody @Validated Map<String,@NotBlank(message = "值不能为空") Integer> request, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        System.out.println(request.get("postId"));
-        if (userPostService.isExisted(user.getId(), request.get("postId"))) {
-            //cancel
+        Integer postId = request.get("postId");
+        if (userPostService.isExisted(user.getId(), postId)) {
+           userPostService.delete(user, postId);
         } else {
-            userPostService.create(user,request.get("postId"));
+            userPostService.create(user, postId);
         }
         return HttpUtils.success();
     }

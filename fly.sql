@@ -104,6 +104,7 @@ CREATE TABLE `user_message` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+alter table user_message modify content text null;
 -- ----------------------------
 -- Table structure for user_posts
 -- ----------------------------
@@ -159,6 +160,7 @@ CREATE TABLE `user_token` (
   `expire_in` bigint(255) DEFAULT NULL COMMENT '过期时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 SET FOREIGN_KEY_CHECKS = 1;

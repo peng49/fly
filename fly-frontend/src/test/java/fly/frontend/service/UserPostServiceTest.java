@@ -25,6 +25,17 @@ public class UserPostServiceTest {
         System.out.println(userPostService.create(user,14));
     }
 
+
+    @Test
+    public void deleteTest()
+    {
+        User user = new User();
+        user.setId(1);
+
+        userPostService.delete(user,10);
+    }
+
+
     @Test
     public void getTest(){
         System.out.println(userPostService.isExisted(1,1));

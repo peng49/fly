@@ -18,6 +18,11 @@ public class UserPostServiceImpl implements UserPostService {
     }
 
     @Override
+    public void delete(User user, int postId) {
+        userPostMapper.delete(user,postId);
+    }
+
+    @Override
     public boolean isExisted(int userId, int postId) {
         return userPostMapper.isExisted(userId, postId);
     }
