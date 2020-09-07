@@ -75,7 +75,7 @@
                     ${post.content}
                 </div>
                 <div class="detail-handle" style="text-align: center">
-                    <a href="javascript:"><i class="layui-icon"></i> 收藏(0)</a>
+                    <a href="javascript:" @click="collection"><i class="layui-icon"></i> 收藏(0)</a>
                     <a href="javascript:">分享</a>
                 </div>
             </div>
@@ -170,6 +170,9 @@
     new Vue({
         el: "#post-container",
         data: {
+            postCollection: {
+                postId: '${post.id}'
+            },
             editor: null,
             parentCon: {
                 username: "回复用户",
@@ -183,8 +186,7 @@
         },
         mounted() {
             this.initEditor()
-            this.editor.txt.html(this.comment.content)
-            this.initCopyBtn()
+            this.editor.txt.html(this.comment.content);
         },
         methods: {
             initEditor: function () {
@@ -267,8 +269,18 @@
             replyCancel: function () {
                 this.comment.parentId = 0;
             },
-            initCopyBtn: function () {
-
+            collection: function () {
+                axios.post('/user/collection', this.postCollection)
+                    .then(function (response) {
+                        if (response.code === "success") {
+                            layer.msg('操作成功');
+                            return;
+                        }
+                        layer.msg(response.message)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         }
     });
