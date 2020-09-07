@@ -3,7 +3,6 @@ package fly.frontend.pojo;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
 
 @Data
 public class UserLogin {

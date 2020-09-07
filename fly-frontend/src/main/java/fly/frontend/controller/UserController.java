@@ -3,12 +3,10 @@ package fly.frontend.controller;
 import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
 import fly.frontend.entity.UserMessage;
-import fly.frontend.pojo.UpdatePassword;
-import fly.frontend.pojo.UpdateUserInfo;
-import fly.frontend.pojo.UserLogin;
-import fly.frontend.pojo.UserRegister;
+import fly.frontend.pojo.*;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserMessageService;
+import fly.frontend.service.UserPostService;
 import fly.frontend.service.UserService;
 import fly.frontend.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +22,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -42,6 +41,9 @@ public class UserController {
 
     @Resource
     private UserMessageService userMessageService;
+
+    @Resource
+    private UserPostService userPostService;
 
 
     @GetMapping("/login")
@@ -145,6 +147,19 @@ public class UserController {
 
         //退出重新登录
         httpSession.removeAttribute(UserService.LOGIN_KEY);
+        return HttpUtils.success();
+    }
+
+    @PostMapping("/collection")
+    @ResponseBody
+    public Object collection(@RequestBody @Validated Map<String,@NotBlank(message = "值不能为空") Integer> request, HttpSession httpSession) {
+        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+        System.out.println(request.get("postId"));
+        if (userPostService.isExisted(user.getId(), request.get("postId"))) {
+            //cancel
+        } else {
+            userPostService.create(user,request.get("postId"));
+        }
         return HttpUtils.success();
     }
 
