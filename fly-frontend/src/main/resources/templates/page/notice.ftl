@@ -2,15 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>故障公告页</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Notice</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="/static/css/layui.css">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <meta name="keywords" content="Notice">
+    <meta name="description" content="Notice">
+    <#include "../common/link.ftl" />
     <style>
         .notice {
             width: 600px;
@@ -38,13 +34,10 @@
     </style>
 </head>
 <body>
-<div class="fly-none" style="min-height: 0; padding: 0;">
-    <i class="iconfont icon-tishilian"></i>
-</div>
 <div class="notice layui-text">
     非常抱歉，社区正在维护，稍后恢复 <br> <a href="http://www.layui.com/doc/" target="_blank">文档</a> <span
-        style="padding:0 5px;"></span> <a href="http://www.layui.com/demo/" target="_blank">示例</a> <span
-        style="padding:0 5px;"></span>
+            style="padding:0 5px;"></span> <a href="http://www.layui.com/demo/" target="_blank">示例</a> <span
+            style="padding:0 5px;"></span>
 </div>
 </body>
 </html>

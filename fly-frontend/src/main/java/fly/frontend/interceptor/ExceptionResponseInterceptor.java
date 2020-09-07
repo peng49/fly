@@ -1,6 +1,9 @@
 package fly.frontend.interceptor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +19,9 @@ public class ExceptionResponseInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws
             Exception {
         if (errorCodeList.contains(response.getStatus())) {
-            request.getRequestDispatcher("/WEB-INF/templates/page/404.jsp").forward(request,response);
-            return false;
+            ModelAndView modelAndView = new ModelAndView("page/404");
+            modelAndView.setStatus(HttpStatus.NOT_FOUND);
+            throw new ModelAndViewDefiningException(modelAndView);
         }
         return super.preHandle(request, response, handler);
     }
