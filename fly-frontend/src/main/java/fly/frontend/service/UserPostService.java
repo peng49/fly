@@ -5,6 +5,7 @@ import fly.frontend.entity.User;
 public interface UserPostService {
     int create(User user,int postId);
 
+    void delete(User user,int postId);
 
     boolean isExisted(int userId, int postId);
 }
