@@ -36,4 +36,10 @@ public interface PostCommentMapper {
             @Result(property = "user.username", column = "username")
     })
     PostComment get(int id);
+
+    @Update("update post_comments set agree_count = agree_count - 1 where id = #{commentId}")
+    void commentAgreeDec(int commentId);
+
+    @Update("update post_comments set agree_count = agree_count + 1 where id = #{commentId}")
+    void commentAgreeInc(int commentId);
 }

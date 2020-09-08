@@ -1,13 +1,8 @@
 package fly.frontend.controller;
 
-import fly.frontend.entity.Post;
-import fly.frontend.entity.User;
-import fly.frontend.entity.UserMessage;
+import fly.frontend.entity.*;
 import fly.frontend.pojo.*;
-import fly.frontend.service.PostService;
-import fly.frontend.service.UserMessageService;
-import fly.frontend.service.UserPostService;
-import fly.frontend.service.UserService;
+import fly.frontend.service.*;
 import fly.frontend.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -44,6 +39,12 @@ public class UserController {
 
     @Resource
     private UserPostService userPostService;
+
+    @Resource
+    private PostCommentAgreeService postCommentAgreeService;
+
+    @Resource
+    private PostCommentService postCommentService;
 
 
     @GetMapping("/login")
@@ -170,6 +171,28 @@ public class UserController {
         List<UserMessage> messages = userMessageService.getMessagesForUser(user);
 
         return HttpUtils.success(messages);
+    }
+
+    @PostMapping("/commentAgree")
+    @ResponseBody
+    public Object commentAgree(@RequestBody Map<String,Integer> request,HttpSession httpSession)
+    {
+        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+        Integer commentId = request.get("commentId");
+        if(postCommentAgreeService.isExisted(user,commentId)){
+            postCommentAgreeService.delete(user,commentId);
+            postCommentService.commentAgreeDec(commentId);
+        }else{
+            PostComment comment = new PostComment();
+            comment.setId(commentId);
+            PostCommentAgree postCommentAgree = new PostCommentAgree();
+            postCommentAgree.setUser(user);
+            postCommentAgree.setPostComment(comment);
+            postCommentAgreeService.create(postCommentAgree);
+            postCommentService.commentAgreeInc(commentId);
+        }
+
+        return HttpUtils.success();
     }
 
     @PostMapping("/uploadAvatar")

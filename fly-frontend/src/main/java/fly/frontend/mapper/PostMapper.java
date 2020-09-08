@@ -81,12 +81,13 @@ public interface PostMapper {
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "content", column = "content"),
+            @Result(property = "agreeCount", column = "agree_count"),
             @Result(property = "user.id", column = "user_id"),
             @Result(property = "user.username", column = "username"),
             @Result(property = "user.avatar", column = "avatar"),
             @Result(property = "parent.id", column = "parent_id")
     })
-    public List<PostComment> getComments(int postId);
+    List<PostComment> getComments(int postId);
 
 
 
