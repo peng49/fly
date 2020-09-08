@@ -117,7 +117,7 @@
                             </div>
                             <div class="jieda-reply">
                                         <span class="jieda-zan">
-                                            <i class="iconfont icon-zan"></i>
+                                            <i class="iconfont icon-zan" @click="commentAgree(${comment.id})"></i>
                                             <em>${comment.agreeCount}</em>
                                         </span>
                                 <span @click="reply($event)" data-id="${comment.id}"
@@ -271,6 +271,19 @@
             },
             collection: function () {
                 axios.post('/user/collection', this.postCollection)
+                    .then(function (response) {
+                        if (response.code === "success") {
+                            layer.msg('操作成功');
+                            return;
+                        }
+                        layer.msg(response.message)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            commentAgree:function(commentId){
+                axios.post('/user/commentAgree', {commentId:commentId})
                     .then(function (response) {
                         if (response.code === "success") {
                             layer.msg('操作成功');

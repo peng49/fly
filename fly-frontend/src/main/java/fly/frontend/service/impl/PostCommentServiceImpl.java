@@ -59,6 +59,16 @@ public class PostCommentServiceImpl implements PostCommentService {
         return postCommentMapper.getCommentsByCommentIds(commentIds);
     }
 
+    @Override
+    public void commentAgreeInc(int commentId) {
+        postCommentMapper.commentAgreeInc(commentId);
+    }
+
+    @Override
+    public void commentAgreeDec(int commentId) {
+        postCommentMapper.commentAgreeDec(commentId);
+    }
+
     public PostComment get(int id) {
         return postCommentMapper.get(id);
     }

@@ -49,12 +49,14 @@ CREATE TABLE `post_comments`  (
   `user_id` int(11) NULL DEFAULT NULL,
   `post_id` int(11) NULL DEFAULT NULL,
   `parent_id` int(11) NULL DEFAULT NULL,
-  `agree_count` int(11) NULL DEFAULT NULL,
+  `agree_count` int(11) NULL DEFAULT 0,
   `level` int(11) NULL DEFAULT 1,
   `comment_time` datetime(0) NULL DEFAULT NULL,
   `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+alter table post_comments alter column agree_count set default 0;
 
 DROP TABLE IF EXISTS `post_comment_agree`;
 CREATE TABLE `post_comment_agree`
