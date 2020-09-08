@@ -116,8 +116,8 @@
                                 <div class="comment-content">${comment.content}</div>
                             </div>
                             <div class="jieda-reply">
-                                        <span class="jieda-zan">
-                                            <i class="iconfont icon-zan" @click="commentAgree(${comment.id})"></i>
+                                        <span class="jieda-zan" @click="commentAgree(${comment.id})">
+                                            <i class="iconfont icon-zan"></i>
                                             <em>${comment.agreeCount}</em>
                                         </span>
                                 <span @click="reply($event)" data-id="${comment.id}"
