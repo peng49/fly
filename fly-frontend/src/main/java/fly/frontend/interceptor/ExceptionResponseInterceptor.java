@@ -19,9 +19,9 @@ public class ExceptionResponseInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws
             Exception {
         if (errorCodeList.contains(response.getStatus())) {
-            ModelAndView modelAndView = new ModelAndView("page/404");
-            modelAndView.setStatus(HttpStatus.NOT_FOUND);
-            throw new ModelAndViewDefiningException(modelAndView);
+            ModelAndView mv = new ModelAndView("page/404");
+            mv.setStatus(HttpStatus.NOT_FOUND);
+            throw new ModelAndViewDefiningException(mv);
         }
         return super.preHandle(request, response, handler);
     }
