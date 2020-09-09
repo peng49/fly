@@ -1,5 +1,6 @@
 package fly.frontend.handler;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -7,7 +8,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.ValidationException;
 import java.util.HashMap;
@@ -18,7 +23,7 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     @ResponseBody
-    public final Map handleAllExceptions(Exception ex, WebRequest request) {
+    public final Map<String,Object> handleAllExceptions(Exception ex, WebRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("code", "exception");
         map.put("name", ex.getClass().getName());
@@ -26,10 +31,19 @@ public class ExceptionHandler {
         return map;
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(ResponseStatusException.class)
+    public final void handleResponseStatusException(ResponseStatusException ex, WebRequest request) throws ModelAndViewDefiningException {
+        if (HttpStatus.NOT_FOUND.equals(ex.getStatus())) {
+            ModelAndView mv = new ModelAndView("page/404");
+            mv.setStatus(HttpStatus.NOT_FOUND);
+            throw new ModelAndViewDefiningException(mv);
+        }
+    }
+
 
     @org.springframework.web.bind.annotation.ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
     @ResponseBody
-    public final Map handleValidateExceptions(Exception ex, WebRequest request) {
+    public final Map<String, Object> handleValidateExceptions(Exception ex, WebRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("code", "validate.error");
 

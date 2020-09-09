@@ -11,16 +11,19 @@ import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
 import fly.frontend.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -86,12 +89,18 @@ public class PostController {
     }
 
     @GetMapping("/detail/{id}")
-    public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession, HttpServletRequest request) {
+    public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession, HttpServletRequest request,HttpServletResponse response) {
         Post post = postService.get(id);
         boolean allowEdit = false;
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         if (user != null && user.getId() == post.getAuthor().getId()) {
             allowEdit = true;
+        }
+
+        if (post.getStatus() != 1 && (user == null || user.getId() != post.getAuthor().getId())) {
+            //不是作者不能看未发布的文章
+            response.setStatus(404);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
         view.addObject("post", post);
