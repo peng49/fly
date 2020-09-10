@@ -1,11 +1,13 @@
 package fly.frontend.service.impl;
 
+import fly.frontend.entity.Post;
 import fly.frontend.entity.User;
 import fly.frontend.mapper.UserPostMapper;
 import fly.frontend.service.UserPostService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class UserPostServiceImpl implements UserPostService {
@@ -25,5 +27,10 @@ public class UserPostServiceImpl implements UserPostService {
     @Override
     public boolean isExisted(int userId, int postId) {
         return userPostMapper.isExisted(userId, postId);
+    }
+
+    @Override
+    public List<Post> findByUser(User user) {
+        return userPostMapper.findByUser(user);
     }
 }

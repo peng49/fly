@@ -25,6 +25,9 @@ public class UserService {
     private UserMapper userMapper;
 
     @Resource
+    private UserPostService userPostService;
+
+    @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Resource
@@ -81,9 +84,8 @@ public class UserService {
         return userMapper.getById(id);
     }
 
-    public List<Post> findCollectionPosts(int userId) {
-        List<Post> posts = userMapper.findCollectionPosts(userId);
-        return posts;
+    public List<Post> getCollectionPosts(User user) {
+        return userPostService.findByUser(user);
     }
 
     public User updateInfo(User user, UpdateUserInfo userInfo) {

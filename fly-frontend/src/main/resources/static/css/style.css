@@ -591,3 +591,4 @@ body .fly-user-main{position: relative; min-height: 600px;}
 }
 
 .editormd-menu li .layui-btn{height: 28px; line-height: 28px;}
+.editormd-preview-container blockquote{font-style: normal !important;padding: 10px 15px !important;background: #f6f6f6;}
