@@ -5,8 +5,8 @@
         </div>
         <div class="fly-panel-main">
             <div class="avatar" style="width: 80px;height: 80px;display: inline-block">
-                <img style="width: 100%;height: 100%;border-radius: 40px;" src="${Session["login-user"].avatar}"
-                     alt="${Session["login-user"].username}">
+                <img style="width: 100%;height: 100%;border-radius: 40px;" src="${(Session["login-user"].avatar)!}"
+                     alt="${(Session["login-user"].username)!}">
             </div>
         </div>
     <#else>

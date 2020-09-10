@@ -8,6 +8,7 @@ import fly.frontend.mapper.PostCommentMapper;
 import fly.frontend.pojo.PostCommentAdd;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
+import fly.frontend.service.UserService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ import javax.annotation.Resource;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class PostCommentServiceImpl implements PostCommentService {
@@ -23,6 +26,9 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     @Resource
     private PostCommentMapper postCommentMapper;
+
+    @Resource
+    private UserService userService;
 
     @Resource
     private ApplicationEventPublisher publisher;
@@ -67,6 +73,23 @@ public class PostCommentServiceImpl implements PostCommentService {
     @Override
     public void commentAgreeDec(int commentId) {
         postCommentMapper.commentAgreeDec(commentId);
+    }
+
+    @Override
+    public List<User> getUsersByContent(String content) {
+        String regex = "@(\\w+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+
+        List<User> users = new ArrayList<>();
+        while (matcher.find()){
+            String username = matcher.group(1).trim();
+            User user = userService.getByUsername(username);
+            if(user != null){
+                users.add(user);
+            }
+        }
+        return users;
     }
 
     public PostComment get(int id) {

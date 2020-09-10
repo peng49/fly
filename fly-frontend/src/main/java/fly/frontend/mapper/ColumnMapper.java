@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface ColumnMapper {
     @Select("select * from columns")
-    public List<Column> getAll();
+    List<Column> getAll();
 
     @Select("select * from columns where id = #{id}")
     Column get(int id);

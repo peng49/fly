@@ -1,8 +1,10 @@
 package fly.frontend.listener;
 
 import fly.frontend.entity.PostComment;
+import fly.frontend.entity.User;
 import fly.frontend.entity.UserMessage;
 import fly.frontend.event.CommentEvent;
+import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserMessageService;
 import org.springframework.context.event.EventListener;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Component
 public class CommentEventListener {
@@ -18,6 +21,9 @@ public class CommentEventListener {
 
     @Resource
     private UserMessageService userMessageService;
+
+    @Resource
+    private PostCommentService postCommentService;
 
     @EventListener
     public void execute(CommentEvent event) {
@@ -32,12 +38,17 @@ public class CommentEventListener {
         commentMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         userMessageService.create(commentMessage);
 
-        //回复评论发送消息
-        if (postComment.getParent() != null) {
+        //获取评论 @ 的所有用户
+        List<User> users = postCommentService.getUsersByContent(postComment.getContent());
+        for (User user : users) {
+            if (user.getId() == postComment.getUser().getId()) {
+                //@自己不用发送信息
+                continue;
+            }
             UserMessage userMessage = new UserMessage();
             userMessage.setType("reply");
             userMessage.setSender(postComment.getUser());
-            userMessage.setReceiver(postComment.getParent().getUser());
+            userMessage.setReceiver(user);
             userMessage.setContent(postComment.getContent());
             userMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             userMessageService.create(userMessage);
