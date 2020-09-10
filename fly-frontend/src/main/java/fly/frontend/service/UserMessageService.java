@@ -9,4 +9,10 @@ public interface UserMessageService {
     int create(UserMessage message);
 
     List<UserMessage> getMessagesForUser(User user);
+
+    UserMessage get(int id);
+
+    void delete(UserMessage message);
+
+    void deleteByUser(User user);
 }

@@ -31,6 +31,7 @@ public class InterceptorConfiguration {
                 registry.addInterceptor(userAuthInterceptor)
                         .addPathPatterns("/user/**")
                         .addPathPatterns("/post/**")
+                        .addPathPatterns("/userMessage/**")
                         .excludePathPatterns("/user/index/{id}")
                         .excludePathPatterns("/user/login")
                         .excludePathPatterns("/user/register")

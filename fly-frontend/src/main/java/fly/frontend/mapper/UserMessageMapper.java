@@ -30,4 +30,20 @@ public interface UserMessageMapper {
             @Result(property = "sender.username", column = "sender_username"),
     })
     List<UserMessage> getMessagesForUser(User user);
+
+    @Delete("delete from user_message where receiver_id = #{id}")
+    void deleteByUser(User user);
+
+    @Delete("delete from user_message where id = #{id}")
+    void delete(UserMessage message);
+
+    @Select("select * from user_message where id = #{id}")
+    @Results({
+            @Result(property = "id",column = "id"),
+            @Result(property = "type",column = "type"),
+            @Result(property = "content",column = "content"),
+            @Result(property = "sender.id",column = "sender_id"),
+            @Result(property = "receiver.id",column = "receiver_id")
+    })
+    UserMessage get(int id);
 }

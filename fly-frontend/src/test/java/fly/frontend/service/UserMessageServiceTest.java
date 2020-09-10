@@ -38,4 +38,12 @@ public class UserMessageServiceTest {
         user.setId(1);
         System.out.println(userMessageService.getMessagesForUser(user));
     }
+
+    @Test
+    public void deleteTest()
+    {
+        User user = new User();
+        user.setId(1);
+        userMessageService.deleteByUser(user);
+    }
 }
