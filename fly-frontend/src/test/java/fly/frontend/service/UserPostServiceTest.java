@@ -38,6 +38,8 @@ public class UserPostServiceTest {
 
     @Test
     public void getTest(){
-        System.out.println(userPostService.isExisted(1,1));
+        User user = new User();
+        user.setId(1);
+        System.out.println(userPostService.findByUser(user));
     }
 }

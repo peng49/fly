@@ -32,13 +32,13 @@
                 <a href="/u/${(post.author.id)!}" class="link">
                     <cite>${(post.author.username)!}</cite>
                 </a>
-                <span>${post.publishAt}</span>
+                <span>${(post.publishAt)!}</span>
             </div>
             <div class="post-hits">
                 &nbsp;
             </div>
         </div>
-
+:wq:
         <div class="markdown-body editormd-preview-container post-content">
             ${post.content!}
         </div>
