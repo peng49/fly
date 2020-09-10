@@ -37,8 +37,12 @@ public class UserService {
         return userMapper.findAll();
     }
 
+    public User getByUsername(String username) {
+        return userMapper.getByUsername(username);
+    }
+
     public User login(UserLogin login) throws Exception {
-        User user = userMapper.getByUsername(login.getUsername());
+        User user = getByUsername(login.getUsername());
         if (user == null) {
             throw new NotFoundException("用户不存在");
         }

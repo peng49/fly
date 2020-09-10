@@ -20,4 +20,6 @@ public interface PostCommentService {
     void commentAgreeInc(int commentId);
 
     void commentAgreeDec(int commentId);
+
+    List<User> getUsersByContent(String content);
 }
