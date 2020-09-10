@@ -19,11 +19,11 @@
 </div>
 <template id="user-message">
     <div class="layui-tab layui-tab-brief" style="margin-top: 15px;">
-        <button class="layui-btn layui-btn-danger">清空全部消息</button>
+        <button @click="deleteAllMessage" class="layui-btn layui-btn-danger">清空全部消息</button>
         <div style="margin-top: 10px;">
             <ul class="mine-msg">
 
-                <li v-for="message in messages">
+                <li v-for="(message,index) in messages">
                     <blockquote class="layui-elem-quote">
                         <a href="" target="_blank" v-if="message.sender"><cite>{{message.sender.username}}</cite></a>
                         <span v-if="message.type == 'reply'">回复了你的评论</span>
@@ -33,7 +33,7 @@
                     </blockquote>
                     <p>
                         <span>{{message.createAt}}</span>
-                        <a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a>
+                        <a href="javascript:;" @click="deleteMessage(index)" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a>
                     </p>
                 </li>
             </ul>
@@ -387,11 +387,32 @@
         methods: {
             getMessages: async function () {
                 let messages
-                await axios.get("/user/messages").then(function (resp) {
+                await axios.get("/userMessage").then(function (resp) {
                     messages = resp.data
                 })
                 return messages
+            },
+            deleteMessage:function(index){
+                let _this = this;
+                let message = this.messages[index];
+                console.log(message)
+
+                axios.delete("/userMessage/"+message.id).then(async function (resp) {
+                    layer.msg("操作成功")
+                    _this.messages = await _this.getMessages();
+                })
+            },
+            deleteAllMessage:function(index){
+                let _this = this;
+                let message = this.messages[index];
+                console.log(message)
+
+                axios.delete("/userMessage/all").then(async function (resp) {
+                    layer.msg("操作成功")
+                    _this.messages = await _this.getMessages();
+                })
             }
+
         }
     });
 

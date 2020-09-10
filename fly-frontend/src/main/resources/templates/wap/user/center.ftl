@@ -391,7 +391,7 @@
             requestMessages: function () {
                 let _this = this
                 request({
-                    url: "/user/messages",
+                    url: "/userMessage",
                     success: function (resp) {
                         console.log(resp)
                         _this.messages = resp.data

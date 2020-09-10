@@ -24,4 +24,19 @@ public class UserMessageServiceImpl implements UserMessageService {
     public List<UserMessage> getMessagesForUser(User user) {
         return userMessageMapper.getMessagesForUser(user);
     }
+
+    @Override
+    public UserMessage get(int id) {
+        return userMessageMapper.get(id);
+    }
+
+    @Override
+    public void delete(UserMessage message) {
+        userMessageMapper.delete(message);
+    }
+
+    @Override
+    public void deleteByUser(User user) {
+        userMessageMapper.deleteByUser(user);
+    }
 }

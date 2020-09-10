@@ -34,8 +34,7 @@ public class UserController {
     @Resource
     private PostService postService;
 
-    @Resource
-    private UserMessageService userMessageService;
+
 
     @Resource
     private UserPostService userPostService;
@@ -162,15 +161,6 @@ public class UserController {
             userPostService.create(user, postId);
         }
         return HttpUtils.success();
-    }
-
-    @GetMapping("/messages")
-    @ResponseBody
-    public Object messages(HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        List<UserMessage> messages = userMessageService.getMessagesForUser(user);
-
-        return HttpUtils.success(messages);
     }
 
     @PostMapping("/commentAgree")
