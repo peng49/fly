@@ -9,6 +9,7 @@ import fly.frontend.pojo.PostCommentAdd;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
+import fly.frontend.utils.TextUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +80,7 @@ public class PostCommentServiceImpl implements PostCommentService {
     public List<User> getUsersByContent(String content) {
         String regex = "@(\\w+)";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(content);
+        Matcher matcher = pattern.matcher(TextUtils.html2text(content));
 
         List<User> users = new ArrayList<>();
         while (matcher.find()){

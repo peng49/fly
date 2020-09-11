@@ -2,6 +2,8 @@ package fly.frontend.utils;
 
 import java.sql.Timestamp;
 
+import static org.springframework.web.util.HtmlUtils.htmlUnescape;
+
 public class TextUtils {
     public static String formatTextForTimestamp(Timestamp timestamp) {
         long time = System.currentTimeMillis() - timestamp.getTime();
@@ -22,5 +24,14 @@ public class TextUtils {
             return hour + "小时内";
         }
         return timestamp.toString();
+    }
+
+    public static String html2text(String html) {
+        return htmlUnescape(html)
+                .replaceAll("</?\\w+.*?>", "")
+                .replaceAll("\\u00A0+", " ")//替换不间断空格，ASCII值是160
+                .replaceAll("\\s+", " ")//所有特殊字符替换为空格
+                .replaceAll(" +", " ")//将多个连续的空格替换为单个空格
+                .trim();//去掉首尾空格
     }
 }
