@@ -1,6 +1,11 @@
 package fly.frontend.utils;
 
+
+import fly.frontend.FlyFrontendApplication;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -8,6 +13,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
+import static org.junit.Assert.*;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {FlyFrontendApplication.class})
 public class TextUtilsTest {
 
     @Test
@@ -31,6 +40,12 @@ public class TextUtilsTest {
     {
         String path = "id=3&v=6&name=id";
         System.out.println(path.replaceAll("name=.*?(&|$)","id=7$1"));
+    }
+
+    @Test
+    public void html2textTest(){
+        String html = "<string class='hello'>Hello</string>&nbsp;&nbsp;World!";
+        assertEquals(TextUtils.html2text(html),"Hello World!");
     }
 
     @Test
