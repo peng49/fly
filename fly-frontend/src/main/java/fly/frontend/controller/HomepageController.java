@@ -33,7 +33,7 @@ public class HomepageController {
                               @RequestParam(value = "orderBy", defaultValue = "") String orderBy) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setList(list);
-        condition.setStatus(1);//已发布的
+        condition.setStatus(PostService.PUBLISH_STATUS);//已发布的
 
         if (!"".equals(orderBy) && PostService.ALLOW_ORDER_FIELD.contains(orderBy)) {
             condition.setOrderBy(orderBy + " desc");
