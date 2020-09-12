@@ -54,9 +54,6 @@
                                     </div>
                                 </div>
                             </div>
-               <#--             <div class="layui-form-item">
-                                <button type="button" class="layui-btn" @click="submitForm">立即发布</button>
-                            </div>-->
                         </form>
                     </div>
                 </div>
@@ -74,6 +71,7 @@
             editor: '',
             postId: '${(post.id)!}',
             postStatus: '${(post.status)!}',
+            saveUrl: window.location.pathname,
             postForm: {
                 action: '',
                 columnId: '${(post.column.id)!1}',
@@ -154,10 +152,10 @@
 
                 this.postForm.originalContent = this.editor.getMarkdown();
                 this.postForm.content = previewContent;
-                axios.post(window.location.pathname, this.postForm)
+                axios.post(_this.saveUrl, this.postForm)
                     .then(function (response) {
                         if (response.code === "success") {
-                            //注册成功,转跳登录页面
+                            console.log(response)
                             layer.msg('操作成功');
                             return;
                         }

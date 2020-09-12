@@ -156,20 +156,11 @@
         </div>
     </div>
 </div>
-<template id="reply-template">
-    <div class="reply-content">
-        <p>
-            <a class="fly-link" href="#">@{{parentCon.username}}</a>
-            <span v-html="parentCon.content"></span>
-        </p>
-    </div>
-</template>
 
 <#include "../common/footer.ftl"/>
 <script type="text/javascript" src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
 <script type="text/javascript">
     initCopyButton();
-
     new Vue({
         el: "#post-container",
         data: {
@@ -190,6 +181,7 @@
         mounted() {
             this.initEditor()
             this.editor.txt.html(this.comment.content);
+
         },
         methods: {
             initEditor: function () {
@@ -266,9 +258,14 @@
                 this.parentCon.username = dom.getAttribute("data-username");
                 this.parentCon.content = $(dom).parents('li').find(".comment-content").html();
 
-                this.editor.txt.append(this.parentCon.content)
+                let appendContent = '<div class="reply-content">\n' +
+                    '        <p>\n' +
+                    '            @<a class="fly-link" href="#">'+this.parentCon.username+'</a>\n' +
+                    '            <span>'+this.parentCon.content+'</span>\n' +
+                    '        </p>\n' +
+                    '    </div>';
 
-                this.editor.txt.append('<div class="reply-content"><p><a href="#" class="fly-link">@admin</a> <a href="javascript:" class="reply-cancel fly-link">取消</a> <span><p>测试楼层</p></span></p></div>')
+                this.editor.txt.append(appendContent)
 
                 document.getElementById("reply").scrollIntoView();
                 this.editor.selection.restoreSelection()
@@ -289,8 +286,8 @@
                         console.log(error);
                     });
             },
-            commentAgree:function(commentId){
-                axios.post('/user/commentAgree', {commentId:commentId})
+            commentAgree: function (commentId) {
+                axios.post('/user/commentAgree', {commentId: commentId})
                     .then(function (response) {
                         if (response.code === "success") {
                             layer.msg('操作成功');

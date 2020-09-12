@@ -20,16 +20,16 @@
 
 
     <p class="fly-home-info">
-        经验值: <span style="color: #FF7200;">${user.experience!''}</span>
-        <i class="iconfont icon-shijian"></i><span>${user.createTime!''} 加入</span>
-        <i class="iconfont icon-chengshi"></i><span>来自${user.city!""}</span>
+        注册: <span>${user.createTime!''} </span>
+        文章: <span style="color: #FF7200;">${user.experience!''}</span>
+        回复: <span style="color: #FF7200;">${user.experience!''}</span>
     </p>
 
     <p class="fly-home-sign">（${user.signature!''}）</p>
 
     <div class="fly-sns" data-user="">
-        <a href="javascript:;" class="layui-btn layui-btn-primary fly-imActive" data-type="addFriend">加为好友</a>
-        <a href="javascript:;" class="layui-btn layui-btn-normal fly-imActive" data-type="chat">发起会话</a>
+        <a href="javascript:;" class="layui-btn layui-btn-primary fly-imActive" data-type="addFriend">关注</a>
+        <a href="javascript:;" class="layui-btn layui-btn-normal fly-imActive" data-type="chat">黑名单</a>
     </div>
 
 </div>
