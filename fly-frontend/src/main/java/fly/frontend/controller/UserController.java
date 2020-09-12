@@ -140,7 +140,7 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     @ResponseBody
-    public Object updatePassword(@RequestBody UpdatePassword updatePassword,
+    public Object updatePassword(@RequestBody @Validated UpdatePassword updatePassword,
                                  HttpSession httpSession) throws Exception {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         userService.updatePassword(user, updatePassword);

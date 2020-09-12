@@ -39,15 +39,20 @@ public class PostCommentServiceImpl implements PostCommentService {
         comment.setCommentTime(new Date(System.currentTimeMillis()));
         comment.setContent(postCommentAdd.getContent());
 
+        Post post = postService.get(postCommentAdd.getPostId());
+
+        if (post == null || post.getStatus() != 1) {
+            throw new RuntimeException("文章还未发布，不能进行评论");
+        }
+
+        comment.setPost(post);
+        comment.setLevel(post.getReplyCount() + 1);
+        comment.setUser(user);
+
         if (postCommentAdd.getParentId() != 0) {
             PostComment parentComment = this.get(postCommentAdd.getParentId());
             comment.setParent(parentComment);
         }
-
-        Post post = postService.get(postCommentAdd.getPostId());
-        comment.setPost(post);
-        comment.setLevel(post.getReplyCount() + 1);
-        comment.setUser(user);
 
         //文章的评论数加1
         postService.replyCountInc(comment.getPost().getId());
@@ -83,10 +88,10 @@ public class PostCommentServiceImpl implements PostCommentService {
         Matcher matcher = pattern.matcher(TextUtils.html2text(content));
 
         List<User> users = new ArrayList<>();
-        while (matcher.find()){
+        while (matcher.find()) {
             String username = matcher.group(1).trim();
             User user = userService.getByUsername(username);
-            if(user != null){
+            if (user != null) {
                 users.add(user);
             }
         }

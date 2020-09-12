@@ -83,7 +83,7 @@ let loginSubmit = function (ele) {
         success: function (res) {
             if (res.code === 'success') {
                 message("登录成功");
-                if(reload){
+                if (reload) {
                     return window.location.reload();
                 }
                 let redirect = getUrlParam('redirect');
@@ -121,8 +121,10 @@ let registerSubmit = function (ele) {
     })
 };
 
-$(function () {
+let initCopyButton = function () {
     $('pre').append("<div class='code-copy' style='position: absolute;top: 2px;right: 2px;border-radius: 4px;cursor: pointer;color: white;padding: 2px;font-size: 12px;width:30px;height:30px;  display: none;  border: 1px solid #ddd;  opacity: 0.6;'><i style='background-image: url(/static/images/copy.png);background-size: 100%;background-repeat: no-repeat;width: 100%;display: block;height: 100%;'></i></div>")
+}
+$(function () {
     $('.code-copy').click(function () {
         let pre = $(this).parent('pre');
         let text = pre[0];

@@ -38,7 +38,6 @@
                 &nbsp;
             </div>
         </div>
-:wq:
         <div class="markdown-body editormd-preview-container post-content">
             ${post.content!}
         </div>
