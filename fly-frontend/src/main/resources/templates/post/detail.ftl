@@ -167,6 +167,8 @@
 <#include "../common/footer.ftl"/>
 <script type="text/javascript" src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
 <script type="text/javascript">
+    initCopyButton();
+
     new Vue({
         el: "#post-container",
         data: {
