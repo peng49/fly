@@ -31,7 +31,7 @@ public class ColumnController {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setColumnId(id);
         condition.setList(filter.getList());
-        condition.setStatus(1);//已发布的
+        condition.setStatus(PostService.PUBLISH_STATUS);//已发布的
 
         if (filter.getOrderBy() != null && PostService.ALLOW_ORDER_FIELD.contains(filter.getOrderBy())) {
             condition.setOrderBy(filter.getOrderBy() + " desc");
