@@ -34,10 +34,26 @@ public class PostCommentServiceImpl implements PostCommentService {
     @Resource
     private ApplicationEventPublisher publisher;
 
+    private String parseCommentContent(String content) {
+        //获取所有有效的用户
+        List<User> users = getUsersByContent(content);
+
+        //将所有的@用户替换为a标签
+        for (User user : users) {
+            content = content.replaceAll(
+                    "@" + user.getUsername(),
+                    "@<a href='/u/" + user.getId() + "'>" + user.getUsername() + "</a> "
+            );
+        }
+        return content;
+    }
+
     public PostComment create(User user, PostCommentAdd postCommentAdd) {
         PostComment comment = new PostComment();
         comment.setCommentTime(new Date(System.currentTimeMillis()));
-        comment.setContent(postCommentAdd.getContent());
+
+        //解析内容
+        comment.setContent(parseCommentContent(postCommentAdd.getContent()));
 
         Post post = postService.get(postCommentAdd.getPostId());
 

@@ -37,7 +37,7 @@
                             </div>
                             <div class="layui-form-item">
                                 <button type="button" class="layui-btn" @click="loginSubmit">立即登录</button>
-                                <span style="padding-left:20px;"><a href="forget.html">忘记密码？</a></span>
+                                <span style="padding-left:20px;"><a href="/user/forget">忘记密码？</a></span>
                             </div>
                             <div class="layui-form-item fly-form-app">
                                 <span>或者使用社交账号登入</span>

@@ -28,7 +28,7 @@
                 </div>
                 <div class="layui-form-item">
                     <button type="button" onclick="loginSubmit(this)" class="layui-btn">立即登录</button>
-                    <span style="padding-left: 20px;"><a href="#">忘记密码？</a></span>
+                    <span style="padding-left: 20px;"><a href="/user/forget">忘记密码？</a></span>
                 </div>
             </form>
         </div>
