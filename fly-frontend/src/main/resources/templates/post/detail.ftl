@@ -89,8 +89,8 @@
                     <#list comments as comment>
                         <li id="reply${comment.id}" class="jieda-daan">
                             <div class="detail-about detail-about-reply">
-                                <a class="fly-avatar" href="/u/${comment.user.id}">
-                                    <img src="${comment.user.avatar}" alt=" ">
+                                <a class="fly-avatar" href="/u/${(comment.user.id)!}">
+                                    <img src="${(comment.user.avatar)!}" alt=" ">
                                 </a>
                                 <div class="fly-detail-user">
                                     <a href="/u/${comment.user.id}" class="fly-link">
@@ -101,16 +101,16 @@
                                     </#if>
                                 </div>
                                 <div class="detail-hits">
-                                    <span>${comment.commentTime}</span>
+                                    <span>${(comment.commentTime)!}</span>
                                 </div>
                             </div>
                             <div class="detail-body jieda-body photos">
                                 <#if (comment.parent.id)?? >
                                     <div class="reply-content">
                                         <a href="#reply${comment.parent.id}" class="fly-link">
-                                            @${comment.parent.user.username}
+                                            @${(comment.parent.user.username)!}
                                         </a>
-                                        ${comment.parent.content}
+                                        ${(comment.parent.content)!}
                                     </div>
                                 </#if>
                                 <div class="comment-content">${comment.content}</div>
@@ -133,13 +133,6 @@
                 <div class="layui-form layui-form-pane">
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block" id="reply">
-                            <div v-if="comment.parentId" class="reply-content">
-                                <p>
-                                    <a class="fly-link" href="#">@{{parentCon.username}}</a>
-                                    <a class="reply-cancel fly-link" href="javascript:" @click="replyCancel">取消</a>
-                                    <span v-html="parentCon.content"></span>
-                                </p>
-                            </div>
                             <div ref="toolbar" style="background-color:#f1f1f1; border:1px solid #ccc;"
                                  class="toolbar"></div>
                             <div ref="editor" style="border:1px solid #ccc; border-top:none; height:180px; z-index:10;"
@@ -163,6 +156,14 @@
         </div>
     </div>
 </div>
+<template id="reply-template">
+    <div class="reply-content">
+        <p>
+            <a class="fly-link" href="#">@{{parentCon.username}}</a>
+            <span v-html="parentCon.content"></span>
+        </p>
+    </div>
+</template>
 
 <#include "../common/footer.ftl"/>
 <script type="text/javascript" src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
@@ -264,6 +265,10 @@
                 this.comment.parentId = dom.getAttribute("data-id")
                 this.parentCon.username = dom.getAttribute("data-username");
                 this.parentCon.content = $(dom).parents('li').find(".comment-content").html();
+
+                this.editor.txt.append(this.parentCon.content)
+
+                this.editor.txt.append('<div class="reply-content"><p><a href="#" class="fly-link">@admin</a> <a href="javascript:" class="reply-cancel fly-link">取消</a> <span><p>测试楼层</p></span></p></div>')
 
                 document.getElementById("reply").scrollIntoView();
                 this.editor.selection.restoreSelection()

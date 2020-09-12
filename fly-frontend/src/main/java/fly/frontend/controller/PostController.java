@@ -124,13 +124,6 @@ public class PostController {
         return HttpUtils.success(comment);
     }
 
-    @PostMapping("/commentAgree")
-    public Object commentAgree(){
-
-
-
-        return HttpUtils.success();
-    }
 
     /**
      * 置顶/取消置顶

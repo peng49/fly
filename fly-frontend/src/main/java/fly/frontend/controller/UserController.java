@@ -87,6 +87,16 @@ public class UserController {
         return view;
     }
 
+    @GetMapping("/forget")
+    public ModelAndView forget(ModelAndView view, HttpServletRequest request) {
+        if (HttpUtils.isMobile(request)) {
+            view.setViewName("wap/user/forget");
+        } else {
+            view.setViewName("user/forget");
+        }
+        return view;
+    }
+
     @PostMapping("/register")
     @ResponseBody
     public Object register(@RequestBody @Validated UserRegister register) throws Exception {

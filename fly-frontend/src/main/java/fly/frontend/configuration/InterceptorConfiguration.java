@@ -35,6 +35,7 @@ public class InterceptorConfiguration {
                         .excludePathPatterns("/user/index/{id}")
                         .excludePathPatterns("/user/login")
                         .excludePathPatterns("/user/register")
+                        .excludePathPatterns("/user/forget")
                         .excludePathPatterns("/post/detail/{id}");
                 registry.addInterceptor(exceptionResponseInterceptor)
                         .addPathPatterns("/**");
