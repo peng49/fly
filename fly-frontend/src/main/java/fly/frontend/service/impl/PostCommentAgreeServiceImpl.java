@@ -18,7 +18,7 @@ public class PostCommentAgreeServiceImpl implements PostCommentAgreeService {
     public PostCommentAgree create(PostCommentAgree postCommentAgree) {
         int res = postCommentAgreeMapper.create(postCommentAgree);
         if (res != 1) {
-            //todo 失败处理
+            throw new RuntimeException("新增数据失败");
         }
         return postCommentAgree;
     }

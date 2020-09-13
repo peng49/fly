@@ -54,7 +54,7 @@
                 <li class="item">
                     <div class="avatar">
                         <a href="">
-                            <img src="${comment.user.avatar}">
+                            <img src="${(comment.user.avatar)!}">
                         </a>
                     </div>
                     <div class="content">
