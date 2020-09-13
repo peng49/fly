@@ -163,6 +163,17 @@ CREATE TABLE `user_token` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS `oauth_account`;
+CREATE TABLE `oauth_account`
+(
+    `id`         INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id`    INT(11)          NOT NULL,
+    `platform`   VARCHAR(16)      NOT NULL,
+    `openid`     VARCHAR(255)     NOT NULL,
+    `created_at` datetime DEFAULT NULL,
+    `update_at`  datetime DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = utf8 COMMENT = '第三方授权账户信息';
 
 SET FOREIGN_KEY_CHECKS = 1;

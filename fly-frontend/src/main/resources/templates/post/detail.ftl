@@ -105,14 +105,6 @@
                                 </div>
                             </div>
                             <div class="detail-body jieda-body photos">
-                                <#if (comment.parent.id)?? >
-                                    <div class="reply-content">
-                                        <a href="#reply${comment.parent.id}" class="fly-link">
-                                            @${(comment.parent.user.username)!}
-                                        </a>
-                                        ${(comment.parent.content)!}
-                                    </div>
-                                </#if>
                                 <div class="comment-content">${comment.content}</div>
                             </div>
                             <div class="jieda-reply">
@@ -259,10 +251,10 @@
                 this.parentCon.content = $(dom).parents('li').find(".comment-content").html();
 
                 let appendContent = '<div class="reply-content">\n' +
-                    '        <p>\n' +
+                    '        <div>\n' +
                     '            @<a class="fly-link" href="#">'+this.parentCon.username+'</a>\n' +
-                    '            <span>'+this.parentCon.content+'</span>\n' +
-                    '        </p>\n' +
+                    '            <div>'+this.parentCon.content+'</div>\n' +
+                    '        </div>\n' +
                     '    </div>';
 
                 this.editor.txt.append(appendContent)
