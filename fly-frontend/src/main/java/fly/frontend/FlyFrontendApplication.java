@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @MapperScan("fly.frontend.mapper")
@@ -16,9 +17,12 @@ public class FlyFrontendApplication {
     }
 
     @Bean
-    public BCryptPasswordEncoder getBCryptPasswordEncoder()
-    {
+    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
+    }
 }
