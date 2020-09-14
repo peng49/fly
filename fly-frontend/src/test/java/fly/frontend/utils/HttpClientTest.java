@@ -1,7 +1,9 @@
 package fly.frontend.utils;
 
+import fly.frontend.FlyFrontendApplication;
 import fly.frontend.pojo.GiteeOauthRequest;
 import fly.frontend.pojo.GiteeOauthResponse;
+import fly.frontend.pojo.GiteeUserInfo;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -14,13 +16,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.junit.Test;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -31,7 +34,13 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {FlyFrontendApplication.class})
 public class HttpClientTest {
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Test
     public void getTest() throws IOException {
@@ -90,9 +99,9 @@ public class HttpClientTest {
         RestTemplate rest = new RestTemplate();
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("grant_type", "authorization_code");
-        parameters.add("code", "cccccccccccc");
-        parameters.add("client_id", "vvvvvvvvvvvvv");
-        parameters.add("client_secret", "xxxxxxxxxxxxxxxx");
+        parameters.add("code", "xx");
+        parameters.add("client_id", "xx");
+        parameters.add("client_secret", "xx");
         parameters.add("redirect_uri", "http://localhost:8001/oauth/gitee/callback");
 
         HttpHeaders headers = new HttpHeaders();
@@ -112,10 +121,29 @@ public class HttpClientTest {
         ResponseEntity<GiteeOauthResponse> response = rest.postForEntity("https://gitee.com/oauth/token", httpEntity, GiteeOauthResponse.class);
 
         if (response.hasBody()) {
+            System.out.println(response.getBody());
             System.out.println(response.getBody().getAccessToken());
         } else {
             System.out.println("request exception");
             System.out.println(response);
         }
+    }
+
+    @Test
+    public void getGiteeUserInfoTest() {
+//        RestTemplate rest = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36");
+
+/*        HashMap<Object, Object> hash = new HashMap<>();
+        hash.put("access_token", "xxx");*/
+
+        org.springframework.http.HttpEntity<Object> httpEntity = new org.springframework.http.HttpEntity<>(null, headers);
+
+//        ResponseEntity<GiteeUserInfo> response = rest.getForEntity("https://gitee.com/api/v5/user?access_token={access_token}", GiteeUserInfo.class, httpEntity);
+        ResponseEntity<GiteeUserInfo> response = restTemplate.exchange(String.format("https://gitee.com/api/v5/user?access_token=%s", "xxx"), HttpMethod.GET, httpEntity, GiteeUserInfo.class);
+
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
     }
 }

@@ -24,6 +24,8 @@ public class GiteeController {
 
     @GetMapping("/callback")
     public void callback(@RequestParam("code") String code, HttpServletResponse response) throws IOException {
-        response.getWriter().println(oauthService.get(code));
+        int len = code.length();
+        System.out.println(len);
+        System.out.println(oauthService.get(code));
     }
 }
