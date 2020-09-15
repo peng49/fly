@@ -17,16 +17,15 @@ public class OauthAccountServiceImpl implements OauthAccountService {
 
     @Override
     public OauthAccount add(OauthAccount account) {
-        return oauthAccountMapper.add(account);
+        int row = oauthAccountMapper.add(account);
+        if (row == 0) {
+            throw new RuntimeException("新增账户失败");
+        }
+        return account;
     }
 
     @Override
-    public OauthAccount get(String openid) {
-        return oauthAccountMapper.get(openid);
-    }
-
-    @Override
-    public User getUser(OauthAccount account) {
-        return null;
+    public OauthAccount get(String openid, String platform) {
+        return oauthAccountMapper.get(openid, platform);
     }
 }

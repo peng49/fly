@@ -5,17 +5,18 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface OauthAccountMapper {
-    @Select("select oa.*,u.username,u.avatar from oauth_account oa inner join users as u on u.id = oa.user_id where oa.open_id = #{openid}")
+    @Select("select oa.*,u.username,u.avatar from oauth_account oa inner join users as u on u.id = oa.user_id where oa.openid = #{openid} and oa.platform = #{platform}")
     @Results({
-            @Result(property = "id",column = "id"),
-            @Result(property = "openid",column = "openid"),
-            @Result(property = "user.id",column = "user_id"),
-            @Result(property = "user.username",column = "username"),
-            @Result(property = "user.avatar",column = "avatar")
+            @Result(property = "id", column = "id"),
+            @Result(property = "openid", column = "openid"),
+            @Result(property = "platform", column = "platform"),
+            @Result(property = "user.id", column = "user_id"),
+            @Result(property = "user.username", column = "username"),
+            @Result(property = "user.avatar", column = "avatar")
     })
-    OauthAccount get(String openid);
+    OauthAccount get(String openid,String platform);
 
-    @Insert("insert into oauth_account(user_id,openid,platform,created_at) values(#{user.id},#{openid},#{platform},now())")
+    @Insert("insert into oauth_account(user_id,openid,platform,created_at,update_at) values(#{user.id},#{openid},#{platform},now(),now())")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    OauthAccount add(OauthAccount account);
+    int add(OauthAccount account);
 }

@@ -1,6 +1,6 @@
 package fly.frontend.mapper;
 
-import fly.frontend.entity.Post;
+
 import fly.frontend.entity.User;
 import org.apache.ibatis.annotations.*;
 
@@ -8,11 +8,9 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    List<User> findAll();
-
-    @Insert("insert into users (username,email,password,create_time) values (#{username},#{email},#{password},#{createTime,jdbcType=TIMESTAMP})")
+    @Insert("insert into users (username,email,password,avatar,create_time) values (#{username},#{email},#{password},#{avatar},#{createTime,jdbcType=TIMESTAMP})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    int create(User user);
+    int add(User user);
 
     User getByUsername(String username);
 

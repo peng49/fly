@@ -33,8 +33,12 @@ public class UserServiceImpl implements UserService {
     @Resource
     private ApplicationEventPublisher publisher;
 
-    public List<User> findAll() {
-        return userMapper.findAll();
+    public User add(User user) {
+        int row = userMapper.add(user);
+        if (row == 0) {
+            throw new RuntimeException("添加用户失败");
+        }
+        return user;
     }
 
     public User getByUsername(String username) {
@@ -68,7 +72,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(getPassword(register.getPassword()));
         user.setCreateTime(new Timestamp(System.currentTimeMillis()));
 
-        userMapper.create(user);
+        userMapper.add(user);
 
         publisher.publishEvent(new RegisteredEvent(user));
 

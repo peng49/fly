@@ -61,6 +61,12 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+oauth:
+  gitee:
+    client-id: xxx
+    client-secret: xxxx
+    redirect-uri: http://localhost:8001/oauth/gitee/callback
+
 # set log level
 #logging:
 #  level:
