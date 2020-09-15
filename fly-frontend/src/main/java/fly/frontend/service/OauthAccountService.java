@@ -6,7 +6,5 @@ import fly.frontend.entity.User;
 public interface OauthAccountService {
     OauthAccount add(OauthAccount account);
 
-    OauthAccount get(String openid);
-
-    User getUser(OauthAccount account);
+    OauthAccount get(String openid, String platform);
 }
