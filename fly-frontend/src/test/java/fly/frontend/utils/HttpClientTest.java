@@ -1,12 +1,10 @@
 package fly.frontend.utils;
 
 import fly.frontend.FlyFrontendApplication;
-import fly.frontend.pojo.GiteeOauthRequest;
 import fly.frontend.pojo.GiteeOauthResponse;
 import fly.frontend.pojo.GiteeUserInfo;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -21,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
@@ -30,9 +27,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 
 @RunWith(SpringRunner.class)
@@ -122,7 +118,7 @@ public class HttpClientTest {
 
         if (response.hasBody()) {
             System.out.println(response.getBody());
-            System.out.println(response.getBody().getAccessToken());
+            System.out.println(Objects.requireNonNull(response.getBody()).getAccessToken());
         } else {
             System.out.println("request exception");
             System.out.println(response);
