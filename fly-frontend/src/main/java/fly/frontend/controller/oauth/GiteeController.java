@@ -18,7 +18,7 @@ import java.io.IOException;
 @RequestMapping("/oauth/gitee")
 public class GiteeController {
 
-    @Resource
+    @Resource(name="GiteeOauthServiceImpl")
     private OauthService oauthService;
 
     @Resource
