@@ -1,7 +1,6 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
-import fly.frontend.entity.Column;
 import fly.frontend.pojo.UserLogin;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,7 +1,7 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.User;
-import fly.frontend.entity.UserMessage;
+import fly.frontend.entity.po.User;
+import fly.frontend.entity.po.UserMessage;
 import fly.frontend.mapper.UserMessageMapper;
 import fly.frontend.service.UserMessageService;
 import org.springframework.stereotype.Service;

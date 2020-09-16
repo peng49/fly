@@ -1,7 +1,7 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.Post;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.Post;
+import fly.frontend.entity.po.User;
 import fly.frontend.pojo.UpdatePassword;
 import fly.frontend.pojo.UpdateUserInfo;
 import fly.frontend.pojo.UserLogin;

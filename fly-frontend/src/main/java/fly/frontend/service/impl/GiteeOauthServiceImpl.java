@@ -1,7 +1,7 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.OauthAccount;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.OauthAccount;
+import fly.frontend.entity.po.User;
 import fly.frontend.pojo.GiteeOauthResponse;
 import fly.frontend.pojo.GiteeUserInfo;
 import fly.frontend.service.OauthAccountService;

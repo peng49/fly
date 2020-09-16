@@ -1,8 +1,8 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.Post;
-import fly.frontend.entity.PostComment;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.Post;
+import fly.frontend.entity.po.PostComment;
+import fly.frontend.entity.po.User;
 import fly.frontend.event.CommentEvent;
 import fly.frontend.mapper.PostCommentMapper;
 import fly.frontend.pojo.PostCommentAdd;

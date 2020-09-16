@@ -1,7 +1,5 @@
 package fly.frontend.utils;
 
-import fly.frontend.entity.User;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.regex.Pattern;

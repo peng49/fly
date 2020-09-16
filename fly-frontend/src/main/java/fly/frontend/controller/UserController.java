@@ -1,6 +1,9 @@
 package fly.frontend.controller;
 
-import fly.frontend.entity.*;
+import fly.frontend.entity.po.Post;
+import fly.frontend.entity.po.PostComment;
+import fly.frontend.entity.po.PostCommentAgree;
+import fly.frontend.entity.po.User;
 import fly.frontend.pojo.*;
 import fly.frontend.service.*;
 import fly.frontend.utils.HttpUtils;
