@@ -1,6 +1,6 @@
 package fly.frontend.mapper;
 
-import fly.frontend.entity.FriendLink;
+import fly.frontend.entity.po.FriendLink;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

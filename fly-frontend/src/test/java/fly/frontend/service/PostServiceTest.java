@@ -1,8 +1,7 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
-import fly.frontend.entity.Post;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.User;
 import fly.frontend.pojo.PostEdit;
 import fly.frontend.pojo.PostFilterCondition;
 import org.junit.Test;

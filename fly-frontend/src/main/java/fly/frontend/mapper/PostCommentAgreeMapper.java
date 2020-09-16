@@ -1,7 +1,7 @@
 package fly.frontend.mapper;
 
-import fly.frontend.entity.PostCommentAgree;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.PostCommentAgree;
+import fly.frontend.entity.po.User;
 import org.apache.ibatis.annotations.*;
 
 @Mapper

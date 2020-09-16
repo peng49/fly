@@ -1,7 +1,7 @@
 package fly.frontend.controller;
 
-import fly.frontend.entity.User;
-import fly.frontend.entity.UserMessage;
+import fly.frontend.entity.po.User;
+import fly.frontend.entity.po.UserMessage;
 import fly.frontend.service.UserMessageService;
 import fly.frontend.service.UserService;
 import fly.frontend.utils.HttpUtils;

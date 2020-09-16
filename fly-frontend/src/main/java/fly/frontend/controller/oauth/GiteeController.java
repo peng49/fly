@@ -1,7 +1,7 @@
 package fly.frontend.controller.oauth;
 
-import fly.frontend.entity.OauthAccount;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.OauthAccount;
+import fly.frontend.entity.po.User;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
 import org.springframework.stereotype.Controller;

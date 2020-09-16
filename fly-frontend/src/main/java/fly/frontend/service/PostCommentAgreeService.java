@@ -1,7 +1,7 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.PostCommentAgree;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.PostCommentAgree;
+import fly.frontend.entity.po.User;
 
 public interface PostCommentAgreeService {
     PostCommentAgree create(PostCommentAgree postCommentAgree);
