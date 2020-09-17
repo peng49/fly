@@ -1,9 +1,8 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.PostComment;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.PostComment;
+import fly.frontend.entity.po.User;
 import fly.frontend.pojo.PostCommentAdd;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.ArrayList;
 import java.util.List;

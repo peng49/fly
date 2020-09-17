@@ -1,7 +1,7 @@
 package fly.frontend.event;
 
 
-import fly.frontend.entity.PostComment;
+import fly.frontend.entity.po.PostComment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

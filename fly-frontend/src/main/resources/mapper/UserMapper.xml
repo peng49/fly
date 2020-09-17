@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fly.frontend.mapper.UserMapper">
-    <select id="getByUsername" parameterType="string" resultType="fly.frontend.entity.User">
+    <select id="getByUsername" parameterType="string" resultType="fly.frontend.entity.po.User">
         select * from users where username = #{username} limit 1;
     </select>
-    <select id="getByEmail" resultType="fly.frontend.entity.User">
+    <select id="getByEmail" resultType="fly.frontend.entity.po.User">
         select * from users where email = #{email} limit 1;
     </select>
 </mapper>

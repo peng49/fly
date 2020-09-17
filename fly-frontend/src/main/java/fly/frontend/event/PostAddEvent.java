@@ -1,6 +1,6 @@
 package fly.frontend.event;
 
-import fly.frontend.entity.Post;
+import fly.frontend.entity.po.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

@@ -1,13 +1,11 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.Column;
-import fly.frontend.entity.Post;
-import fly.frontend.entity.PostComment;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.Post;
+import fly.frontend.entity.po.PostComment;
+import fly.frontend.entity.po.User;
 import fly.frontend.pojo.PostEdit;
 import fly.frontend.pojo.PostFilterCondition;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 public interface PostService {

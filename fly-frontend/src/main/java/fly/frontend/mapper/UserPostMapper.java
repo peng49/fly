@@ -1,7 +1,7 @@
 package fly.frontend.mapper;
 
-import fly.frontend.entity.Post;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.Post;
+import fly.frontend.entity.po.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

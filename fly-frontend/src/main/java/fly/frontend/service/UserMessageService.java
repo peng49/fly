@@ -1,7 +1,7 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.User;
-import fly.frontend.entity.UserMessage;
+import fly.frontend.entity.po.User;
+import fly.frontend.entity.po.UserMessage;
 
 import java.util.List;
 

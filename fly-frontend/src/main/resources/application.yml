@@ -67,6 +67,10 @@ oauth:
     client-id: xxx
     client-secret: xxxx
     redirect-uri: http://localhost:8001/oauth/gitee/callback
+  github:
+    client-id: xxx
+    client-secret: xxxx
+    redirect-uri: http://localhost:8001/oauth/github/callback
 # set log level
 #logging:
 #    level:
