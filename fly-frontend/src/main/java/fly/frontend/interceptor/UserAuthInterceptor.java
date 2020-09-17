@@ -7,6 +7,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 
 @Component
 public class UserAuthInterceptor implements HandlerInterceptor {
@@ -20,15 +21,17 @@ public class UserAuthInterceptor implements HandlerInterceptor {
             throw new Exception("请先登录");
         }
 
-        String url;
-        url = request.getScheme() + "://" + request.getServerName()
-                + ":" + request.getServerPort()
-                + request.getServletPath();
+        StringBuilder url = new StringBuilder();
+        url.append(request.getScheme())
+                .append("://")
+                .append(request.getServerName())
+                .append(":")
+                .append(request.getServerPort())
+                .append(request.getServletPath());
         if (request.getQueryString() != null) {
-            url += "?" + request.getQueryString();
+            url.append("?").append(request.getQueryString());
         }
-
-        response.sendRedirect("/user/login?redirect="+url);
+        response.sendRedirect("/user/login?redirect=" + URLEncoder.encode(url.toString(), "UTF-8"));
         return false;
     }
 }
