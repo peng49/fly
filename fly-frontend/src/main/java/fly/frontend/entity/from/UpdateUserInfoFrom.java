@@ -1,9 +1,9 @@
-package fly.frontend.pojo;
+package fly.frontend.entity.from;
 
 import lombok.Data;
 
 @Data
-public class UpdateUserInfo {
+public class UpdateUserInfoFrom {
     private String email;
     private String username;
     private String city;

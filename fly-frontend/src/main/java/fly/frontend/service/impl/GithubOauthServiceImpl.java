@@ -1,7 +1,7 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.po.OauthAccount;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.OauthAccount;
+import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.GithubOauthToken;
 import fly.frontend.entity.vo.GithubUserInfo;
 import fly.frontend.service.OauthAccountService;
@@ -21,6 +21,9 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Objects;
 
 @Service("GithubOauthServiceImpl")
 public class GithubOauthServiceImpl implements OauthService {
@@ -47,8 +50,12 @@ public class GithubOauthServiceImpl implements OauthService {
     @Autowired
     private HttpSession httpSession;
 
+    @Override
+    public String getRedirectUrl() throws UnsupportedEncodingException {
+        return String.format("https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=user", clientId, URLEncoder.encode(redirectUri,"UTF-8"));
+    }
+
     /**
-     *
      * @param code
      * @return
      */
@@ -73,14 +80,14 @@ public class GithubOauthServiceImpl implements OauthService {
         GithubOauthToken oauthToken = response.getBody();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization","token "+oauthToken.getAccessToken());
+        headers.set("Authorization", "token " + Objects.requireNonNull(oauthToken).getAccessToken());
         org.springframework.http.HttpEntity<Object> entity = new org.springframework.http.HttpEntity<>(null, headers);
 
         ResponseEntity<GithubUserInfo> responseEntity = restTemplate.exchange("https://api.github.com/user", HttpMethod.GET, entity, GithubUserInfo.class);
 
         GithubUserInfo userInfo = responseEntity.getBody();
 
-        OauthAccount oauthAccount = oauthAccountService.get(userInfo.getOpenid(), PLATFORM);
+        OauthAccount oauthAccount = oauthAccountService.get(Objects.requireNonNull(userInfo).getOpenid(), PLATFORM);
         if (oauthAccount == null) {
             User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
             if (user == null) {//如果是已登录状态，直接绑定gitee账号，如果未登录,新建账号

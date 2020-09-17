@@ -1,10 +1,10 @@
 package fly.frontend.controller;
 
-import fly.frontend.entity.po.Post;
-import fly.frontend.entity.po.PostComment;
-import fly.frontend.entity.po.User;
-import fly.frontend.pojo.PostEdit;
-import fly.frontend.pojo.PostCommentAdd;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.PostComment;
+import fly.frontend.entity.model.User;
+import fly.frontend.entity.from.PostEditFrom;
+import fly.frontend.entity.from.PostCommentAddFrom;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
@@ -58,7 +58,7 @@ public class PostController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Object add(@RequestBody @Validated PostEdit post, HttpSession httpSession) throws Exception {
+    public Object add(@RequestBody @Validated PostEditFrom post, HttpSession httpSession) throws Exception {
         User user = (User) httpSession.getAttribute("login-user");
         if (user == null) {
             throw new Exception("请先登录");
@@ -82,9 +82,9 @@ public class PostController {
 
     @PostMapping("/edit/{id}")
     @ResponseBody
-    public Object edit(@PathVariable("id") int id, @RequestBody @Validated PostEdit postEdit) {
+    public Object edit(@PathVariable("id") int id, @RequestBody @Validated PostEditFrom postEditFrom) {
         Post post = postService.get(id);
-        postService.edit(post, postEdit);
+        postService.edit(post, postEditFrom);
         return HttpUtils.success();
     }
 
@@ -118,9 +118,9 @@ public class PostController {
 
     @PostMapping("/addComment")
     @ResponseBody
-    public Object addComment(@RequestBody @Validated PostCommentAdd postCommentAdd, HttpSession httpSession) {
+    public Object addComment(@RequestBody @Validated PostCommentAddFrom postCommentAddFrom, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        PostComment comment = postCommentService.create(user, postCommentAdd);
+        PostComment comment = postCommentService.create(user, postCommentAddFrom);
         return HttpUtils.success(comment);
     }
 

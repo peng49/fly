@@ -1,10 +1,9 @@
 package fly.frontend.controller.oauth;
 
-import fly.frontend.entity.po.OauthAccount;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.OauthAccount;
+import fly.frontend.entity.model.User;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +17,6 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/oauth/github")
 public class GithubController {
-    @Value("${oauth.github.client-id}")
-    private String clientId;
-
-    @Value("${oauth.github.client-secret}")
-    private String clientSecret;
-
-    @Value("${oauth.github.redirect-uri}")
-    private String redirectUri;
 
     @Resource(name = "GithubOauthServiceImpl")
     private OauthService oauthService;
@@ -35,9 +26,7 @@ public class GithubController {
 
     @GetMapping("/redirect")
     public void redirect(HttpServletResponse response) throws IOException {
-        System.out.println("123123");
-        String url = String.format("https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=user", clientId, redirectUri);
-        response.sendRedirect(url);
+        response.sendRedirect(oauthService.getRedirectUrl());
     }
 
     @GetMapping("/callback")

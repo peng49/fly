@@ -1,7 +1,7 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.po.Post;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.User;
 
 import java.util.List;
 

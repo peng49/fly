@@ -1,6 +1,6 @@
 package fly.frontend.mapper;
 
-import fly.frontend.entity.po.PostComment;
+import fly.frontend.entity.model.PostComment;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;

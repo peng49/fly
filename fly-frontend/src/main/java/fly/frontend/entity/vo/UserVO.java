@@ -1,11 +1,11 @@
-package fly.frontend.entity.po;
+package fly.frontend.entity.vo;
 
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
-public class User {
+public class UserVO {
     private int id;
     private String username;
     private String email;
@@ -15,5 +15,6 @@ public class User {
     private int experience;
     private String signature;
     private Timestamp createTime;
+    private String[] bindPlatform;
     private int isAdmin;
 }

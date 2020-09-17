@@ -1,9 +1,9 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
-import fly.frontend.entity.po.PostComment;
-import fly.frontend.entity.po.PostCommentAgree;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.PostComment;
+import fly.frontend.entity.model.PostCommentAgree;
+import fly.frontend.entity.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

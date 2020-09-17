@@ -2,8 +2,8 @@ package fly.frontend.task;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import fly.frontend.entity.po.Post;
-import fly.frontend.pojo.PostFilterCondition;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.service.PostService;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;

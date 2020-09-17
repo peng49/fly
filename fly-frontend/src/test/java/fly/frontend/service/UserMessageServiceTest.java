@@ -1,8 +1,8 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
-import fly.frontend.entity.po.User;
-import fly.frontend.entity.po.UserMessage;
+import fly.frontend.entity.model.User;
+import fly.frontend.entity.model.UserMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

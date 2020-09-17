@@ -1,7 +1,7 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.po.OauthAccount;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.OauthAccount;
+import fly.frontend.entity.model.User;
 import fly.frontend.pojo.GiteeOauthResponse;
 import fly.frontend.entity.vo.GiteeUserInfo;
 import fly.frontend.service.OauthAccountService;
@@ -18,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Objects;
 
 @Service("GiteeOauthServiceImpl")
@@ -44,6 +46,11 @@ public class GiteeOauthServiceImpl implements OauthService {
 
     @Autowired
     private HttpSession httpSession;
+
+    @Override
+    public String getRedirectUrl() throws UnsupportedEncodingException {
+        return String.format("https://gitee.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", clientId, URLEncoder.encode(redirectUri,"UTF-8"));
+    }
 
     @Override
     public OauthAccount get(String code) {

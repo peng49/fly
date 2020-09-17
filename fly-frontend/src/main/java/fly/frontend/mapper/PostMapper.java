@@ -1,8 +1,8 @@
 package fly.frontend.mapper;
 
-import fly.frontend.entity.po.Post;
-import fly.frontend.entity.po.PostComment;
-import fly.frontend.pojo.PostFilterCondition;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.PostComment;
+import fly.frontend.entity.from.PostFilterCondition;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

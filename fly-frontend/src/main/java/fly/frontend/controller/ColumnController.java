@@ -2,9 +2,9 @@ package fly.frontend.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import fly.frontend.entity.po.Column;
+import fly.frontend.entity.model.Column;
 import fly.frontend.pojo.PostFilter;
-import fly.frontend.pojo.PostFilterCondition;
+import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
 import fly.frontend.utils.HttpUtils;

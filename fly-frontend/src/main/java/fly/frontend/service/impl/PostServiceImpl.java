@@ -1,12 +1,12 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.po.Column;
-import fly.frontend.entity.po.Post;
-import fly.frontend.entity.po.PostComment;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.Column;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.PostComment;
+import fly.frontend.entity.model.User;
 import fly.frontend.mapper.PostMapper;
-import fly.frontend.pojo.PostEdit;
-import fly.frontend.pojo.PostFilterCondition;
+import fly.frontend.entity.from.PostEditFrom;
+import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +48,16 @@ public class PostServiceImpl implements PostService {
         return postMapper.get(id);
     }
 
-    public Post create(PostEdit postEdit, User user) {
-        System.out.println(postEdit);
+    public Post create(PostEditFrom postEditFrom, User user) {
+        System.out.println(postEditFrom);
         Post post = new Post();
         post.setAuthor(user);
-        post.setTitle(postEdit.getTitle());
-        post.setOriginalContent(postEdit.getOriginalContent());
-        post.setContent(postEdit.getContent());
+        post.setTitle(postEditFrom.getTitle());
+        post.setOriginalContent(postEditFrom.getOriginalContent());
+        post.setContent(postEditFrom.getContent());
 
         Column column = new Column();
-        column.setId(postEdit.getColumnId());
+        column.setId(postEditFrom.getColumnId());
         post.setColumn(column);
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -65,7 +65,7 @@ public class PostServiceImpl implements PostService {
         post.setUpdateAt(timestamp);
 
         //发布
-        if ("publish".equals(postEdit.getAction())) {
+        if ("publish".equals(postEditFrom.getAction())) {
             post.setStatus(PostService.PUBLISH_STATUS);
             post.setPublishAt(timestamp);
             post.setHeat(calculationHeat(post));
@@ -131,17 +131,17 @@ public class PostServiceImpl implements PostService {
         postMapper.essence(post);
     }
 
-    public void edit(Post post, PostEdit postEdit) {
-        post.setOriginalContent(postEdit.getOriginalContent());
-        post.setContent(postEdit.getContent());
-        post.setTitle(postEdit.getTitle());
+    public void edit(Post post, PostEditFrom postEditFrom) {
+        post.setOriginalContent(postEditFrom.getOriginalContent());
+        post.setContent(postEditFrom.getContent());
+        post.setTitle(postEditFrom.getTitle());
         Column column = new Column();
-        column.setId(postEdit.getColumnId());
+        column.setId(postEditFrom.getColumnId());
         post.setColumn(column);
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         //发布
-        if ("publish".equals(postEdit.getAction())) {
+        if ("publish".equals(postEditFrom.getAction())) {
             post.setStatus(PostService.PUBLISH_STATUS);
             post.setPublishAt(timestamp);
             post.setUpdateAt(timestamp);

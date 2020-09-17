@@ -1,7 +1,7 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.po.Post;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.User;
 import fly.frontend.mapper.UserPostMapper;
 import fly.frontend.service.UserPostService;
 import org.springframework.stereotype.Service;

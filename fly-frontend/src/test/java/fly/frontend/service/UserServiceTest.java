@@ -1,7 +1,7 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
-import fly.frontend.pojo.UserLogin;
+import fly.frontend.entity.from.UserLoginFrom;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,12 +62,12 @@ public class UserServiceTest {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
 
-        UserLogin userLogin = new UserLogin();
-        userLogin.setUsername("");
+        UserLoginFrom userLoginFrom = new UserLoginFrom();
+        userLoginFrom.setUsername("");
 
-        Set<ConstraintViolation<UserLogin>> validate = validator.validate(userLogin);
+        Set<ConstraintViolation<UserLoginFrom>> validate = validator.validate(userLoginFrom);
 
-        for (ConstraintViolation<UserLogin> userLoginConstraintViolation : validate) {
+        for (ConstraintViolation<UserLoginFrom> userLoginConstraintViolation : validate) {
             System.out.println(userLoginConstraintViolation.getRootBean().getClass().getName());
             System.out.println(userLoginConstraintViolation.getPropertyPath());
             System.out.println(userLoginConstraintViolation.getMessage());

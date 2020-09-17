@@ -1,6 +1,6 @@
 package fly.frontend.mapper;
 
-import fly.frontend.entity.po.OauthAccount;
+import fly.frontend.entity.model.OauthAccount;
 import org.apache.ibatis.annotations.*;
 
 @Mapper

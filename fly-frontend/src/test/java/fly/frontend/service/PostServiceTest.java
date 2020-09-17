@@ -1,9 +1,9 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
-import fly.frontend.entity.po.User;
-import fly.frontend.pojo.PostEdit;
-import fly.frontend.pojo.PostFilterCondition;
+import fly.frontend.entity.model.User;
+import fly.frontend.entity.from.PostEditFrom;
+import fly.frontend.entity.from.PostFilterCondition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,7 +39,7 @@ public class PostServiceTest {
     @Test
     public void timestampTest()
     {
-        PostEdit postAdd = new PostEdit();
+        PostEditFrom postAdd = new PostEditFrom();
         postAdd.setColumnId(1);
         postAdd.setTitle("test");
         postAdd.setContent("test content");

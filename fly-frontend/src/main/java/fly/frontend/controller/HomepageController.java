@@ -1,7 +1,7 @@
 package fly.frontend.controller;
 
 import com.github.pagehelper.PageHelper;
-import fly.frontend.pojo.PostFilterCondition;
+import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
