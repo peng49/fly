@@ -1,11 +1,11 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.po.Post;
-import fly.frontend.entity.po.PostComment;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.PostComment;
+import fly.frontend.entity.model.User;
 import fly.frontend.event.CommentEvent;
 import fly.frontend.mapper.PostCommentMapper;
-import fly.frontend.pojo.PostCommentAdd;
+import fly.frontend.entity.from.PostCommentAddFrom;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
@@ -48,14 +48,14 @@ public class PostCommentServiceImpl implements PostCommentService {
         return content;
     }
 
-    public PostComment create(User user, PostCommentAdd postCommentAdd) {
+    public PostComment create(User user, PostCommentAddFrom postCommentAddFrom) {
         PostComment comment = new PostComment();
         comment.setCommentTime(new Date(System.currentTimeMillis()));
 
         //解析内容
-        comment.setContent(parseCommentContent(postCommentAdd.getContent()));
+        comment.setContent(parseCommentContent(postCommentAddFrom.getContent()));
 
-        Post post = postService.get(postCommentAdd.getPostId());
+        Post post = postService.get(postCommentAddFrom.getPostId());
 
         if (post == null || post.getStatus() != 1) {
             throw new RuntimeException("文章还未发布，不能进行评论");
@@ -65,8 +65,8 @@ public class PostCommentServiceImpl implements PostCommentService {
         comment.setLevel(post.getReplyCount() + 1);
         comment.setUser(user);
 
-        if (postCommentAdd.getParentId() != 0) {
-            PostComment parentComment = this.get(postCommentAdd.getParentId());
+        if (postCommentAddFrom.getParentId() != 0) {
+            PostComment parentComment = this.get(postCommentAddFrom.getParentId());
             comment.setParent(parentComment);
         }
 

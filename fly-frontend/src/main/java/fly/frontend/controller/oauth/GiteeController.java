@@ -1,7 +1,7 @@
 package fly.frontend.controller.oauth;
 
-import fly.frontend.entity.po.OauthAccount;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.OauthAccount;
+import fly.frontend.entity.model.User;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -25,8 +25,8 @@ public class GiteeController {
     private UserService userService;
 
     @GetMapping("/redirect")
-    public void redirect() {
-
+    public void redirect(HttpServletResponse response) throws IOException {
+        response.sendRedirect(oauthService.getRedirectUrl());
     }
 
     @GetMapping("/callback")

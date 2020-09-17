@@ -1,10 +1,14 @@
 package fly.frontend.controller;
 
-import fly.frontend.entity.po.Post;
-import fly.frontend.entity.po.PostComment;
-import fly.frontend.entity.po.PostCommentAgree;
-import fly.frontend.entity.po.User;
-import fly.frontend.pojo.*;
+import fly.frontend.entity.from.UpdatePasswordFrom;
+import fly.frontend.entity.from.UpdateUserInfoFrom;
+import fly.frontend.entity.from.UserLoginFrom;
+import fly.frontend.entity.from.UserRegisterFrom;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.PostComment;
+import fly.frontend.entity.model.PostCommentAgree;
+import fly.frontend.entity.model.User;
+import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.*;
 import fly.frontend.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,7 +71,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public Object login(@RequestBody @Validated UserLogin login, HttpSession httpSession) throws Exception {
+    public Object login(@RequestBody @Validated UserLoginFrom login, HttpSession httpSession) throws Exception {
         System.out.println(login);
         User user = userService.login(login);
         httpSession.setAttribute(UserService.LOGIN_KEY, user);
@@ -102,7 +106,7 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    public Object register(@RequestBody @Validated UserRegister register) throws Exception {
+    public Object register(@RequestBody @Validated UserRegisterFrom register) throws Exception {
         User user = userService.register(register);
         return HttpUtils.success(user);
     }
@@ -144,7 +148,7 @@ public class UserController {
 
     @PostMapping("/updateInfo")
     @ResponseBody
-    public Object updateInfo(@RequestBody UpdateUserInfo userInfo, HttpSession session) {
+    public Object updateInfo(@RequestBody UpdateUserInfoFrom userInfo, HttpSession session) {
         User user = (User) session.getAttribute(UserService.LOGIN_KEY);
         User res = userService.updateInfo(user, userInfo);
         return HttpUtils.success(res);
@@ -153,7 +157,7 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     @ResponseBody
-    public Object updatePassword(@RequestBody @Validated UpdatePassword updatePassword,
+    public Object updatePassword(@RequestBody @Validated UpdatePasswordFrom updatePassword,
                                  HttpSession httpSession) throws Exception {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         userService.updatePassword(user, updatePassword);

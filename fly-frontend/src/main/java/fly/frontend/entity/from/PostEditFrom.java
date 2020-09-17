@@ -1,11 +1,11 @@
-package fly.frontend.pojo;
+package fly.frontend.entity.from;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class PostEdit {
+public class PostEditFrom {
     private String action;
 
     private int columnId;

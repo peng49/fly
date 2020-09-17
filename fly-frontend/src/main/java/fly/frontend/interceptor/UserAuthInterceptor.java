@@ -1,6 +1,6 @@
 package fly.frontend.interceptor;
 
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.User;
 import fly.frontend.service.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

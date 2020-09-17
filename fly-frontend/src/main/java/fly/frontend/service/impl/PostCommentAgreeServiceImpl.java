@@ -1,7 +1,7 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.po.PostCommentAgree;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.PostCommentAgree;
+import fly.frontend.entity.model.User;
 import fly.frontend.mapper.PostCommentAgreeMapper;
 import fly.frontend.service.PostCommentAgreeService;
 import org.springframework.stereotype.Service;

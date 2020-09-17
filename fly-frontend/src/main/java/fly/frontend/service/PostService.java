@@ -1,10 +1,10 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.po.Post;
-import fly.frontend.entity.po.PostComment;
-import fly.frontend.entity.po.User;
-import fly.frontend.pojo.PostEdit;
-import fly.frontend.pojo.PostFilterCondition;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.PostComment;
+import fly.frontend.entity.model.User;
+import fly.frontend.entity.from.PostEditFrom;
+import fly.frontend.entity.from.PostFilterCondition;
 
 import java.util.*;
 
@@ -37,7 +37,7 @@ public interface PostService {
 
     Post get(int id);
 
-    Post create(PostEdit postEdit, User user);
+    Post create(PostEditFrom postEditFrom, User user);
 
     void update(Post post);
 
@@ -55,7 +55,7 @@ public interface PostService {
 
     void essence(Post post);
 
-    void edit(Post post, PostEdit postEdit);
+    void edit(Post post, PostEditFrom postEditFrom);
 
     double calculationHeat(Post post);
 }

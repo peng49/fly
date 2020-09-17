@@ -1,11 +1,11 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.po.Post;
-import fly.frontend.entity.po.User;
-import fly.frontend.pojo.UpdatePassword;
-import fly.frontend.pojo.UpdateUserInfo;
-import fly.frontend.pojo.UserLogin;
-import fly.frontend.pojo.UserRegister;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.User;
+import fly.frontend.entity.from.UpdatePasswordFrom;
+import fly.frontend.entity.from.UpdateUserInfoFrom;
+import fly.frontend.entity.from.UserLoginFrom;
+import fly.frontend.entity.from.UserRegisterFrom;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ public interface UserService {
 
     User getByUsername(String username);
 
-    User login(UserLogin login) throws Exception;
+    User login(UserLoginFrom login) throws Exception;
 
-    User register(UserRegister register) throws Exception;
+    User register(UserRegisterFrom register) throws Exception;
 
     String getPassword(String password);
 
@@ -28,9 +28,9 @@ public interface UserService {
 
     List<Post> getCollectionPosts(User user);
 
-    User updateInfo(User user, UpdateUserInfo userInfo);
+    User updateInfo(User user, UpdateUserInfoFrom userInfo);
 
     User updateAvatar(User user, String avatar);
 
-    void updatePassword(User user, UpdatePassword updatePassword) throws Exception;
+    void updatePassword(User user, UpdatePasswordFrom updatePassword) throws Exception;
 }

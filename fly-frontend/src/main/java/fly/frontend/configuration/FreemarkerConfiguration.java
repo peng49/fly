@@ -1,6 +1,6 @@
 package fly.frontend.configuration;
 
-import fly.frontend.entity.po.Column;
+import fly.frontend.entity.model.Column;
 import fly.frontend.service.ColumnService;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;

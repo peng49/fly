@@ -1,13 +1,14 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.po.Post;
-import fly.frontend.entity.po.User;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.User;
+import fly.frontend.entity.vo.UserVO;
 import fly.frontend.event.RegisteredEvent;
 import fly.frontend.mapper.UserMapper;
-import fly.frontend.pojo.UpdatePassword;
-import fly.frontend.pojo.UpdateUserInfo;
-import fly.frontend.pojo.UserLogin;
-import fly.frontend.pojo.UserRegister;
+import fly.frontend.entity.from.UpdatePasswordFrom;
+import fly.frontend.entity.from.UpdateUserInfoFrom;
+import fly.frontend.entity.from.UserLoginFrom;
+import fly.frontend.entity.from.UserRegisterFrom;
 import fly.frontend.service.UserPostService;
 import fly.frontend.service.UserService;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.getByUsername(username);
     }
 
-    public User login(UserLogin login) throws Exception {
+    public User login(UserLoginFrom login) throws Exception {
         User user = getByUsername(login.getUsername());
         if (user == null) {
             throw new NotFoundException("用户不存在");
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public User register(UserRegister register) throws Exception {
+    public User register(UserRegisterFrom register) throws Exception {
         User user = new User();
         User existed = userMapper.getByUsername(register.getUsername());
         System.out.println(existed);
@@ -93,10 +94,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<Post> getCollectionPosts(User user) {
-        return userPostService.findByUser(user);
+        User model = new User();
+        model.setId(user.getId());
+        return userPostService.findByUser(model);
     }
 
-    public User updateInfo(User user, UpdateUserInfo userInfo) {
+    public User updateInfo(User user, UpdateUserInfoFrom userInfo) {
         user.setEmail(userInfo.getEmail());
         user.setUsername(userInfo.getUsername());
         user.setCity(userInfo.getCity());
@@ -111,7 +114,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public void updatePassword(User user, UpdatePassword updatePassword) throws Exception {
+    public void updatePassword(User user, UpdatePasswordFrom updatePassword) throws Exception {
         //验证原密码是否正确
         if (comparePassword(updatePassword.getOldPassword(), user.getPassword())) {
             throw new Exception("原密码错误");
@@ -121,6 +124,10 @@ public class UserServiceImpl implements UserService {
         }
         //修改密码
         user.setPassword(getPassword(updatePassword.getPassword()));
-        userMapper.updatePassword(user);
+
+        User model = new User();
+        model.setId(user.getId());
+        model.setPassword(getPassword(updatePassword.getPassword()));
+        userMapper.updatePassword(model);
     }
 }

@@ -1,14 +1,14 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.po.PostComment;
-import fly.frontend.entity.po.User;
-import fly.frontend.pojo.PostCommentAdd;
+import fly.frontend.entity.model.PostComment;
+import fly.frontend.entity.model.User;
+import fly.frontend.entity.from.PostCommentAddFrom;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface PostCommentService {
-    PostComment create(User user,PostCommentAdd postCommentAdd);
+    PostComment create(User user, PostCommentAddFrom postCommentAddFrom);
 
     PostComment get(int id);
 

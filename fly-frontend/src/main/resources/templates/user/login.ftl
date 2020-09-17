@@ -14,7 +14,7 @@
 
 <div id="login-container" class="layui-container fly-marginTop">
     <div class="fly-panel fly-panel-user" pad20>
-        <div class="layui-tab layui-tab-brief" lay-filter="user">
+        <div class="layui-tab layui-tab-brief">
             <ul class="layui-tab-title">
                 <li class="layui-this">登入</li>
                 <li><a href="/user/register">注册</a></li>
@@ -26,13 +26,18 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">用户名/邮箱</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" v-model="loginForm.username" class="layui-input">
+                                    <input type="text"
+                                           v-model="loginForm.username"
+                                           class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">密码</label>
                                 <div class="layui-input-inline">
-                                    <input type="password" v-model="loginForm.password" @keyup.enter="loginSubmit" class="layui-input">
+                                    <input type="password"
+                                           v-model="loginForm.password"
+                                           @keyup.enter.native="loginSubmit"
+                                           class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -40,11 +45,9 @@
                                 <span style="padding-left:20px;"><a href="/user/forget">忘记密码？</a></span>
                             </div>
                             <div class="layui-form-item fly-form-app">
-                                <span>或者使用社交账号登入</span>
-                                <a href="" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})"
-                                   class="iconfont icon-qq" title="QQ登入"></a>
-                                <a href="" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})"
-                                   class="iconfont icon-weibo" title="微博登入"></a>
+                                <span>或者使用第三方账号登录</span>
+                                <a href="/oauth/gitee/redirect" title="gitee登录"><i class="icon-githee"></i></a>
+                                <a href="/oauth/github/redirect" title="github登录"><i class="icon-github"></i></a>
                             </div>
                         </form>
                     </div>
@@ -72,7 +75,7 @@
                             layer.msg('登录成功');
                             setTimeout(function () {
                                 let redirect = '${redirect}';
-                                if(redirect === ''){
+                                if (redirect === '') {
                                     redirect = '/user/center'
                                 }
                                 window.location.href = redirect;

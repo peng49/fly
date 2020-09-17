@@ -1,4 +1,4 @@
-package fly.frontend.entity.po;
+package fly.frontend.entity.model;
 
 import lombok.Data;
 

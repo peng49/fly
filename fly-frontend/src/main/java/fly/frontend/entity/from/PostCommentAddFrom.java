@@ -1,4 +1,4 @@
-package fly.frontend.pojo;
+package fly.frontend.entity.from;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class PostCommentAdd {
+public class PostCommentAddFrom {
 
     @Min(value = 1,message = "文章Id不能为空")
     private int postId;
