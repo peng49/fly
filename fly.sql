@@ -176,4 +176,16 @@ CREATE TABLE `oauth_account`
 ) ENGINE = INNODB
   DEFAULT CHARSET = utf8 COMMENT = '第三方授权账户信息';
 
+DROP TABLE IF EXISTS `post_auto_draft`;
+CREATE TABLE `post_auto_draft` (
+                                   `id` int(11) NOT NULL AUTO_INCREMENT,
+                                   `user_id` int(11) NOT NULL,
+                                   `post_id` int(11) DEFAULT NULL,
+                                   `title` varchar(256) DEFAULT NULL,
+                                   `content` longtext,
+                                   `created_at` datetime DEFAULT NULL,
+                                   `update_at` datetime DEFAULT NULL,
+                                   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='自动保存的草稿数据';
+
 SET FOREIGN_KEY_CHECKS = 1;
