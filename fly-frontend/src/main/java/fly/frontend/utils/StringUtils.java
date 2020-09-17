@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import static org.springframework.web.util.HtmlUtils.htmlUnescape;
 
-public class TextUtils {
+public class StringUtils {
     public static String formatTextForTimestamp(Timestamp timestamp) {
         long time = System.currentTimeMillis() - timestamp.getTime();
         if (time < 3 * 60 * 1000) {//3分钟之内

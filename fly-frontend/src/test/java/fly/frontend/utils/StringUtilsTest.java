@@ -6,9 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestTemplate;
 
-import javax.xml.ws.Response;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,12 +17,12 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {FlyFrontendApplication.class})
-public class TextUtilsTest {
+public class StringUtilsTest {
 
     @Test
     public void formatTextForTimestampTest()
     {
-        System.out.println(TextUtils.formatTextForTimestamp(new Timestamp(System.currentTimeMillis()-25 *60 * 60 * 1000)));
+        System.out.println(StringUtils.formatTextForTimestamp(new Timestamp(System.currentTimeMillis()-25 *60 * 60 * 1000)));
     }
 
     @Test
@@ -47,7 +45,7 @@ public class TextUtilsTest {
     @Test
     public void html2textTest(){
         String html = "<string class='hello'>Hello</string>&nbsp;&nbsp;World!";
-        assertEquals(TextUtils.html2text(html),"Hello World!");
+        assertEquals(StringUtils.html2text(html),"Hello World!");
     }
 
     @Test

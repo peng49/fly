@@ -76,7 +76,7 @@
                 </div>
                 <div class="detail-handle" style="text-align: center">
                     <a href="javascript:" @click="collection"><i class="layui-icon"></i> 收藏(0)</a>
-                    <a href="javascript:">分享</a>
+                    <a href="javascript:">推荐</a>
                 </div>
             </div>
 

@@ -3,7 +3,7 @@ package fly.frontend.service.impl;
 import fly.frontend.entity.OauthAccount;
 import fly.frontend.entity.User;
 import fly.frontend.pojo.GiteeOauthResponse;
-import fly.frontend.pojo.GiteeUserInfo;
+import fly.frontend.entity.vo.GiteeUserInfo;
 import fly.frontend.service.OauthAccountService;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;

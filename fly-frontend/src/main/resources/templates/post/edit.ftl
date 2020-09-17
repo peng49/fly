@@ -73,7 +73,7 @@
             postStatus: '${(post.status)!}',
             saveUrl: window.location.pathname,
             postForm: {
-                action: '',
+                action: 'update',
                 columnId: '${(post.column.id)!1}',
                 title: "${(post.title)!}",
                 originalContent: "",
@@ -86,7 +86,7 @@
 
 
             if (_this.postId > 0) {
-                if (_this.postStatus === '0') {//如果未发布
+                if (Number(_this.postStatus) === 0) {//如果未发布
                     editorBar.push('publish');
                 }
                 editorBar.push('update');
@@ -128,10 +128,15 @@
 
             //通过jquery监听新加的按钮触发提交
             $('body').on('click', '.post-submit-btn', function () {
-                let action = $(this).data('action');
-                _this.postForm.action = action;
+                _this.postForm.action = $(this).data('action');
                 _this.submitForm()
-            })
+            });
+
+            let i = setInterval(function () {
+                //todo 保存到本地 localStorage
+
+                //todo 自动保存到系统数据库
+            }, 5000)
         },
         methods: {
             submitForm: function () {
@@ -141,10 +146,8 @@
                 // console.log(this.editor.watch().getPreviewedHTML());
 
                 let originWatch = this.editor.settings.watch;
-
                 //开启预览，获取预览html
                 let previewContent = this.editor.watch().getPreviewedHTML();
-
                 if (!originWatch) {
                     //如果原本预览是关闭的,获取预览html后就关闭预览
                     this.editor.unwatch()
@@ -152,10 +155,12 @@
 
                 this.postForm.originalContent = this.editor.getMarkdown();
                 this.postForm.content = previewContent;
+
                 axios.post(_this.saveUrl, this.postForm)
                     .then(function (response) {
                         if (response.code === "success") {
-                            console.log(response)
+                            _this.saveUrl = '/post/edit/'+response.data;
+                            console.log(response);
                             layer.msg('操作成功');
                             return;
                         }
