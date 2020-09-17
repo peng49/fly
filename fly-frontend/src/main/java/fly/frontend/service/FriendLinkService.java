@@ -1,6 +1,6 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.FriendLink;
+import fly.frontend.entity.po.FriendLink;
 
 import java.util.List;
 

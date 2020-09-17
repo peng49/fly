@@ -1,6 +1,6 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.Column;
+import fly.frontend.entity.po.Column;
 
 import java.util.List;
 

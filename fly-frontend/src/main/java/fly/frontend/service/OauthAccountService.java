@@ -1,7 +1,6 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.OauthAccount;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.OauthAccount;
 
 public interface OauthAccountService {
     OauthAccount add(OauthAccount account);

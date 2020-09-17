@@ -1,6 +1,7 @@
 package fly.frontend.utils;
 
 import fly.frontend.FlyFrontendApplication;
+import fly.frontend.entity.vo.GithubUserInfo;
 import fly.frontend.pojo.GiteeOauthResponse;
 import fly.frontend.entity.vo.GiteeUserInfo;
 import org.apache.http.HttpEntity;
@@ -141,5 +142,19 @@ public class HttpClientTest {
 
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
+    }
+
+    @Test
+    public void getGithubUserInfo(){
+        String token = "2517256cca15b612917ffc392e50e6b2497cdc74";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization","token "+token);
+        org.springframework.http.HttpEntity<Object> httpEntity = new org.springframework.http.HttpEntity<>(null, headers);
+
+        ResponseEntity<GithubUserInfo> responseEntity = restTemplate.exchange("https://api.github.com/user", HttpMethod.GET, httpEntity, GithubUserInfo.class);
+
+        GithubUserInfo body = responseEntity.getBody();
+        System.out.println(body);
     }
 }

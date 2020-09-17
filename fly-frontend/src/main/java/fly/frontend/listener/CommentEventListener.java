@@ -1,8 +1,8 @@
 package fly.frontend.listener;
 
-import fly.frontend.entity.PostComment;
-import fly.frontend.entity.User;
-import fly.frontend.entity.UserMessage;
+import fly.frontend.entity.po.PostComment;
+import fly.frontend.entity.po.User;
+import fly.frontend.entity.po.UserMessage;
 import fly.frontend.event.CommentEvent;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;

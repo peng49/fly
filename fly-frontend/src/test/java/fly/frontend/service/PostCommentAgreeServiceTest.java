@@ -1,14 +1,13 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
-import fly.frontend.entity.PostComment;
-import fly.frontend.entity.PostCommentAgree;
-import fly.frontend.entity.User;
+import fly.frontend.entity.po.PostComment;
+import fly.frontend.entity.po.PostCommentAgree;
+import fly.frontend.entity.po.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)

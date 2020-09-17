@@ -1,8 +1,7 @@
-package fly.frontend.entity;
+package fly.frontend.entity.po;
 
 import lombok.Data;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data

@@ -1,6 +1,6 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.Column;
+import fly.frontend.entity.po.Column;
 import fly.frontend.mapper.ColumnMapper;
 import fly.frontend.service.ColumnService;
 import org.springframework.stereotype.Service;
