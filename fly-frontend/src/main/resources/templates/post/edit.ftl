@@ -137,7 +137,7 @@
             //通过jquery监听新加的按钮触发提交
             $('body').on('click', '.post-submit-btn', function () {
                 _this.postForm.action = $(this).data('action');
-                _this.submitPost()
+                _this.postSubmit()
             });
 
             _this.autoIndex = setInterval(function () {
@@ -153,7 +153,7 @@
             }, 5000)
         },
         methods: {
-            submitPost: function () {
+            postSubmit: function () {
                 let _this = this;
                 // console.log(this.editor.getMarkdown());
                 // console.log(this.editor.getHTML());

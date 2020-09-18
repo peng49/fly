@@ -45,9 +45,12 @@
                                 <span style="padding-left:20px;"><a href="/user/forget">忘记密码？</a></span>
                             </div>
                             <div class="layui-form-item fly-form-app">
-                                <span>或者使用第三方账号登录</span>
-                                <a href="/oauth/gitee/redirect" title="gitee登录"><i class="icon-githee"></i></a>
-                                <a href="/oauth/github/redirect" title="github登录"><i class="icon-github"></i></a>
+                                <div style="float: left;line-height: 33px;">或者使用第三方账号登录</div>
+                                <div style="float: left;margin-left: 15px;display: inline-flex">
+                                    <a href="/oauth/gitee/redirect" title="gitee登录"><i class="icon-gitee"></i></a>
+                                    &nbsp;  &nbsp;
+                                    <a href="/oauth/github/redirect" title="github登录"><i class="icon-github"></i></a>
+                                </div>
                             </div>
                         </form>
                     </div>

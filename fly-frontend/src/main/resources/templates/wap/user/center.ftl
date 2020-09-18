@@ -257,7 +257,6 @@
         data: function () {
             return {
                 posts: [
-                    {title: "标题", publishAt: "发布时间", status: "", top: 0}
                 ]
             }
         },
