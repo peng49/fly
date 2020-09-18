@@ -21,8 +21,8 @@
             <div class="layui-tab layui-tab-brief">
                 <ul class="layui-tab-title">
                     <li class="layui-this">
-                        <span v-if="postId > 0">编辑帖子</span>
-                        <span v-else>发表新帖</span>
+                        <span v-if="postId > 0">编辑主题</span>
+                        <span v-else>发表主题</span>
                     </li>
                 </ul>
                 <div class="layui-form layui-tab-content" style="padding: 20px 0;">
@@ -78,7 +78,8 @@
                 title: "${(post.title)!}",
                 originalContent: "",
                 content: ""
-            }
+            },
+            autoIndex: 0
         },
         mounted: function () {
             let _this = this;
@@ -93,6 +94,13 @@
             } else {
                 editorBar.push('publish');
                 editorBar.push('save2draft');
+            }
+
+            //新增的时候取本地缓存的数据
+            if (!_this.postId && localStorage && localStorage.getItem("markdownContent")) {
+                //设置markdown
+                console.log("通过localStorage初始化编辑器的markdown内容");
+                document.getElementById("editor").getElementsByTagName("textarea")[0].innerText = localStorage.getItem("markdownContent");
             }
 
             _this.editor = editormd('editor', {
@@ -129,17 +137,23 @@
             //通过jquery监听新加的按钮触发提交
             $('body').on('click', '.post-submit-btn', function () {
                 _this.postForm.action = $(this).data('action');
-                _this.submitForm()
+                _this.submitPost()
             });
 
-            let i = setInterval(function () {
-                //todo 保存到本地 localStorage
+            _this.autoIndex = setInterval(function () {
+                //保存到本地 localStorage
+                if (_this.editor.getMarkdown() !== localStorage.getItem("markdownContent")) {
+                    console.log("设置localStorage中的markdown");
+                    localStorage.setItem("markdownContent", _this.editor.getMarkdown())
+                } else {
+                    console.log("没变动，不保存")
+                }
 
-                //todo 自动保存到系统数据库
+                //todo 自动保存到草稿
             }, 5000)
         },
         methods: {
-            submitForm: function () {
+            submitPost: function () {
                 let _this = this;
                 // console.log(this.editor.getMarkdown());
                 // console.log(this.editor.getHTML());
@@ -159,7 +173,20 @@
                 axios.post(_this.saveUrl, this.postForm)
                     .then(function (response) {
                         if (response.code === "success") {
-                            _this.saveUrl = '/post/edit/'+response.data;
+                            if (response.data && response.data.id) {
+                                //修改浏览器url
+                                history.pushState({}, "", '/post/edit/' + response.data.id);
+
+                                console.log("删除localStorage中的markdown内容");
+                                localStorage.removeItem("markdownContent");
+                                _this.postId = response.data.id
+                                _this.saveUrl = '/post/edit/' + response.data.id;
+
+                                //清除自动保存的定时任务
+                                if (_this.autoIndex) {
+                                    clearInterval(_this.autoIndex)
+                                }
+                            }
                             console.log(response);
                             layer.msg('操作成功');
                             return;
@@ -169,6 +196,9 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+            },
+            getDraft: function () {
+                //
             }
         }
     })

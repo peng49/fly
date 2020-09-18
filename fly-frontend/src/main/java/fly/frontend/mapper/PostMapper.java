@@ -69,7 +69,8 @@ public interface PostMapper {
 
 
     @Insert("insert into posts(column_id,author_id,title,original_content,content,status,created_at,update_at,publish_at,reply_count,view_count,heat) values (#{column.id},#{author.id},#{title},#{originalContent},#{content},#{status},#{createdAt,jdbcType=TIMESTAMP},#{updateAt,jdbcType=TIMESTAMP},#{publishAt,jdbcType=TIMESTAMP},0,0,#{heat})")
-    public void create(Post post);
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    void create(Post post);
 
     public void update(Post post);
 

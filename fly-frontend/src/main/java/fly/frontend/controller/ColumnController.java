@@ -3,6 +3,7 @@ package fly.frontend.controller;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.model.Column;
+import fly.frontend.entity.model.Post;
 import fly.frontend.pojo.PostFilter;
 import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.service.ColumnService;
@@ -40,7 +41,7 @@ public class ColumnController {
         }
 
         PageHelper.startPage(filter.getPage(), filter.getPageSize());
-        Page posts = (Page) postService.getByCondition(condition);
+        Page<Post> posts = (Page<Post>) postService.getByCondition(condition);
         view.addObject("posts", posts);
 
         Column column = columnService.get(id);
