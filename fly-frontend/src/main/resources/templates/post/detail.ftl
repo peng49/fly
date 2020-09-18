@@ -30,7 +30,7 @@
 
                     <div class="fly-admin-box" data-id="123">
                         <#if user?? && user.isAdmin == 1 >
-                            <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
+                            <span class="layui-btn layui-btn-xs jie-admin">删除</span>
 
                             <#if post.top == 1 >
                                 <span @click="top" class="layui-btn layui-btn-xs jie-admin"
