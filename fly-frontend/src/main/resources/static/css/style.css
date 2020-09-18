@@ -42,12 +42,13 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-githee {
+.icon-gitee {
     background-image: url(/static/images/gitee.png);
     background-size: 100% 100%;
     width: 30px;
     height: 30px;
     display: inline-block;
+    float: left;
 }
 
 .icon-github {
@@ -56,6 +57,7 @@ i {
     width: 30px;
     height: 30px;
     display: inline-block;
+    float: left;
 }
 
 .icon-zan:before {
@@ -1882,7 +1884,7 @@ body .fly-user-main {
 
 .app-bind li {
     margin-bottom: 10px;
-    line-height: 30px;
+    line-height: 40px;
     color: #999;
 }
 

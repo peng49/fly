@@ -52,7 +52,7 @@ public class GithubOauthServiceImpl implements OauthService {
 
     @Override
     public String getRedirectUrl() throws UnsupportedEncodingException {
-        return String.format("https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=user", clientId, URLEncoder.encode(redirectUri,"UTF-8"));
+        return String.format("https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=user", clientId, URLEncoder.encode(redirectUri, "UTF-8"));
     }
 
     /**
@@ -92,7 +92,7 @@ public class GithubOauthServiceImpl implements OauthService {
             User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
             if (user == null) {//如果是已登录状态，直接绑定gitee账号，如果未登录,新建账号
                 user = new User();
-                user.setUsername(userInfo.getLogin() + "_" + RandomStringUtils.randomAlphabetic(10));
+                user.setUsername(userService.getUniqueUsername(userInfo.getLogin()));
                 user.setAvatar(userInfo.getAvatarUrl());
                 userService.add(user);
             }

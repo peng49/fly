@@ -32,5 +32,7 @@ public interface UserService {
 
     User updateAvatar(User user, String avatar);
 
+    String getUniqueUsername(String name);
+
     void updatePassword(User user, UpdatePasswordFrom updatePassword) throws Exception;
 }

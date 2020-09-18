@@ -11,6 +11,7 @@ import fly.frontend.entity.from.UserLoginFrom;
 import fly.frontend.entity.from.UserRegisterFrom;
 import fly.frontend.service.UserPostService;
 import fly.frontend.service.UserService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -112,6 +113,20 @@ public class UserServiceImpl implements UserService {
         user.setAvatar(avatar);
         userMapper.updateAvatar(user);
         return user;
+    }
+
+    @Override
+    public String getUniqueUsername(String name) {
+        int counter = 0;
+        while (true) {
+            User user = getByUsername(name);
+            if (user == null || counter > 5) {
+                break;
+            }
+            name = name + '_' + RandomStringUtils.randomAlphabetic(10);
+            counter++;
+        }
+        return name;
     }
 
     public void updatePassword(User user, UpdatePasswordFrom updatePassword) throws Exception {

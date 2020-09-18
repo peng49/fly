@@ -55,9 +55,12 @@
                                 <button type="button" class="layui-btn" v-on:click="registerSubmit">立即注册</button>
                             </div>
                             <div class="layui-form-item fly-form-app">
-                                <span>或者直接使用社交账号快捷注册</span>
-                                <a href="" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-qq" title="QQ登入"></a>
-                                <a href="" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-weibo" title="微博登入"></a>
+                                <div style="float: left;line-height: 33px;"><span>或者直接使用第三方账号快捷注册</span></div>
+                                <div style="float: left;margin-left: 15px;display: inline-flex">
+                                    <a href="/oauth/gitee/redirect" title="gitee登录"><i class="icon-gitee"></i></a>
+                                    &nbsp; &nbsp;
+                                    <a href="/oauth/github/redirect" title="github登录"><i class="icon-github"></i></a>
+                                </div>
                             </div>
                         </form>
                     </div>

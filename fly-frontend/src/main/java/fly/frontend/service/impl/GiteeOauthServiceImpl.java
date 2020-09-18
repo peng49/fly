@@ -91,7 +91,7 @@ public class GiteeOauthServiceImpl implements OauthService {
             User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
             if (user == null) {//如果是已登录状态，直接绑定gitee账号，如果未登录,新建账号
                 user = new User();
-                user.setUsername(userInfo.getName() + "_" + RandomStringUtils.randomAlphabetic(10));
+                user.setUsername(userService.getUniqueUsername(userInfo.getName()));
                 user.setAvatar(userInfo.getAvatarUrl());
                 userService.add(user);
             }

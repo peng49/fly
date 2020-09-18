@@ -33,7 +33,8 @@
                     </blockquote>
                     <p>
                         <span>{{message.createAt}}</span>
-                        <a href="javascript:;" @click="deleteMessage(index)" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a>
+                        <a href="javascript:;" @click="deleteMessage(index)"
+                           class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a>
                     </p>
                 </li>
             </ul>
@@ -314,17 +315,23 @@
                     '   </div>'
             },
             "account": {
+                data: function () {
+                    return {}
+                },
+                created: function () {
+
+                },
                 template: '<div class="container">' +
                     '       <ul class="app-bind">\n' +
                     '          <li class="fly-msg app-havebind">\n' +
-                    '            <i class="iconfont icon-qq"></i>\n' +
-                    '            <span>已成功绑定，您可以使用QQ帐号直接登录Fly社区，当然，您也可以</span>\n' +
+                    '            <i class="iconfont icon-gitee"></i>\n' +
+                    '            <span>已成功绑定，您可以使用Gitee帐号直接登录Fly社区，当然，您也可以</span>\n' +
                     '            <a href="javascript:;" class="acc-unbind" type="qq_id">解除绑定</a>\n' +
                     '          </li>\n' +
                     '          <li class="fly-msg">\n' +
-                    '            <i class="iconfont icon-weibo"></i>\n' +
-                    '            <a href="" class="acc-weibo" type="weibo_id"  onclick="layer.msg(\'正在绑定微博\', {icon:16, shade: 0.1, time:0})" >立即绑定</a>\n' +
-                    '            <span>，即可使用微博帐号登录Fly社区</span>\n' +
+                    '            <i class="iconfont icon-github"></i>\n' +
+                    '            <a href="/oauth/github/redirect" class="acc-weibo" >立即绑定</a>\n' +
+                    '            <span>，即可使用Github登录Fly社区</span>\n' +
                     '          </li>\n' +
                     '       </ul>' +
                     '   </div>'
@@ -392,17 +399,17 @@
                 })
                 return messages
             },
-            deleteMessage:function(index){
+            deleteMessage: function (index) {
                 let _this = this;
                 let message = this.messages[index];
                 console.log(message)
 
-                axios.delete("/userMessage/"+message.id).then(async function (resp) {
+                axios.delete("/userMessage/" + message.id).then(async function (resp) {
                     layer.msg("操作成功")
                     _this.messages = await _this.getMessages();
                 })
             },
-            deleteAllMessage:function(index){
+            deleteAllMessage: function (index) {
                 let _this = this;
                 let message = this.messages[index];
                 console.log(message)
