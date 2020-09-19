@@ -1,14 +1,12 @@
 package fly.frontend.controller;
 
 import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.PostAutoDraft;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.from.PostCommentAddFrom;
-import fly.frontend.service.ColumnService;
-import fly.frontend.service.PostCommentService;
-import fly.frontend.service.PostService;
-import fly.frontend.service.UserService;
+import fly.frontend.service.*;
 import fly.frontend.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -25,6 +23,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -43,6 +42,9 @@ public class PostController {
 
     @Resource
     private PostCommentService postCommentService;
+
+    @Resource
+    private PostAutoDraftService postAutoDraftService;
 
     @GetMapping("/add")
     public ModelAndView add(ModelAndView view, HttpServletRequest request) {
@@ -78,6 +80,38 @@ public class PostController {
             view.setViewName("/post/edit");
         }
         return view;
+    }
+
+    @PostMapping("/draft")
+    @ResponseBody
+    public Object draft(@Valid PostEditFrom post,HttpSession httpSession){
+        User user = (User)httpSession.getAttribute(UserService.LOGIN_KEY);
+        PostAutoDraft draft = new PostAutoDraft();
+        draft.setUser(user);
+        draft.setTitle(post.getTitle());
+        draft.setContent(post.getContent());
+
+        if(post.getPostId() > 0){
+            Post editPost = new Post();
+            editPost.setId(post.getPostId());
+            draft.setPost(editPost);
+
+            //如果存在对应的草稿,更新,否则添加
+
+        }else{
+            List<PostAutoDraft> existDraft = postAutoDraftService.getForUser(user);
+            if(existDraft != null){
+                //todo update
+            }else{
+                postAutoDraftService.add(draft);
+            }
+        }
+
+
+
+        postAutoDraftService.add(draft);
+
+        return HttpUtils.success();
     }
 
     @PostMapping("/edit/{id}")
