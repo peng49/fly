@@ -142,13 +142,12 @@
 
             _this.autoIndex = setInterval(function () {
                 //保存到本地 localStorage
-                if (_this.editor.getMarkdown() !== localStorage.getItem("markdownContent")) {
+                if (!_this.postId && _this.editor.getMarkdown() !== localStorage.getItem("markdownContent")) {
                     console.log("设置localStorage中的markdown");
                     localStorage.setItem("markdownContent", _this.editor.getMarkdown())
                 } else {
                     console.log("没变动，不保存")
                 }
-
                 //todo 自动保存到草稿
             }, 5000)
         },

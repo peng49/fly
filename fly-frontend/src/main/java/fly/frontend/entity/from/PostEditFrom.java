@@ -10,6 +10,8 @@ public class PostEditFrom {
 
     private int columnId;
 
+    private int postId;
+
     private int userId;
 
     @NotBlank(message = "标题不能为空")
