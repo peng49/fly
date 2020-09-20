@@ -13,7 +13,7 @@ public interface PostAutoDraftMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int add(PostAutoDraft draft);
 
-    @Select("select pad.*,u.username from post_auto_draft as pad inner join users as u on u.id = pad.user_id where pad.user_id = #{id}")
+    @Select("select pad.*,u.username from post_auto_draft as pad inner join users as u on u.id = pad.user_id where pad.user_id = #{id} and post_id = 0")
     @Results({
             @Result(property = "id",column = "id"),
             @Result(property = "title",column = "title"),
@@ -26,6 +26,10 @@ public interface PostAutoDraftMapper {
     })
     List<PostAutoDraft> getForUser(User user);
 
-    @Select("select pad.*,u.username from post_auto_draft as pad inner join posts as p on p.id = pad.post_id where pad.post_id = #{id} order by pad.id desc limit 1")
+    @Select("select pad.* from post_auto_draft as pad inner join posts as p on p.id = pad.post_id where pad.post_id = #{id} order by pad.id desc limit 1")
     PostAutoDraft getForPost(Post post);
+
+
+    @Update("update post_auto_draft set title=#{title},content=#{content},update_at=now() where id = #{id}")
+    int update(PostAutoDraft draft);
 }

@@ -74,6 +74,7 @@
             saveUrl: window.location.pathname,
             postForm: {
                 action: 'update',
+                postId: '${(post.id)!}',
                 columnId: '${(post.column.id)!1}',
                 title: "${(post.title)!}",
                 originalContent: "",
@@ -148,7 +149,13 @@
                 } else {
                     console.log("没变动，不保存")
                 }
-                //todo 自动保存到草稿
+
+                _this.postForm.originalContent = _this.editor.getMarkdown();
+                _this.postForm.content = "缺省值";//无用字段
+                axios.post('/post/draft', _this.postForm)
+                    .then(function (response) {
+                        console.log(response)
+                    })
             }, 5000)
         },
         methods: {
@@ -178,7 +185,7 @@
 
                                 console.log("删除localStorage中的markdown内容");
                                 localStorage.removeItem("markdownContent");
-                                _this.postId = response.data.id
+                                _this.postForm.postId = _this.postId = response.data.id
                                 _this.saveUrl = '/post/edit/' + response.data.id;
 
                                 //清除自动保存的定时任务

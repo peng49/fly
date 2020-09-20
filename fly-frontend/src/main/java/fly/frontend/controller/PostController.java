@@ -84,33 +84,26 @@ public class PostController {
 
     @PostMapping("/draft")
     @ResponseBody
-    public Object draft(@Valid PostEditFrom post,HttpSession httpSession){
-        User user = (User)httpSession.getAttribute(UserService.LOGIN_KEY);
+    public Object draft(@Valid @RequestBody PostEditFrom postEditFrom, HttpSession httpSession) {
+        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         PostAutoDraft draft = new PostAutoDraft();
         draft.setUser(user);
-        draft.setTitle(post.getTitle());
-        draft.setContent(post.getContent());
+        draft.setTitle(postEditFrom.getTitle());
+        draft.setContent(postEditFrom.getOriginalContent());
 
-        if(post.getPostId() > 0){
-            Post editPost = new Post();
-            editPost.setId(post.getPostId());
-            draft.setPost(editPost);
-
-            //如果存在对应的草稿,更新,否则添加
-
-        }else{
-            List<PostAutoDraft> existDraft = postAutoDraftService.getForUser(user);
-            if(existDraft != null){
-                //todo update
-            }else{
-                postAutoDraftService.add(draft);
-            }
+        PostAutoDraft postAutoDraft;
+        if (postEditFrom.getPostId() > 0) {
+            postAutoDraft = postAutoDraftService.getForPost(postService.get(postEditFrom.getPostId()));
+        } else {
+            List<PostAutoDraft> drafts = postAutoDraftService.getForUser(user);
+            postAutoDraft = drafts.get(0);
         }
 
-
-
-        postAutoDraftService.add(draft);
-
+        if (postAutoDraft != null) {
+            postAutoDraftService.update(postAutoDraft, draft);
+        } else {
+            postAutoDraftService.add(draft);
+        }
         return HttpUtils.success();
     }
 
@@ -123,7 +116,7 @@ public class PostController {
     }
 
     @GetMapping("/detail/{id}")
-    public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession, HttpServletRequest request,HttpServletResponse response) {
+    public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
         Post post = postService.get(id);
         boolean allowEdit = false;
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
