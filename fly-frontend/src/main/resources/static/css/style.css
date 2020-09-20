@@ -861,7 +861,7 @@ pre:hover .code-copy {
     font-size: 0;
 }
 
-.laypage-main * {
+.laypage-main a {
     padding: 0 20px;
     line-height: 36px;
     border-right: 1px solid #009E94;

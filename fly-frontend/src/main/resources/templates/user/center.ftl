@@ -42,6 +42,7 @@
     </div>
 </template>
 <#include "../common/footer.ftl" />
+<script type="text/javascript" src="/static/js/vue-pagination-2.min.js"></script>
 <script type="text/javascript">
     Vue.component('user-nav', {
         data: function () {
@@ -102,8 +103,13 @@
                     {label: "我收藏的帖", total: 0, key: "collection"}
                 ],
                 active: 0,
-                posts: []
+                posts: [],
+                page: 1,
+                total: 0
             }
+        },
+        components: {
+            Pagination
         },
         created: function () {
             this.flushPosts(this.active)
@@ -116,13 +122,16 @@
                 axios.get("/user/posts?type=" + this.tabs[index].key).then(function (response) {
                     if (response.code === "success") {
                         _this.posts = response.data.rows
-                        _this.tabs[index].total = response.data.total
+                        _this.total = _this.tabs[index].total = response.data.total
                     } else {
                         console.log(response.message)
                     }
                 }).catch(function (error) {
                     console.log(error)
                 })
+            },
+            pagination: function () {
+
             }
         },
         template: ` <div class="layui-tab layui-tab-brief">
@@ -140,6 +149,7 @@
                             <em v-if="active == 0">{{post.viewCount}}阅/{{post.replyCount}}答</em>
                         </li>
                     </ul>
+                    <pagination v-model="page" :records="total" :per-page="10" @paginate="pagination" ></pagination>
                 </div>
             </div>
         </div>`
