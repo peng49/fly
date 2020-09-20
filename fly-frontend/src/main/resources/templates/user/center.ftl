@@ -119,7 +119,7 @@
                 let _this = this;
                 _this.active = index;
 
-                axios.get("/user/posts?type=" + this.tabs[index].key).then(function (response) {
+                axios.get("/user/posts?type=" + this.tabs[index].key+"&page="+_this.page).then(function (response) {
                     if (response.code === "success") {
                         _this.posts = response.data.rows
                         _this.total = _this.tabs[index].total = response.data.total
@@ -131,7 +131,7 @@
                 })
             },
             pagination: function () {
-
+                this.flushPosts(this.active)
             }
         },
         template: ` <div class="layui-tab layui-tab-brief">
@@ -140,7 +140,7 @@
             </ul>
             <div class="layui-tab-content" style="padding: 20px 0;">
                 <div class="layui-tab-item layui-show">
-                    <ul class="mine-view jie-row">
+                    <ul class="mine-view jie-row" style="min-height: 420px;">
                         <li v-for="post in posts">
                             <span style="background:#393D49;color:white;" v-if="active == 0 && post.status==0">草稿</span>
                             <a class="jie-title" :href="'/post/detail/'+post.id" target="_blank">{{post.title}}</a>
