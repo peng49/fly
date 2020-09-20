@@ -26,7 +26,7 @@ public class PostAutoDraftServiceImpl implements PostAutoDraftService {
     }
 
     @Override
-    public List<PostAutoDraft> getForUser(User user) {
+    public PostAutoDraft getForUser(User user) {
         return postAutoDraftMapper.getForUser(user);
     }
 
@@ -40,5 +40,10 @@ public class PostAutoDraftServiceImpl implements PostAutoDraftService {
         draft.setId(postAutoDraft.getId());
         postAutoDraftMapper.update(draft);
         return draft;
+    }
+
+    @Override
+    public void delete(int id) {
+        postAutoDraftMapper.delete(id);
     }
 }

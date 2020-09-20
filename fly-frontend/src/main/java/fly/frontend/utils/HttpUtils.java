@@ -1,5 +1,7 @@
 package fly.frontend.utils;
 
+import com.github.pagehelper.Page;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.regex.Pattern;
@@ -43,6 +45,14 @@ public class HttpUtils {
     }
 
     public static Object success(Object data) {
+        if (data instanceof Page) {
+            HashMap<Object, Object> hash = new HashMap<>();
+            hash.put("total", ((Page) data).getTotal());
+            hash.put("page", ((Page) data).getPageNum());
+            hash.put("pageSize", ((Page) data).getPageSize());
+            hash.put("rows", ((Page) data).getResult());
+            return HttpUtils.response("success", "OK", hash);
+        }
         return HttpUtils.response("success", "OK", data);
     }
 

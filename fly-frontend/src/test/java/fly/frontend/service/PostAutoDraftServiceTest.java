@@ -1,7 +1,6 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
-import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostAutoDraft;
 import fly.frontend.entity.model.User;
 import org.junit.Test;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {FlyFrontendApplication.class})
@@ -29,7 +27,7 @@ public class PostAutoDraftServiceTest {
 
         System.out.println(draft);
 
-        List<PostAutoDraft> draftList = postAutoDraftService.getForUser(user);
+        PostAutoDraft draftList = postAutoDraftService.getForUser(user);
         System.out.println(draftList);
     }
 }

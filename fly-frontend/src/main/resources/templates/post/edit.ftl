@@ -80,6 +80,9 @@
                 originalContent: "",
                 content: ""
             },
+            postDraft:{
+
+            },
             autoIndex: 0
         },
         mounted: function () {
@@ -205,6 +208,9 @@
             },
             getDraft: function () {
                 //
+            },
+            useDraft: function(){
+
             }
         }
     })

@@ -1,5 +1,7 @@
 package fly.frontend.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;
@@ -126,14 +128,18 @@ public class UserController {
 
     @GetMapping("/posts")
     @ResponseBody
-    public Object posts(@RequestParam("type") String type, HttpSession httpSession) {
+    public Object posts(@RequestParam("type") String type,
+                        @RequestParam(name = "page",defaultValue = "1") int page,
+                        @RequestParam(name = "pageSize",defaultValue = "10") int pageSize,
+                        HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
 
-        List<Post> posts = null;
+        PageHelper.startPage(page,pageSize);
+        Page<Post> posts;
         if ("my".equals(type)) {
-            posts = postService.findAllByAuthorId(user.getId());
+            posts = (Page<Post>)postService.findAllByAuthorId(user.getId());
         } else {
-            posts = userService.getCollectionPosts(user);
+            posts = (Page<Post>) userService.getCollectionPosts(user);
         }
         return HttpUtils.success(posts);
     }

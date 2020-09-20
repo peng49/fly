@@ -1,5 +1,7 @@
 package fly.frontend.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.model.UserMessage;
 import fly.frontend.service.UserMessageService;
@@ -18,8 +20,12 @@ public class UserMessageController {
     private UserMessageService userMessageService;
 
     @GetMapping
-    public Object get(HttpSession httpSession) {
+    public Object get(@RequestParam(name = "page",defaultValue = "1") int page,
+                      @RequestParam(name="pageSize",defaultValue = "10") int pageSize,
+                      HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+
+        PageHelper.startPage(page,pageSize);
         List<UserMessage> messages = userMessageService.getMessagesForUser(user);
 
         return HttpUtils.success(messages);
@@ -43,6 +49,4 @@ public class UserMessageController {
         userMessageService.deleteByUser(user);
         return HttpUtils.success();
     }
-
-
 }
