@@ -12,4 +12,6 @@ public interface PostAutoDraftService{
     List<PostAutoDraft> getForUser(User user);
 
     PostAutoDraft getForPost(Post post);
+
+    PostAutoDraft update(PostAutoDraft postAutoDraft, PostAutoDraft draft);
 }

@@ -34,4 +34,11 @@ public class PostAutoDraftServiceImpl implements PostAutoDraftService {
     public PostAutoDraft getForPost(Post post) {
         return postAutoDraftMapper.getForPost(post);
     }
+
+    @Override
+    public PostAutoDraft update(PostAutoDraft postAutoDraft, PostAutoDraft draft) {
+        draft.setId(postAutoDraft.getId());
+        postAutoDraftMapper.update(draft);
+        return draft;
+    }
 }

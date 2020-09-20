@@ -20,5 +20,6 @@ public class PostEditFrom {
     @NotBlank(message = "内容不能为空")
     private String content;
 
+    @NotBlank(message = "原内容不能为空")
     private String originalContent;
 }

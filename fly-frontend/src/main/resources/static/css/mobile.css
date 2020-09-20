@@ -38,7 +38,7 @@ pre {
 }
 
 .post-box pre {
-    /*white-space: pre !important;*/
+    white-space: pre !important;
 }
 
 pre .code-copy {
