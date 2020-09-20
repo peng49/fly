@@ -115,7 +115,8 @@
 
                 axios.get("/user/posts?type=" + this.tabs[index].key).then(function (response) {
                     if (response.code === "success") {
-                        _this.posts = response.data
+                        _this.posts = response.data.rows
+                        _this.tabs[index].total = response.data.total
                     } else {
                         console.log(response.message)
                     }
@@ -389,7 +390,8 @@
         },
         template: "#user-message",
         created: async function () {
-            this.messages = await this.getMessages();
+            let messages = await this.getMessages();
+            this.messages = messages.rows
         },
         methods: {
             getMessages: async function () {
@@ -406,7 +408,7 @@
 
                 axios.delete("/userMessage/" + message.id).then(async function (resp) {
                     layer.msg("操作成功")
-                    _this.messages = await _this.getMessages();
+                    _this.messages = await _this.getMessages().rows;
                 })
             },
             deleteAllMessage: function (index) {
@@ -416,7 +418,7 @@
 
                 axios.delete("/userMessage/all").then(async function (resp) {
                     layer.msg("操作成功")
-                    _this.messages = await _this.getMessages();
+                    _this.messages = await _this.getMessages().rows;
                 })
             }
 

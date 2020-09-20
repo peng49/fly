@@ -267,7 +267,7 @@
                 success: function (res) {
                     console.log(res);
                     console.log(_this.posts);
-                    _this.posts = res.data
+                    _this.posts = res.data.rows
                 }
             })
         },
@@ -286,7 +286,7 @@
                 success: function (res) {
                     console.log(res);
                     console.log(_this.posts);
-                    _this.posts = res.data
+                    _this.posts = res.data.rows
                 }
             })
         },
@@ -393,7 +393,7 @@
                     url: "/userMessage",
                     success: function (resp) {
                         console.log(resp)
-                        _this.messages = resp.data
+                        _this.messages = resp.data.rows
                     }
                 });
             }

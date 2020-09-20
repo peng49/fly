@@ -34,7 +34,7 @@
                                     <a href="/post/detail/${post.id}">${post.title}</a>
                                 </h2>
                                 <div class="fly-list-info">
-                                    <a href="user/${post.author.id}" link>
+                                    <a href="u/${post.author.id}" link>
                                         <cite>${post.author.username}</cite>
                                     </a>
                                     <span>${(post.publishAt)!}</span>
@@ -70,7 +70,7 @@
                                 <a href="/post/detail/${post.id}">${post.title}</a>
                             </h2>
                             <div class="fly-list-info">
-                                <a href="user/${post.author.id}" link>
+                                <a href="/u/${post.author.id}" link>
                                     <cite>${post.author.username}</cite>
                                 </a>
                                 <span>${(post.publishAt)!}</span>

@@ -60,13 +60,20 @@ public class PostController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Object add(@RequestBody @Validated PostEditFrom post, HttpSession httpSession) throws Exception {
+    public Object add(@RequestBody @Validated PostEditFrom postEditFrom, HttpSession httpSession) throws Exception {
         User user = (User) httpSession.getAttribute("login-user");
         if (user == null) {
             throw new Exception("请先登录");
         }
-        Post po = postService.create(post, user);
-        return HttpUtils.success(po);
+        Post post = postService.create(postEditFrom, user);
+
+        PostAutoDraft draft = postAutoDraftService.getForUser(post.getAuthor());
+        if(draft != null){
+            postAutoDraftService.delete(draft.getId());
+        }
+
+
+        return HttpUtils.success(post);
     }
 
     @GetMapping("/edit/{id}")
@@ -95,8 +102,7 @@ public class PostController {
         if (postEditFrom.getPostId() > 0) {
             postAutoDraft = postAutoDraftService.getForPost(postService.get(postEditFrom.getPostId()));
         } else {
-            List<PostAutoDraft> drafts = postAutoDraftService.getForUser(user);
-            postAutoDraft = drafts.get(0);
+            postAutoDraft = postAutoDraftService.getForUser(user);
         }
 
         if (postAutoDraft != null) {
@@ -112,6 +118,10 @@ public class PostController {
     public Object edit(@PathVariable("id") int id, @RequestBody @Validated PostEditFrom postEditFrom) {
         Post post = postService.get(id);
         postService.edit(post, postEditFrom);
+        PostAutoDraft draft = postAutoDraftService.getForPost(post);
+        if(draft != null){
+            postAutoDraftService.delete(draft.getId());
+        }
         return HttpUtils.success();
     }
 
