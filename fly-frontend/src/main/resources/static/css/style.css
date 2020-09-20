@@ -869,12 +869,14 @@ pre:hover .code-copy {
     font-size: 14px;
 }
 
-.laypage-main .laypage-curr {
+.laypage-main .laypage-curr, .page-item.active a{
     background-color: #009E94;
     color: #fff;
 }
 
-/* 简易编辑器 */
+.VuePagination__count{display: none}
+
+    /* 简易编辑器 */
 .fly-edit {
     position: relative;
     display: block;
