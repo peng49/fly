@@ -105,11 +105,14 @@ public interface PostMapper {
     List<Post> getByCondition(PostFilterCondition condition);
 
     @Update("update posts set reply_count = reply_count + 1 where id = #{postId}")
-    public void replyCountInc(int postId);
+    void replyCountInc(int postId);
 
     @Update("update posts set view_count = view_count + 1 where id = #{postId}")
     void viewCountInc(int postId);
 
     @Update("update posts set column_id = #{column.id}, title = #{title}, content = #{content}, status = #{status},publish_at = #{publishAt,jdbcType=TIMESTAMP}, original_content = #{originalContent} where id = #{id} ")
     void edit(Post post);
+
+    @Update("update posts set status = #{status} where id = #{id}")
+    void setStatus(Post post);
 }

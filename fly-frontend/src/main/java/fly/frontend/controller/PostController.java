@@ -172,11 +172,6 @@ public class PostController {
     public Object top(@RequestParam(value = "postId") int postId, HttpSession httpSession) throws Exception {
         adminCheck(httpSession);
         Post post = postService.get(postId);
-        if (post.getTop() == 1) {
-            post.setTop(0);
-        } else {
-            post.setTop(1);
-        }
         postService.top(post);
         return HttpUtils.success(post);
     }
@@ -201,13 +196,18 @@ public class PostController {
     public Object essence(@RequestParam("postId") int postId, HttpSession httpSession) throws Exception {
         adminCheck(httpSession);
         Post post = postService.get(postId);
-        if(post.getEssence() == 1){
-            post.setEssence(0);
-        }else{
-            post.setEssence(1);
-        }
         postService.essence(post);
         return HttpUtils.success(post);
+    }
+
+    @GetMapping("/delete/{id}")
+    @ResponseBody
+    public Object delete(@PathVariable("id") int postId, HttpSession httpSession) throws Exception {
+        adminCheck(httpSession);
+        Post post = postService.get(postId);
+        post.setStatus(PostService.DELETE_STATUS);
+        postService.move2delete(post);
+        return HttpUtils.success();
     }
 
 
