@@ -121,10 +121,20 @@ public class PostServiceImpl implements PostService {
     }
 
     public void top(Post post) {
+        if (post.getTop() == 1) {
+            post.setTop(0);
+        } else {
+            post.setTop(1);
+        }
         postMapper.top(post);
     }
 
     public void essence(Post post) {
+        if(post.getEssence() == 1){
+            post.setEssence(0);
+        }else{
+            post.setEssence(1);
+        }
         postMapper.essence(post);
     }
 
@@ -165,5 +175,11 @@ public class PostServiceImpl implements PostService {
         }
 
         return (PostService.DEFAULT_HEAD + user) / time;
+    }
+
+    @Override
+    public void move2delete(Post post) {
+        post.setStatus(PostService.DELETE_STATUS);
+        postMapper.setStatus(post);
     }
 }

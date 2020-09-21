@@ -15,11 +15,13 @@ public interface PostService {
      * 草稿状态
      */
     int DRAFT_STATUS = 0;
-
+    
     /**
      * 发布状态
      */
     int PUBLISH_STATUS = 1;
+    
+    int DELETE_STATUS = 2;
 
     /**
      * 允许排序的字段
@@ -59,4 +61,6 @@ public interface PostService {
     void edit(Post post, PostEditFrom postEditFrom);
 
     double calculationHeat(Post post);
+
+    void move2delete(Post post);
 }

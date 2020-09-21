@@ -28,7 +28,7 @@
 
                     <div class="fly-admin-box" data-id="123">
                         <#if user?? && user.isAdmin == 1 >
-                            <span class="layui-btn layui-btn-xs jie-admin">删除</span>
+                            <span @click="move2delete" class="layui-btn layui-btn-xs jie-admin">删除</span>
 
                             <span v-if="post.top == 1"
                                   @click="top"
@@ -155,6 +155,7 @@
             post: {
                 top: '${post.top}',
                 essence: '${post.essence}',
+                status: '${post.status}',
             },
             postCollection: {
                 postId: '${post.id}'
@@ -294,6 +295,15 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+            },
+            move2delete: function () {
+                let _this = this;
+                axios.get('/post/delete/${post.id}').then(function (response) {
+                    if (response.code === 'success') {
+                        layer.msg('操作成功');
+                        _this.post.status = response.post.status
+                    }
+                })
             }
         }
     });
