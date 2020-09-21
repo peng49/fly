@@ -18,6 +18,10 @@ public class PostAutoDraftServiceImpl implements PostAutoDraftService {
 
     @Override
     public PostAutoDraft add(PostAutoDraft draft) {
+        if(draft.getPost() == null){
+            draft.setPost(Post.builder().id(0).build());//post_id 默认设置为0
+        }
+
         int row = postAutoDraftMapper.add(draft);
         if (row == 0) {
             throw new RuntimeException("添加草稿失败");
@@ -36,8 +40,7 @@ public class PostAutoDraftServiceImpl implements PostAutoDraftService {
     }
 
     @Override
-    public PostAutoDraft update(PostAutoDraft postAutoDraft, PostAutoDraft draft) {
-        draft.setId(postAutoDraft.getId());
+    public PostAutoDraft update(PostAutoDraft draft) {
         postAutoDraftMapper.update(draft);
         return draft;
     }

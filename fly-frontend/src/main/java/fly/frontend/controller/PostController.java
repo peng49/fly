@@ -93,22 +93,25 @@ public class PostController {
     @ResponseBody
     public Object draft(@Valid @RequestBody PostEditFrom postEditFrom, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        PostAutoDraft draft = new PostAutoDraft();
-        draft.setUser(user);
-        draft.setTitle(postEditFrom.getTitle());
-        draft.setContent(postEditFrom.getOriginalContent());
+        PostAutoDraft.PostAutoDraftBuilder draftBuilder = PostAutoDraft.builder()
+                .user(user)
+                .title(postEditFrom.getTitle())
+                .content(postEditFrom.getOriginalContent());
 
         PostAutoDraft postAutoDraft;
         if (postEditFrom.getPostId() > 0) {
-            postAutoDraft = postAutoDraftService.getForPost(postService.get(postEditFrom.getPostId()));
+            Post post = postService.get(postEditFrom.getPostId());
+            draftBuilder.post(post);
+            postAutoDraft = postAutoDraftService.getForPost(post);
         } else {
             postAutoDraft = postAutoDraftService.getForUser(user);
         }
 
         if (postAutoDraft != null) {
-            postAutoDraftService.update(postAutoDraft, draft);
+            draftBuilder.id(postAutoDraft.getId());
+            postAutoDraftService.update(draftBuilder.build());
         } else {
-            postAutoDraftService.add(draft);
+            postAutoDraftService.add(draftBuilder.build());
         }
         return HttpUtils.success();
     }
