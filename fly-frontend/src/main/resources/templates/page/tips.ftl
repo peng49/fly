@@ -15,7 +15,7 @@
     <div class="fly-panel">
         <div class="fly-none">
             <h2><i class="iconfont icon-tishilian"></i></h2>
-            <p>这是一个基于 layui 的极简通用型社区页面模版</p>
+            <p>${message!}</p>
         </div>
     </div>
 </div>
