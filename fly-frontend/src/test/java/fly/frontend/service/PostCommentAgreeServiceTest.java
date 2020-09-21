@@ -20,8 +20,8 @@ public class PostCommentAgreeServiceTest {
     public void createTest(){
         User user = new User();
         user.setId(1);
-        PostComment comment = new PostComment();
-        comment.setId(2);
+        PostComment comment = PostComment.builder()
+                .id(2).build();
         PostCommentAgree postCommentAgree = new PostCommentAgree();
         postCommentAgree.setUser(user);
         postCommentAgree.setPostComment(comment);

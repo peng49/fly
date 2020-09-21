@@ -1,10 +1,12 @@
 package fly.frontend.entity.model;
 
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Tolerate;
 
 import java.sql.Timestamp;
 
 @Data
+@Builder
 public class Post {
     private int id;
     private Column column;
@@ -21,4 +23,7 @@ public class Post {
     private Timestamp updateAt;
     private int essence;
     private int top;
+
+    @Tolerate
+    Post(){}
 }

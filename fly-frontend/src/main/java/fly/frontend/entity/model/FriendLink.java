@@ -1,6 +1,6 @@
 package fly.frontend.entity.model;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
 public class FriendLink {

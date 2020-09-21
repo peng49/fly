@@ -1,6 +1,7 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
+import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.from.PostFilterCondition;
@@ -39,13 +40,16 @@ public class PostServiceTest {
     @Test
     public void timestampTest()
     {
-        PostEditFrom postAdd = new PostEditFrom();
+      /*  PostEditFrom postAdd = new PostEditFrom();
         postAdd.setColumnId(1);
         postAdd.setTitle("test");
         postAdd.setContent("test content");
         User user = new User();
         user.setId(1);
-        postService.create(postAdd,user);
+        postService.create(postAdd,user);*/
+        Post post = Post.builder()
+                .id(1).build();
+        System.out.println(post);
     }
 
     @Test

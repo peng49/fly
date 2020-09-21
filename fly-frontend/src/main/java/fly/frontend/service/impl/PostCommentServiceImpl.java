@@ -49,29 +49,27 @@ public class PostCommentServiceImpl implements PostCommentService {
     }
 
     public PostComment create(User user, PostCommentAddFrom postCommentAddFrom) {
-        PostComment comment = new PostComment();
-        comment.setCommentTime(new Date(System.currentTimeMillis()));
-
-        //解析内容
-        comment.setContent(parseCommentContent(postCommentAddFrom.getContent()));
-
         Post post = postService.get(postCommentAddFrom.getPostId());
-
         if (post == null || post.getStatus() != 1) {
             throw new RuntimeException("文章还未发布，不能进行评论");
         }
 
-        comment.setPost(post);
-        comment.setLevel(post.getReplyCount() + 1);
-        comment.setUser(user);
+        PostComment.PostCommentBuilder commentBuilder = PostComment.builder()
+                .commentTime(new Date(System.currentTimeMillis()))
+                .content(parseCommentContent(postCommentAddFrom.getContent()))
+                .post(post)
+                .level(post.getReplyCount() + 1)
+                .user(user);
 
         if (postCommentAddFrom.getParentId() != 0) {
             PostComment parentComment = this.get(postCommentAddFrom.getParentId());
-            comment.setParent(parentComment);
+            commentBuilder.parent(parentComment);
         }
 
         //文章的评论数加1
-        postService.replyCountInc(comment.getPost().getId());
+        postService.replyCountInc(post.getId());
+
+        PostComment comment = commentBuilder.build();
 
         postCommentMapper.create(comment);
 
