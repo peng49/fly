@@ -68,7 +68,7 @@ public class PostController {
         Post post = postService.create(postEditFrom, user);
 
         PostAutoDraft draft = postAutoDraftService.getForUser(post.getAuthor());
-        if(draft != null){
+        if (draft != null) {
             postAutoDraftService.delete(draft.getId());
         }
 
@@ -119,7 +119,7 @@ public class PostController {
         Post post = postService.get(id);
         postService.edit(post, postEditFrom);
         PostAutoDraft draft = postAutoDraftService.getForPost(post);
-        if(draft != null){
+        if (draft != null) {
             postAutoDraftService.delete(draft.getId());
         }
         return HttpUtils.success();
@@ -172,8 +172,13 @@ public class PostController {
     public Object top(@RequestParam(value = "postId") int postId, HttpSession httpSession) throws Exception {
         adminCheck(httpSession);
         Post post = postService.get(postId);
+        if (post.getTop() == 1) {
+            post.setTop(0);
+        } else {
+            post.setTop(1);
+        }
         postService.top(post);
-        return HttpUtils.success();
+        return HttpUtils.success(post);
     }
 
     private void adminCheck(HttpSession httpSession) throws Exception {
@@ -195,10 +200,14 @@ public class PostController {
     @ResponseBody
     public Object essence(@RequestParam("postId") int postId, HttpSession httpSession) throws Exception {
         adminCheck(httpSession);
-
         Post post = postService.get(postId);
+        if(post.getEssence() == 1){
+            post.setEssence(0);
+        }else{
+            post.setEssence(1);
+        }
         postService.essence(post);
-        return HttpUtils.success();
+        return HttpUtils.success(post);
     }
 
 

@@ -21,29 +21,25 @@
                 <div class="fly-detail-info">
                     <span class="layui-badge layui-bg-green fly-detail-column">${post.column.name}</span>
 
-                    <#if post.top == 1 >
-                        <span class="layui-badge layui-bg-black">置顶</span>
-                    </#if>
-                    <#if post.essence == 1 >
-                        <span class="layui-badge layui-bg-red">精帖</span>
-                    </#if>
+                    <span v-if="post.top == 1" class="layui-badge layui-bg-black">置顶</span>
+
+                    <span v-if="post.essence == 1" class="layui-badge layui-bg-red">精帖</span>
+
 
                     <div class="fly-admin-box" data-id="123">
                         <#if user?? && user.isAdmin == 1 >
                             <span class="layui-btn layui-btn-xs jie-admin">删除</span>
 
-                            <#if post.top == 1 >
-                                <span @click="top" class="layui-btn layui-btn-xs jie-admin"
-                                      style="background-color:#ccc;">取消置顶</span>
-                            <#else>
-                                <span @click="top" class="layui-btn layui-btn-xs jie-admin">置顶</span>
-                            </#if>
-                            <#if post.essence == 1 >
-                                <span @click="essence" class="layui-btn layui-btn-xs jie-admin"
-                                      style="background-color:#ccc;">取消加精</span>
-                            <#else>
-                                <span @click="essence" class="layui-btn layui-btn-xs jie-admin">加精</span>
-                            </#if>
+                            <span v-if="post.top == 1"
+                                  @click="top"
+                                  class="layui-btn layui-btn-xs jie-admin"
+                                  style="background-color:#ccc;">取消置顶</span>
+                            <span @click="top" class="layui-btn layui-btn-xs jie-admin" v-else>置顶</span>
+
+
+                            <span v-if="post.essence == 1" @click="essence" class="layui-btn layui-btn-xs jie-admin"
+                                  style="background-color:#ccc;">取消加精</span>
+                            <span v-else @click="essence" class="layui-btn layui-btn-xs jie-admin">加精</span>
                         </#if>
                     </div>
                     <span class="fly-list-nums">
@@ -156,6 +152,10 @@
     new Vue({
         el: "#post-container",
         data: {
+            post: {
+                top: '${post.top}',
+                essence: '${post.essence}',
+            },
             postCollection: {
                 postId: '${post.id}'
             },
@@ -214,6 +214,7 @@
                     });
             },
             top: function () {//置顶
+                let _this = this
                 var formData = new FormData();
                 formData.append("postId", ${post.id});
 
@@ -221,6 +222,7 @@
                     .then(function (response) {
                         if (response.code === "success") {
                             layer.msg('操作成功');
+                            _this.post.top = response.data.top
                             return;
                         }
                         layer.msg(response.message)
@@ -230,12 +232,14 @@
                     });
             },
             essence: function () {//加精
+                let _this = this
                 var formData = new FormData();
                 formData.append("postId", ${post.id});
                 axios.post('/post/essence', formData)
                     .then(function (response) {
                         if (response.code === "success") {
                             layer.msg('操作成功');
+                            _this.post.essence = response.data.essence
                             return;
                         }
                         layer.msg(response.message)
@@ -252,8 +256,8 @@
 
                 let appendContent = '<div class="reply-content">\n' +
                     '        <div>\n' +
-                    '            @<a class="fly-link" href="#">'+this.parentCon.username+'</a>\n' +
-                    '            <div>'+this.parentCon.content+'</div>\n' +
+                    '            @<a class="fly-link" href="#">' + this.parentCon.username + '</a>\n' +
+                    '            <div>' + this.parentCon.content + '</div>\n' +
                     '        </div>\n' +
                     '    </div>';
 
