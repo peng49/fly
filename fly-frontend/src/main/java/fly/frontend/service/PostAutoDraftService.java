@@ -11,7 +11,7 @@ public interface PostAutoDraftService{
 
     PostAutoDraft getForPost(Post post);
 
-    PostAutoDraft update(PostAutoDraft postAutoDraft, PostAutoDraft draft);
+    PostAutoDraft update(PostAutoDraft draft);
 
     void delete(int id);
 }

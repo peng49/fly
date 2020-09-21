@@ -20,5 +20,5 @@ public class PostComment {
     private int agreeCount;
 
     @Tolerate
-    PostComment(){}
+    public PostComment(){}
 }

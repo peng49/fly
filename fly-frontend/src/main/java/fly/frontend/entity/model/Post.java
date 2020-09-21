@@ -25,5 +25,5 @@ public class Post {
     private int top;
 
     @Tolerate
-    Post(){}
+    public Post(){}
 }
