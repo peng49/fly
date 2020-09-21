@@ -9,6 +9,7 @@ import fly.frontend.entity.from.PostFilterCondition;
 import java.util.*;
 
 public interface PostService {
+    int DEFAULT_HEAD = 10;
 
     /**
      * 草稿状态

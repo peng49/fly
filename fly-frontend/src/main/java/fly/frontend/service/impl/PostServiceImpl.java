@@ -49,28 +49,25 @@ public class PostServiceImpl implements PostService {
     }
 
     public Post create(PostEditFrom postEditFrom, User user) {
-        System.out.println(postEditFrom);
-        Post post = new Post();
-        post.setAuthor(user);
-        post.setTitle(postEditFrom.getTitle());
-        post.setOriginalContent(postEditFrom.getOriginalContent());
-        post.setContent(postEditFrom.getContent());
-
-        Column column = new Column();
-        column.setId(postEditFrom.getColumnId());
-        post.setColumn(column);
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        post.setCreatedAt(timestamp);
-        post.setUpdateAt(timestamp);
+        Post.PostBuilder builder = Post.builder()
+                .author(user)
+                .title(postEditFrom.getTitle())
+                .originalContent(postEditFrom.getOriginalContent())
+                .content(postEditFrom.getContent())
+                .column(Column.builder().id(postEditFrom.getColumnId()).build())
+                .createdAt(timestamp)
+                .updateAt(timestamp);
 
         //发布
         if ("publish".equals(postEditFrom.getAction())) {
-            post.setStatus(PostService.PUBLISH_STATUS);
-            post.setPublishAt(timestamp);
-            post.setHeat(calculationHeat(post));
+            builder.status(PostService.PUBLISH_STATUS)
+                    .publishAt(timestamp)
+                    .heat(PostService.DEFAULT_HEAD);
         }
 
+        Post post = builder.build();
         postMapper.create(post);
         return post;
     }
@@ -135,9 +132,7 @@ public class PostServiceImpl implements PostService {
         post.setOriginalContent(postEditFrom.getOriginalContent());
         post.setContent(postEditFrom.getContent());
         post.setTitle(postEditFrom.getTitle());
-        Column column = new Column();
-        column.setId(postEditFrom.getColumnId());
-        post.setColumn(column);
+        post.setColumn(Column.builder().id(postEditFrom.getColumnId()).build());
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         //发布
@@ -157,7 +152,6 @@ public class PostServiceImpl implements PostService {
      * @return 热度值
      */
     public double calculationHeat(Post post) {
-        int start = 10;
 
         // 1*click + 5*favor + 10*comment + 20*share
 
@@ -170,6 +164,6 @@ public class PostServiceImpl implements PostService {
             time = 1.00;
         }
 
-        return (start + user) / time;
+        return (PostService.DEFAULT_HEAD + user) / time;
     }
 }

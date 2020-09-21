@@ -11,14 +11,15 @@ spring:
   freemarker:
     template-loader-path: classpath:/templates/
     suffix: .ftl
+    request-context-attribute: request
   resources:
-    static-locations: classpath:/static/,file:F:/develop/vagrant-java/fly-avatar/
-  #数据源配置
+    static-locations: classpath:/static/,file:E:/vagrant-java/fly-avatar/
+  # datasource config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.99.15:3307/fly?characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/fly?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: Root@123
+    password: root@123
   mail:
     # 邮件服务地址
     host: smtp.exmail.qq.com
@@ -27,9 +28,9 @@ spring:
     # 编码格式
     default-encoding: utf-8
     # 用户名
-    username: xx@xxx.com
-    # 密码
-    password: xxxxx
+    username: yypeng@sfcservice.com
+    # 授权码，就是我们刚才准备工作获取的代码
+    password: Py921219
     # 其它参数
     properties:
       mail:
@@ -45,7 +46,7 @@ spring:
           # 邮件发送时间的限制，单位毫秒
           writetimeout: 10000
 user:
-  avatar-dir: F:/develop/vagrant-java/fly-avatar/
+  avatar-dir: E:/vagrant-java/fly-avatar/
 #mybatis配置
 mybatis:
   #mapper
@@ -63,7 +64,7 @@ pagehelper:
   params: count=countSql
 oauth:
   gitee:
-    client-id: xxxx
+    client-id: xxx
     client-secret: xxxx
     redirect-uri: http://localhost:8001/oauth/gitee/callback
   github:
@@ -72,5 +73,5 @@ oauth:
     redirect-uri: http://localhost:8001/oauth/github/callback
 # set log level
 #logging:
-#  level:
-#    root: DEBUG
+#    level:
+#      root: DEBUG

@@ -1,11 +1,14 @@
 package fly.frontend.entity.model;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 
 import java.sql.Date;
 
 
 @Data
+@Builder
 public class PostComment {
     private int id;
     private int level;
@@ -15,4 +18,7 @@ public class PostComment {
     private String content;
     private Date commentTime;
     private int agreeCount;
+
+    @Tolerate
+    PostComment(){}
 }

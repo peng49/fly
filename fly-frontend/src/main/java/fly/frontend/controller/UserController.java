@@ -196,11 +196,9 @@ public class UserController {
             postCommentAgreeService.delete(user,commentId);
             postCommentService.commentAgreeDec(commentId);
         }else{
-            PostComment comment = new PostComment();
-            comment.setId(commentId);
             PostCommentAgree postCommentAgree = new PostCommentAgree();
             postCommentAgree.setUser(user);
-            postCommentAgree.setPostComment(comment);
+            postCommentAgree.setPostComment(PostComment.builder().id(commentId).build());
             postCommentAgreeService.create(postCommentAgree);
             postCommentService.commentAgreeInc(commentId);
         }
