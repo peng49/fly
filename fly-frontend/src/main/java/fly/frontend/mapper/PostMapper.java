@@ -96,10 +96,10 @@ public interface PostMapper {
     @Select("select * from (select p.*,count(0) as week_comment_total from posts as p left join post_comments as c on c.post_id = p.id where c.comment_time > date_sub(curdate(), interval 7 day) group by p.id) as temp order by week_comment_total desc limit #{limit}")
     List<Post> getEveryWeekCommentMax(int limit);
 
-    @Update("update posts set top = 1 where id = #{id}")
+    @Update("update posts set top = #{top} where id = #{id}")
     void top(Post post);
 
-    @Update("update posts set essence = 1 where id = #{id}")
+    @Update("update posts set essence = #{essence} where id = #{id}")
     void essence(Post post);
 
     List<Post> getByCondition(PostFilterCondition condition);
