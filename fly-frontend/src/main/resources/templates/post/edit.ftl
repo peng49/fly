@@ -83,7 +83,7 @@
             postDraft:{
 
             },
-            autoIndex: 0
+            draftLock: false
         },
         mounted: function () {
             let _this = this;
@@ -135,6 +135,32 @@
                     editormd.loadPlugin("/static/editor.md/plugins/image-handle-paste/image-handle-paste", function () {
                         _this.editor.imagePaste();
                     });
+                },
+                onchange:function(){
+                    //保存到本地 localStorage
+                    if (!_this.postId && _this.editor.getMarkdown() !== localStorage.getItem("markdownContent")) {
+                        console.log("设置localStorage中的markdown");
+                        localStorage.setItem("markdownContent", _this.editor.getMarkdown())
+                    } else {
+                        console.log("没变动，不保存")
+                    }
+
+                    if(!_this.draftLock){
+                        _this.draftLock = true
+                        //5秒后保存
+                        setTimeout(function () {
+                            _this.postForm.originalContent = _this.editor.getMarkdown();
+                            _this.postForm.content = "缺省值";//无用字段
+                            axios.post('/post/draft', _this.postForm)
+                                .then(function (response) {
+                                    _this.draftLock = false; //放开锁
+                                    if (response.code === 'success') {
+                                        //清除自动保存的定时任务
+                                        console.log("备份数据成功")
+                                    }
+                                })
+                        }, 5000);
+                    }
                 }
             });
 
@@ -143,23 +169,6 @@
                 _this.postForm.action = $(this).data('action');
                 _this.postSubmit()
             });
-
-            _this.autoIndex = setInterval(function () {
-                //保存到本地 localStorage
-                if (!_this.postId && _this.editor.getMarkdown() !== localStorage.getItem("markdownContent")) {
-                    console.log("设置localStorage中的markdown");
-                    localStorage.setItem("markdownContent", _this.editor.getMarkdown())
-                } else {
-                    console.log("没变动，不保存")
-                }
-
-                _this.postForm.originalContent = _this.editor.getMarkdown();
-                _this.postForm.content = "缺省值";//无用字段
-                axios.post('/post/draft', _this.postForm)
-                    .then(function (response) {
-                        console.log(response)
-                    })
-            }, 5000)
         },
         methods: {
             postSubmit: function () {
@@ -190,11 +199,6 @@
                                 localStorage.removeItem("markdownContent");
                                 _this.postForm.postId = _this.postId = response.data.id
                                 _this.saveUrl = '/post/edit/' + response.data.id;
-
-                                //清除自动保存的定时任务
-                                if (_this.autoIndex) {
-                                    clearInterval(_this.autoIndex)
-                                }
                             }
                             console.log(response);
                             layer.msg('操作成功');
