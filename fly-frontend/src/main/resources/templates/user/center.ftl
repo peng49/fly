@@ -105,6 +105,7 @@
                 active: 0,
                 posts: [],
                 page: 1,
+                pageSize: 10,
                 total: 0
             }
         },
@@ -119,7 +120,7 @@
                 let _this = this;
                 _this.active = index;
 
-                axios.get("/user/posts?type=" + this.tabs[index].key+"&page="+_this.page).then(function (response) {
+                axios.get("/user/posts?type=" + this.tabs[index].key+"&page="+_this.page+"&pageSize="+_this.pageSize).then(function (response) {
                     if (response.code === "success") {
                         _this.posts = response.data.rows
                         _this.total = _this.tabs[index].total = response.data.total
@@ -149,7 +150,7 @@
                             <em v-if="active == 0">{{post.viewCount}}阅/{{post.replyCount}}答</em>
                         </li>
                     </ul>
-                    <pagination v-model="page" :records="total" :per-page="10" @paginate="pagination" ></pagination>
+                    <pagination v-model="page" :records="total" :per-page="pageSize" @paginate="pagination" ></pagination>
                 </div>
             </div>
         </div>`

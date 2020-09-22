@@ -874,7 +874,9 @@ pre:hover .code-copy {
     color: #fff;
 }
 
-.VuePagination__count{display: none}
+.VuePagination__count,
+.VuePagination__pagination-item-prev-chunk.disabled,
+.VuePagination__pagination-item-next-chunk.disabled{display: none}
 
     /* 简易编辑器 */
 .fly-edit {
