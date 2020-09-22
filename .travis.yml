@@ -1,6 +1,4 @@
 language: java
 jdk: openjdk8
 
-script:
-  - mvn clean
-  - mvn package -pl fly-frontend -am -amd -DskipTests=true
+install: mvn clean package -pl fly-frontend -am -amd -DskipTests=true
