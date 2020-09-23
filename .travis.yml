@@ -4,6 +4,8 @@ jdk: openjdk8
 services:
   - docker
 
+install: skip
+
 script: mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
 
 after_success:
