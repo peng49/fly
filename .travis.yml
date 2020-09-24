@@ -9,7 +9,7 @@ install:
 
 script:
   - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
-  - docker build -t ${DOCKER_HOST}/fly/frontend .
-  - docker push ${DOCKER_HOST}/fly/frontend
+  - docker build -t fly/frontend .
+
 
 after_success: skip
