@@ -3,13 +3,10 @@ jdk: openjdk8
 
 services:
   - docker
-
-install:
-  - docker pull openjdk
-
+  
 script:
   - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
-  - pwd
+  - docker pull openjdk:8u265-jre
   - docker build -t ${DOCKER_HOST}/fly/frontend .
   - docker push ${DOCKER_HOST}/fly/frontend
 
