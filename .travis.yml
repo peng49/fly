@@ -1,9 +1,16 @@
 language: java
 jdk: openjdk8
 
+services:
+  - docker
+
 install:
   - docker pull openjdk:8
 
-script: mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
+script:
+  - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
+  - pwd
+  - docker build -t ${DOCKER_HOST}/fly/frontend .
+  - docker push ${DOCKER_HOST}/fly/frontend
 
 after_success: skip
