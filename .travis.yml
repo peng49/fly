@@ -5,7 +5,7 @@ services:
   - docker
 
 install:
-  - docker pull openjdk:8
+  - docker pull openjdk:8u265-jre
 
 script:
   - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
