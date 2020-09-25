@@ -1,7 +1,8 @@
 language: java
 jdk: openjdk8
 
-install: skip
+install:
+  - docker pull openjdk:8
 
 script: mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
 

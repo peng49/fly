@@ -1,8 +1,10 @@
-FROM maven:3.6.3-jdk-8
+FROM openjdk:8
 
-COPY . /var/www/fly
+COPY ./target/fly-frontend-1.0-SNAPSHOT.jar /var/www/fly/frontend.jar
 
-WORKDIR /var/www/fly
+
+
+
 
 
 
