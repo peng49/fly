@@ -22,7 +22,7 @@
                     <#list posts as post>
                         <li>
                             <a href="/u/${post.author.id}" class="fly-avatar">
-                                <img src="${post.author.avatar}" alt="${post.author.username}">
+                                <img src="${(post.author.avatar)!}" alt="${post.author.username}">
                             </a>
                             <h2>
                                 <a class="layui-badge">${(post.column.name)!}</a>
