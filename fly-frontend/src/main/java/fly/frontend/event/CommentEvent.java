@@ -10,5 +10,5 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class CommentEvent {
-    private PostComment postComment;
+    private final PostComment postComment;
 }

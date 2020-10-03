@@ -49,7 +49,7 @@
                 </div>
                 <div class="detail-about">
                     <a class="fly-avatar" href="/u/${post.author.id}">
-                        <img src="${post.author.avatar}"
+                        <img src="${(post.author.avatar)!}"
                              alt="${post.author.username}">
                     </a>
                     <div class="fly-detail-user">
