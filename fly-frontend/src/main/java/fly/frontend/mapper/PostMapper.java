@@ -9,7 +9,10 @@ import java.util.List;
 
 @Mapper
 public interface PostMapper {
-    @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p inner join users as u on u.id = p.author_id inner join columns as c on c.id = p.column_id where p.column_id = #{columnId} and p.status = 1")
+    @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p " +
+            "inner join users as u on u.id = p.author_id " +
+            "inner join columns as c on c.id = p.column_id " +
+            "where p.column_id = #{columnId} and p.status = 1")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "column.id", column = "column_id"),
@@ -24,15 +27,18 @@ public interface PostMapper {
             @Result(property = "author.username", column = "username"),
             @Result(property = "author.avatar", column = "avatar")
     })
-    public List<Post> findByColumnId(int columnId);
+    List<Post> findByColumnId(int columnId);
 
     @Select("select * from posts as p where p.author_id = #{id} order by p.id desc")
-    public List<Post> findAllByAuthorId(int id);
+    List<Post> findAllByAuthorId(int id);
 
     @Select("select * from posts as p where p.author_id = #{id} and p.status = 1 order by p.id desc")
     List<Post> findAllPublishByAuthorId(int id);
 
-    @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p inner join users as u on u.id = p.author_id inner join columns as c on c.id = p.column_id where p.top = 1 limit #{limit}")
+    @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p " +
+            "inner join users as u on u.id = p.author_id " +
+            "inner join columns as c on c.id = p.column_id " +
+            "where p.top = 1 limit #{limit}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "column.id", column = "column_id"),
@@ -47,9 +53,12 @@ public interface PostMapper {
             @Result(property = "author.username", column = "username"),
             @Result(property = "author.avatar", column = "avatar")
     })
-    public List<Post> findTop(int limit);
+    List<Post> findTop(int limit);
 
-    @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p inner join users as u on u.id = p.author_id inner join columns as c on c.id = p.column_id where p.id = #{id}")
+    @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p " +
+            "inner join users as u on u.id = p.author_id " +
+            "inner join columns as c on c.id = p.column_id " +
+            "where p.id = #{id}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "column.id", column = "column_id"),
@@ -65,19 +74,21 @@ public interface PostMapper {
             @Result(property = "author.username", column = "username"),
             @Result(property = "author.avatar", column = "avatar")
     })
-    public Post get(int id);
+    Post get(int id);
 
 
     @Insert("insert into posts(column_id,author_id,title,original_content,content,status,created_at,update_at,publish_at,reply_count,view_count,heat) values (#{column.id},#{author.id},#{title},#{originalContent},#{content},#{status},#{createdAt,jdbcType=TIMESTAMP},#{updateAt,jdbcType=TIMESTAMP},#{publishAt,jdbcType=TIMESTAMP},0,0,#{heat})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void create(Post post);
 
-    public void update(Post post);
+    void update(Post post);
 
     @Update("update posts set heat = #{heat} where id = #{id}")
-    public void updateHeat(Post post);
+    void updateHeat(Post post);
 
-    @Select("select pc.*,u.username,u.avatar from post_comments as pc inner join users u on u.id = pc.user_id where pc.post_id = #{post_id}")
+    @Select("select pc.*,u.username,u.avatar from post_comments as pc " +
+            "inner join users u on u.id = pc.user_id " +
+            "where pc.post_id = #{post_id}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "content", column = "content"),
