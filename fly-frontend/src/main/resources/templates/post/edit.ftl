@@ -138,14 +138,16 @@
                 },
                 onchange:function(){
                     //保存到本地 localStorage
-                    if (!_this.postId && _this.editor.getMarkdown() !== localStorage.getItem("markdownContent")) {
+                   /* if (!_this.postId && _this.editor.getMarkdown() !== localStorage.getItem("markdownContent")) {
                         console.log("设置localStorage中的markdown");
                         localStorage.setItem("markdownContent", _this.editor.getMarkdown())
                     } else {
                         console.log("没变动，不保存")
-                    }
+                        return;
+                    }*/
 
                     if(!_this.draftLock){
+                        console.log("save draft")
                         _this.draftLock = true
                         //5秒后保存
                         setTimeout(function () {
@@ -178,7 +180,10 @@
                 // console.log(this.editor.watch().getPreviewedHTML());
 
                 let originWatch = this.editor.settings.watch;
-                //开启预览，获取预览html
+
+                _this.draftLock = true
+
+                //开启预览，获取预览html  (review -> onchange)
                 let previewContent = this.editor.watch().getPreviewedHTML();
                 if (!originWatch) {
                     //如果原本预览是关闭的,获取预览html后就关闭预览
@@ -187,6 +192,9 @@
 
                 this.postForm.originalContent = this.editor.getMarkdown();
                 this.postForm.content = previewContent;
+
+                _this.draftLock = false
+
 
                 axios.post(_this.saveUrl, this.postForm)
                     .then(function (response) {
@@ -208,7 +216,7 @@
                     })
                     .catch(function (error) {
                         console.log(error);
-                    });
+                    })
             },
             getDraft: function () {
                 //
