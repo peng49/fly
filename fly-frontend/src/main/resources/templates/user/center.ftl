@@ -419,7 +419,10 @@
 
                 axios.delete("/userMessage/" + message.id).then(async function (resp) {
                     layer.msg("操作成功")
-                    _this.messages = await _this.getMessages().rows;
+                    let messages = await _this.getMessages();
+                    _this.messages = messages.rows
+
+                    console.log(_this.messages)
                 })
             },
             deleteAllMessage: function (index) {
