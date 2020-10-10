@@ -9,6 +9,7 @@ install: skip
 
 script:
   - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
-  - docker build -t peng49/fly-frontend:lasted .
+  - docker info
+  - docker build -t peng49/fly-frontend:v0.1 .
 
 after_success: skip
