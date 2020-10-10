@@ -11,5 +11,6 @@ script:
   - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
   - docker info
   - docker build -t peng49/fly-frontend:v0.1 .
-
+#  - docker login -u ${DOCKER_USERNAME} -p ${DOCDER_PASSWORD}
+  - docker images
 after_success: skip
