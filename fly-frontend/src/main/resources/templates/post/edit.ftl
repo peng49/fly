@@ -128,6 +128,7 @@
                 watch: true,
                 imageUpload: true, //开启图片上传
                 imageUploadURL: '/post/upload', //图片上传后台地址
+                flowChart: true,
                 onload: function () {
                     $('.editormd-menu li .layui-btn').parent('li').addClass('pull-right');
 
