@@ -8,10 +8,12 @@ services:
 install:
   - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
   - docker build -t peng49/fly-frontend:v0.1 ./fly-frontend/
+  - docker tag peng49/fly-frontend:v0.1 peng49/fly-frontend:latest
   - docker images
 
 script:
   - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
   - docker push peng49/fly-frontend:v0.1
+  - docker push peng49/fly-frontend:latest
 
 after_success: skip
