@@ -14,7 +14,7 @@ COPY ./src/main/resources/application-prod.yml /var/www/fly/application.yml
 
 WORKDIR /var/www/fly
 
-ENTRYPOINT mkdir /var/www/upload
+ENTRYPOINT mkdir -p /var/www/upload
 
 CMD java -jar application.jar
 
