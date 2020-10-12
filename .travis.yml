@@ -4,15 +4,14 @@ jdk: openjdk8
 services:
   - docker
 
-# 跳过空模块的自动构建
-install: skip
+# build docker image
+install:
+  - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
+  - docker build -t peng49/fly-frontend:v0.1 .
+  - docker images
 
 script:
-  - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
-  - docker info
-  - docker build -t peng49/fly-frontend:v0.1 .
   - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-  - docker images
   - docker push peng49/fly-frontend:v0.1
-  - docker push peng49/fly-frontend:latest
+
 after_success: skip
