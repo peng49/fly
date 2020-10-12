@@ -12,9 +12,9 @@ COPY ./target/fly-frontend-1.0-SNAPSHOT.jar /var/www/fly/application.jar
 
 COPY ./src/main/resources/application-prod.yml /var/www/fly/application.yml
 
-WORKDIR /var/www/fly
+RUN mkdir -p /var/www/upload
 
-ENTRYPOINT mkdir -p /var/www/upload
+WORKDIR /var/www/fly
 
 CMD java -jar application.jar
 
