@@ -7,7 +7,7 @@ services:
 # build docker image
 install:
   - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
-  - docker build -t peng49/fly-frontend:v0.1 .
+  - docker build -t peng49/fly-frontend:v0.1 ./fly-frontend/
   - docker images
 
 script:
