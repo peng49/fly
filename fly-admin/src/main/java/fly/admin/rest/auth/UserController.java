@@ -1,5 +1,6 @@
 package fly.admin.rest.auth;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
+@Api(tags = "后台用户管理")
 @RestController
 @RequestMapping("/api/auth/users")
 public class UserController {

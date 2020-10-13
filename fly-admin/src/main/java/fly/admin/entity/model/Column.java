@@ -1,5 +1,6 @@
 package fly.admin.entity.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Column {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +21,5 @@ public class Column {
 
     private String name;
 
-    private Integer sort;
+    private int sort;
 }
