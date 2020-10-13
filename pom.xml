@@ -22,7 +22,7 @@
     <modules>
         <module>fly-frontend</module>
         <module>fly-search</module>
-        <module>fly-core</module>
+        <module>fly-common</module>
         <module>fly-admin</module>
         <module>fly-cache</module>
     </modules>
