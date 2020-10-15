@@ -24,11 +24,13 @@ public class AdminUser {
 
     private String password;
 
+    private String name;
+
     private String avatar;
 
     private String rememberToken;
 
     private Timestamp createdAt;
 
-    private Timestamp updateAt;
+    private Timestamp updatedAt;
 }

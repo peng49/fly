@@ -195,7 +195,7 @@ DROP TABLE IF EXISTS `admin_menu`;
 CREATE TABLE `admin_menu`  (
                                `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                                `parent_id` int(11) NOT NULL DEFAULT 0,
-                               `order` int(11) NOT NULL DEFAULT 0,
+                               `sort` int(11) NOT NULL DEFAULT 0,
                                `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
                                `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
                                `uri` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
