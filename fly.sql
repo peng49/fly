@@ -188,4 +188,181 @@ CREATE TABLE `post_auto_draft` (
                                    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='自动保存的草稿数据';
 
+-- ----------------------------
+-- Table structure for admin_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_menu`;
+CREATE TABLE `admin_menu`  (
+                               `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                               `parent_id` int(11) NOT NULL DEFAULT 0,
+                               `order` int(11) NOT NULL DEFAULT 0,
+                               `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                               `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                               `uri` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+                               `permission` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+                               `created_at` timestamp(0) NULL DEFAULT NULL,
+                               `updated_at` timestamp(0) NULL DEFAULT NULL,
+                               PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of admin_menu
+-- ----------------------------
+INSERT INTO `admin_menu` VALUES (1, 0, 1, 'Dashboard', 'fa-bar-chart', '/', NULL, NULL, NULL);
+INSERT INTO `admin_menu` VALUES (2, 0, 2, 'Admin', 'fa-tasks', '', NULL, NULL, NULL);
+INSERT INTO `admin_menu` VALUES (3, 2, 3, 'Users', 'fa-users', 'auth/users', NULL, NULL, NULL);
+INSERT INTO `admin_menu` VALUES (4, 2, 4, 'Roles', 'fa-user', 'auth/roles', NULL, NULL, NULL);
+INSERT INTO `admin_menu` VALUES (5, 2, 5, 'Permission', 'fa-ban', 'auth/permissions', NULL, NULL, NULL);
+INSERT INTO `admin_menu` VALUES (6, 2, 6, 'Menu', 'fa-bars', 'auth/menu', NULL, NULL, NULL);
+INSERT INTO `admin_menu` VALUES (7, 2, 7, 'Operation log', 'fa-history', 'auth/logs', NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for admin_operation_log
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_operation_log`;
+CREATE TABLE `admin_operation_log`  (
+                                        `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                        `user_id` int(11) NOT NULL,
+                                        `path` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                        `method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                        `ip` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                        `input` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                        `created_at` timestamp(0) NULL DEFAULT NULL,
+                                        `updated_at` timestamp(0) NULL DEFAULT NULL,
+                                        PRIMARY KEY (`id`) USING BTREE,
+                                        INDEX `admin_operation_log_user_id_index`(`user_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for admin_permissions
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_permissions`;
+CREATE TABLE `admin_permissions`  (
+                                      `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                      `slug` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                      `http_method` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+                                      `http_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+                                      `created_at` timestamp(0) NULL DEFAULT NULL,
+                                      `updated_at` timestamp(0) NULL DEFAULT NULL,
+                                      PRIMARY KEY (`id`) USING BTREE,
+                                      UNIQUE INDEX `admin_permissions_name_unique`(`name`) USING BTREE,
+                                      UNIQUE INDEX `admin_permissions_slug_unique`(`slug`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of admin_permissions
+-- ----------------------------
+INSERT INTO `admin_permissions` VALUES (1, 'All permission', '*', '', '*', NULL, NULL);
+INSERT INTO `admin_permissions` VALUES (2, 'Dashboard', 'dashboard', 'GET', '/', NULL, NULL);
+INSERT INTO `admin_permissions` VALUES (3, 'Login', 'auth.login', '', '/auth/login\r\n/auth/logout', NULL, NULL);
+INSERT INTO `admin_permissions` VALUES (4, 'User setting', 'auth.setting', 'GET,PUT', '/auth/setting', NULL, NULL);
+INSERT INTO `admin_permissions` VALUES (5, 'Auth management', 'auth.management', '', '/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for admin_role_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_role_menu`;
+CREATE TABLE `admin_role_menu`  (
+                                    `role_id` int(11) NOT NULL,
+                                    `menu_id` int(11) NOT NULL,
+                                    `created_at` timestamp(0) NULL DEFAULT NULL,
+                                    `updated_at` timestamp(0) NULL DEFAULT NULL,
+                                    INDEX `admin_role_menu_role_id_menu_id_index`(`role_id`, `menu_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of admin_role_menu
+-- ----------------------------
+INSERT INTO `admin_role_menu` VALUES (1, 2, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for admin_role_permissions
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_role_permissions`;
+CREATE TABLE `admin_role_permissions`  (
+                                           `role_id` int(11) NOT NULL,
+                                           `permission_id` int(11) NOT NULL,
+                                           `created_at` timestamp(0) NULL DEFAULT NULL,
+                                           `updated_at` timestamp(0) NULL DEFAULT NULL,
+                                           INDEX `admin_role_permissions_role_id_permission_id_index`(`role_id`, `permission_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of admin_role_permissions
+-- ----------------------------
+INSERT INTO `admin_role_permissions` VALUES (1, 1, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for admin_role_users
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_role_users`;
+CREATE TABLE `admin_role_users`  (
+                                     `role_id` int(11) NOT NULL,
+                                     `user_id` int(11) NOT NULL,
+                                     `created_at` timestamp(0) NULL DEFAULT NULL,
+                                     `updated_at` timestamp(0) NULL DEFAULT NULL,
+                                     INDEX `admin_role_users_role_id_user_id_index`(`role_id`, `user_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of admin_role_users
+-- ----------------------------
+INSERT INTO `admin_role_users` VALUES (1, 1, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for admin_roles
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_roles`;
+CREATE TABLE `admin_roles`  (
+                                `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `slug` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `created_at` timestamp(0) NULL DEFAULT NULL,
+                                `updated_at` timestamp(0) NULL DEFAULT NULL,
+                                PRIMARY KEY (`id`) USING BTREE,
+                                UNIQUE INDEX `admin_roles_name_unique`(`name`) USING BTREE,
+                                UNIQUE INDEX `admin_roles_slug_unique`(`slug`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of admin_roles
+-- ----------------------------
+INSERT INTO `admin_roles` VALUES (1, 'Administrator', 'administrator', '2020-10-15 09:55:34', '2020-10-15 09:55:34');
+
+-- ----------------------------
+-- Table structure for admin_user_permissions
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_user_permissions`;
+CREATE TABLE `admin_user_permissions`  (
+                                           `user_id` int(11) NOT NULL,
+                                           `permission_id` int(11) NOT NULL,
+                                           `created_at` timestamp(0) NULL DEFAULT NULL,
+                                           `updated_at` timestamp(0) NULL DEFAULT NULL,
+                                           INDEX `admin_user_permissions_user_id_permission_id_index`(`user_id`, `permission_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for admin_users
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_users`;
+CREATE TABLE `admin_users`  (
+                                `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                `username` varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `avatar` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+                                `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+                                `created_at` timestamp(0) NULL DEFAULT NULL,
+                                `updated_at` timestamp(0) NULL DEFAULT NULL,
+                                PRIMARY KEY (`id`) USING BTREE,
+                                UNIQUE INDEX `admin_users_username_unique`(`username`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of admin_users
+-- ----------------------------
+INSERT INTO `admin_users` VALUES (1, 'admin', '$2y$10$ItfvyxAjzmzVFIWCu7T1FOC1jjG1abKu32UkNcrXocHEEqv2zzemG', 'Administrator', NULL, NULL, '2020-10-15 09:55:34', '2020-10-15 09:55:34');
+
+
 SET FOREIGN_KEY_CHECKS = 1;
