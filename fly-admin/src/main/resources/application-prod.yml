@@ -8,10 +8,11 @@ spring:
 #    database: MySQL
 #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
-    hibernate:
-      ddl-auto: update
+
     properties:
       hibernate:
-        ddl-auto: update
         enable_lazy_load_no_trans: true
+        ddl-auto: update
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 

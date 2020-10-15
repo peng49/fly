@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "admin_roles")
@@ -19,5 +20,11 @@ public class AdminRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String name;
 
+    private String slug;
+
+    private Timestamp createdAt;
+
+    private Timestamp updatedAt;
 }
