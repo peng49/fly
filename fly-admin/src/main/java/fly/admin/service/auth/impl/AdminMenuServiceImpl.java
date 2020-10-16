@@ -6,6 +6,7 @@ import fly.admin.service.auth.AdminMenuService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class AdminMenuServiceImpl implements AdminMenuService {
@@ -31,5 +32,10 @@ public class AdminMenuServiceImpl implements AdminMenuService {
     @Override
     public AdminMenu get(int id) {
         return adminMenuRepository.getOne(id);
+    }
+
+    @Override
+    public List<AdminMenu> findAll() {
+        return adminMenuRepository.findAll();
     }
 }

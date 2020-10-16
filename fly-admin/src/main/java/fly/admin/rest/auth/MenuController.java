@@ -1,9 +1,7 @@
 package fly.admin.rest.auth;
 
 import fly.admin.entity.model.AdminMenu;
-import fly.admin.entity.model.Column;
 import fly.admin.entity.request.EditAdminMenuRequest;
-import fly.admin.entity.request.EditColumnRequest;
 import fly.admin.entity.vo.ResultVO;
 import fly.admin.service.auth.AdminMenuService;
 import io.swagger.annotations.Api;
@@ -11,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.sql.Timestamp;
 
 @Api(tags = "菜单管理")
 @RestController
@@ -33,6 +30,7 @@ public class MenuController {
                                 .sort(request.getSort())
                                 .parentId(request.getParentId())
                                 .uri(request.getUri())
+                                .component(request.getComponent())
                                 .title(request.getTitle())
                                 .permission(request.getPermission())
                                 .build())
@@ -59,6 +57,7 @@ public class MenuController {
         menu.setPermission(request.getPermission());
         menu.setTitle(request.getTitle());
         menu.setUri(request.getUri());
+        menu.setComponent(request.getComponent());
 
         return ResultVO.builder()
                 .code("success")
@@ -74,6 +73,17 @@ public class MenuController {
                 .code("success")
                 .message("Success")
                 .data(adminMenuService.get(id))
+                .build();
+    }
+
+    @ApiOperation(value = "查询菜单")
+    @GetMapping
+    public Object search()
+    {
+        return ResultVO.builder()
+                .code("20000")
+                .message("Success")
+                .data(adminMenuService.findAll())
                 .build();
     }
 }

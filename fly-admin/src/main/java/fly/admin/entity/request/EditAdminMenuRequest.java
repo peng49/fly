@@ -14,5 +14,7 @@ public class EditAdminMenuRequest {
 
     private String uri;
 
+    private String component;
+
     private String permission;
 }
