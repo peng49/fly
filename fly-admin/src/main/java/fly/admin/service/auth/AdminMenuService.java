@@ -2,6 +2,8 @@ package fly.admin.service.auth;
 
 import fly.admin.entity.model.AdminMenu;
 
+import java.util.List;
+
 public interface AdminMenuService {
 
     AdminMenu add(AdminMenu menu);
@@ -11,4 +13,6 @@ public interface AdminMenuService {
     AdminMenu update(AdminMenu menu);
 
     AdminMenu get(int id);
+
+    List<AdminMenu> findAll();
 }

@@ -30,6 +30,8 @@ public class AdminMenu {
 
     private String uri;
 
+    private String component;
+
     private String permission;
 
     private Timestamp createdAt;
