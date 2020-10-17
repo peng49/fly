@@ -1,6 +1,6 @@
 <#assign current_page= current_page />
 <#assign page_size = page_size />
-<#assign page_count = list_total / page_size />
+<#assign page_count = (list_total / page_size)?ceiling />
 
 <div id="${page_count}" class="laypage-main">
     <#if current_page gt 1>
