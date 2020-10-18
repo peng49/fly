@@ -6,6 +6,7 @@ import fly.admin.service.auth.AdminRoleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class AdminRoleServiceImpl implements AdminRoleService {
@@ -31,5 +32,10 @@ public class AdminRoleServiceImpl implements AdminRoleService {
     @Override
     public AdminRole get(int id) {
         return adminRoleRepository.getOne(id);
+    }
+
+    @Override
+    public List<AdminRole> search() {
+        return adminRoleRepository.findAll();
     }
 }

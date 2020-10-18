@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @Api(tags = "权限管理")
-@RestController
+@RestController("AdminPermissionController")
 @RequestMapping("/api/auth/permissions")
 public class PermissionController {
     @Resource
@@ -69,6 +69,17 @@ public class PermissionController {
                 .code("success")
                 .message("Success")
                 .data(adminPermissionService.get(id))
+                .build();
+    }
+
+    @ApiOperation(value = "查询权限")
+    @GetMapping
+    public Object search()
+    {
+        return ResultVO.builder()
+                .code("success")
+                .message("Success")
+                .data(adminPermissionService.search())
                 .build();
     }
 }

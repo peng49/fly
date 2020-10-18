@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @Api(tags = "用户管理")
-@RestController
+@RestController("AdminUserController")
 @RequestMapping("/api/auth/users")
 public class UserController {
 
@@ -67,6 +67,17 @@ public class UserController {
                 .code("success")
                 .message("Success")
                 .data(adminUserService.get(id))
+                .build();
+    }
+
+    @ApiOperation(value = "查询用户")
+    @GetMapping
+    public Object search()
+    {
+        return ResultVO.builder()
+                .code("success")
+                .message("Success")
+                .data(adminUserService.search())
                 .build();
     }
 }

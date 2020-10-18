@@ -2,6 +2,8 @@ package fly.admin.service.auth;
 
 import fly.admin.entity.model.AdminRole;
 
+import java.util.List;
+
 
 public interface AdminRoleService {
     AdminRole add(AdminRole role);
@@ -11,4 +13,6 @@ public interface AdminRoleService {
     AdminRole update(AdminRole role);
 
     AdminRole get(int id);
+
+    List<AdminRole> search();
 }

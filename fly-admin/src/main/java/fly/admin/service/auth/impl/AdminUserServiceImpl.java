@@ -6,6 +6,7 @@ import fly.admin.service.auth.AdminUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class AdminUserServiceImpl implements AdminUserService {
@@ -26,6 +27,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public AdminUser update(AdminUser user) {
         return adminUserRepository.save(user);
+    }
+
+    @Override
+    public List<AdminUser> search() {
+        return adminUserRepository.findAll();
     }
 
     @Override

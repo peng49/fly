@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @Api(tags = "角色管理")
-@RestController
+@RestController("AdminRoleController")
 @RequestMapping("/api/auth/roles")
 public class RoleController {
     @Resource
@@ -65,6 +65,16 @@ public class RoleController {
                 .code("success")
                 .message("Success")
                 .data(adminRoleService.get(id))
+                .build();
+    }
+
+    @ApiOperation(value = "查询角色")
+    @GetMapping
+    public Object search() {
+        return ResultVO.builder()
+                .code("success")
+                .message("Success")
+                .data(adminRoleService.search())
                 .build();
     }
 }
