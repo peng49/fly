@@ -6,6 +6,7 @@ import fly.admin.service.auth.AdminPermissionService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class AdminPermissionServiceImpl implements AdminPermissionService {
@@ -31,5 +32,10 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
     @Override
     public AdminPermission get(int id) {
         return adminPermissionRepository.getOne(id);
+    }
+
+    @Override
+    public List<AdminPermission> search() {
+        return adminPermissionRepository.findAll();
     }
 }

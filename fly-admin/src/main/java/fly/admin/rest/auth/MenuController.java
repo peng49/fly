@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @Api(tags = "菜单管理")
-@RestController
+@RestController("AdminMenuController")
 @RequestMapping("/api/auth/menus")
 public class MenuController {
 

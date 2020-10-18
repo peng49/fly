@@ -2,6 +2,8 @@ package fly.admin.service.auth;
 
 import fly.admin.entity.model.AdminPermission;
 
+import java.util.List;
+
 public interface AdminPermissionService {
     AdminPermission add(AdminPermission permission);
 
@@ -10,4 +12,6 @@ public interface AdminPermissionService {
     AdminPermission update(AdminPermission permission);
 
     AdminPermission get(int id);
+
+    List<AdminPermission> search();
 }
