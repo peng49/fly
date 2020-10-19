@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.persistence.Column;
 import java.sql.Timestamp;
 
 @Entity
@@ -20,8 +21,10 @@ public class AdminRolePermission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "role_id")
     private int roleId;
 
+    @Column(name = "permission_id")
     private int permissionId;
 
     private Timestamp createdAt;
