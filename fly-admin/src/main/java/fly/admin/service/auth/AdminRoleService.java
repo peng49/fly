@@ -2,6 +2,7 @@ package fly.admin.service.auth;
 
 import fly.admin.entity.model.AdminRole;
 import fly.admin.entity.request.EditAdminRoleRequest;
+import fly.admin.entity.vo.AdminRoleVO;
 
 import java.util.List;
 
@@ -9,11 +10,13 @@ import java.util.List;
 public interface AdminRoleService {
     AdminRole add(EditAdminRoleRequest request);
 
-    void delete(AdminRole role);
+    void delete(Integer id);
 
     AdminRole update(AdminRole role, EditAdminRoleRequest request);
 
-    AdminRole get(int id);
+    AdminRole findOne(int id);
 
-    List<AdminRole> search();
+    AdminRoleVO get(int id);
+
+    List<AdminRoleVO> search();
 }

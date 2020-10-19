@@ -1,8 +1,11 @@
 package fly.admin.service.auth.impl;
 
+import fly.admin.entity.model.AdminPermission;
 import fly.admin.entity.model.AdminRole;
 import fly.admin.entity.model.AdminRolePermission;
 import fly.admin.entity.request.EditAdminRoleRequest;
+import fly.admin.entity.vo.AdminRoleVO;
+import fly.admin.repository.AdminPermissionRepository;
 import fly.admin.repository.AdminRolePermissionRepository;
 import fly.admin.repository.AdminRoleRepository;
 import fly.admin.service.auth.AdminRoleService;
@@ -11,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -21,6 +25,9 @@ public class AdminRoleServiceImpl implements AdminRoleService {
 
     @Resource
     private AdminRolePermissionRepository adminRolePermissionRepository;
+
+    @Resource
+    private AdminPermissionRepository adminPermissionRepository;
 
     @Override
     public AdminRole add(EditAdminRoleRequest request) {
@@ -51,8 +58,8 @@ public class AdminRoleServiceImpl implements AdminRoleService {
     }
 
     @Override
-    public void delete(AdminRole role) {
-        adminRoleRepository.delete(role);
+    public void delete(Integer roleId) {
+        adminRoleRepository.deleteById(roleId);
     }
 
     @Override
@@ -71,12 +78,77 @@ public class AdminRoleServiceImpl implements AdminRoleService {
     }
 
     @Override
-    public AdminRole get(int id) {
+    public AdminRole findOne(int id) {
         return adminRoleRepository.getOne(id);
     }
 
     @Override
-    public List<AdminRole> search() {
-        return adminRoleRepository.findAll();
+    public AdminRoleVO get(int id) {
+        AdminRole role = adminRoleRepository.getOne(id);
+        List<AdminRolePermission> list = adminRolePermissionRepository.findByRoleId(role.getId());
+
+        List<AdminPermission> permissions = new ArrayList<>();
+        for (AdminRolePermission rolePermission : list) {
+            permissions.add(adminPermissionRepository.getOne(rolePermission.getPermissionId()));
+        }
+
+        return AdminRoleVO.builder()
+                .id(role.getId())
+                .name(role.getName())
+                .slug(role.getSlug())
+                .permissions(permissions)
+                .build();
+    }
+
+    @Override
+    public List<AdminRoleVO> search() {
+        List<AdminRole> roles = adminRoleRepository.findAll();
+
+        List<Integer> roleIds = new ArrayList<>();
+        for (AdminRole role : roles) {
+            roleIds.add(role.getId());
+        }
+
+        List<AdminRolePermission> allRolePermissions = adminRolePermissionRepository.findByRoleIdIn(roleIds);
+
+        List<Integer> permissionIds = new ArrayList<>();
+        HashMap<Integer, List<Integer>> permissionMap = new HashMap<>();
+        for (AdminRolePermission rolePermission : allRolePermissions) {
+            permissionIds.add(rolePermission.getPermissionId());
+            if(permissionMap.get(rolePermission.getRoleId()) == null){
+                permissionMap.put(rolePermission.getRoleId(),new ArrayList<Integer>(){{add(rolePermission.getPermissionId());}});
+            }else{
+                permissionMap.get(rolePermission.getRoleId()).add(rolePermission.getPermissionId());
+            }
+        }
+
+        List<AdminPermission> allPermission = adminPermissionRepository.findByIdIn(permissionIds);
+
+        HashMap<Integer, AdminPermission> map = new HashMap<>();
+        for (AdminPermission permission : allPermission) {
+            map.put(permission.getId(),permission);
+        }
+
+        List<AdminRoleVO> result = new ArrayList<>();
+
+        for (AdminRole role : roles) {
+            List<Integer> rolePermissionIds = permissionMap.get(role.getId());
+            List<AdminPermission> rolePermissions = new ArrayList<>();
+
+            if(rolePermissionIds != null){
+                for (Integer permissionId : rolePermissionIds) {
+                    rolePermissions.add(map.get(permissionId));
+                }
+            }
+            result.add(AdminRoleVO.builder()
+                    .id(role.getId())
+                    .name(role.getName())
+                    .slug(role.getSlug())
+                    .permissions(rolePermissions)
+                    .createdAt(role.getCreatedAt())
+                    .updatedAt(role.getUpdatedAt())
+                    .build());
+        }
+        return result;
     }
 }
