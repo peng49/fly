@@ -31,7 +31,7 @@ public class RoleController {
     @ApiOperation(value = "删除角色")
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") int id) {
-        adminRoleService.delete(adminRoleService.get(id));
+        adminRoleService.delete(id);
         return ResultVO.builder()
                 .code("success")
                 .message("删除成功")
@@ -41,7 +41,7 @@ public class RoleController {
     @ApiOperation(value = "更新角色")
     @PutMapping("/{id}")
     public Object update(@PathVariable("id") int id, @RequestBody EditAdminRoleRequest request) {
-        AdminRole role = adminRoleService.get(id);
+        AdminRole role = adminRoleService.findOne(id);
         return ResultVO.builder()
                 .code("success")
                 .message("Success")
