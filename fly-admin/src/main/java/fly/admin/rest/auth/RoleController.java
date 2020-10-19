@@ -1,12 +1,9 @@
 package fly.admin.rest.auth;
 
 import fly.admin.entity.model.AdminRole;
-import fly.admin.entity.model.AdminUser;
 import fly.admin.entity.request.EditAdminRoleRequest;
-import fly.admin.entity.request.EditAdminUserRequest;
 import fly.admin.entity.vo.ResultVO;
 import fly.admin.service.auth.AdminRoleService;
-import fly.admin.service.auth.AdminUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +24,7 @@ public class RoleController {
                 .code("success")
                 .message("Success")
                 .data(
-                        adminRoleService.add(AdminRole.builder()
-                                .name(request.getName())
-                                .slug(request.getSlug())
-                                .build())
+                        adminRoleService.add(request)
                 ).build();
     }
 
@@ -48,13 +42,10 @@ public class RoleController {
     @PutMapping("/{id}")
     public Object update(@PathVariable("id") int id, @RequestBody EditAdminRoleRequest request) {
         AdminRole role = adminRoleService.get(id);
-        role.setName(request.getName());
-        role.setSlug(request.getSlug());
-
         return ResultVO.builder()
                 .code("success")
                 .message("Success")
-                .data(adminRoleService.update(role))
+                .data(adminRoleService.update(role,request))
                 .build();
     }
 

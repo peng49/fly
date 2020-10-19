@@ -7,4 +7,6 @@ public class EditAdminRoleRequest {
     private String name;
 
     private String slug;
+
+    private int[] permissionIds;
 }

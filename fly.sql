@@ -282,10 +282,12 @@ INSERT INTO `admin_role_menu` VALUES (1, 2, NULL, NULL);
 -- ----------------------------
 DROP TABLE IF EXISTS `admin_role_permissions`;
 CREATE TABLE `admin_role_permissions`  (
+                                           `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                                            `role_id` int(11) NOT NULL,
                                            `permission_id` int(11) NOT NULL,
                                            `created_at` timestamp(0) NULL DEFAULT NULL,
                                            `updated_at` timestamp(0) NULL DEFAULT NULL,
+                                           PRIMARY KEY (`id`) USING BTREE,
                                            INDEX `admin_role_permissions_role_id_permission_id_index`(`role_id`, `permission_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
