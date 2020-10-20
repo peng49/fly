@@ -1,6 +1,7 @@
 package fly.admin.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.models.auth.In;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,12 +20,12 @@ import java.sql.Timestamp;
 public class PostComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int level;
-    private int userId;
-    private int postId;
-    private int parentId;
+    private Integer id;
+    private Integer level;
+    private Integer userId;
+    private Integer postId;
+    private Integer parentId;
     private String content;
     private Timestamp commentTime;
-    private int agreeCount;
+    private Integer agreeCount;
 }
