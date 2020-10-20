@@ -6,6 +6,7 @@ import fly.admin.service.ColumnService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class ColumnServiceImpl implements ColumnService {
@@ -31,5 +32,10 @@ public class ColumnServiceImpl implements ColumnService {
     @Override
     public Column get(int id) {
         return columnRepository.getOne(id);
+    }
+
+    @Override
+    public List<Column> search() {
+        return columnRepository.findAll();
     }
 }
