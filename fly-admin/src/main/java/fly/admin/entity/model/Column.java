@@ -22,4 +22,6 @@ public class Column {
     private String name;
 
     private Integer sort;
+
+    private Integer status;
 }

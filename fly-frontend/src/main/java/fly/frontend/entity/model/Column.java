@@ -13,4 +13,5 @@ public class Column {
     private int id;
     private String name;
     private int sort;
+    private int status;
 }

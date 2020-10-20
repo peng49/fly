@@ -39,13 +39,10 @@ public class PostCommentController {
 
     @ApiOperation(value = "查询评论")
     @GetMapping
-    public Object search()
-    {
-        return ResultVO.builder()
-                .code("success")
-                .message("Success")
-                .data(postCommentService.search())
-                .build();
+    public Object search(
+            @RequestParam(name = "page",defaultValue = "1") int page,
+            @RequestParam(name = "pageSize",defaultValue = "15") int pageSize) {
+        return postCommentService.search(page,pageSize);
     }
 
 }
