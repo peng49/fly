@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -55,7 +56,7 @@ public class PostCommentServiceImpl implements PostCommentService {
         }
 
         PostComment.PostCommentBuilder commentBuilder = PostComment.builder()
-                .commentTime(new Date(System.currentTimeMillis()))
+                .commentTime(new Timestamp(System.currentTimeMillis()))
                 .content(parseCommentContent(postCommentAddFrom.getContent()))
                 .post(post)
                 .level(post.getReplyCount() + 1)

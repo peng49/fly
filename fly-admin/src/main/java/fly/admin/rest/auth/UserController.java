@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-@Api(tags = "用户管理")
+@Api(tags = "后台用户管理")
 @RestController("AdminUserController")
 @RequestMapping("/api/auth/users")
 public class UserController {

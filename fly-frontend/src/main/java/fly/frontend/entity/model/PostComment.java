@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 
 @Data
@@ -16,7 +17,7 @@ public class PostComment {
     private Post post;
     private PostComment parent;
     private String content;
-    private Date commentTime;
+    private Timestamp commentTime;
     private int agreeCount;
 
     @Tolerate

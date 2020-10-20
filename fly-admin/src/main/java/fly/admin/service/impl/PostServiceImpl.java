@@ -1,6 +1,7 @@
 package fly.admin.service.impl;
 
 import fly.admin.entity.model.Post;
+import fly.admin.entity.vo.PostVO;
 import fly.admin.service.PostService;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post get(int id) {
+    public Post findOne(int id) {
         return null;
     }
 
     @Override
-    public List<Post> search() {
+    public PostVO get(int id) {
+        return null;
+    }
+
+    @Override
+    public List<PostVO> search() {
         return null;
     }
 }

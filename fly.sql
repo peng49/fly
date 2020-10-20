@@ -278,25 +278,6 @@ CREATE TABLE `admin_role_menu`  (
 INSERT INTO `admin_role_menu` VALUES (1, 2, NULL, NULL);
 
 -- ----------------------------
--- Table structure for admin_role_permissions
--- ----------------------------
-DROP TABLE IF EXISTS `admin_role_permissions`;
-CREATE TABLE `admin_role_permissions`  (
-                                           `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-                                           `role_id` int(11) NOT NULL,
-                                           `permission_id` int(11) NOT NULL,
-                                           `created_at` timestamp(0) NULL DEFAULT NULL,
-                                           `updated_at` timestamp(0) NULL DEFAULT NULL,
-                                           PRIMARY KEY (`id`) USING BTREE,
-                                           INDEX `admin_role_permissions_role_id_permission_id_index`(`role_id`, `permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of admin_role_permissions
--- ----------------------------
-INSERT INTO `admin_role_permissions` VALUES (1, 1, NULL, NULL);
-
--- ----------------------------
 -- Table structure for admin_role_users
 -- ----------------------------
 DROP TABLE IF EXISTS `admin_role_users`;
@@ -332,6 +313,26 @@ CREATE TABLE `admin_roles`  (
 -- Records of admin_roles
 -- ----------------------------
 INSERT INTO `admin_roles` VALUES (1, 'Administrator', 'administrator', '2020-10-15 09:55:34', '2020-10-15 09:55:34');
+
+-- ----------------------------
+-- Table structure for admin_role_permissions
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_role_permissions`;
+CREATE TABLE `admin_role_permissions`  (
+                                           `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                           `role_id` int(11) NOT NULL,
+                                           `permission_id` int(11) NOT NULL,
+                                           `created_at` timestamp(0) NULL DEFAULT NULL,
+                                           `updated_at` timestamp(0) NULL DEFAULT NULL,
+#                                            FOREIGN KEY (`role_id`) references admin_roles(`id`) on update cascade on delete cascade,
+                                           PRIMARY KEY (`id`) USING BTREE,
+                                           INDEX `admin_role_permissions_role_id_permission_id_index`(`role_id`, `permission_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of admin_role_permissions
+-- ----------------------------
+INSERT INTO `admin_role_permissions` VALUES (1, 1, 1, NULL,NULL);
 
 -- ----------------------------
 -- Table structure for admin_user_permissions

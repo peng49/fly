@@ -1,6 +1,7 @@
 package fly.admin.service;
 
 import fly.admin.entity.model.Post;
+import fly.admin.entity.vo.PostVO;
 
 import java.util.List;
 
@@ -11,7 +12,9 @@ public interface PostService {
 
     Post update(Post column);
 
-    Post get(int id);
+    Post findOne(int id);
 
-    List<Post> search();
+    PostVO get(int id);
+
+    List<PostVO> search();
 }

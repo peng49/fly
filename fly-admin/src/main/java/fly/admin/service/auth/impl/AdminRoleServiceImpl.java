@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -117,6 +118,7 @@ public class AdminRoleServiceImpl implements AdminRoleService {
             permissionIds.add(rolePermission.getPermissionId());
             if(permissionMap.get(rolePermission.getRoleId()) == null){
                 permissionMap.put(rolePermission.getRoleId(),new ArrayList<Integer>(){{add(rolePermission.getPermissionId());}});
+//                permissionMap.put(rolePermission.getRoleId(), Arrays.asList(rolePermission.getPermissionId()));
             }else{
                 permissionMap.get(rolePermission.getRoleId()).add(rolePermission.getPermissionId());
             }
