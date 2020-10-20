@@ -40,7 +40,8 @@ public class Swagger2Configuration {
                 .apiInfo(new ApiInfoBuilder().title("主题管理").build())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("fly.admin"))
-                .paths(PathSelectors.ant("/api/columns/**"))
+                .paths(PathSelectors.ant("/api/**"))
+                .paths(PathSelectors.regex("^(?!/api/auth).*"))
                 .build()
                 .enable(true);
     }
