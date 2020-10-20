@@ -21,5 +21,5 @@ public class Column {
 
     private String name;
 
-    private int sort;
+    private Integer sort;
 }

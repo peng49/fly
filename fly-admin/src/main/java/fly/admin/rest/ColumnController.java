@@ -66,4 +66,15 @@ public class ColumnController {
                 .data(columnService.get(id))
                 .build();
     }
+
+    @ApiOperation(value = "查询栏目")
+    @GetMapping
+    public Object search()
+    {
+        return ResultVO.builder()
+                .code("success")
+                .message("Success")
+                .data(columnService.search())
+                .build();
+    }
 }
