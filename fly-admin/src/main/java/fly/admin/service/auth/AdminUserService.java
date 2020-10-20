@@ -1,6 +1,7 @@
 package fly.admin.service.auth;
 
 import fly.admin.entity.model.AdminUser;
+import fly.admin.entity.vo.UserLoginVO;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface AdminUserService {
     List<AdminUser> search();
 
     AdminUser get(int id);
+
+    UserLoginVO login(String username, String password);
 }

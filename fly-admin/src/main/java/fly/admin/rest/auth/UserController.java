@@ -18,6 +18,20 @@ public class UserController {
     @Resource
     private AdminUserService adminUserService;
 
+    @ApiOperation(value = "登录")
+    @PostMapping("/login")
+    public Object login(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password
+    ) {
+        return ResultVO.builder()
+                .code("success")
+                .message("Success")
+                .data(adminUserService.login(username,password))
+                .build();
+    }
+
+
     @ApiOperation(value = "新增用户")
     @PostMapping
     public Object add(@RequestBody EditAdminUserRequest request) {
@@ -72,8 +86,7 @@ public class UserController {
 
     @ApiOperation(value = "查询用户")
     @GetMapping
-    public Object search()
-    {
+    public Object search() {
         return ResultVO.builder()
                 .code("success")
                 .message("Success")
