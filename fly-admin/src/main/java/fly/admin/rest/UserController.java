@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 
 @Api(tags = "用户管理")
 @RestController
@@ -73,12 +74,12 @@ public class UserController {
 
     @ApiOperation(value = "查询用户")
     @GetMapping
-    public Object search()
-    {
-        return ResultVO.builder()
-                .code("success")
-                .message("Success")
-                .data(userService.search())
-                .build();
+    public ResultVO search(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(name = "keyword") String keyword) {
+        HashMap<String, Object> query = new HashMap<>();
+        query.put("keyword", keyword);
+        return userService.search(page, pageSize, query);
     }
 }

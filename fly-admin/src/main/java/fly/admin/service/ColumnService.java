@@ -1,8 +1,9 @@
 package fly.admin.service;
 
 import fly.admin.entity.model.Column;
+import fly.admin.entity.vo.ResultVO;
 
-import java.util.List;
+import java.util.Map;
 
 public interface ColumnService {
     Column add(Column column);
@@ -13,5 +14,5 @@ public interface ColumnService {
 
     Column get(int id);
 
-    List<Column> search();
+    ResultVO search(int page, int pageSize, Map<String,Object> query);
 }

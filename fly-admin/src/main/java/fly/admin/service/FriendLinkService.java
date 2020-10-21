@@ -1,8 +1,9 @@
 package fly.admin.service;
 
 import fly.admin.entity.model.FriendLink;
+import fly.admin.entity.vo.ResultVO;
 
-import java.util.List;
+import java.util.Map;
 
 public interface FriendLinkService {
     FriendLink add(FriendLink link);
@@ -13,5 +14,5 @@ public interface FriendLinkService {
 
     FriendLink get(int id);
 
-    List<FriendLink> search();
+    ResultVO search(int page, int pageSize, Map<String,Object> query);
 }

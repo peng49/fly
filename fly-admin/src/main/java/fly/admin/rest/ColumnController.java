@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 
 @Api(tags = "栏目管理")
 @RestController
@@ -34,8 +35,7 @@ public class ColumnController {
 
     @ApiOperation(value = "删除栏目")
     @DeleteMapping("/{id}")
-    public Object delete(@PathVariable("id") int id)
-    {
+    public Object delete(@PathVariable("id") int id) {
         columnService.delete(columnService.get(id));
         return ResultVO.builder()
                 .code("success")
@@ -45,7 +45,7 @@ public class ColumnController {
 
     @ApiOperation(value = "更新栏目")
     @PutMapping("/{id}")
-    public Object update(@PathVariable("id") int id,@RequestBody EditColumnRequest request) {
+    public Object update(@PathVariable("id") int id, @RequestBody EditColumnRequest request) {
         Column column = columnService.get(id);
         column.setName(request.getName());
         column.setSort(request.getSort());
@@ -57,7 +57,7 @@ public class ColumnController {
                 .build();
     }
 
-    @ApiOperation(value = "获取栏目",notes = "获取指定栏目信息")
+    @ApiOperation(value = "获取栏目", notes = "获取指定栏目信息")
     @GetMapping("/{id}")
     public Object get(@PathVariable("id") int id) {
         return ResultVO.builder()
@@ -69,12 +69,13 @@ public class ColumnController {
 
     @ApiOperation(value = "查询栏目")
     @GetMapping
-    public Object search()
-    {
-        return ResultVO.builder()
-                .code("success")
-                .message("Success")
-                .data(columnService.search())
-                .build();
+    public ResultVO search(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(name = "keyword") String keyword) {
+        HashMap<String, Object> query = new HashMap<>();
+        query.put("keyword", keyword);
+
+        return columnService.search(page, pageSize, query);
     }
 }

@@ -62,7 +62,7 @@ public class PostCommentServiceImpl implements PostCommentService {
     }
 
     @Override
-    public ResultVO search(int page, int pageSize) {
+    public ResultVO search(int page, int pageSize,Map<String, Object> query) {
         Page<PostComment> comments = postCommentRepository.findAll(PageRequest.of(page - 1, pageSize));
         List<PostCommentVO> items = new ArrayList<>();
         List<Integer> userIds = new ArrayList<>();

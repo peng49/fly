@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 
 @Api(tags = "评论管理")
 @RestController
@@ -41,8 +42,12 @@ public class PostCommentController {
     @GetMapping
     public Object search(
             @RequestParam(name = "page",defaultValue = "1") int page,
-            @RequestParam(name = "pageSize",defaultValue = "15") int pageSize) {
-        return postCommentService.search(page,pageSize);
+            @RequestParam(name = "pageSize",defaultValue = "10") int pageSize,
+            @RequestParam(name = "userId") int userId) {
+        HashMap<String, Object> query = new HashMap<>();
+        query.put("userId",userId);
+
+        return postCommentService.search(page,pageSize,query);
     }
 
 }

@@ -4,7 +4,7 @@ import fly.admin.entity.model.PostComment;
 import fly.admin.entity.vo.PostCommentVO;
 import fly.admin.entity.vo.ResultVO;
 
-import java.util.List;
+import java.util.Map;
 
 public interface PostCommentService {
 
@@ -14,5 +14,5 @@ public interface PostCommentService {
 
     PostCommentVO get(int id);
 
-    Object search(int page,int pageSize);
+    ResultVO search(int page, int pageSize, Map<String,Object> query);
 }
