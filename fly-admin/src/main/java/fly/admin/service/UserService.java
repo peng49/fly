@@ -1,8 +1,6 @@
 package fly.admin.service;
 
-import fly.admin.entity.model.Post;
 import fly.admin.entity.model.User;
-import fly.admin.entity.vo.PostVO;
 import fly.admin.entity.vo.UserVO;
 
 import java.util.List;

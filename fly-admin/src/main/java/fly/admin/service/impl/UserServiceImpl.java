@@ -4,8 +4,6 @@ import fly.admin.entity.model.User;
 import fly.admin.entity.vo.UserVO;
 import fly.admin.repository.UserRepository;
 import fly.admin.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
