@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "friend_links")
@@ -22,4 +23,7 @@ public class FriendLink {
     private String name;
     private String url;
     private int status;
+
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 }
