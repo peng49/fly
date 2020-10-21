@@ -17,6 +17,7 @@ public class UserVO {
     private String city;
     private int experience;
     private String signature;
-    private Timestamp createTime;
+    private String createdAt;
+    private String updatedAt;
     private int isAdmin;
 }

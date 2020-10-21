@@ -72,7 +72,8 @@ public class UserServiceImpl implements UserService {
         user.setUsername(register.getUsername());
         user.setEmail(register.getEmail());
         user.setPassword(getPassword(register.getPassword()));
-        user.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
         userMapper.add(user);
 

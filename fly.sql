@@ -123,20 +123,21 @@ CREATE TABLE `user_posts`  (
 -- Table structure for users
 -- ----------------------------
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users`  (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `signature` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `city` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `experience` int(11) NOT NULL DEFAULT 0 COMMENT '经验值',
-  `is_admin` tinyint(1) NULL DEFAULT 0 COMMENT '是否管理员',
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
+CREATE TABLE `users` (
+                         `id` INT ( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+                         `username` VARCHAR ( 255 ) DEFAULT NULL COMMENT '用户名',
+                         `password` VARCHAR ( 255 ) DEFAULT NULL COMMENT '密码',
+                         `email` VARCHAR ( 255 ) DEFAULT NULL COMMENT '邮箱',
+                         `name` VARCHAR ( 64 ) DEFAULT NULL COMMENT '名称',
+                         `avatar` VARCHAR ( 255 ) DEFAULT NULL COMMENT '头像',
+                         `signature` VARCHAR ( 255 ) DEFAULT NULL COMMENT '清明',
+                         `city` VARCHAR ( 255 ) DEFAULT NULL COMMENT '城市',
+                         `experience` INT ( 11 ) NOT NULL DEFAULT '0' COMMENT '经验值',
+                         `is_admin` TINYINT ( 1 ) DEFAULT '0' COMMENT '是否管理员',
+                         `created_at` datetime DEFAULT NULL,
+                         `updated_at` datetime DEFAULT NULL,
+                         PRIMARY KEY ( `id` ) USING BTREE
+) ENGINE = INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8 ROW_FORMAT = DYNAMIC;
 
 DROP TABLE IF EXISTS `message_queue`;
 CREATE TABLE `message_queue` (
