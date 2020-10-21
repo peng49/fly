@@ -3,6 +3,7 @@ package fly.admin.service.impl;
 import fly.admin.entity.model.Post;
 import fly.admin.entity.model.PostComment;
 import fly.admin.entity.model.User;
+import fly.admin.entity.vo.ListResultVO;
 import fly.admin.entity.vo.PostCommentVO;
 import fly.admin.entity.vo.PostVO;
 import fly.admin.entity.vo.ResultVO;
@@ -91,14 +92,15 @@ public class PostCommentServiceImpl implements PostCommentService {
                     .build());
         });
 
-        HashMap<Object, Object> hash = new HashMap<>();
-        hash.put("items", items);
-        hash.put("page", comments.getPageable().getPageNumber());
-        hash.put("pageSize", comments.getPageable().getPageSize());
-        hash.put("total", comments.getTotalElements());
-
         return ResultVO.builder()
                 .code("success")
-                .message("Success").data(hash).build();
+                .message("Success").data(
+                        ListResultVO.builder()
+                                .items(items)
+                                .page(comments.getPageable().getPageNumber())
+                                .pageSize(comments.getPageable().getPageSize())
+                                .total(comments.getTotalElements())
+                                .build()
+                ).build();
     }
 }
