@@ -43,7 +43,7 @@ public class PostCommentController {
     public Object search(
             @RequestParam(name = "page",defaultValue = "1") int page,
             @RequestParam(name = "pageSize",defaultValue = "10") int pageSize,
-            @RequestParam(name = "userId") int userId) {
+            @RequestParam(name = "userId", required = false) int userId) {
         HashMap<String, Object> query = new HashMap<>();
         query.put("userId",userId);
 

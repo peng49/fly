@@ -72,7 +72,7 @@ public class ColumnController {
     public ResultVO search(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
-            @RequestParam(name = "keyword") String keyword) {
+            @RequestParam(name = "keyword", required = false) String keyword) {
         HashMap<String, Object> query = new HashMap<>();
         query.put("keyword", keyword);
 
