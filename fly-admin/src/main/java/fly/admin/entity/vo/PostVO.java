@@ -1,5 +1,8 @@
 package fly.admin.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import fly.admin.entity.dto.UserDTO;
+import fly.admin.entity.model.Column;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,18 +13,24 @@ import java.sql.Timestamp;
 public class PostVO {
     private Integer id;
 
-    private int columnId;
-    private int authorId;
+    private Column column;
+    private UserDTO author;
     private String title;
     private String originalContent;
     private String content;
-    private int viewCount;
-    private int replyCount;
-    private double heat;
-    private int status;
+    private Integer viewCount;
+    private Integer replyCount;
+    private Double heat;
+    private Integer status;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp publishAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt;
-    private int essence;
-    private int top;
+    private Integer essence;
+    private Integer top;
 }

@@ -26,8 +26,8 @@ public class Post {
     private String originalContent;
     private String content;
     private Integer viewCount;
-    private int replyCount;
-    private double heat;
+    private Integer replyCount;
+    private Double heat;
     private Integer status;
     private Timestamp publishAt;
     private Timestamp createdAt;

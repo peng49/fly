@@ -25,9 +25,9 @@ public class User {
     private String password;
     private String avatar;
     private String city;
-    private int experience;
+    private Integer experience;
     private String signature;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    private int isAdmin;
+    private Integer isAdmin;
 }
