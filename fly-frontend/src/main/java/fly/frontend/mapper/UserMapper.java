@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
-    @Insert("insert into users (username,email,password,avatar,create_time) values (#{username},#{email},#{password},#{avatar},#{createTime,jdbcType=TIMESTAMP})")
+    @Insert("insert into users (username,email,password,avatar,created_at) values (#{username},#{email},#{password},#{avatar},#{createdAt,jdbcType=TIMESTAMP})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int add(User user);
 
