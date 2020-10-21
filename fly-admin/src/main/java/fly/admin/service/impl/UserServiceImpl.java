@@ -4,6 +4,7 @@ import fly.admin.entity.model.User;
 import fly.admin.entity.vo.UserVO;
 import fly.admin.repository.UserRepository;
 import fly.admin.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserRepository userRepository;
+
+    @Resource
+    private SimpleDateFormat simpleDateFormat;
 
     @Override
     public User add(User user) {
@@ -41,7 +45,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserVO get(int id) {
         User user = userRepository.getOne(id);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return UserVO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -49,18 +52,14 @@ public class UserServiceImpl implements UserService {
                 .avatar(user.getAvatar())
                 .isAdmin(user.getIsAdmin())
                 .signature(user.getSignature())
-                .createdAt(user.getCreatedAt() == null ? null : format.format(user.getCreatedAt()))
+                .createdAt(user.getCreatedAt() == null ? null : simpleDateFormat.format(user.getCreatedAt()))
                 .build();
     }
 
     @Override
     public List<UserVO> search() {
         List<User> users = userRepository.findAll();
-
         List<UserVO> result = new ArrayList<>();
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         users.forEach(user -> {
             result.add(UserVO.builder()
                     .id(user.getId())
@@ -69,7 +68,7 @@ public class UserServiceImpl implements UserService {
                     .avatar(user.getAvatar())
                     .isAdmin(user.getIsAdmin())
                     .signature(user.getSignature())
-                    .createdAt(user.getCreatedAt() == null ? null : format.format(user.getCreatedAt()))
+                    .createdAt(user.getCreatedAt() == null ? null : simpleDateFormat.format(user.getCreatedAt()))
                     .build());
         });
         return result;

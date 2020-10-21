@@ -12,7 +12,7 @@ public interface AdminUserService {
 
     AdminUser update(AdminUser user);
 
-    List<AdminUser> search();
+    List<?> search();
 
     AdminUser get(int id);
 

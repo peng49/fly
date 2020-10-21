@@ -12,15 +12,13 @@ public class AdminUserVO {
 
     private String username;
 
-    private String password;
-
     private String name;
 
     private String avatar;
 
     private String rememberToken;
 
-    private Timestamp createdAt;
+    private String createdAt;
 
-    private Timestamp updatedAt;
+    private String updatedAt;
 }
