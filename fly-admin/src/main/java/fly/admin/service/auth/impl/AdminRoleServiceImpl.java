@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,6 +31,9 @@ public class AdminRoleServiceImpl implements AdminRoleService {
     @Resource
     private AdminPermissionRepository adminPermissionRepository;
 
+    @Resource
+    private SimpleDateFormat simpleDateFormat;
+
     @Override
     public AdminRole add(EditAdminRoleRequest request) {
         AdminRole role = AdminRole.builder()
@@ -38,14 +42,14 @@ public class AdminRoleServiceImpl implements AdminRoleService {
                 .build();
 
         adminRoleRepository.save(role);
-        if(request.getPermissionIds() != null){
-            saveAdminRolePermission(role,request.getPermissionIds());
+        if (request.getPermissionIds() != null) {
+            saveAdminRolePermission(role, request.getPermissionIds());
         }
 
         return role;
     }
 
-    private void saveAdminRolePermission(AdminRole role,int[] permissionIds){
+    private void saveAdminRolePermission(AdminRole role, int[] permissionIds) {
         List<AdminRolePermission> rolePermissions = new ArrayList<>();
         for (int permissionId : permissionIds) {
             rolePermissions.add(
@@ -72,8 +76,8 @@ public class AdminRoleServiceImpl implements AdminRoleService {
         adminRolePermissionRepository.deleteByRoleId(role.getId());
 
         int[] permissionIds = request.getPermissionIds();
-        if(permissionIds != null){
-            saveAdminRolePermission(role,permissionIds);
+        if (permissionIds != null) {
+            saveAdminRolePermission(role, permissionIds);
         }
         return adminRoleRepository.save(role);
     }
@@ -116,10 +120,12 @@ public class AdminRoleServiceImpl implements AdminRoleService {
         HashMap<Integer, List<Integer>> permissionMap = new HashMap<>();
         for (AdminRolePermission rolePermission : allRolePermissions) {
             permissionIds.add(rolePermission.getPermissionId());
-            if(permissionMap.get(rolePermission.getRoleId()) == null){
-                permissionMap.put(rolePermission.getRoleId(),new ArrayList<Integer>(){{add(rolePermission.getPermissionId());}});
+            if (permissionMap.get(rolePermission.getRoleId()) == null) {
+                permissionMap.put(rolePermission.getRoleId(), new ArrayList<Integer>() {{
+                    add(rolePermission.getPermissionId());
+                }});
 //                permissionMap.put(rolePermission.getRoleId(), Arrays.asList(rolePermission.getPermissionId()));
-            }else{
+            } else {
                 permissionMap.get(rolePermission.getRoleId()).add(rolePermission.getPermissionId());
             }
         }
@@ -128,7 +134,7 @@ public class AdminRoleServiceImpl implements AdminRoleService {
 
         HashMap<Integer, AdminPermission> map = new HashMap<>();
         for (AdminPermission permission : allPermission) {
-            map.put(permission.getId(),permission);
+            map.put(permission.getId(), permission);
         }
 
         List<AdminRoleVO> result = new ArrayList<>();
@@ -137,7 +143,7 @@ public class AdminRoleServiceImpl implements AdminRoleService {
             List<Integer> rolePermissionIds = permissionMap.get(role.getId());
             List<AdminPermission> rolePermissions = new ArrayList<>();
 
-            if(rolePermissionIds != null){
+            if (rolePermissionIds != null) {
                 for (Integer permissionId : rolePermissionIds) {
                     rolePermissions.add(map.get(permissionId));
                 }
@@ -147,8 +153,8 @@ public class AdminRoleServiceImpl implements AdminRoleService {
                     .name(role.getName())
                     .slug(role.getSlug())
                     .permissions(rolePermissions)
-                    .createdAt(role.getCreatedAt())
-                    .updatedAt(role.getUpdatedAt())
+                    .createdAt(role.getCreatedAt() == null ? null : simpleDateFormat.format(role.getCreatedAt()))
+                    .updatedAt(role.getUpdatedAt() == null ? null : simpleDateFormat.format(role.getUpdatedAt()))
                     .build());
         }
         return result;

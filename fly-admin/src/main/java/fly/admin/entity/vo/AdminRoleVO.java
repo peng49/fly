@@ -18,7 +18,7 @@ public class AdminRoleVO {
 
     private List<AdminPermission> permissions;
 
-    private Timestamp createdAt;
+    private String createdAt;
 
-    private Timestamp updatedAt;
+    private String updatedAt;
 }
