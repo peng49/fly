@@ -1,9 +1,11 @@
 package fly.admin.service;
 
 import fly.admin.entity.model.User;
+import fly.admin.entity.vo.ResultVO;
 import fly.admin.entity.vo.UserVO;
 
-import java.util.List;
+import java.util.Map;
+
 
 public interface UserService {
     User add(User user);
@@ -16,5 +18,5 @@ public interface UserService {
 
     UserVO get(int id);
 
-    List<UserVO> search();
+    ResultVO search(int page, int pageSize, Map<String,Object> query);
 }

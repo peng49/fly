@@ -2,8 +2,9 @@ package fly.admin.service;
 
 import fly.admin.entity.model.Post;
 import fly.admin.entity.vo.PostVO;
+import fly.admin.entity.vo.ResultVO;
 
-import java.util.List;
+import java.util.Map;
 
 public interface PostService {
     Post add(Post post);
@@ -16,5 +17,5 @@ public interface PostService {
 
     PostVO get(int id);
 
-    List<PostVO> search();
+    ResultVO search(int page, int pageSize, Map<String,Object> query);
 }
