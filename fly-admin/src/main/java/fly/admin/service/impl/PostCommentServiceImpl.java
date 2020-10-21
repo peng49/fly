@@ -97,7 +97,7 @@ public class PostCommentServiceImpl implements PostCommentService {
                 .message("Success").data(
                         ListResultVO.builder()
                                 .items(items)
-                                .page(comments.getPageable().getPageNumber())
+                                .page(comments.getPageable().getPageNumber() + 1)
                                 .pageSize(comments.getPageable().getPageSize())
                                 .total(comments.getTotalElements())
                                 .build()
