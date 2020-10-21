@@ -21,11 +21,13 @@ public class User {
     private int id;
     private String username;
     private String email;
+    private String name;
     private String password;
     private String avatar;
     private String city;
     private int experience;
     private String signature;
-    private Timestamp createTime;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
     private int isAdmin;
 }

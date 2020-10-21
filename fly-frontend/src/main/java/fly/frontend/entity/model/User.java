@@ -14,6 +14,7 @@ public class User {
     private String city;
     private int experience;
     private String signature;
-    private Timestamp createTime;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
     private int isAdmin;
 }

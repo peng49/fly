@@ -4,9 +4,11 @@ import fly.admin.entity.model.User;
 import fly.admin.entity.vo.UserVO;
 import fly.admin.repository.UserRepository;
 import fly.admin.service.UserService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserVO get(int id) {
         User user = userRepository.getOne(id);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return UserVO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -46,7 +49,7 @@ public class UserServiceImpl implements UserService {
                 .avatar(user.getAvatar())
                 .isAdmin(user.getIsAdmin())
                 .signature(user.getSignature())
-                .createTime(user.getCreateTime())
+                .createdAt(user.getCreatedAt() == null ? null : format.format(user.getCreatedAt()))
                 .build();
     }
 
@@ -56,7 +59,9 @@ public class UserServiceImpl implements UserService {
 
         List<UserVO> result = new ArrayList<>();
 
-        users.forEach(user ->{
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        users.forEach(user -> {
             result.add(UserVO.builder()
                     .id(user.getId())
                     .username(user.getUsername())
@@ -64,7 +69,7 @@ public class UserServiceImpl implements UserService {
                     .avatar(user.getAvatar())
                     .isAdmin(user.getIsAdmin())
                     .signature(user.getSignature())
-                    .createTime(user.getCreateTime())
+                    .createdAt(user.getCreatedAt() == null ? null : format.format(user.getCreatedAt()))
                     .build());
         });
         return result;

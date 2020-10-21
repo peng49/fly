@@ -1,11 +1,9 @@
 package fly.admin.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.models.auth.In;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
