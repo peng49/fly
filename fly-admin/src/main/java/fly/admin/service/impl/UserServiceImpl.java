@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService {
             result.add(UserVO.builder()
                     .id(user.getId())
                     .username(user.getUsername())
+                    .name(user.getName())
                     .email(user.getEmail())
                     .avatar(user.getAvatar())
                     .isAdmin(user.getIsAdmin())

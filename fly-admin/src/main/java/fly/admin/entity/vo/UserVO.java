@@ -3,9 +3,6 @@ package fly.admin.entity.vo;
 import lombok.Builder;
 import lombok.Data;
 
-import java.sql.Timestamp;
-
-
 @Data
 @Builder
 public class UserVO {
@@ -14,6 +11,7 @@ public class UserVO {
     private String email;
     private String password;
     private String avatar;
+    private String name;
     private String city;
     private int experience;
     private String signature;

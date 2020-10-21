@@ -18,7 +18,6 @@ public class UserController {
     @Resource
     private UserService userService;
 
-
     @ApiOperation(value = "新增用户")
     @PostMapping
     public Object add(@RequestBody EditUserRequest request) {
@@ -50,6 +49,8 @@ public class UserController {
     public Object update(@PathVariable("id") int id, @RequestBody EditUserRequest request) {
         User user = userService.findOne(id);
         user.setAvatar(request.getAvatar());
+        user.setEmail(request.getEmail());
+        user.setName(request.getName());
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());
 
