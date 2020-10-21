@@ -16,7 +16,7 @@ public interface OauthAccountMapper {
     })
     OauthAccount get(String openid,String platform);
 
-    @Insert("insert into oauth_account(user_id,openid,platform,created_at,update_at) values(#{user.id},#{openid},#{platform},now(),now())")
+    @Insert("insert into oauth_account(user_id,openid,platform,created_at,updated_at) values(#{user.id},#{openid},#{platform},now(),now())")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int add(OauthAccount account);
 }
