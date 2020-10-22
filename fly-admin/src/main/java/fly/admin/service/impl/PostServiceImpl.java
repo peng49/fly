@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,27 +41,40 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post add(Post post) {
-        return null;
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        post.setCreatedAt(timestamp);
+        post.setUpdateAt(timestamp);
+        post.setViewCount(0);
+        post.setReplyCount(0);
+        post.setTop(0);
+        return postRepository.save(post);
     }
 
     @Override
-    public void delete(Post column) {
-
+    public void delete(Post post) {
+        postRepository.delete(post);
     }
 
     @Override
-    public Post update(Post column) {
-        return null;
+    public Post update(Post post) {
+        return postRepository.save(post);
     }
 
     @Override
     public Post findOne(int id) {
-        return null;
+        return postRepository.getOne(id);
     }
 
     @Override
     public PostVO get(int id) {
-        return null;
+        Post post = findOne(id);
+        return PostVO.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .originalContent(post.getOriginalContent())
+                .status(post.getStatus())
+                .build();
     }
 
     @Override
@@ -69,19 +83,19 @@ public class PostServiceImpl implements PostService {
         //构造查询条件
         Specification<Post> specification = (Specification<Post>) (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if(query.get("keyword") != null){
+            if (query.get("keyword") != null) {
                 Path<String> path = root.get("title");
                 predicates.add(criteriaBuilder.like(path, "%" + query.get("keyword") + "%"));
             }
 
-            if(query.get("columnId") != null){
+            if (query.get("columnId") != null) {
                 Path<Integer> path = root.get("columnId");
-                predicates.add(criteriaBuilder.equal(path,query.get("columnId")));
+                predicates.add(criteriaBuilder.equal(path, query.get("columnId")));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
 
-        Page<Post> posts = postRepository.findAll(specification,PageRequest.of(page - 1, pageSize));
+        Page<Post> posts = postRepository.findAll(specification, PageRequest.of(page - 1, pageSize));
         List<PostVO> items = new ArrayList<>();
 
         ArrayList<Integer> userIds = new ArrayList<>();

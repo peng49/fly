@@ -45,8 +45,8 @@
                             <#if post.essence == 1 >
                                 <span class="fly-jing">精</span>
                             </#if>
-                            <a href="/post/detail/${post.id}" class="jie-title">${post.title}</a>
-                            <i>${post.publishAt}</i>
+                            <a href="/post/detail/${post.id}" class="jie-title">${post.title!''}</a>
+                            <i>${post.publishAt!''}</i>
                             <em class="layui-hide-xs">${post.viewCount}阅/${post.replyCount}答</em>
                         </li>
                     <#else>
