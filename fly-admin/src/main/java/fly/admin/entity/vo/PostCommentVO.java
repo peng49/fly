@@ -1,7 +1,7 @@
 package fly.admin.entity.vo;
 
-import fly.admin.entity.model.Post;
-import fly.admin.entity.model.User;
+import fly.admin.entity.dto.PostDTO;
+import fly.admin.entity.dto.UserDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,8 +10,8 @@ import lombok.Data;
 public class PostCommentVO {
     private int id;
     private int level;
-    private User user;
-    private Post post;
+    private UserDTO user;
+    private PostDTO post;
     private String content;
     private String commentTime;
     private int agreeCount;

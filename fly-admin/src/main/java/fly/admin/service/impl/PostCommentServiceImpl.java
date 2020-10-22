@@ -1,5 +1,7 @@
 package fly.admin.service.impl;
 
+import fly.admin.entity.dto.PostDTO;
+import fly.admin.entity.dto.UserDTO;
 import fly.admin.entity.model.Post;
 import fly.admin.entity.model.PostComment;
 import fly.admin.entity.model.User;
@@ -74,6 +76,10 @@ public class PostCommentServiceImpl implements PostCommentService {
         });
 
         List<Post> posts = postRepository.findPostsByIdIn(postIds);
+        posts.forEach(post -> {
+            userIds.add(post.getAuthorId());
+        });
+
         List<User> users = userRepository.findUsersByIdIn(userIds);
 
         Map<Integer, Post> postMap = posts.stream()
@@ -83,11 +89,29 @@ public class PostCommentServiceImpl implements PostCommentService {
                 .collect(Collectors.toMap(User::getId, Function.identity()));
 
         comments.forEach(comment -> {
+            Post post = postMap.get(comment.getPostId());
+            User user = userMap.get(comment.getUserId());//评论人
+            User author = userMap.get(post.getAuthorId());// 文章作者
             items.add(PostCommentVO.builder()
                     .id(comment.getId())
                     .content(comment.getContent())
-                    .user(userMap.get(comment.getUserId()))
-                    .post(postMap.get(comment.getPostId()))
+                    .user(UserDTO.builder()
+                            .id(user.getId())
+                            .username(user.getUsername())
+                            .name(user.getName())
+                            .email(user.getEmail())
+                            .build())
+                    .post(PostDTO.builder()
+                            .id(post.getId())
+                            .publishAt(post.getPublishAt())
+                            .title(post.getTitle())
+                            .author(UserDTO.builder()
+                                    .id(author.getId())
+                                    .username(author.getUsername())
+                                    .name(author.getName())
+                                    .email(author.getEmail())
+                                    .build())
+                            .build())
                     .commentTime(comment.getCommentTime() == null ? null : simpleDateFormat.format(comment.getCommentTime()))
                     .build());
         });
