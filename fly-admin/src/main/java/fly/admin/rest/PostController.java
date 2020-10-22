@@ -25,7 +25,13 @@ public class PostController {
                 .code("success")
                 .message("Success")
                 .data(
-                        postService.add(Post.builder().build())
+                        postService.add(Post.builder()
+                                .authorId(request.getAuthorId())
+                                .columnId(request.getColumnId())
+                                .title(request.getTitle())
+                                .content(request.getContent())
+                                .status(request.getStatus())
+                                .build())
                 ).build();
     }
 

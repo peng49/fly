@@ -1,5 +1,6 @@
 package fly.admin.service.impl;
 
+import fly.admin.entity.model.Post;
 import fly.admin.entity.model.User;
 import fly.admin.entity.vo.ListResultVO;
 import fly.admin.entity.vo.ResultVO;
@@ -9,9 +10,12 @@ import fly.admin.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +65,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultVO search(int page, int pageSize, Map<String,Object> query) {
-        Page<User> users = userRepository.findAll(PageRequest.of(page - 1, pageSize));
+    public ResultVO search(int page, int pageSize, Map<String, Object> query) {
+        //构造查询条件
+        Specification<User> specification = (Specification<User>) (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (query.get("keyword") != null) {
+                Path<String> path = root.get("username");
+                predicates.add(criteriaBuilder.like(path, "%" + query.get("keyword") + "%"));
+            }
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Page<User> users = userRepository.findAll(specification, PageRequest.of(page - 1, pageSize));
         List<UserVO> items = new ArrayList<>();
         users.forEach(user -> {
             items.add(UserVO.builder()
