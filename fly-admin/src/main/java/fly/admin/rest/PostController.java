@@ -66,9 +66,11 @@ public class PostController {
     public ResultVO search(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
-            @RequestParam(name = "keyword", required = false) String keyword) {
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "columnId", required = false) Integer columnId) {
         HashMap<String, Object> query = new HashMap<>();
         query.put("keyword", keyword);
+        query.put("columnId",columnId);
         return postService.search(page, pageSize, query);
     }
 }

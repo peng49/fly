@@ -11,11 +11,14 @@ import fly.admin.repository.ColumnRepository;
 import fly.admin.repository.PostRepository;
 import fly.admin.repository.UserRepository;
 import fly.admin.service.PostService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PostServiceImpl implements PostService {
 
     @Resource
@@ -60,8 +64,24 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @SuppressWarnings(value = "unchecked")
     public ResultVO search(int page, int pageSize, Map<String, Object> query) {
-        Page<Post> posts = postRepository.findAll(PageRequest.of(page - 1, pageSize));
+        //构造查询条件
+        Specification<Post> specification = (Specification<Post>) (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if(query.get("keyword") != null){
+                Path<String> path = root.get("title");
+                predicates.add(criteriaBuilder.like(path, "%" + query.get("keyword") + "%"));
+            }
+
+            if(query.get("columnId") != null){
+                Path<Integer> path = root.get("columnId");
+                predicates.add(criteriaBuilder.equal(path,query.get("columnId")));
+            }
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Page<Post> posts = postRepository.findAll(specification,PageRequest.of(page - 1, pageSize));
         List<PostVO> items = new ArrayList<>();
 
         ArrayList<Integer> userIds = new ArrayList<>();
