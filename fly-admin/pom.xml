@@ -12,6 +12,11 @@
     <artifactId>fly-admin</artifactId>
 
     <dependencies>
+        <!--   validation     -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
         <!--  spring data jpa      -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
