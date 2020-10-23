@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.HashMap;
 
 @Api(tags = "文章管理")
@@ -20,7 +21,7 @@ public class PostController {
 
     @ApiOperation(value = "新增文章")
     @PostMapping
-    public Object add(@RequestBody EditPostRequest request) {
+    public Object add(@Valid @RequestBody EditPostRequest request) {
         return ResultVO.builder()
                 .code("success")
                 .message("Success")
@@ -49,6 +50,11 @@ public class PostController {
     @PutMapping("/{id}")
     public Object update(@PathVariable("id") int id, @RequestBody EditPostRequest request) {
         Post post = postService.findOne(id);
+
+        post.setAuthorId(request.getAuthorId());
+        post.setColumnId(request.getColumnId());
+        post.setTitle(request.getTitle());
+        post.setContent(request.getContent());
 
         return ResultVO.builder()
                 .code("success")

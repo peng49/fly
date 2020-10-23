@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -68,8 +69,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostVO get(int id) {
         Post post = findOne(id);
+        User user = userRepository.findById(post.getAuthorId()).orElse(new User());
         return PostVO.builder()
                 .id(post.getId())
+                .author(UserDTO.builder()
+                        .id(user.getId())
+                        .username(user.getUsername())
+                        .email(user.getEmail())
+                        .name(user.getName())
+                        .build())
+                .column(columnRepository.findById(post.getColumnId()).orElse(new Column()))
                 .title(post.getTitle())
                 .content(post.getContent())
                 .originalContent(post.getOriginalContent())
@@ -115,8 +124,8 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toMap(Column::getId, Function.identity()));
 
         posts.forEach(post -> {
-            User user = userMap.get(post.getAuthorId());
-            Column column = columnMap.get(post.getColumnId());
+            User user = Optional.ofNullable(userMap.get(post.getAuthorId())).orElse(new User());
+            Column column = Optional.ofNullable(columnMap.get(post.getColumnId())).orElse(new Column());
 
             items.add(PostVO.builder()
                     .id(post.getId())
