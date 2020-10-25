@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .avatar(user.getAvatar())
+                .avatar("http://localhost:8080"+user.getAvatar())
                 .isAdmin(user.getIsAdmin())
                 .signature(user.getSignature())
                 .createdAt(user.getCreatedAt() == null ? null : simpleDateFormat.format(user.getCreatedAt()))
