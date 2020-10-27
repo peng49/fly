@@ -63,7 +63,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public UserLoginVO login(String username, String password) {
+    public UserLoginVO login(String username, String password){
         AdminUser user = adminUserRepository.findByUsername(username);
         return UserLoginVO.builder()
                 .username(user.getUsername())
