@@ -6,6 +6,7 @@ import fly.admin.entity.vo.ResultVO;
 import fly.admin.service.auth.AdminUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,6 +19,9 @@ public class UserController {
     @Resource
     private AdminUserService adminUserService;
 
+    @Resource
+    private PasswordEncoder passwordEncoder;
+
     @ApiOperation(value = "登录")
     @PostMapping("/login")
     public Object login(
@@ -27,7 +31,7 @@ public class UserController {
         return ResultVO.builder()
                 .code("success")
                 .message("Success")
-                .data(adminUserService.login(username,password))
+                .data(adminUserService.login(username, password))
                 .build();
     }
 
@@ -42,7 +46,7 @@ public class UserController {
                         adminUserService.add(AdminUser.builder()
                                 .avatar(request.getAvatar())
                                 .username(request.getUsername())
-                                .password(request.getPassword())
+                                .password(passwordEncoder.encode(request.getPassword()))
                                 .name(request.getName())
                                 .build())
                 ).build();
@@ -64,8 +68,12 @@ public class UserController {
         AdminUser user = adminUserService.get(id);
         user.setAvatar(request.getAvatar());
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
         user.setName(request.getName());
+
+        if (request.getPassword() != null
+                && !request.getPassword().equals(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
 
         return ResultVO.builder()
                 .code("success")

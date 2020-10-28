@@ -6,6 +6,7 @@ import fly.admin.entity.vo.ResultVO;
 import fly.admin.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +20,10 @@ public class UserController {
     @Resource
     private UserService userService;
 
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
+
     @ApiOperation(value = "新增用户")
     @PostMapping
     public Object add(@RequestBody EditUserRequest request) {
@@ -29,6 +34,7 @@ public class UserController {
                         userService.add(User.builder()
                                 .username(request.getUsername())
                                 .email(request.getEmail())
+                                .password(passwordEncoder.encode(request.getPassword()))
                                 .avatar(request.getAvatar())
                                 .city(request.getCity())
                                 .build())
@@ -53,7 +59,10 @@ public class UserController {
         user.setEmail(request.getEmail());
         user.setName(request.getName());
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
+        if(request.getPassword() != null
+                && !request.getPassword().equals(user.getPassword())){
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
 
         return ResultVO.builder()
                 .code("success")

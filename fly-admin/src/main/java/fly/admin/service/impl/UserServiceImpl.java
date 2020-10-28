@@ -1,6 +1,5 @@
 package fly.admin.service.impl;
 
-import fly.admin.entity.model.Post;
 import fly.admin.entity.model.User;
 import fly.admin.entity.vo.ListResultVO;
 import fly.admin.entity.vo.ResultVO;
@@ -9,7 +8,6 @@ import fly.admin.repository.UserRepository;
 import fly.admin.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
