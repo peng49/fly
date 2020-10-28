@@ -6,6 +6,9 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -19,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -40,18 +44,24 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .exposedHeaders("Content-Type","X-Requested-With","accept","Origin","Access-Control-Request-Method","Access-Control-Request-Headers");
 //    }
 
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource(){
-//        return httpServletRequest -> {
-//            CorsConfiguration cfg = new CorsConfiguration();
-//            cfg.addAllowedHeader("*");
-//            cfg.addAllowedMethod("*");
-//            cfg.addAllowedOrigin("http://localhost:9528");
-//            cfg.setAllowCredentials(true);
-//            cfg.checkOrigin("http://localhost:9528");
-//            return cfg;
-//        };
-//    }
+/*    @Bean
+    public CorsConfigurationSource corsConfigurationSource1(){
+        return httpServletRequest -> {
+            CorsConfiguration cfg = new CorsConfiguration();
+            cfg.addAllowedHeader("*");
+            cfg.addAllowedMethod("*");
+            cfg.addAllowedOrigin("http://localhost:9528");
+            cfg.setAllowCredentials(true);
+            cfg.checkOrigin("http://localhost:9528");
+            return cfg;
+        };
+    }*/
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     /**
      * Spring Security (CORS)跨域资源访问配置
@@ -62,9 +72,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.cors();//允许跨域访问
 
         httpSecurity.formLogin()//允许表单登录
-                .successHandler((httpServletRequest, httpServletResponse, authentication) -> {//设置登录成功之后的操作
-                    httpServletResponse.getWriter().print("{\"code\":\"success\",\"data\":{\"token\":\"admin-token\"}}");
-                });
+                .successHandler((request, response, authentication) -> {//设置登录成功之后的操作
+                    response.getWriter().print("{\"code\":\"success\",\"data\":{\"token\":\"admin-token\"}}");
+                }).failureHandler((request, response, exception) -> {
+                    response.getWriter().println("{\"code\":\"exception\",\"message\":\"login fail\"}");
+                }
+        );
 
         //https://www.cnblogs.com/l1ng14/p/13530416.html
         httpSecurity.csrf().disable();//暂时禁用csrf
@@ -75,7 +88,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
 //        configuration.setAllowedHeaders(Arrays.asList("User-Agent","Content-Type", "X-Requested-With", "Accept", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers","Host"));
         configuration.addAllowedHeader("*");
-        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Collections.singletonList("*"));
         configuration.setAllowedMethods(Arrays.asList(ORIGINS));
 //        configuration.addAllowedMethod("*");
 

@@ -262,6 +262,8 @@ INSERT INTO `admin_permissions` VALUES (3, 'Login', 'auth.login', '', '/auth/log
 INSERT INTO `admin_permissions` VALUES (4, 'User setting', 'auth.setting', 'GET,PUT', '/auth/setting', NULL, NULL);
 INSERT INTO `admin_permissions` VALUES (5, 'Auth management', 'auth.management', '', '/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs', NULL, NULL);
 
+ALTER TABLE `admin_permissions` ADD COLUMN `parent_id` int(0) NULL DEFAULT 0 COMMENT '上级权限' AFTER `id`;
+
 -- ----------------------------
 -- Table structure for admin_role_menu
 -- ----------------------------

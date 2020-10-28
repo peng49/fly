@@ -28,6 +28,7 @@ public class PermissionController {
                 .message("Success")
                 .data(
                         adminPermissionService.add(AdminPermission.builder()
+                                .parentId(request.getParentId())
                                 .name(request.getName())
                                 .slug(request.getSlug())
                                 .httpMethod(request.getHttpMethod())
@@ -54,6 +55,7 @@ public class PermissionController {
         permission.setSlug(request.getSlug());
         permission.setHttpPath(request.getHttpPath());
         permission.setHttpMethod(request.getHttpMethod());
+        permission.setParentId(request.getParentId());
 
         return ResultVO.builder()
                 .code("success")

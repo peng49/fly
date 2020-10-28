@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class EditAdminPermissionRequest {
+    private int parentId;
+
     private String name;
 
     private String slug;

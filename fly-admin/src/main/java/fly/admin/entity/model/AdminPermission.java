@@ -21,6 +21,8 @@ public class AdminPermission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private Integer parentId;
+
     private String name;
 
     private String slug;

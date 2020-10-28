@@ -5,14 +5,18 @@ import fly.admin.entity.vo.AdminUserVO;
 import fly.admin.entity.vo.UserLoginVO;
 import fly.admin.repository.AdminUserRepository;
 import fly.admin.service.auth.AdminUserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class AdminUserServiceImpl implements AdminUserService {
 
     @Resource
@@ -20,6 +24,8 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Resource
     private SimpleDateFormat simpleDateFormat;
+
+
 
     @Override
     public AdminUser add(AdminUser user) {
@@ -33,6 +39,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public AdminUser update(AdminUser user) {
+        user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         return adminUserRepository.save(user);
     }
 
@@ -47,6 +54,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                     AdminUserVO.builder()
                             .id(user.getId())
                             .username(user.getUsername())
+                            .name(user.getName())
                             .avatar(user.getAvatar())
                             .updatedAt(user.getUpdatedAt() == null ? null : simpleDateFormat.format(user.getUpdatedAt()))
                             .createdAt(user.getCreatedAt() == null ? null : simpleDateFormat.format(user.getCreatedAt()))
