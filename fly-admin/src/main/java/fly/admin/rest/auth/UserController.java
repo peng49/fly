@@ -48,7 +48,7 @@ public class UserController {
                                 .username(request.getUsername())
                                 .password(passwordEncoder.encode(request.getPassword()))
                                 .name(request.getName())
-                                .build())
+                                .build(),request)
                 ).build();
     }
 
@@ -78,7 +78,7 @@ public class UserController {
         return ResultVO.builder()
                 .code("success")
                 .message("Success")
-                .data(adminUserService.update(user))
+                .data(adminUserService.update(user,request))
                 .build();
     }
 
