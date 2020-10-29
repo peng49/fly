@@ -11,4 +11,8 @@ public class EditAdminUserRequest {
     private String name;
 
     private String avatar;
+
+    private int[] roleIds;
+
+    private int[] permissionIds;
 }

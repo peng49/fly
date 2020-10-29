@@ -285,18 +285,21 @@ INSERT INTO `admin_role_menu` VALUES (1, 2, NULL, NULL);
 -- Table structure for admin_role_users
 -- ----------------------------
 DROP TABLE IF EXISTS `admin_role_users`;
-CREATE TABLE `admin_role_users`  (
-                                     `role_id` int(11) NOT NULL,
-                                     `user_id` int(11) NOT NULL,
-                                     `created_at` timestamp(0) NULL DEFAULT NULL,
-                                     `updated_at` timestamp(0) NULL DEFAULT NULL,
-                                     INDEX `admin_role_users_role_id_user_id_index`(`role_id`, `user_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+
+CREATE TABLE `admin_role_users` (
+                                    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                                    `role_id` int(11) NOT NULL,
+                                    `user_id` int(11) NOT NULL,
+                                    `created_at` timestamp NULL DEFAULT NULL,
+                                    `updated_at` timestamp NULL DEFAULT NULL,
+                                    PRIMARY KEY (`id`),
+                                    KEY `admin_role_users_role_id_user_id_index` (`role_id`,`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 -- Records of admin_role_users
 -- ----------------------------
-INSERT INTO `admin_role_users` VALUES (1, 1, NULL, NULL);
+INSERT INTO `admin_role_users` VALUES (1,1, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for admin_roles
@@ -342,14 +345,15 @@ INSERT INTO `admin_role_permissions` VALUES (1, 1, 1, NULL,NULL);
 -- Table structure for admin_user_permissions
 -- ----------------------------
 DROP TABLE IF EXISTS `admin_user_permissions`;
-CREATE TABLE `admin_user_permissions`  (
-                                           `user_id` int(11) NOT NULL,
-                                           `permission_id` int(11) NOT NULL,
-                                           `created_at` timestamp(0) NULL DEFAULT NULL,
-                                           `updated_at` timestamp(0) NULL DEFAULT NULL,
-                                           INDEX `admin_user_permissions_user_id_permission_id_index`(`user_id`, `permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
-
+CREATE TABLE `admin_user_permissions` (
+                                          `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                                          `user_id` int(11) NOT NULL,
+                                          `permission_id` int(11) NOT NULL,
+                                          `created_at` timestamp NULL DEFAULT NULL,
+                                          `updated_at` timestamp NULL DEFAULT NULL,
+                                          PRIMARY KEY (`id`),
+                                          KEY `admin_user_permissions_user_id_permission_id_index` (`user_id`,`permission_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
 -- ----------------------------
 -- Table structure for admin_users
 -- ----------------------------

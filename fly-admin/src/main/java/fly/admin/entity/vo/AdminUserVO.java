@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Builder
@@ -13,6 +14,10 @@ public class AdminUserVO {
     private String username;
 
     private String name;
+
+    private List<Integer> roleIds;
+
+    private List<Integer> permissionIds;
 
     private String avatar;
 

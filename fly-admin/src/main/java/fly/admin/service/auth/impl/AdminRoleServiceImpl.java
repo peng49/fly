@@ -10,9 +10,10 @@ import fly.admin.repository.AdminRolePermissionRepository;
 import fly.admin.repository.AdminRoleRepository;
 import fly.admin.service.auth.AdminRoleService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
