@@ -9,11 +9,12 @@ public class UserVO {
     private int id;
     private String username;
     private String email;
-    private String password;
     private String avatar;
     private String name;
     private String city;
     private int experience;
+    private int postCount;
+    private int commentCount;
     private String signature;
     private String createdAt;
     private String updatedAt;

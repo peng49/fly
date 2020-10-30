@@ -7,6 +7,7 @@ import fly.admin.entity.vo.AdminUserVO;
 import fly.admin.repository.AdminRoleRepository;
 
 import fly.admin.repository.AdminUserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {FlyAdminApplication.class})
+@Slf4j
 public class AdminRoleServiceTest {
 
     @Resource
@@ -39,6 +41,6 @@ public class AdminRoleServiceTest {
 
         List<Integer> userIds = users.stream().map(AdminUser::getId).collect(Collectors.toList());
 
-        System.out.println(userIds);
+        log.info(userIds.toString());
     }
 }

@@ -8,5 +8,7 @@ import java.util.List;
 public interface AdminUserRoleRepository extends JpaRepository<AdminUserRole, Integer> {
     void deleteByUserId(int userId);
 
+    List<AdminUserRole> findByUserId(Integer userId);
+
     List<AdminUserRole> findByUserIdIn(List<Integer> userIds);
 }

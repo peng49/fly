@@ -3,6 +3,7 @@ package fly.admin.service.auth.impl;
 import fly.admin.entity.model.AdminMenu;
 import fly.admin.repository.AdminMenuRepository;
 import fly.admin.service.auth.AdminMenuService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,6 +37,6 @@ public class AdminMenuServiceImpl implements AdminMenuService {
 
     @Override
     public List<AdminMenu> findAll() {
-        return adminMenuRepository.findAll();
+        return adminMenuRepository.findAll(Sort.by("sort"));
     }
 }

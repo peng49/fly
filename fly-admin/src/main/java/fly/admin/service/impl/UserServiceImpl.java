@@ -4,7 +4,10 @@ import fly.admin.entity.model.User;
 import fly.admin.entity.vo.ListResultVO;
 import fly.admin.entity.vo.ResultVO;
 import fly.admin.entity.vo.UserVO;
+import fly.admin.repository.PostCommentRepository;
+import fly.admin.repository.PostRepository;
 import fly.admin.repository.UserRepository;
+import fly.admin.service.PostService;
 import fly.admin.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +30,12 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private SimpleDateFormat simpleDateFormat;
+
+    @Resource
+    private PostRepository postRepository;
+
+    @Resource
+    private PostCommentRepository postCommentRepository;
 
     @Override
     public User add(User user) {
@@ -51,6 +60,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserVO get(int id) {
         User user = userRepository.getOne(id);
+
         return UserVO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -58,6 +68,8 @@ public class UserServiceImpl implements UserService {
                 .avatar("http://localhost:8080"+user.getAvatar())
                 .isAdmin(user.getIsAdmin())
                 .signature(user.getSignature())
+                .postCount(postRepository.countByAuthorId(user.getId()))
+                .commentCount(postCommentRepository.countByUserId(user.getId()))
                 .createdAt(user.getCreatedAt() == null ? null : simpleDateFormat.format(user.getCreatedAt()))
                 .build();
     }
