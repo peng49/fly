@@ -2,6 +2,7 @@ package fly.admin.config;
 
 import fly.admin.entity.model.AdminUser;
 import fly.admin.repository.AdminUserRepository;
+import fly.admin.service.auth.AdminUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,10 +44,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private AdminUserRepository adminUserRepository;
 
+    @Resource
+    private AdminUserService adminUserService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     /**
      * Spring Security (CORS)跨域资源访问配置
@@ -69,7 +73,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()//允许表单登录
                 .successHandler((request, response, authentication) -> {//设置登录成功之后的操作
-                    UserDetails details = (UserDetails) authentication.getDetails();
+//                    UserDetails details = (UserDetails) authentication.getDetails();
 
                     response.getWriter().print("{\"code\":\"success\",\"data\":{\"token\":\"admin-token\"}}");
                 }).failureHandler((request, response, exception) -> {
@@ -86,24 +90,27 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
                 //请求是否带有token
                 String token = request.getHeader("X-Token");
-                log.info("header token:" + token);
-                //todo 验证token是否有效 -> 通过token获取用户信息 -> 如果有效保存用户的相关信息
+                if (token != null) {
+                    log.info("header token:" + token);
+                    //todo 验证token是否有效 -> 通过token获取用户信息 -> 如果有效保存用户的相关信息
 
-                AdminUser adminUser = adminUserRepository.findByUsername("admin");
-                fly.admin.service.UserDetails details = new fly.admin.service.UserDetails(adminUser);
+                    AdminUser adminUser = adminUserRepository.findByUsername("admin");
 
-                //userDetailsService
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        details, null, details.getAuthorities()
-                );
+                    fly.admin.service.UserDetails details = new fly.admin.service.UserDetails(adminUser, adminUserService.getAuthorities(adminUser));
+                    log.info(details.getAuthorities().toString());
 
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                //设置用户登录状态
-                log.info("authenticated user {}, setting security context", token);
+                    //userDetailsService
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            details, null, details.getAuthorities()
+                    );
+                    log.info(authentication.toString());
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    //设置用户登录状态
+                    log.info("authenticated user {}, setting security context", token);
 
-
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
                 filterChain.doFilter(request, response);
             }
         }, UsernamePasswordAuthenticationFilter.class);
