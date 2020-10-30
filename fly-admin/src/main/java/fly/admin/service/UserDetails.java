@@ -5,42 +5,30 @@ import fly.admin.entity.model.AdminUser;
 import fly.admin.entity.model.AdminUserRole;
 import fly.admin.repository.AdminRoleRepository;
 import fly.admin.repository.AdminUserRoleRepository;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
+
     private AdminUser user;
 
-    @Resource
-    private AdminUserRoleRepository adminUserRoleRepository;
+    private Collection<? extends GrantedAuthority> authorities;
 
-    @Resource
-    private AdminRoleRepository adminRoleRepository;
-
-    public  UserDetails(AdminUser adminUser) {
-        this.user = adminUser;
+    public  UserDetails(AdminUser user,Collection<? extends GrantedAuthority> authorities) {
+        this.user = user;
+        this.authorities = authorities;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<AdminUserRole> roleList = adminUserRoleRepository.findByUserId(user.getId());
-        List<AdminRole> roles = adminRoleRepository.findAllById(
-                roleList.stream()
-                        .map(AdminUserRole::getRoleId)
-                        .collect(Collectors.toList())
-        );
-
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        roles.forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getSlug()));
-        });
         return authorities;
     }
 

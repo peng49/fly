@@ -1,17 +1,17 @@
 package fly.admin.service.auth.impl;
 
-import fly.admin.entity.model.AdminUser;
-import fly.admin.entity.model.AdminUserPermission;
-import fly.admin.entity.model.AdminUserRole;
-import fly.admin.entity.model.User;
+import fly.admin.entity.model.*;
 import fly.admin.entity.request.EditAdminUserRequest;
 import fly.admin.entity.vo.AdminUserVO;
 import fly.admin.entity.vo.UserLoginVO;
+import fly.admin.repository.AdminRoleRepository;
 import fly.admin.repository.AdminUserPermissionRepository;
 import fly.admin.repository.AdminUserRepository;
 import fly.admin.repository.AdminUserRoleRepository;
 import fly.admin.service.auth.AdminUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +19,7 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +28,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Resource
     private AdminUserRepository adminUserRepository;
+
+    @Resource
+    private AdminRoleRepository adminRoleRepository;
 
     @Resource
     private SimpleDateFormat simpleDateFormat;
@@ -137,6 +137,20 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public AdminUser get(int id) {
         return adminUserRepository.getOne(id);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities(AdminUser user) {
+        List<AdminUserRole> list = adminUserRoleRepository.findByUserId(user.getId());
+        List<AdminRole> roles = adminRoleRepository.findAllByIdIn(
+                list.stream().map(AdminUserRole::getRoleId).toArray(Integer[]::new)
+        );
+
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        roles.forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getSlug()));
+        });
+        return authorities;
     }
 
     @Override
