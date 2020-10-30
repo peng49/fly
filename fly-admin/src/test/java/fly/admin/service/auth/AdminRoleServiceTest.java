@@ -37,10 +37,12 @@ public class AdminRoleServiceTest {
 
     @Test
     public void roleTest(){
-        List<AdminUser> users = adminUserRepository.findAll();
+        AdminUser admin = adminUserRepository.findByUsername("admin");
 
-        List<Integer> userIds = users.stream().map(AdminUser::getId).collect(Collectors.toList());
+        log.info(admin.toString());
 
-        log.info(userIds.toString());
+//        List<Integer> userIds = users.stream().map(AdminUser::getId).collect(Collectors.toList());
+
+//        log.info(userIds.toString());
     }
 }
