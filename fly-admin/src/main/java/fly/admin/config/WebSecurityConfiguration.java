@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -36,7 +37,7 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-    static final String[] ORIGINS = new String[]{"GET", "POST", "PUT", "DELETE", "OPTIONS"};
+    private static final String[] ORIGINS = new String[]{"GET", "POST", "PUT", "DELETE", "OPTIONS"};
 
     @Resource
     private UserDetailsService userDetailsService;
@@ -50,6 +51,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    public boolean hasPermission(AdminUser user,HttpServletRequest request)
+    {
+        String uri = request.getRequestURI();
+        String method = request.getMethod();
+        return true;
     }
 
 
@@ -68,8 +76,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .anyRequest()
+                .antMatchers("/api/**")
                 .authenticated()
+//                .expressionHandler()
                 .and()
                 .formLogin()//允许表单登录
                 .successHandler((request, response, authentication) -> {//设置登录成功之后的操作
@@ -79,8 +88,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 }).failureHandler((request, response, exception) -> {
                     log.debug(exception.getMessage());
                     response.getWriter().println("{\"code\":\"exception\",\"message\":\"login fail\"" + exception.getMessage() + "}");
-                }
-        );
+                });
 
         //https://www.cnblogs.com/l1ng14/p/13530416.html
         httpSecurity.csrf().disable();//暂时禁用csrf
@@ -99,6 +107,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     fly.admin.service.UserDetails details = new fly.admin.service.UserDetails(adminUser, adminUserService.getAuthorities(adminUser));
                     log.info(details.getAuthorities().toString());
 
+                    if(!hasPermission(adminUser,request)){
+                        throw new RuntimeException("not allow access");
+                    }
+
+                    String uri = request.getRequestURI();
+                    log.info("request uri:"+uri);
+
                     //userDetailsService
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             details, null, details.getAuthorities()
@@ -116,11 +131,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         }, UsernamePasswordAuthenticationFilter.class);
     }
 
-//    @Override
-//    public void configure(WebSecurity webSecurity){
-//        //忽略拦截 https://www.cnblogs.com/lenve/p/11242055.html
-//        webSecurity.ignoring().antMatchers("/api/ignoring");
-//    }
+    @Override
+    public void configure(WebSecurity webSecurity){
+        //忽略拦截 https://www.cnblogs.com/lenve/p/11242055.html
+        webSecurity.ignoring().antMatchers("/swagger-ui.html");
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
