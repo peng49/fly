@@ -9,6 +9,7 @@ import fly.admin.repository.AdminUserPermissionRepository;
 import fly.admin.repository.AdminUserRepository;
 import fly.admin.repository.AdminUserRoleRepository;
 import fly.admin.service.auth.AdminUserService;
+import fly.admin.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -40,6 +41,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Resource
     private AdminUserPermissionRepository adminUserPermissionRepository;
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -156,10 +160,21 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public UserLoginVO login(String username, String password) {
         AdminUser user = adminUserRepository.findByUsername(username);
+
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("密码错误");
+        }
+
+        String token = JwtUtil.sign(user.getUsername());
+
         return UserLoginVO.builder()
                 .username(user.getUsername())
                 .avatar(user.getAvatar())
-                .token("admin-token")
+                .token(token)
                 .build();
     }
 }

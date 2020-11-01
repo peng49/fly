@@ -24,9 +24,22 @@ public class Swagger2Configuration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("权限管理")
                 .apiInfo(apiInfo())
+                .globalOperationParameters(getGlobalParameters()) //全局参数设置
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("fly.admin"))
                 .paths(PathSelectors.ant("/api/auth/**"))
+                .build()
+                .enable(true);
+    }
+
+    @Bean
+    public Docket createLoginApi(){
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("登录")
+                .apiInfo(new ApiInfoBuilder().title("登录").build())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("fly.admin"))
+                .paths(PathSelectors.ant("/api/login"))
                 .build()
                 .enable(true);
     }
@@ -39,8 +52,8 @@ public class Swagger2Configuration {
                 .build();
     }
 
-    @Bean
-    public Docket createThemeApi() {
+    private List<Parameter> getGlobalParameters()
+    {
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(
                 new ParameterBuilder()
@@ -51,16 +64,19 @@ public class Swagger2Configuration {
                         .modelRef(new ModelRef("string"))
                         .build()
         );
+        return parameters;
+    }
 
-
+    @Bean
+    public Docket createThemeApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("主题管理")
                 .apiInfo(new ApiInfoBuilder().title("主题管理").build())
-                .globalOperationParameters(parameters) //全局参数设置
+                .globalOperationParameters(getGlobalParameters()) //全局参数设置
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("fly.admin"))
                 .paths(PathSelectors.ant("/api/**"))
-                .paths(PathSelectors.regex("^(?!/api/auth).*"))
+                .paths(PathSelectors.regex("^(?!/api/(auth|login)).*"))
                 .build()
                 .enable(true);
     }
