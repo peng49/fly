@@ -9,6 +9,7 @@ import fly.admin.repository.PostRepository;
 import fly.admin.repository.UserRepository;
 import fly.admin.service.PostService;
 import fly.admin.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,6 +25,9 @@ import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     @Resource
     private UserRepository userRepository;
@@ -57,6 +61,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.getOne(id);
     }
 
+    private String getAvatarUrl(User user) {
+        if (user.getAvatar() != null && (user.getAvatar().startsWith("http") || user.getAvatar().startsWith("//:"))) {
+            return user.getAvatar();
+        }
+        return frontendUrl + "/" + user.getAvatar();
+    }
+
     @Override
     public UserVO get(int id) {
         User user = userRepository.getOne(id);
@@ -65,7 +76,7 @@ public class UserServiceImpl implements UserService {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .avatar("http://localhost:8080"+user.getAvatar())
+                .avatar(getAvatarUrl(user))
                 .isAdmin(user.getIsAdmin())
                 .signature(user.getSignature())
                 .postCount(postRepository.countByAuthorId(user.getId()))
