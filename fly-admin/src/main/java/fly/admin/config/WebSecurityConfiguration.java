@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,8 +54,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    public boolean hasPermission(AdminUser user,HttpServletRequest request)
-    {
+    public boolean hasPermission(AdminUser user, HttpServletRequest request) {
         String uri = request.getRequestURI();
         String method = request.getMethod();
         return true;
@@ -78,20 +76,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**")
-                .authenticated()
-//                .expressionHandler()
+                .antMatchers("/api/login")
+                .permitAll()
                 .and()
-                .formLogin()//允许表单登录
-                .successHandler((request, response, authentication) -> {//设置登录成功之后的操作
-                    log.info("========================== login success ====================");
-                    log.info(authentication.getDetails().toString());
-                    String token = JwtUtil.sign("admin");
-                    response.getWriter().print("{\"code\":\"success\",\"data\":{\"token\":\""+token+"\"}}");
-                }).failureHandler((request, response, exception) -> {
-                    log.debug(exception.getMessage());
-                    response.getWriter().println("{\"code\":\"exception\",\"message\":\"login fail\"" + exception.getMessage() + "}");
-                });
+                .authorizeRequests()
+                .antMatchers("/api/**")
+                .authenticated();
 
         //https://www.cnblogs.com/l1ng14/p/13530416.html
         httpSecurity.csrf().disable();//暂时禁用csrf
@@ -101,27 +91,27 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
                 //请求是否带有token
                 String token = request.getHeader("X-Token");
+                //验证token是否有效 -> 通过token获取用户信息 -> 如果有效保存用户的相关信息
                 if (token != null && JwtUtil.checkSign(token)) {
-                    log.info("header token user id:" + JwtUtil.getUserId(token));
-                    //todo 验证token是否有效 -> 通过token获取用户信息 -> 如果有效保存用户的相关信息
+                    String username = JwtUtil.getUserId(token);
+                    log.info("header token username:" + username);
 
-                    AdminUser adminUser = adminUserRepository.findByUsername("admin");
+                    AdminUser adminUser = adminUserRepository.findByUsername(username);
 
                     fly.admin.service.UserDetails details = new fly.admin.service.UserDetails(adminUser, adminUserService.getAuthorities(adminUser));
                     log.info(details.getAuthorities().toString());
 
-                    if(!hasPermission(adminUser,request)){
+                    if (!hasPermission(adminUser, request)) {
                         throw new RuntimeException("not allow access");
                     }
 
                     String uri = request.getRequestURI();
-                    log.info("request uri:"+uri);
+                    log.info("request uri:" + uri);
 
                     //userDetailsService
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             details, null, details.getAuthorities()
                     );
-                    log.info(authentication.toString());
 
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     //设置用户登录状态
@@ -135,9 +125,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity webSecurity){
+    public void configure(WebSecurity webSecurity) {
         //忽略拦截 https://www.cnblogs.com/lenve/p/11242055.html
-        webSecurity.ignoring().antMatchers("/swagger-ui.html");
+        webSecurity.ignoring()
+                .antMatchers("/swagger-ui.html");
     }
 
     @Override
