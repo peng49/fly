@@ -6,15 +6,19 @@ services:
 
 # build docker image
 install:
-  - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true
+  - mvn clean && mvn package -pl fly-frontend -am -amd -DskipTests=true && mvn package -pl fly-admin -am -amd -DskipTests=true
   - docker build -t peng49/fly-frontend:v0.1 ./fly-frontend/
   - docker tag peng49/fly-frontend:v0.1 peng49/fly-frontend:latest
+  - docker build -t peng49/fly-admin:v0.1 ./fly-admin/
+  - docker tag peng49/fly-admin:v0.1 peng49/fly-admin:latest
   - docker images
 
 script:
   - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
   - docker push peng49/fly-frontend:v0.1
   - docker push peng49/fly-frontend:latest
+  - docker push peng49/fly-admin:v0.1
+  - docker push peng49/fly-admin:latest
 
 after_success:
   - curl ${JENKINS_FRONTEND_WEBHOOKS}

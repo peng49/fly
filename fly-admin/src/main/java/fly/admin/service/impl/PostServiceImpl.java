@@ -14,6 +14,7 @@ import fly.admin.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -104,7 +105,7 @@ public class PostServiceImpl implements PostService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
 
-        Page<Post> posts = postRepository.findAll(specification, PageRequest.of(page - 1, pageSize));
+        Page<Post> posts = postRepository.findAll(specification, PageRequest.of(page - 1, pageSize, Sort.by("id").descending()));
         List<PostVO> items = new ArrayList<>();
 
         ArrayList<Integer> userIds = new ArrayList<>();
@@ -117,11 +118,9 @@ public class PostServiceImpl implements PostService {
         List<User> users = userRepository.findUsersByIdIn(userIds);
         List<Column> columns = columnRepository.findColumnsByIdIn(columnIds);
 
-        Map<Integer, User> userMap = users.stream()
-                .collect(Collectors.toMap(User::getId, Function.identity()));
+        Map<Integer, User> userMap = users.stream().collect(Collectors.toMap(User::getId, Function.identity()));
 
-        Map<Integer, Column> columnMap = columns.stream()
-                .collect(Collectors.toMap(Column::getId, Function.identity()));
+        Map<Integer, Column> columnMap = columns.stream().collect(Collectors.toMap(Column::getId, Function.identity()));
 
         posts.forEach(post -> {
             User user = Optional.ofNullable(userMap.get(post.getAuthorId())).orElse(new User());

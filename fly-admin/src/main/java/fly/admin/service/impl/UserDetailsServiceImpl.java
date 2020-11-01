@@ -1,11 +1,10 @@
 package fly.admin.service.impl;
 
 import fly.admin.entity.model.AdminUser;
-import fly.admin.repository.AdminRoleRepository;
 import fly.admin.repository.AdminUserRepository;
-import fly.admin.repository.AdminUserRoleRepository;
-import fly.admin.service.UserDetails;
 import fly.admin.service.auth.AdminUserService;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,6 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(user == null){
             throw new UsernameNotFoundException(" not fount user by "+username);
         }
-        return new UserDetails(user,adminUserService.getAuthorities(user));
+        return new User(user.getUsername(), user.getPassword(), adminUserService.getAuthorities(user));
+//        return new UserDetails(user,adminUserService.getAuthorities(user));
     }
 }
