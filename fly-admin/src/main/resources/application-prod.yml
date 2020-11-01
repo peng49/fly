@@ -15,4 +15,6 @@ spring:
         ddl-auto: update
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+frontend:
+  url: ${FRONTEND_URL}
 

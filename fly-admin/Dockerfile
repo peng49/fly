@@ -7,6 +7,7 @@ ENV DB_PORT=3306
 ENV DB_DATABASE=fly
 ENV DB_USERNAME=develop
 ENV DB_PASSWORD=123456
+ENV FRONTEND_URL=http://localhost:8080
 
 COPY ./target/fly-admin-1.0-SNAPSHOT.jar /var/www/fly-admin/fly-admin.jar
 
