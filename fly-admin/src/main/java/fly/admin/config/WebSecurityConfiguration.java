@@ -1,7 +1,14 @@
 package fly.admin.config;
 
+import fly.admin.entity.model.AdminPermission;
+import fly.admin.entity.model.AdminRolePermission;
 import fly.admin.entity.model.AdminUser;
+import fly.admin.entity.model.AdminUserRole;
+import fly.admin.exception.NotAllowAccessException;
+import fly.admin.repository.AdminPermissionRepository;
+import fly.admin.repository.AdminRolePermissionRepository;
 import fly.admin.repository.AdminUserRepository;
+import fly.admin.repository.AdminUserRoleRepository;
 import fly.admin.service.auth.AdminUserService;
 import fly.admin.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +38,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
+import java.nio.file.FileSystems;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Configuration
@@ -49,15 +59,59 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private AdminUserService adminUserService;
 
+    @Resource
+    private AdminUserRoleRepository adminUserRoleRepository;
+
+    @Resource
+    private AdminRolePermissionRepository adminRolePermissionRepository;
+
+    @Resource
+    private AdminPermissionRepository adminPermissionRepository;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    private Map<String, Set<String>> getPermissions(AdminUser user) {
+        List<AdminUserRole> items = adminUserRoleRepository.findByUserId(user.getId());
+
+        List<AdminRolePermission> permissionList = adminRolePermissionRepository.findByRoleIdIn(items.stream().map(AdminUserRole::getRoleId).collect(Collectors.toList()));
+
+        List<Integer> permissionIds = permissionList.stream().map(AdminRolePermission::getPermissionId).collect(Collectors.toList());
+
+        List<AdminPermission> permissions = adminPermissionRepository.findByIdIn(permissionIds);
+
+        Map<String, Set<String>> map = new HashMap<>();
+        permissions.forEach(permission -> {
+            String[] methods = permission.getHttpMethod().split(",");
+            for (String method : methods) {
+                String[] uris = permission.getHttpPath().split("\n");
+                for (String uri : uris) {
+                    map.computeIfAbsent(method, k -> new HashSet<>()).add(uri);
+                }
+            }
+        });
+        return map;
+    }
+
     public boolean hasPermission(AdminUser user, HttpServletRequest request) {
-        String uri = request.getRequestURI();
-        String method = request.getMethod();
-        return true;
+        String requestURI = request.getRequestURI();
+        String requestMethod = request.getMethod();
+
+        Map<String, Set<String>> permissions = getPermissions(user);
+
+        AtomicBoolean hasPermission = new AtomicBoolean(false);
+
+        Optional.ofNullable(permissions.get(requestMethod)).orElse(new HashSet<>()).forEach((uri) -> {
+            boolean matches = FileSystems.getDefault()
+                    .getPathMatcher("glob:" + uri)
+                    .matches(Paths.get(requestURI));
+            if (matches) {
+                hasPermission.set(true);
+            }
+        });
+        return hasPermission.get();
     }
 
 
@@ -102,7 +156,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     log.info(details.getAuthorities().toString());
 
                     if (!hasPermission(adminUser, request)) {
-                        throw new RuntimeException("not allow access");
+                        throw new NotAllowAccessException("not allow access");
                     }
 
                     String uri = request.getRequestURI();

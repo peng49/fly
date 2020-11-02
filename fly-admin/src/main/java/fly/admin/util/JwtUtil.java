@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import fly.admin.exception.TokenInvalidException;
+import fly.admin.exception.InvalidTokenException;
 
 import java.util.Date;
 
@@ -72,7 +72,7 @@ public class JwtUtil {
             DecodedJWT jwt = verifier.verify(token);
             return true;
         } catch (JWTVerificationException exception) {
-            throw new TokenInvalidException("token 无效，请重新获取");
+            throw new InvalidTokenException("token 无效，请重新获取");
         }
     }
 }
