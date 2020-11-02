@@ -1,14 +1,17 @@
 package fly.admin.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fly.admin.entity.model.AdminPermission;
 import fly.admin.entity.model.AdminRolePermission;
 import fly.admin.entity.model.AdminUser;
 import fly.admin.entity.model.AdminUserRole;
+import fly.admin.entity.vo.ResultVO;
 import fly.admin.exception.NotAllowAccessException;
 import fly.admin.repository.AdminPermissionRepository;
 import fly.admin.repository.AdminRolePermissionRepository;
 import fly.admin.repository.AdminUserRepository;
 import fly.admin.repository.AdminUserRoleRepository;
+import fly.admin.service.auth.AdminPermissionService;
 import fly.admin.service.auth.AdminUserService;
 import fly.admin.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -84,9 +87,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         Map<String, Set<String>> map = new HashMap<>();
         permissions.forEach(permission -> {
-            String[] methods = permission.getHttpMethod().split(",");
+            String[] methods;
+            if ("".equals(permission.getHttpMethod())) {
+                methods = ORIGINS;
+            } else {
+                methods = permission.getHttpMethod().split(AdminPermissionService.METHOD_SPLIT);
+            }
+
             for (String method : methods) {
-                String[] uris = permission.getHttpPath().split("\n");
+                String[] uris = permission.getHttpPath().split(AdminPermissionService.PATH_SPLIT);
                 for (String uri : uris) {
                     map.computeIfAbsent(method, k -> new HashSet<>()).add(uri);
                 }
@@ -137,50 +146,59 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**")
                 .authenticated();
 
-        //https://www.cnblogs.com/l1ng14/p/13530416.html
         httpSecurity.csrf().disable();//暂时禁用csrf
 
         httpSecurity.addFilterBefore(new OncePerRequestFilter() {
             @Override
             protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-                //请求是否带有token
-                String token = request.getHeader("X-Token");
-                //验证token是否有效 -> 通过token获取用户信息 -> 如果有效保存用户的相关信息
-                if (token != null && JwtUtil.checkSign(token)) {
-                    String username = JwtUtil.getUserId(token);
-                    log.info("header token username:" + username);
+                try {
+                    //请求是否带有token
+                    String token = request.getHeader("X-Token");
+                    //验证token是否有效 -> 通过token获取用户信息 -> 如果有效保存用户的相关信息
+                    if (token != null && JwtUtil.checkSign(token)) {
+                        String username = JwtUtil.getUserId(token);
+                        log.info("header token username:" + username);
 
-                    AdminUser adminUser = adminUserRepository.findByUsername(username);
+                        AdminUser adminUser = adminUserRepository.findByUsername(username);
 
-                    fly.admin.service.UserDetails details = new fly.admin.service.UserDetails(adminUser, adminUserService.getAuthorities(adminUser));
-                    log.info(details.getAuthorities().toString());
+                        fly.admin.service.UserDetails details = new fly.admin.service.UserDetails(adminUser, adminUserService.getAuthorities(adminUser));
+                        log.info(details.getAuthorities().toString());
 
-                    if (!hasPermission(adminUser, request)) {
-                        throw new NotAllowAccessException("not allow access");
+                        if (!hasPermission(adminUser, request)) {
+                            throw new NotAllowAccessException("您没有操作权限，不能进行当前操作");
+                        }
+
+                        String uri = request.getRequestURI();
+                        log.info("request uri:" + uri);
+
+                        //userDetailsService
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                details, null, details.getAuthorities()
+                        );
+
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        //设置用户登录状态
+                        log.info("authenticated user {}, setting security context", token);
+
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
-
-                    String uri = request.getRequestURI();
-                    log.info("request uri:" + uri);
-
-                    //userDetailsService
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            details, null, details.getAuthorities()
-                    );
-
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    //设置用户登录状态
-                    log.info("authenticated user {}, setting security context", token);
-
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    filterChain.doFilter(request, response);
+                } catch (RuntimeException ex) {
+                    response.getWriter()
+                            .print(
+                                    new ObjectMapper()
+                                            .writeValueAsString(
+                                                    ResultVO.builder().code("exception").message(ex.getMessage()).build()
+                                            )
+                            );
                 }
-                filterChain.doFilter(request, response);
             }
         }, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity webSecurity) {
-        //忽略拦截 https://www.cnblogs.com/lenve/p/11242055.html
+        //忽略拦截
         webSecurity.ignoring()
                 .antMatchers("/swagger-ui.html");
     }
