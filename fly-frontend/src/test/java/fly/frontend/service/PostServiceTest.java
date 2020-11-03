@@ -1,5 +1,6 @@
 package fly.frontend.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.FlyFrontendApplication;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.User;
@@ -34,7 +35,10 @@ public class PostServiceTest {
         condition.setAuthorId(1);
         condition.setColumnId(10);
 
-        System.out.println(postService.getByCondition(condition));
+        Page<Post> page = new Page<>();
+        page.setCurrent(1).setSize(5);
+
+        System.out.println(postService.getByCondition(page,condition).getRecords());
     }
 
     @Test

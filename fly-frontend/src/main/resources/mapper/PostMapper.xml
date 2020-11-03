@@ -20,23 +20,6 @@
         select p.*,u.username,u.avatar as userAvatar,col.name as columnName from posts as p
             inner join users as u on u.id = p.author_id
             inner join `columns` as col on col.id = p.column_id
-        <where>
-            <if test="authorId != 0">
-                and p.author_id = #{authorId}
-            </if>
-            <if test="columnId != 0">
-                and p.column_id = #{columnId}
-            </if>
-            <if test="list == 'essence'">
-                and p.essence = 1
-            </if>
-            <if test="status != null">
-                and p.status = #{status}
-            </if>
-        </where>
 
-        <if test="orderBy != null">
-            order by ${orderBy}
-        </if>
     </select>
 </mapper>

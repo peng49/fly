@@ -1,7 +1,5 @@
 package fly.frontend.controller;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;
@@ -10,7 +8,6 @@ import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.PostCommentAgree;
 import fly.frontend.entity.model.User;
-import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.*;
 import fly.frontend.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -134,12 +131,12 @@ public class UserController {
                         HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
 
-        PageHelper.startPage(page,pageSize);
-        Page<Post> posts;
+
+        List<Post> posts;
         if ("my".equals(type)) {
-            posts = (Page<Post>)postService.findAllByAuthorId(user.getId());
+            posts = postService.findAllByAuthorId(user.getId());
         } else {
-            posts = (Page<Post>) userService.getCollectionPosts(user);
+            posts = userService.getCollectionPosts(user);
         }
         return HttpUtils.success(posts);
     }

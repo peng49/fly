@@ -1,5 +1,7 @@
 package fly.frontend.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.model.Column;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
@@ -24,8 +26,8 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private PostCommentService postCommentService;
 
-    public List<Post> getByCondition(PostFilterCondition condition) {
-        return postMapper.getByCondition(condition);
+    public IPage<Post> getByCondition(Page<?> page,PostFilterCondition condition) {
+        return postMapper.getByCondition(page, condition);
     }
 
     public List<Post> findTop(int limit) {

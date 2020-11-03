@@ -1,5 +1,7 @@
 package fly.frontend.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
@@ -28,7 +30,7 @@ public interface PostService {
      */
     List<String> ALLOW_ORDER_FIELD = Arrays.asList("heat", "publish_at", "reply_count");
 
-    List<Post> getByCondition(PostFilterCondition condition);
+    IPage<Post> getByCondition(Page<?> page, PostFilterCondition condition);
 
     List<Post> findTop(int limit);
 

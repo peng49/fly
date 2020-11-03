@@ -1,7 +1,7 @@
 package fly.frontend.task;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.service.PostService;
@@ -24,13 +24,14 @@ public class CalculationHeatTask {
         int page = 1;
         int pageSize = 100;
         do {
-            Page<Post> posts = getPosts(page, pageSize);
-            if(posts == null || posts.getPageNum() < page){
+            IPage<Post> posts = getPosts(page, pageSize);
+
+            if(posts == null || posts.getPages() < page){
                 System.out.println("process complete");
                 break;
             }
 
-            for (Post post : posts) {
+            for (Post post : posts.getRecords()) {
                 double head = postService.calculationHeat(post);
                 post.setHeat(head);
                 postService.updateHeat(post);
@@ -41,11 +42,12 @@ public class CalculationHeatTask {
         System.out.println("task run complete");
     }
 
-    public Page<Post> getPosts(int page, int pageSize)
-    {
-        PageHelper.startPage(page,pageSize);
+    public IPage<Post> getPosts(int page, int pageSize) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setStatus(1);
-        return (Page<Post>)postService.getByCondition(condition);
+
+        Page<Post> p = new Page<>();
+        p.setCurrent(page).setSize(pageSize);
+        return  postService.getByCondition(p, condition);
     }
 }

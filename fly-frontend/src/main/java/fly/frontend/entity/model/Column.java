@@ -1,7 +1,7 @@
 package fly.frontend.entity.model;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
-import lombok.experimental.Tolerate;
 
 @Setter
 @Getter
@@ -9,6 +9,7 @@ import lombok.experimental.Tolerate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@TableName(value = "columns")
 public class Column {
     private int id;
     private String name;

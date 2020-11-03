@@ -1,6 +1,6 @@
 package fly.frontend.utils;
 
-import com.github.pagehelper.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -45,12 +45,12 @@ public class HttpUtils {
     }
 
     public static Object success(Object data) {
-        if (data instanceof Page) {
+        if (data instanceof IPage) {
             HashMap<Object, Object> hash = new HashMap<>();
-            hash.put("total", ((Page) data).getTotal());
-            hash.put("page", ((Page) data).getPageNum());
-            hash.put("pageSize", ((Page) data).getPageSize());
-            hash.put("rows", ((Page) data).getResult());
+            hash.put("total", ((IPage<?>) data).getTotal());
+            hash.put("page", ((IPage<?>) data).getPages());
+            hash.put("pageSize", ((IPage<?>) data).getSize());
+            hash.put("rows", ((IPage<?>) data).getRecords());
             return HttpUtils.response("success", "OK", hash);
         }
         return HttpUtils.response("success", "OK", data);
