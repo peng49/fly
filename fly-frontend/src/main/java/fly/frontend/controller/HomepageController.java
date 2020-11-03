@@ -1,7 +1,8 @@
 package fly.frontend.controller;
 
-import com.github.pagehelper.PageHelper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.from.PostFilterCondition;
+import fly.frontend.entity.model.Post;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
@@ -44,7 +45,8 @@ public class HomepageController {
 
         view.addObject("topPosts", postService.findTop(4));
 
-        view.addObject("posts", postService.getByCondition(condition));
+        Page<Post> page = new Page<>();
+        view.addObject("posts", postService.getByCondition(page, condition));
 
         if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/index");
@@ -58,19 +60,17 @@ public class HomepageController {
     @GetMapping("/u/{id}")
     public ModelAndView index(@PathVariable("id") int id, ModelAndView view, HttpServletRequest request) {
         view.addObject("user", userService.getById(id));
-        PageHelper.startPage(1, 10);
+
         view.addObject("posts", postService.findAllPublishByAuthorId(id));
-        PageHelper.startPage(1, 5);
+
         view.addObject("comments", postCommentService.getByUserId(id));
-        PageHelper.clearPage();
+
 
         if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/user/home");
         } else {
             view.setViewName("user/home");
         }
-
-
         return view;
     }
 }

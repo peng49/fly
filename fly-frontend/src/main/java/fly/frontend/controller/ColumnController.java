@@ -1,11 +1,11 @@
 package fly.frontend.controller;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.model.Column;
 import fly.frontend.entity.model.Post;
 import fly.frontend.pojo.PostFilter;
-import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
 import fly.frontend.utils.HttpUtils;
@@ -40,19 +40,21 @@ public class ColumnController {
             condition.setOrderBy("heat desc");
         }
 
-        PageHelper.startPage(filter.getPage(), filter.getPageSize());
-        Page<Post> posts = (Page<Post>) postService.getByCondition(condition);
-        view.addObject("posts", posts);
+
+        Page<Post> page = new Page<>();
+        page.setCurrent(filter.getPage()).setSize(filter.getPageSize());
+        IPage<Post> posts = postService.getByCondition(page, condition);
+        view.addObject("posts", posts.getRecords());
 
         Column column = columnService.get(id);
         view.addObject("column", column);
 
         view.addObject("list_total", posts.getTotal());
-        view.addObject("current_page", posts.getPageNum());
+        view.addObject("current_page", posts.getCurrent());
 
-        view.addObject("page_size", posts.getPageSize() > 0 ? posts.getPageSize() : 10);
+        view.addObject("page_size", posts.getPages() > 0 ? posts.getPages() : 10);
 
-        view.addObject("next_url", HttpUtils.setUrlParam(HttpUtils.getCurrentUrl(request), "page", String.valueOf(posts.getPageNum() + 1)));
+        view.addObject("next_url", HttpUtils.setUrlParam(HttpUtils.getCurrentUrl(request), "page", String.valueOf(posts.getCurrent() + 1)));
 
         if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/post/list");

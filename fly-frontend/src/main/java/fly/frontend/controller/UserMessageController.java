@@ -1,7 +1,5 @@
 package fly.frontend.controller;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.model.UserMessage;
 import fly.frontend.service.UserMessageService;
@@ -25,7 +23,7 @@ public class UserMessageController {
                       HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
 
-        PageHelper.startPage(page,pageSize);
+
         List<UserMessage> messages = userMessageService.getMessagesForUser(user);
 
         return HttpUtils.success(messages);

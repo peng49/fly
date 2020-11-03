@@ -1,5 +1,7 @@
 package fly.frontend.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.from.PostFilterCondition;
@@ -113,7 +115,7 @@ public interface PostMapper {
     @Update("update posts set essence = #{essence} where id = #{id}")
     void essence(Post post);
 
-    List<Post> getByCondition(PostFilterCondition condition);
+    IPage<Post> getByCondition(Page<?> page, PostFilterCondition condition);
 
     @Update("update posts set reply_count = reply_count + 1 where id = #{postId}")
     void replyCountInc(int postId);
