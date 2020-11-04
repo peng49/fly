@@ -1,4 +1,4 @@
-package fly.frontend.mapper;
+package fly.frontend.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import fly.frontend.entity.model.Column;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="fly.frontend.mapper.PostMapper">
+<mapper namespace="fly.frontend.dao.PostMapper">
     <resultMap id="post" type="fly.frontend.entity.model.Post">
         <id column="id" property="id"/>
         <result property="content" column="content"/>
@@ -15,11 +15,4 @@
     <update id="update" parameterType="fly.frontend.entity.model.Post">
         update posts set title = #{title},content = #{content},update_at = #{updateAt},publish_at = #{publishAt} where  id = #{id};
     </update>
-
-    <select id="getByCondition" resultMap="post" parameterType="fly.frontend.entity.from.PostFilterCondition">
-        select p.*,u.username,u.avatar as userAvatar,col.name as columnName from posts as p
-            inner join users as u on u.id = p.author_id
-            inner join `columns` as col on col.id = p.column_id
-
-    </select>
 </mapper>

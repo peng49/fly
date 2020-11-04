@@ -1,4 +1,4 @@
-package fly.frontend.mapper;
+package fly.frontend.dao;
 
 public interface CategoryMapper {
 

@@ -1,7 +1,7 @@
 package fly.frontend.service.impl;
 
 import fly.frontend.entity.model.OauthAccount;
-import fly.frontend.mapper.OauthAccountMapper;
+import fly.frontend.dao.OauthAccountMapper;
 import fly.frontend.service.OauthAccountService;
 import org.springframework.stereotype.Service;
 

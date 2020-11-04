@@ -1,4 +1,4 @@
-package fly.frontend.mapper;
+package fly.frontend.dao;
 
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.User;

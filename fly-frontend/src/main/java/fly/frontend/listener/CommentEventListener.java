@@ -33,7 +33,8 @@ public class CommentEventListener {
         UserMessage commentMessage = new UserMessage();
         commentMessage.setType("comment");
         commentMessage.setSender(postComment.getUser());
-        commentMessage.setReceiver(postService.get(postComment.getPost().getId()).getAuthor());
+        //todo set receiver
+//        commentMessage.setReceiver(postService.get(postComment.getPost().getId()).getAuthor());
         commentMessage.setContent(postComment.getContent());
         commentMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         userMessageService.create(commentMessage);
