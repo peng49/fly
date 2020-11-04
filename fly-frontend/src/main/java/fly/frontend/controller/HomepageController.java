@@ -30,7 +30,9 @@ public class HomepageController {
     private PostCommentService postCommentService;
 
     @RequestMapping("/")
-    public ModelAndView index(HttpServletRequest request, ModelAndView view, @RequestParam(defaultValue = "all") String list,
+    public ModelAndView index(HttpServletRequest request,
+                              ModelAndView view,
+                              @RequestParam(value = "list",defaultValue = "all") String list,
                               @RequestParam(value = "orderBy", defaultValue = "") String orderBy) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setList(list);
@@ -42,8 +44,6 @@ public class HomepageController {
             condition.setOrderBy("heat desc");
         }
         System.out.println(condition);
-
-        view.addObject("topPosts", postService.findTop(4));
 
         Page<Post> page = new Page<>();
         page.setCurrent(1).setSize(20);
@@ -60,7 +60,7 @@ public class HomepageController {
 
     @GetMapping("/u/{id}")
     public ModelAndView index(@PathVariable("id") int id, ModelAndView view, HttpServletRequest request) {
-        view.addObject("user", userService.getById(id));
+        view.addObject("user", userService.get(id));
 
         view.addObject("posts", postService.findAllPublishByAuthorId(id));
 

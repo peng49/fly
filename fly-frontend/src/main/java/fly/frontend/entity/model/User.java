@@ -1,10 +1,12 @@
 package fly.frontend.entity.model;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
+@TableName("users")
 public class User {
     private int id;
     private String username;

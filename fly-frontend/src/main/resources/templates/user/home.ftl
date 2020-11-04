@@ -63,9 +63,9 @@
                     <#list comments as comment>
                         <li>
                             <p>
-                                <span>${comment.commentTime}</span>
-                                在<a href="/post/detail/${comment.post.id}"
-                                    target="_blank">${comment.post.title}</a>中回答：
+                                <span>${comment.createdAt}</span>
+                                在<a href="/post/detail/${(comment.post.id)!}"
+                                    target="_blank">${(comment.post.title)!}</a>中回答：
                             </p>
                             <div class="home-dacontent">
                                 ${comment.content}

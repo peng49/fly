@@ -42,11 +42,6 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getByIdTest() {
-        System.out.println(userService.getById(1));
-    }
-
-    @Test
     public void pathTest() throws FileNotFoundException {
         System.out.println(System.getProperty("user.dir"));
 

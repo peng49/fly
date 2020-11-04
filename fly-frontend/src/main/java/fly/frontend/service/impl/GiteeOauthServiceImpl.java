@@ -1,5 +1,6 @@
 package fly.frontend.service.impl;
 
+import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.model.OauthAccount;
 import fly.frontend.entity.model.User;
 import fly.frontend.pojo.GiteeOauthResponse;
@@ -43,6 +44,9 @@ public class GiteeOauthServiceImpl implements OauthService {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private UserMapper userMapper;
 
     @Autowired
     private HttpSession httpSession;
@@ -93,7 +97,7 @@ public class GiteeOauthServiceImpl implements OauthService {
                 user = new User();
                 user.setUsername(userService.getUniqueUsername(userInfo.getName()));
                 user.setAvatar(userInfo.getAvatarUrl());
-                userService.add(user);
+                userMapper.insert(user);
             }
             OauthAccount account = new OauthAccount();
             account.setOpenid(String.valueOf(oauthId));

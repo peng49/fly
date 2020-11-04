@@ -1,13 +1,15 @@
 package fly.frontend.service.impl;
 
-import fly.frontend.entity.model.Post;
-import fly.frontend.entity.model.User;
-import fly.frontend.event.RegisteredEvent;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;
 import fly.frontend.entity.from.UserRegisterFrom;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.User;
+import fly.frontend.entity.vo.UserVO;
+import fly.frontend.event.RegisteredEvent;
 import fly.frontend.service.UserPostService;
 import fly.frontend.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -34,20 +36,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private ApplicationEventPublisher publisher;
 
-    public User add(User user) {
-        int row = userMapper.add(user);
-        if (row == 0) {
-            throw new RuntimeException("添加用户失败");
-        }
-        return user;
-    }
 
-    public User getByUsername(String username) {
-        return userMapper.getByUsername(username);
-    }
-
-    public User login(UserLoginFrom login) throws Exception {
-        User user = getByUsername(login.getUsername());
+    public UserVO login(UserLoginFrom login) throws Exception {
+        User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, login.getUsername()));
         if (user == null) {
             throw new NotFoundException("用户不存在");
         }
@@ -57,12 +48,12 @@ public class UserServiceImpl implements UserService {
             throw new Exception("密码错误");
         }
         //登录成功
-        return user;
+        return UserVO.builder().id(user.getId()).username(user.getUsername()).avatar(user.getAvatar()).build();
     }
 
     public User register(UserRegisterFrom register) throws Exception {
         User user = new User();
-        User existed = userMapper.getByUsername(register.getUsername());
+        User existed = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, register.getUsername()));
         System.out.println(existed);
         if (existed != null) {
             throw new Exception("用户名已存在");
@@ -74,30 +65,19 @@ public class UserServiceImpl implements UserService {
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
-        userMapper.add(user);
+        userMapper.insert(user);
 
         publisher.publishEvent(new RegisteredEvent(user));
 
         return user;
     }
 
-    public String getPassword(String password) {
+    private String getPassword(String password) {
         return bCryptPasswordEncoder.encode(password);
     }
 
-    public boolean comparePassword(String password, String hash) {
+    private boolean comparePassword(String password, String hash) {
         return !bCryptPasswordEncoder.matches(password, hash);
-    }
-
-
-    public User getById(int id) {
-        return userMapper.getById(id);
-    }
-
-    public List<Post> getCollectionPosts(User user) {
-        User model = new User();
-        model.setId(user.getId());
-        return userPostService.findByUser(model);
     }
 
     public User updateInfo(User user, UpdateUserInfoFrom userInfo) {
@@ -105,13 +85,13 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userInfo.getUsername());
         user.setCity(userInfo.getCity());
         user.setSignature(userInfo.getSignature());
-        userMapper.updateInfo(user);
+        userMapper.updateById(user);
         return user;
     }
 
     public User updateAvatar(User user, String avatar) {
         user.setAvatar(avatar);
-        userMapper.updateAvatar(user);
+        userMapper.updateById(user);
         return user;
     }
 
@@ -143,6 +123,21 @@ public class UserServiceImpl implements UserService {
         User model = new User();
         model.setId(user.getId());
         model.setPassword(getPassword(updatePassword.getPassword()));
-        userMapper.updatePassword(model);
+        userMapper.updateById(model);
+    }
+
+    @Override
+    public UserVO get(int id) {
+        User user = userMapper.selectById(id);
+        return UserVO.builder()
+                .id(user.getId())
+                .avatar(user.getAvatar())
+                .username(user.getUsername())
+                .build();
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        return userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
     }
 }

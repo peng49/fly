@@ -2,6 +2,7 @@ package fly.frontend.controller;
 
 import fly.frontend.entity.model.OauthAccount;
 import fly.frontend.entity.model.User;
+import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,7 @@ public class OauthController {
                          HttpServletResponse response,
                          HttpSession httpSession) throws IOException, ModelAndViewDefiningException {
         OauthAccount account = getOauthService(platform).get(code);
-        User user = userService.getById(account.getUser().getId());
+        UserVO user = userService.get(account.getUser().getId());
 
         httpSession.setAttribute(UserService.LOGIN_KEY, user);
         response.sendRedirect("/user/center");

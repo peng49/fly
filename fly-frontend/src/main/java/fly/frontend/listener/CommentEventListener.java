@@ -32,9 +32,9 @@ public class CommentEventListener {
         //添加评论发送消息
         UserMessage commentMessage = new UserMessage();
         commentMessage.setType("comment");
-        commentMessage.setSender(postComment.getUser());
-        //todo set receiver
-//        commentMessage.setReceiver(postService.get(postComment.getPost().getId()).getAuthor());
+        commentMessage.setSenderId(postComment.getUserId());
+
+        commentMessage.setReceiverId(postService.get(postComment.getPostId()).getAuthor().getId());
         commentMessage.setContent(postComment.getContent());
         commentMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         userMessageService.create(commentMessage);
@@ -42,14 +42,14 @@ public class CommentEventListener {
         //获取评论 @ 的所有用户
         List<User> users = postCommentService.getUsersByContent(postComment.getContent());
         for (User user : users) {
-            if (user.getId() == postComment.getUser().getId()) {
+            if (user.getId() == postComment.getUserId()) {
                 //@自己不用发送信息
                 continue;
             }
             UserMessage userMessage = new UserMessage();
             userMessage.setType("reply");
-            userMessage.setSender(postComment.getUser());
-            userMessage.setReceiver(user);
+            userMessage.setSenderId(postComment.getUserId());
+            userMessage.setReceiverId(user.getId());
             userMessage.setContent(postComment.getContent());
             userMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             userMessageService.create(userMessage);

@@ -1,6 +1,7 @@
 package fly.frontend.interceptor;
 
 import fly.frontend.entity.model.User;
+import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -13,7 +14,7 @@ import java.net.URLEncoder;
 public class UserAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        User user = (User) request.getSession().getAttribute(UserService.LOGIN_KEY);
+        UserVO user = (UserVO) request.getSession().getAttribute(UserService.LOGIN_KEY);
         if (user != null) {
             return true;
         }

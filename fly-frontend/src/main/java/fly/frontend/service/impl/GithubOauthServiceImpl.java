@@ -1,5 +1,6 @@
 package fly.frontend.service.impl;
 
+import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.model.OauthAccount;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.GithubOauthToken;
@@ -46,6 +47,9 @@ public class GithubOauthServiceImpl implements OauthService {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private UserMapper userMapper;
 
     @Autowired
     private HttpSession httpSession;
@@ -94,7 +98,7 @@ public class GithubOauthServiceImpl implements OauthService {
                 user = new User();
                 user.setUsername(userService.getUniqueUsername(userInfo.getLogin()));
                 user.setAvatar(userInfo.getAvatarUrl());
-                userService.add(user);
+                userMapper.insert(user);
             }
             OauthAccount account = new OauthAccount();
             account.setOpenid(userInfo.getOpenid());

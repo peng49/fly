@@ -2,6 +2,7 @@ package fly.frontend.task;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import fly.frontend.dao.PostMapper;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.vo.PostVO;
@@ -19,6 +20,9 @@ public class CalculationHeatTask {
     @Resource
     private PostService postService;
 
+    @Resource
+    private PostMapper postMapper;
+
     @Scheduled(cron = "0 0/1 * * * ?")
     public void execute()
     {
@@ -33,7 +37,7 @@ public class CalculationHeatTask {
             }
 
             for (PostVO postVO : posts.getRecords()) {
-                Post post = postService.get(postVO.getId());
+                Post post = postMapper.selectById(postVO.getId());
                 double head = postService.calculationHeat(post);
                 post.setHeat(head);
                 postService.updateHeat(post);

@@ -8,6 +8,7 @@ import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.PostCommentAgree;
 import fly.frontend.entity.model.User;
+import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.*;
 import fly.frontend.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,7 +73,7 @@ public class UserController {
     @ResponseBody
     public Object login(@RequestBody @Validated UserLoginFrom login, HttpSession httpSession) throws Exception {
         System.out.println(login);
-        User user = userService.login(login);
+        UserVO user = userService.login(login);
         httpSession.setAttribute(UserService.LOGIN_KEY, user);
         return HttpUtils.success(user);
     }
@@ -112,7 +113,7 @@ public class UserController {
 
     @GetMapping("/center")
     public ModelAndView home(ModelAndView view, HttpSession httpSession, HttpServletRequest request) {
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
         view.addObject("user", user);
 
         if (HttpUtils.isMobile(request)) {
@@ -129,14 +130,14 @@ public class UserController {
                         @RequestParam(name = "page",defaultValue = "1") int page,
                         @RequestParam(name = "pageSize",defaultValue = "10") int pageSize,
                         HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
 
 
         List<Post> posts;
         if ("my".equals(type)) {
             posts = postService.findAllByAuthorId(user.getId());
         } else {
-            posts = userService.getCollectionPosts(user);
+            posts = userPostService.findByUserId(user.getId());
         }
         return HttpUtils.success(posts);
     }
@@ -144,8 +145,8 @@ public class UserController {
     @GetMapping("/info")
     @ResponseBody
     public Object info(HttpSession session) {
-        User user = (User) session.getAttribute(UserService.LOGIN_KEY);
-        user = userService.getById(user.getId());
+        UserVO user = (UserVO) session.getAttribute(UserService.LOGIN_KEY);
+        user = userService.get(user.getId());
         return HttpUtils.success(user);
     }
 

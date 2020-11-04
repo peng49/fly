@@ -33,7 +33,7 @@ public class UserMessageController {
     public Object delete(@PathVariable("id") int messageId, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         UserMessage message = userMessageService.get(messageId);
-        if (message == null || message.getReceiver().getId() != user.getId()) {
+        if (message == null || message.getReceiverId() != user.getId()) {
             throw new RuntimeException("不能进行当前操作");
         }
 
