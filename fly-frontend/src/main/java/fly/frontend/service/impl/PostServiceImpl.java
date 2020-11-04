@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.dao.ColumnMapper;
+import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.model.Column;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
@@ -36,39 +37,50 @@ public class PostServiceImpl implements PostService {
     private ColumnMapper columnMapper;
 
     @Resource
+    private UserMapper userMapper;
+
+    @Resource
     private PostCommentService postCommentService;
 
     public IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition condition) {
-        Wrapper<Post> queryWrapper = Wrappers.<Post>lambdaQuery().eq(Post::getStatus,1);
+        Wrapper<Post> queryWrapper = Wrappers.<Post>lambdaQuery()
+                .eq(Post::getStatus, 1)
+                .eq(condition.getColumnId() != 0, Post::getColumnId, condition.getColumnId());
+
         Page<Post> items = postMapper.selectPage(page, queryWrapper);
 
         return items.convert(post -> PostVO.builder()
                 .id(post.getId())
                 .column(columnMapper.get(post.getColumnId()))
-                .author(new User())
+                .author(userMapper.selectById(post.getAuthorId()))
                 .publishAt(post.getPublishAt())
                 .title(post.getTitle())
+                .viewCount(post.getViewCount())
+                .replyCount(post.getReplyCount())
                 .build());
     }
 
-    public List<Post> findTop(int limit) {
-        return postMapper.findTop(limit);
-    }
-
-    public List<Post> findByColumnId(int columnId) {
-        return postMapper.findByColumnId(columnId);
-    }
-
     public List<Post> findAllByAuthorId(int id) {
-        return postMapper.findAllByAuthorId(id);
+        return postMapper.selectList(Wrappers.lambdaQuery(Post.class).eq(Post::getAuthorId, id));
     }
 
     public List<Post> findAllPublishByAuthorId(int id) {
-        return postMapper.findAllPublishByAuthorId(id);
+        return postMapper.selectList(Wrappers.lambdaQuery(Post.class).eq(Post::getAuthorId,id).eq(Post::getStatus,PostService.PUBLISH_STATUS));
     }
 
-    public Post get(int id) {
-        return postMapper.get(id);
+    public PostVO get(int id) {
+        Post post = postMapper.selectById(id);
+
+        return PostVO.builder()
+                .id(post.getId())
+                .status(post.getStatus())
+                .column(columnMapper.selectById(post.getColumnId()))
+                .author(userMapper.selectById(post.getAuthorId()))
+                .publishAt(post.getPublishAt())
+                .title(post.getTitle())
+                .originalContent(post.getOriginalContent())
+                .content(post.getContent())
+                .build();
     }
 
     public Post create(PostEditFrom postEditFrom, User user) {
@@ -91,56 +103,28 @@ public class PostServiceImpl implements PostService {
         }
 
         Post post = builder.build();
-        postMapper.create(post);
+        postMapper.insert(post);
         return post;
     }
 
     public void update(Post post) {
-        postMapper.update(post);
+        postMapper.updateById(post);
     }
 
     public void updateHeat(Post post) {
-        postMapper.updateHeat(post);
+        postMapper.updateById(post);
     }
 
-    public List<Post> getEveryWeekCommentMax(int limit) {
-        return postMapper.getEveryWeekCommentMax(limit);
-    }
 
     public void replyCountInc(int postId) {
-        postMapper.replyCountInc(postId);
+        Post post = postMapper.selectById(postId);
+        postMapper.updateById(Post.builder().id(postId).replyCount(post.getReplyCount() + 1).build());
     }
 
     public void viewCountInc(int postId) {
-        postMapper.viewCountInc(postId);
-    }
-
-    public List<PostComment> getComments(int postId) {
-        List<PostComment> comments = postMapper.getComments(postId);
-
-        ArrayList<Integer> parentIds = new ArrayList<>();
-        for (PostComment comment : comments) {
-            if (comment.getParent() != null) {
-                parentIds.add(comment.getParent().getId());
-            }
-        }
-
-        //去重
-        ArrayList<Integer> ids = new ArrayList<>(new HashSet<>(parentIds));
-        if (ids.size() > 0) {
-            List<PostComment> parentComments = postCommentService.getCommentsByCommentIds(parentIds);
-            HashMap<Integer, PostComment> hashComments = new HashMap<>();
-            for (PostComment parentComment : parentComments) {
-                hashComments.put(parentComment.getId(), parentComment);
-            }
-
-            for (PostComment comment : comments) {
-                if (comment.getParent() != null) {
-                    comment.setParent(hashComments.get(comment.getParent().getId()));
-                }
-            }
-        }
-        return comments;
+        Post post = postMapper.selectById(postId);
+        post.setViewCount(post.getViewCount() + 1);
+        postMapper.updateById(post);
     }
 
     public void top(Post post) {
@@ -149,7 +133,7 @@ public class PostServiceImpl implements PostService {
         } else {
             post.setTop(1);
         }
-        postMapper.top(post);
+        postMapper.updateById(post);
     }
 
     public void essence(Post post) {
@@ -158,7 +142,7 @@ public class PostServiceImpl implements PostService {
         } else {
             post.setEssence(1);
         }
-        postMapper.essence(post);
+        postMapper.updateById(post);
     }
 
     public void edit(Post post, PostEditFrom postEditFrom) {
@@ -175,7 +159,7 @@ public class PostServiceImpl implements PostService {
             post.setUpdateAt(timestamp);
         }
 
-        postMapper.edit(post);
+        postMapper.updateById(post);
     }
 
     /**
@@ -203,6 +187,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public void move2delete(Post post) {
         post.setStatus(PostService.DELETE_STATUS);
-        postMapper.setStatus(post);
+        postMapper.updateById(post);
     }
 }

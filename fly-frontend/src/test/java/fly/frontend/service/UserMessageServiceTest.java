@@ -17,20 +17,6 @@ public class UserMessageServiceTest {
     @Resource
     private UserMessageService userMessageService;
 
-    @Test
-    public void createTest()
-    {
-        UserMessage userMessage = new UserMessage();
-        userMessage.setType("reply");
-        userMessage.setContent("回复消息");
-        User user = new User();
-        user.setId(1);
-        userMessage.setReceiver(user);
-        userMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-
-        int id = userMessageService.create(userMessage);
-        System.out.println(id);
-    }
 
     @Test
     public void getMessagesForUserTest(){

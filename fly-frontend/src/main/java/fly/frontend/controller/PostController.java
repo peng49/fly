@@ -1,13 +1,20 @@
 package fly.frontend.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import fly.frontend.dao.PostMapper;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostAutoDraft;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.from.PostCommentAddFrom;
+import fly.frontend.entity.vo.PostCommentVO;
+import fly.frontend.entity.vo.PostVO;
+import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.*;
 import fly.frontend.utils.HttpUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -30,6 +37,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/post")
+@Slf4j
 public class PostController {
     @Resource
     private PostService postService;
@@ -39,6 +47,9 @@ public class PostController {
 
     @Resource
     private ColumnService columnService;
+
+    @Resource
+    private PostMapper postMapper;
 
     @Resource
     private PostCommentService postCommentService;
@@ -79,7 +90,7 @@ public class PostController {
 
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") int id, ModelAndView view, HttpServletRequest request) {
-        Post post = postService.get(id);
+        Post post = postMapper.selectById(id);
         view.addObject("columns", columnService.getAll());
         view.addObject("post", post);
         if (HttpUtils.isMobile(request)) {
@@ -101,7 +112,7 @@ public class PostController {
 
         PostAutoDraft postAutoDraft;
         if (postEditFrom.getPostId() > 0) {
-            Post post = postService.get(postEditFrom.getPostId());
+            Post post = postMapper.selectById(postEditFrom.getPostId());
             draftBuilder.post(post);
             postAutoDraft = postAutoDraftService.getForPost(post);
         } else {
@@ -120,7 +131,7 @@ public class PostController {
     @PostMapping("/edit/{id}")
     @ResponseBody
     public Object edit(@PathVariable("id") int id, @RequestBody @Validated PostEditFrom postEditFrom) {
-        Post post = postService.get(id);
+        Post post = postMapper.selectById(id);
         postService.edit(post, postEditFrom);
         PostAutoDraft draft = postAutoDraftService.getForPost(post);
         if (draft != null) {
@@ -131,14 +142,15 @@ public class PostController {
 
     @GetMapping("/detail/{id}")
     public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
-        Post post = postService.get(id);
+        PostVO post = postService.get(id);
         boolean allowEdit = false;
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        if (user != null && user.getId() == post.getAuthorId()) {
+        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
+        if (user != null && user.getId() == post.getAuthor().getId()) {
             allowEdit = true;
         }
+        log.info(post.toString());
 
-        if (post.getStatus() != 1 && (user == null || user.getId() != post.getAuthorId())) {
+        if (post.getStatus() != 1 && (user == null || user.getId() != post.getAuthor().getId())) {
             //不是作者不能看未发布的文章
             response.setStatus(404);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -146,7 +158,10 @@ public class PostController {
 
         view.addObject("post", post);
         view.addObject("user", user);
-        view.addObject("comments", postService.getComments(id));
+        Page<PostComment> page = new Page<>();
+        page.setSize(50).setCurrent(1);
+        IPage<PostCommentVO> comments = postCommentService.getByPostId(page, post.getId());
+        view.addObject("comments", comments.getRecords());
         view.addObject("allowEdit", allowEdit);
         if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/post/detail");
@@ -175,7 +190,7 @@ public class PostController {
     @ResponseBody
     public Object top(@RequestParam(value = "postId") int postId, HttpSession httpSession) throws Exception {
         adminCheck(httpSession);
-        Post post = postService.get(postId);
+        Post post = postMapper.selectById(postId);
         postService.top(post);
         return HttpUtils.success(post);
     }
@@ -199,7 +214,7 @@ public class PostController {
     @ResponseBody
     public Object essence(@RequestParam("postId") int postId, HttpSession httpSession) throws Exception {
         adminCheck(httpSession);
-        Post post = postService.get(postId);
+        Post post = postMapper.selectById(postId);
         postService.essence(post);
         return HttpUtils.success(post);
     }
@@ -208,7 +223,7 @@ public class PostController {
     @ResponseBody
     public Object delete(@PathVariable("id") int postId, HttpSession httpSession) throws Exception {
         adminCheck(httpSession);
-        Post post = postService.get(postId);
+        Post post = postMapper.selectById(postId);
         post.setStatus(PostService.DELETE_STATUS);
         postService.move2delete(post);
         return HttpUtils.success();
@@ -227,7 +242,7 @@ public class PostController {
             Iterator<String> iter = multiRequest.getFileNames();
             while (iter.hasNext()) {
                 //一次遍历所有文件
-                MultipartFile file = multiRequest.getFile(iter.next().toString());
+                MultipartFile file = multiRequest.getFile(iter.next());
                 if (file != null) {
                     String filename = UUID.randomUUID() + Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().indexOf('.')).toLowerCase();
                     String path = userDir + filename;

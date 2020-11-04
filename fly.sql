@@ -52,7 +52,7 @@ CREATE TABLE `post_comments`  (
   `parent_id` int(11) NULL DEFAULT 0,
   `agree_count` int(11) NULL DEFAULT 0,
   `level` int(11) NULL DEFAULT 1,
-  `comment_time` datetime(0) NULL DEFAULT NULL,
+  `created_at` datetime(0) NULL DEFAULT NULL,
   `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;

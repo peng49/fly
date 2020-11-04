@@ -8,8 +8,8 @@ import java.sql.Timestamp;
 public class UserMessage {
     private int id;
     private String type;
-    private User sender;
-    private User receiver;
+    private int senderId;
+    private int receiverId;
     private String content;
     private Timestamp createdAt;
 }

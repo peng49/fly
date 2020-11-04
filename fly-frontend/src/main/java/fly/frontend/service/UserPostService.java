@@ -12,5 +12,5 @@ public interface UserPostService {
 
     boolean isExisted(int userId, int postId);
 
-    List<Post> findByUser(User user);
+    List<Post> findByUserId(Integer id);
 }

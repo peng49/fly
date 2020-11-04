@@ -29,7 +29,11 @@ public class ColumnController {
     private ColumnService columnService;
 
     @RequestMapping("/{id}")
-    public ModelAndView show(@PathVariable("id") int id, PostFilter filter, ModelAndView view, HttpServletRequest request) {
+    public ModelAndView show(
+            @PathVariable("id") int id,
+            PostFilter filter,
+            ModelAndView view,
+            HttpServletRequest request) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setColumnId(id);
         condition.setList(filter.getList());
@@ -53,7 +57,7 @@ public class ColumnController {
         view.addObject("list_total", posts.getTotal());
         view.addObject("current_page", posts.getCurrent());
 
-        view.addObject("page_size", posts.getPages() > 0 ? posts.getPages() : 10);
+        view.addObject("page_size", posts.getSize() > 0 ? posts.getSize() : 10);
 
         view.addObject("next_url", HttpUtils.setUrlParam(HttpUtils.getCurrentUrl(request), "page", String.valueOf(posts.getCurrent() + 1)));
 

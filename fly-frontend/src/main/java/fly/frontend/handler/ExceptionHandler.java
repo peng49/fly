@@ -1,5 +1,6 @@
 package fly.frontend.handler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -16,11 +17,13 @@ import org.springframework.web.servlet.ModelAndViewDefiningException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.ValidationException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
 @RestControllerAdvice
+@Slf4j
 public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
@@ -30,6 +33,8 @@ public class ExceptionHandler {
         map.put("code", "exception");
         map.put("name", ex.getClass().getName());
         map.put("message", ex.getLocalizedMessage());
+
+        log.error(Arrays.toString(ex.getStackTrace()));
         return map;
     }
 

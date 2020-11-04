@@ -33,15 +33,12 @@ public interface PostService {
 
     IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition condition);
 
-    List<Post> findTop(int limit);
-
-    List<Post> findByColumnId(int columnId);
 
     List<Post> findAllByAuthorId(int id);
 
     List<Post> findAllPublishByAuthorId(int id);
 
-    Post get(int id);
+    PostVO get(int id);
 
     Post create(PostEditFrom postEditFrom, User user);
 
@@ -49,13 +46,9 @@ public interface PostService {
 
     void updateHeat(Post post);
 
-    List<Post> getEveryWeekCommentMax(int limit);
-
     void replyCountInc(int postId);
 
     void viewCountInc(int postId);
-
-    List<PostComment> getComments(int postId);
 
     void top(Post post);
 

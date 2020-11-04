@@ -1,8 +1,16 @@
 package fly.frontend.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import fly.frontend.dao.PostMapper;
+import fly.frontend.dao.UserMapper;
+import fly.frontend.entity.dto.PostDTO;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
+import fly.frontend.entity.vo.PostCommentVO;
+import fly.frontend.entity.vo.PostVO;
 import fly.frontend.event.CommentEvent;
 import fly.frontend.dao.PostCommentMapper;
 import fly.frontend.entity.from.PostCommentAddFrom;
@@ -24,6 +32,12 @@ import java.util.regex.Pattern;
 public class PostCommentServiceImpl implements PostCommentService {
     @Resource
     private PostService postService;
+
+    @Resource
+    private PostMapper postMapper;
+
+    @Resource
+    private UserMapper userMapper;
 
     @Resource
     private PostCommentMapper postCommentMapper;
@@ -49,21 +63,20 @@ public class PostCommentServiceImpl implements PostCommentService {
     }
 
     public PostComment create(User user, PostCommentAddFrom postCommentAddFrom) {
-        Post post = postService.get(postCommentAddFrom.getPostId());
+        Post post = postMapper.selectById(postCommentAddFrom.getPostId());
         if (post == null || post.getStatus() != 1) {
             throw new RuntimeException("文章还未发布，不能进行评论");
         }
 
         PostComment.PostCommentBuilder commentBuilder = PostComment.builder()
-                .commentTime(new Timestamp(System.currentTimeMillis()))
+                .createdAt(new Timestamp(System.currentTimeMillis()))
                 .content(parseCommentContent(postCommentAddFrom.getContent()))
-                .post(post)
+                .postId(post.getId())
                 .level(post.getReplyCount() + 1)
-                .user(user);
+                .userId(user.getId());
 
         if (postCommentAddFrom.getParentId() != 0) {
-            PostComment parentComment = this.get(postCommentAddFrom.getParentId());
-            commentBuilder.parent(parentComment);
+            commentBuilder.parentId(postCommentAddFrom.getParentId());
         }
 
         //文章的评论数加1
@@ -71,28 +84,50 @@ public class PostCommentServiceImpl implements PostCommentService {
 
         PostComment comment = commentBuilder.build();
 
-        postCommentMapper.create(comment);
+        postCommentMapper.insert(comment);
 
         publisher.publishEvent(new CommentEvent(comment));
         return comment;
     }
 
-    public List<PostComment> getByUserId(int userId) {
-        return postCommentMapper.getByUserId(userId);
+    private List<PostCommentVO> convert(List<PostComment> comments) {
+        List<PostCommentVO> items = new ArrayList<>();
+        comments.forEach(comment -> {
+            items.add(PostCommentVO.builder()
+                    .id(comment.getId())
+                    .post(PostDTO.builder().title("TEST").build())
+                    .content(comment.getContent())
+                    .createdAt(comment.getCreatedAt())
+                    .build());
+        });
+        return items;
+    }
+
+    public List<PostCommentVO> getByUserId(int userId) {
+        return convert(postCommentMapper.selectList(Wrappers.<PostComment>lambdaQuery().eq(PostComment::getUserId, userId)));
     }
 
     public List<PostComment> getCommentsByCommentIds(ArrayList<Integer> commentIds) {
-        return postCommentMapper.getCommentsByCommentIds(commentIds);
+        return postCommentMapper.selectList(Wrappers.<PostComment>lambdaQuery().in(PostComment::getId, commentIds));
     }
+
 
     @Override
     public void commentAgreeInc(int commentId) {
-        postCommentMapper.commentAgreeInc(commentId);
+        PostComment postComment = postCommentMapper.selectById(commentId);
+        postCommentMapper.updateById(PostComment.builder()
+                .id(postComment.getId())
+                .agreeCount(postComment.getAgreeCount() + 1)
+                .build());
     }
 
     @Override
     public void commentAgreeDec(int commentId) {
-        postCommentMapper.commentAgreeDec(commentId);
+        PostComment postComment = postCommentMapper.selectById(commentId);
+        postCommentMapper.updateById(PostComment.builder()
+                .id(postComment.getId())
+                .agreeCount(postComment.getAgreeCount() - 1)
+                .build());
     }
 
     @Override
@@ -112,7 +147,22 @@ public class PostCommentServiceImpl implements PostCommentService {
         return users;
     }
 
+    @Override
+    public IPage<PostCommentVO> getByPostId(Page<PostComment> page, Integer postId) {
+        Page<PostComment> comments = postCommentMapper.selectPage(
+                page, Wrappers.<PostComment>lambdaQuery().
+                        eq(PostComment::getPostId, postId)
+        );
+
+        return comments.convert(comment -> PostCommentVO.builder()
+                .id(comment.getId())
+                .content(comment.getContent())
+                .post(PostDTO.builder().build())
+                .user(userMapper.selectById(comment.getUserId()))
+                .build());
+    }
+
     public PostComment get(int id) {
-        return postCommentMapper.get(id);
+        return postCommentMapper.selectById(id);
     }
 }

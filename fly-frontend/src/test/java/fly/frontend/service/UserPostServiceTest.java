@@ -35,11 +35,4 @@ public class UserPostServiceTest {
         userPostService.delete(user,10);
     }
 
-
-    @Test
-    public void getTest(){
-        User user = new User();
-        user.setId(1);
-        System.out.println(userPostService.findByUser(user));
-    }
 }

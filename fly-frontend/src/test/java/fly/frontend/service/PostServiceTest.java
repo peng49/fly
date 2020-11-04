@@ -23,7 +23,7 @@ public class PostServiceTest {
     @Test
     public void findAllTest()
     {
-        System.out.println(postService.findByColumnId(1));
+
     }
 
 
