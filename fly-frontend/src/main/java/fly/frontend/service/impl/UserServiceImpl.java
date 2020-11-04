@@ -2,9 +2,8 @@ package fly.frontend.service.impl;
 
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.User;
-import fly.frontend.entity.vo.UserVO;
 import fly.frontend.event.RegisteredEvent;
-import fly.frontend.mapper.UserMapper;
+import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;

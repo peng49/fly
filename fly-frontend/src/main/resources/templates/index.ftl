@@ -62,16 +62,16 @@
                 <ul class="fly-list">
                     <#list posts as post>
                         <li>
-                            <a href="/u/${post.author.id}" class="fly-avatar">
-                                <img src="${(post.author.avatar)!}" alt="${post.author.username}">
+                            <a href="/u/${(post.author.id)!}" class="fly-avatar">
+                                <img src="${(post.author.avatar)!}" alt="${(post.author.username)!}">
                             </a>
                             <h2>
-                                <a class="layui-badge">${post.column.name}</a>
+                                <a class="layui-badge">${(post.column.name)!}</a>
                                 <a href="/post/detail/${post.id}">${post.title}</a>
                             </h2>
                             <div class="fly-list-info">
-                                <a href="/u/${post.author.id}" link>
-                                    <cite>${post.author.username}</cite>
+                                <a href="/u/${(post.author.id)!}" link>
+                                    <cite>${(post.author.username)!}</cite>
                                 </a>
                                 <span>${(post.publishAt)!}</span>
                                 <span class="fly-list-nums">

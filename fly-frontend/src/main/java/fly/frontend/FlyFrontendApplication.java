@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@MapperScan("fly.frontend.mapper")
+@MapperScan("fly.frontend.dao")
 public class FlyFrontendApplication {
     public static void main(String[] args) {
         org.springframework.boot.SpringApplication.run(FlyFrontendApplication.class, args);

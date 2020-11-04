@@ -1,5 +1,6 @@
-package fly.frontend.mapper;
+package fly.frontend.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.model.Post;
@@ -10,7 +11,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface PostMapper {
+public interface PostMapper extends BaseMapper<Post> {
     @Select("select p.*,u.username,u.avatar,c.name as column_name from posts as p " +
             "inner join users as u on u.id = p.author_id " +
             "inner join columns as c on c.id = p.column_id " +

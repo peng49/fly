@@ -1,33 +1,54 @@
 package fly.frontend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import fly.frontend.dao.ColumnMapper;
 import fly.frontend.entity.model.Column;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
-import fly.frontend.mapper.PostMapper;
+import fly.frontend.dao.PostMapper;
 import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.from.PostFilterCondition;
+import fly.frontend.entity.vo.PostVO;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
+import fly.frontend.service.UserService;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.function.Function;
 
 @Service
 public class PostServiceImpl implements PostService {
     @Resource
     private PostMapper postMapper;
 
-    @Autowired
+    @Resource
+    private ColumnMapper columnMapper;
+
+    @Resource
     private PostCommentService postCommentService;
 
-    public IPage<Post> getByCondition(Page<?> page,PostFilterCondition condition) {
-        return postMapper.getByCondition(page, condition);
+    public IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition condition) {
+        Wrapper<Post> queryWrapper = Wrappers.<Post>lambdaQuery().eq(Post::getStatus,1);
+        Page<Post> items = postMapper.selectPage(page, queryWrapper);
+
+        return items.convert(post -> PostVO.builder()
+                .id(post.getId())
+                .column(columnMapper.get(post.getColumnId()))
+                .author(new User())
+                .publishAt(post.getPublishAt())
+                .title(post.getTitle())
+                .build());
     }
 
     public List<Post> findTop(int limit) {
@@ -54,11 +75,11 @@ public class PostServiceImpl implements PostService {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Post.PostBuilder builder = Post.builder()
-                .author(user)
+//                .author(user)
                 .title(postEditFrom.getTitle())
                 .originalContent(postEditFrom.getOriginalContent())
                 .content(postEditFrom.getContent())
-                .column(Column.builder().id(postEditFrom.getColumnId()).build())
+//                .column(Column.builder().id(postEditFrom.getColumnId()).build())
                 .createdAt(timestamp)
                 .updateAt(timestamp);
 
@@ -132,9 +153,9 @@ public class PostServiceImpl implements PostService {
     }
 
     public void essence(Post post) {
-        if(post.getEssence() == 1){
+        if (post.getEssence() == 1) {
             post.setEssence(0);
-        }else{
+        } else {
             post.setEssence(1);
         }
         postMapper.essence(post);
@@ -144,7 +165,7 @@ public class PostServiceImpl implements PostService {
         post.setOriginalContent(postEditFrom.getOriginalContent());
         post.setContent(postEditFrom.getContent());
         post.setTitle(postEditFrom.getTitle());
-        post.setColumn(Column.builder().id(postEditFrom.getColumnId()).build());
+//        post.setColumn(Column.builder().id(postEditFrom.getColumnId()).build());
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         //发布

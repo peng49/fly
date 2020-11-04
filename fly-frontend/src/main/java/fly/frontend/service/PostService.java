@@ -7,6 +7,7 @@ import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.from.PostFilterCondition;
+import fly.frontend.entity.vo.PostVO;
 
 import java.util.*;
 
@@ -30,7 +31,7 @@ public interface PostService {
      */
     List<String> ALLOW_ORDER_FIELD = Arrays.asList("heat", "publish_at", "reply_count");
 
-    IPage<Post> getByCondition(Page<?> page, PostFilterCondition condition);
+    IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition condition);
 
     List<Post> findTop(int limit);
 

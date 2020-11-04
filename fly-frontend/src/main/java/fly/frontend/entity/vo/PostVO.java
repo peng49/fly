@@ -2,11 +2,13 @@ package fly.frontend.entity.vo;
 
 import fly.frontend.entity.model.Column;
 import fly.frontend.entity.model.User;
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
+@Builder
 public class PostVO {
     private int id;
     private Column column;

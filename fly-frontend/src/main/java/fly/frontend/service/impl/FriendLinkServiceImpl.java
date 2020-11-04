@@ -1,7 +1,7 @@
 package fly.frontend.service.impl;
 
 import fly.frontend.entity.model.FriendLink;
-import fly.frontend.mapper.FriendLinkMapper;
+import fly.frontend.dao.FriendLinkMapper;
 import fly.frontend.service.FriendLinkService;
 import org.springframework.stereotype.Service;
 

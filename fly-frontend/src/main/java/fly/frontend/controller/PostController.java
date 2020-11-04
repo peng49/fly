@@ -67,10 +67,11 @@ public class PostController {
         }
         Post post = postService.create(postEditFrom, user);
 
+      /* todo clear draft
         PostAutoDraft draft = postAutoDraftService.getForUser(post.getAuthor());
         if (draft != null) {
             postAutoDraftService.delete(draft.getId());
-        }
+        }*/
 
 
         return HttpUtils.success(post);
@@ -133,11 +134,11 @@ public class PostController {
         Post post = postService.get(id);
         boolean allowEdit = false;
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        if (user != null && user.getId() == post.getAuthor().getId()) {
+        if (user != null && user.getId() == post.getAuthorId()) {
             allowEdit = true;
         }
 
-        if (post.getStatus() != 1 && (user == null || user.getId() != post.getAuthor().getId())) {
+        if (post.getStatus() != 1 && (user == null || user.getId() != post.getAuthorId())) {
             //不是作者不能看未发布的文章
             response.setStatus(404);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

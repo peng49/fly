@@ -46,7 +46,8 @@ public class HomepageController {
         view.addObject("topPosts", postService.findTop(4));
 
         Page<Post> page = new Page<>();
-        view.addObject("posts", postService.getByCondition(page, condition));
+        page.setCurrent(1).setSize(20);
+        view.addObject("posts", postService.getByCondition(page, condition).getRecords());
 
         if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/index");

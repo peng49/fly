@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.model.Column;
 import fly.frontend.entity.model.Post;
+import fly.frontend.entity.vo.PostVO;
 import fly.frontend.pojo.PostFilter;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
@@ -43,7 +44,7 @@ public class ColumnController {
 
         Page<Post> page = new Page<>();
         page.setCurrent(filter.getPage()).setSize(filter.getPageSize());
-        IPage<Post> posts = postService.getByCondition(page, condition);
+        IPage<PostVO> posts = postService.getByCondition(page, condition);
         view.addObject("posts", posts.getRecords());
 
         Column column = columnService.get(id);

@@ -4,7 +4,7 @@ import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
 import fly.frontend.event.CommentEvent;
-import fly.frontend.mapper.PostCommentMapper;
+import fly.frontend.dao.PostCommentMapper;
 import fly.frontend.entity.from.PostCommentAddFrom;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
@@ -14,7 +14,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;

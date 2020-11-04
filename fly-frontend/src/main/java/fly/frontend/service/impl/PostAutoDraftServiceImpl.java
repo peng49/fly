@@ -3,12 +3,11 @@ package fly.frontend.service.impl;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostAutoDraft;
 import fly.frontend.entity.model.User;
-import fly.frontend.mapper.PostAutoDraftMapper;
+import fly.frontend.dao.PostAutoDraftMapper;
 import fly.frontend.service.PostAutoDraftService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class PostAutoDraftServiceImpl implements PostAutoDraftService {
