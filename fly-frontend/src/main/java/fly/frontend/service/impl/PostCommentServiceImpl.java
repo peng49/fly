@@ -1,5 +1,6 @@
 package fly.frontend.service.impl;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,8 +10,8 @@ import fly.frontend.entity.dto.PostDTO;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
+import fly.frontend.entity.model.UserMessage;
 import fly.frontend.entity.vo.PostCommentVO;
-import fly.frontend.entity.vo.PostVO;
 import fly.frontend.event.CommentEvent;
 import fly.frontend.dao.PostCommentMapper;
 import fly.frontend.entity.from.PostCommentAddFrom;
@@ -43,7 +44,7 @@ public class PostCommentServiceImpl implements PostCommentService {
     private PostCommentMapper postCommentMapper;
 
     @Resource
-    private UserService userService;
+    private UserService<BaseMapper<UserMessage>> userService;
 
     @Resource
     private ApplicationEventPublisher publisher;
@@ -62,9 +63,9 @@ public class PostCommentServiceImpl implements PostCommentService {
         return content;
     }
 
-    public PostComment create(User user, PostCommentAddFrom postCommentAddFrom) {
+    public PostComment create(Integer userId, PostCommentAddFrom postCommentAddFrom) {
         Post post = postMapper.selectById(postCommentAddFrom.getPostId());
-        if (post == null || post.getStatus() != 1) {
+        if (post == null || post.getStatus() != PostService.PUBLISH_STATUS) {
             throw new RuntimeException("文章还未发布，不能进行评论");
         }
 
@@ -73,7 +74,7 @@ public class PostCommentServiceImpl implements PostCommentService {
                 .content(parseCommentContent(postCommentAddFrom.getContent()))
                 .postId(post.getId())
                 .level(post.getReplyCount() + 1)
-                .userId(user.getId());
+                .userId(userId);
 
         if (postCommentAddFrom.getParentId() != 0) {
             commentBuilder.parentId(postCommentAddFrom.getParentId());

@@ -20,7 +20,7 @@ public class CommentEventListener {
     private PostService postService;
 
     @Resource
-    private UserMessageService userMessageService;
+    private UserMessageService<UserMessage> userMessageService;
 
     @Resource
     private PostCommentService postCommentService;
@@ -37,7 +37,7 @@ public class CommentEventListener {
         commentMessage.setReceiverId(postService.get(postComment.getPostId()).getAuthor().getId());
         commentMessage.setContent(postComment.getContent());
         commentMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        userMessageService.create(commentMessage);
+        userMessageService.save(commentMessage);
 
         //获取评论 @ 的所有用户
         List<User> users = postCommentService.getUsersByContent(postComment.getContent());
@@ -52,7 +52,7 @@ public class CommentEventListener {
             userMessage.setReceiverId(user.getId());
             userMessage.setContent(postComment.getContent());
             userMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-            userMessageService.create(userMessage);
+            userMessageService.save(userMessage);
         }
     }
 }

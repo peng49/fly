@@ -1,7 +1,9 @@
 package fly.frontend.service;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import fly.frontend.FlyFrontendApplication;
 import fly.frontend.entity.from.UserLoginFrom;
+import fly.frontend.entity.model.UserMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ import java.util.UUID;
 public class UserServiceTest {
 
     @Autowired
-    private UserService userService;
+    private UserService<BaseMapper<UserMessage>> userService;
 
     @Test
     public void lombokTest()

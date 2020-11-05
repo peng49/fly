@@ -48,7 +48,7 @@ public class HttpUtils {
         if (data instanceof IPage) {
             HashMap<Object, Object> hash = new HashMap<>();
             hash.put("total", ((IPage<?>) data).getTotal());
-            hash.put("page", ((IPage<?>) data).getPages());
+            hash.put("page", ((IPage<?>) data).getCurrent());
             hash.put("pageSize", ((IPage<?>) data).getSize());
             hash.put("rows", ((IPage<?>) data).getRecords());
             return HttpUtils.response("success", "OK", hash);

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface PostCommentService {
-    PostComment create(User user, PostCommentAddFrom postCommentAddFrom);
+    PostComment create(Integer userId, PostCommentAddFrom postCommentAddFrom);
 
     PostComment get(int id);
 

@@ -12,7 +12,7 @@ import fly.frontend.entity.vo.PostVO;
 import java.util.*;
 
 public interface PostService {
-    int DEFAULT_HEAD = 10;
+    double DEFAULT_HEAD = 10.0;
 
     /**
      * 草稿状态
