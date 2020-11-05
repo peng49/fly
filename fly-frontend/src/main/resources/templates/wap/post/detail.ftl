@@ -63,19 +63,19 @@
                             <a href="">${comment.user.username}</a>
                         </span>
                             <span>
-                            <time date="" title="">${comment.commentTime}</time>
+                            <time title="">${(comment.createdAt)!''}</time>
                         </span>
                             <span class="right">#${comment.level}</span>
                         </div>
                         <div class="comment">
-                            <#if (comment.parent)??>
+                            <#--<#if (comment.parent)??>
                                 <div class="comment-parent">
                                     <div class="a">引用 @${(comment.parent.user.username)!} 的回复</div>
                                     <div>
                                         ${(comment.parent.content)!}
                                     </div>
                                 </div>
-                            </#if>
+                            </#if>-->
                             ${comment.content}
                         </div>
                     </div>
@@ -120,8 +120,7 @@
     ];
     editor.create();
     $('body').on('click', '#submit-comment', function () {
-        let postId =
-        ${post.id}
+        let postId = ${post.id}
         if (!editor.txt.text().trim()) {
             return $.toast("评论内容不能为空", 'cancel');
         }

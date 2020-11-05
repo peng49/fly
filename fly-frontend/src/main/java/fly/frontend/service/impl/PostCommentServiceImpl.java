@@ -157,9 +157,11 @@ public class PostCommentServiceImpl implements PostCommentService {
 
         return comments.convert(comment -> PostCommentVO.builder()
                 .id(comment.getId())
+                .createdAt(comment.getCreatedAt())
                 .content(comment.getContent())
                 .post(PostDTO.builder().build())
                 .user(userMapper.selectById(comment.getUserId()))
+                .level(comment.getLevel())
                 .build());
     }
 

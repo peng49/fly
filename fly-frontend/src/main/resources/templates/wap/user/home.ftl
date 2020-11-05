@@ -31,11 +31,11 @@
             <ul class="user-posts">
                 <#list posts as post>
                     <li class="user-post">
-                        <#if post.essence == 1 >
+                        <#if post.essence?? && post.essence == 1 >
                             <span class="jing">精</span>
                         </#if>
                         <a href="/post/detail/${post.id}" class="title">${post.title}</a>
-                        <i>${post.publishAt}</i>
+                        <i>${(post.publishAt)!}</i>
                         <em class="hide-xs">${post.viewCount}阅/${post.replyCount}答</em>
                     </li>
                 <#else>
@@ -54,7 +54,7 @@
                 <#list comments as comment>
                     <li>
                         <p>
-                            <span>${comment.commentTime}</span>
+                            <span>${(comment.createdAt)!}</span>
                             在<a href="/post/detail/${comment.post.id}"><strong>${comment.post.title}</strong></a>中回答：
                         </p>
                         <div class="content">
