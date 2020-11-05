@@ -1,18 +1,8 @@
 package fly.frontend.service;
 
-import fly.frontend.entity.model.User;
+import com.baomidou.mybatisplus.extension.service.IService;
 import fly.frontend.entity.model.UserMessage;
 
-import java.util.List;
+public interface UserMessageService<T extends UserMessage> extends IService<T> {
 
-public interface UserMessageService {
-    int create(UserMessage message);
-
-    List<UserMessage> getMessagesForUser(User user);
-
-    UserMessage get(int id);
-
-    void delete(UserMessage message);
-
-    void deleteByUser(User user);
 }

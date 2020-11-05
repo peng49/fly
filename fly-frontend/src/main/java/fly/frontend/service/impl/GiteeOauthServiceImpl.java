@@ -1,14 +1,15 @@
 package fly.frontend.service.impl;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.model.OauthAccount;
 import fly.frontend.entity.model.User;
+import fly.frontend.entity.model.UserMessage;
 import fly.frontend.pojo.GiteeOauthResponse;
 import fly.frontend.entity.vo.GiteeUserInfo;
 import fly.frontend.service.OauthAccountService;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -36,19 +37,19 @@ public class GiteeOauthServiceImpl implements OauthService {
     @Value("${oauth.gitee.redirect-uri}")
     private String redirectUri;
 
-    @Autowired
+    @Resource
     private RestTemplate restTemplate;
 
     @Resource
     private OauthAccountService oauthAccountService;
 
     @Resource
-    private UserService userService;
+    private UserService<BaseMapper<UserMessage>> userService;
 
     @Resource
     private UserMapper userMapper;
 
-    @Autowired
+    @Resource
     private HttpSession httpSession;
 
     @Override

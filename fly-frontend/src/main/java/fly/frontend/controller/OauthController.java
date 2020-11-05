@@ -1,7 +1,8 @@
 package fly.frontend.controller;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import fly.frontend.entity.model.OauthAccount;
-import fly.frontend.entity.model.User;
+import fly.frontend.entity.model.UserMessage;
 import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
@@ -18,7 +19,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/oauth")
@@ -31,7 +31,7 @@ public class OauthController {
     private OauthService githubOauthService;
 
     @Resource
-    private UserService userService;
+    private UserService<BaseMapper<UserMessage>> userService;
 
     @GetMapping("/{platform}/redirect")
     public void redirect(HttpServletResponse response,

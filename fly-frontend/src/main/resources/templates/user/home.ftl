@@ -42,7 +42,7 @@
                 <ul class="jie-row">
                     <#list posts as post>
                         <li>
-                            <#if post.essence == 1 >
+                            <#if post.essence?? && post.essence == 1 >
                                 <span class="fly-jing">精</span>
                             </#if>
                             <a href="/post/detail/${post.id}" class="jie-title">${post.title!''}</a>

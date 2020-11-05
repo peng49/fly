@@ -38,10 +38,10 @@
                                 </span>
                             </div>
                             <div class="fly-list-badge">
-                                <#if post.top == 1>
+                                <#if post.top?? && post.top == 1 >
                                     <span class="layui-badge layui-bg-black">置顶</span>
                                 </#if>
-                                <#if post.essence == 1>
+                                <#if post.essence?? && post.essence == 1>
                                     <span class="layui-badge layui-bg-red">精</span>
                                 </#if>
                             </div>

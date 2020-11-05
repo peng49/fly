@@ -39,18 +39,19 @@ public class PostServiceImpl implements PostService {
     @Resource
     private UserMapper userMapper;
 
-    @Resource
-    private PostCommentService postCommentService;
 
-    public IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition condition) {
+    public IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition query) {
         Wrapper<Post> queryWrapper = Wrappers.<Post>lambdaQuery()
                 .eq(Post::getStatus, 1)
-                .eq(condition.getColumnId() != 0, Post::getColumnId, condition.getColumnId());
+                .eq(query.getColumnId() != 0, Post::getColumnId, query.getColumnId())
+                .eq("essence".equals(query.getList()),Post::getEssence,1);
 
         Page<Post> items = postMapper.selectPage(page, queryWrapper);
 
         return items.convert(post -> PostVO.builder()
                 .id(post.getId())
+                .status(post.getStatus())
+                .essence(post.getEssence())
                 .column(columnMapper.get(post.getColumnId()))
                 .author(userMapper.selectById(post.getAuthorId()))
                 .publishAt(post.getPublishAt())
@@ -74,6 +75,7 @@ public class PostServiceImpl implements PostService {
         return PostVO.builder()
                 .id(post.getId())
                 .status(post.getStatus())
+                .essence(post.getEssence())
                 .column(columnMapper.selectById(post.getColumnId()))
                 .author(userMapper.selectById(post.getAuthorId()))
                 .publishAt(post.getPublishAt())
@@ -87,11 +89,11 @@ public class PostServiceImpl implements PostService {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Post.PostBuilder builder = Post.builder()
-//                .author(user)
+                .authorId(user.getId())
+                .columnId(postEditFrom.getColumnId())
                 .title(postEditFrom.getTitle())
                 .originalContent(postEditFrom.getOriginalContent())
                 .content(postEditFrom.getContent())
-//                .column(Column.builder().id(postEditFrom.getColumnId()).build())
                 .createdAt(timestamp)
                 .updateAt(timestamp);
 
@@ -149,7 +151,7 @@ public class PostServiceImpl implements PostService {
         post.setOriginalContent(postEditFrom.getOriginalContent());
         post.setContent(postEditFrom.getContent());
         post.setTitle(postEditFrom.getTitle());
-//        post.setColumn(Column.builder().id(postEditFrom.getColumnId()).build());
+        post.setColumnId(postEditFrom.getColumnId());
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         //发布

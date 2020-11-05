@@ -175,8 +175,8 @@ public class PostController {
     @PostMapping("/addComment")
     @ResponseBody
     public Object addComment(@RequestBody @Validated PostCommentAddFrom postCommentAddFrom, HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        PostComment comment = postCommentService.create(user, postCommentAddFrom);
+        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
+        PostComment comment = postCommentService.create(user.getId(), postCommentAddFrom);
         return HttpUtils.success(comment);
     }
 

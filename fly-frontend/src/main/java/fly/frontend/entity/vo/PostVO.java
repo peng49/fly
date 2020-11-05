@@ -16,12 +16,12 @@ public class PostVO {
     private String title;
     private String originalContent;
     private String content;
-    private int viewCount;
-    private int replyCount;
-    private int status;
+    private Integer viewCount;
+    private Integer replyCount;
+    private Integer status;
     private Timestamp publishAt;
     private Timestamp createdAt;
     private Timestamp updateAt;
-    private int essence;
-    private int top;
+    private Integer essence;
+    private Integer top;
 }

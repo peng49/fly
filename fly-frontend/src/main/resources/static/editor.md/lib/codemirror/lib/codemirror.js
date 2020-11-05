@@ -5154,7 +5154,7 @@
 
   // OPTION DEFAULTS
 
-  // The default configuration options.
+  // The default config options.
   var defaults = CodeMirror.defaults = {};
   // Functions to run when options are changed.
   var optionHandlers = CodeMirror.optionHandlers = {};

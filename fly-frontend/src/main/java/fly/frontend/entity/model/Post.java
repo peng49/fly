@@ -16,15 +16,15 @@ public class Post {
     private String title;
     private String originalContent;
     private String content;
-    private int viewCount;
-    private int replyCount;
-    private double heat;
-    private int status;
+    private Integer viewCount;
+    private Integer replyCount;
+    private Double heat;
+    private Integer status;
     private Timestamp publishAt;
     private Timestamp createdAt;
     private Timestamp updateAt;
-    private int essence;
-    private int top;
+    private Integer essence;
+    private Integer top;
 
     @Tolerate
     public Post() {

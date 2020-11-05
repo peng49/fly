@@ -1,4 +1,4 @@
-package fly.frontend.configuration;
+package fly.frontend.config;
 
 import fly.frontend.entity.model.Column;
 import fly.frontend.service.ColumnService;

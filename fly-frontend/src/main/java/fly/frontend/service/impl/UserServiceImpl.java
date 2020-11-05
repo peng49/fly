@@ -1,13 +1,14 @@
 package fly.frontend.service.impl;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;
 import fly.frontend.entity.from.UserRegisterFrom;
-import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.User;
+import fly.frontend.entity.model.UserMessage;
 import fly.frontend.entity.vo.UserVO;
 import fly.frontend.event.RegisteredEvent;
 import fly.frontend.service.UserPostService;
@@ -20,10 +21,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService<BaseMapper<UserMessage>> {
     @Resource
     private UserMapper userMapper;
 

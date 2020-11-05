@@ -43,8 +43,8 @@
                         </#if>
                     </div>
                     <span class="fly-list-nums">
-            <a href="#reply"><i class="iconfont" title="回答">&#xe60c;</i> ${post.replyCount}</a>
-            <i class="iconfont" title="人气">&#xe60b;</i> ${post.viewCount}
+            <a href="#reply"><i class="iconfont" title="回答">&#xe60c;</i> ${(post.replyCount)!0}</a>
+            <i class="iconfont" title="人气">&#xe60b;</i> ${(post.viewCount)!0}
           </span>
                 </div>
                 <div class="detail-about">
@@ -97,7 +97,7 @@
                                     </#if>
                                 </div>
                                 <div class="detail-hits">
-                                    <span>${(comment.commentTime)!}</span>
+                                    <span>${(comment.createdAt)!}</span>
                                 </div>
                             </div>
                             <div class="detail-body jieda-body photos">
@@ -153,9 +153,9 @@
         el: "#post-container",
         data: {
             post: {
-                top: '${post.top}',
-                essence: '${post.essence}',
-                status: '${post.status}',
+                top: '${(post.top)!0}',
+                essence: '${(post.essence)!0}',
+                status: '${(post.status)!}',
             },
             postCollection: {
                 postId: '${post.id}'
