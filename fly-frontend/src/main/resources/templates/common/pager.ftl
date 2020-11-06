@@ -11,6 +11,11 @@
         <a href="?page=1&pageSize=${page_size}" class="laypage-next">首页</a>
     </#if>
 
+    <#list 1..page_count as page>
+        <a href="?page=${page}&pageSize=${page_size}" class="laypage-last">尾页</a>
+    </#list>
+
+
     <#if current_page lt page_count>
         <a href="?page=${page_count}&pageSize=${page_size}" class="laypage-last">尾页</a>
     </#if>
