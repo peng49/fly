@@ -13,9 +13,9 @@ public interface PostService {
 
     Post update(Post column);
 
-    Post findOne(int id);
+    Post findOne(Long id);
 
-    PostVO get(int id);
+    PostVO get(Long id);
 
     ResultVO search(int page, int pageSize, Map<String,Object> query);
 }

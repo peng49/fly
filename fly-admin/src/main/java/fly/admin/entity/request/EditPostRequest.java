@@ -14,7 +14,7 @@ public class EditPostRequest {
 
     @NotNull
     @Min(1)
-    private int authorId;
+    private Long authorId;
 
     @NotNull
     private String title;

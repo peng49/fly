@@ -18,10 +18,10 @@ import java.sql.Timestamp;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private int columnId;
-    private int authorId;
+    private Long authorId;
     private String title;
     private String originalContent;
     private String content;

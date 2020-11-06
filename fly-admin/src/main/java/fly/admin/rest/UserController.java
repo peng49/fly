@@ -43,7 +43,7 @@ public class UserController {
 
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/{id}")
-    public Object delete(@PathVariable("id") int id) {
+    public Object delete(@PathVariable("id") Long id) {
         userService.delete(userService.findOne(id));
         return ResultVO.builder()
                 .code("success")
@@ -53,7 +53,7 @@ public class UserController {
 
     @ApiOperation(value = "更新用户")
     @PutMapping("/{id}")
-    public Object update(@PathVariable("id") int id, @RequestBody EditUserRequest request) {
+    public Object update(@PathVariable("id") Long id, @RequestBody EditUserRequest request) {
         User user = userService.findOne(id);
         user.setAvatar(request.getAvatar());
         user.setEmail(request.getEmail());
@@ -73,7 +73,7 @@ public class UserController {
 
     @ApiOperation(value = "获取用户信息")
     @GetMapping("/{id}")
-    public Object get(@PathVariable("id") int id) {
+    public Object get(@PathVariable("id") Long id) {
         return ResultVO.builder()
                 .code("success")
                 .message("Success")

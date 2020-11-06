@@ -19,7 +19,7 @@ public class PostCommentController {
 
     @ApiOperation(value = "删除评论")
     @DeleteMapping("/{id}")
-    public Object delete(@PathVariable("id") int id) {
+    public Object delete(@PathVariable("id") Long id) {
         postCommentService.delete(postCommentService.findOne(id));
         return ResultVO.builder()
                 .code("success")
@@ -30,7 +30,7 @@ public class PostCommentController {
 
     @ApiOperation(value = "获取单个评论")
     @GetMapping("/{id}")
-    public Object get(@PathVariable("id") int id) {
+    public Object get(@PathVariable("id") Long id) {
         return ResultVO.builder()
                 .code("success")
                 .message("Success")

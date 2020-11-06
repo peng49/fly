@@ -10,9 +10,9 @@ public interface PostCommentService {
 
     void delete(PostComment comment);
 
-    PostComment findOne(int id);
+    PostComment findOne(Long id);
 
-    PostCommentVO get(int id);
+    PostCommentVO get(Long id);
 
     ResultVO search(int page, int pageSize, Map<String,Object> query);
 }

@@ -18,11 +18,11 @@ import java.sql.Timestamp;
 public class PostComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private Integer level;
-    private Integer userId;
-    private Integer postId;
-    private Integer parentId;
+    private Long userId;
+    private Long postId;
+    private Long parentId;
     private String content;
     private Timestamp commentTime;
     private Integer agreeCount;
