@@ -68,6 +68,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
                 .id(post.getId())
                 .status(post.getStatus())
                 .essence(post.getEssence())
+                .viewCount(post.getViewCount())
+                .replyCount(post.getReplyCount())
                 .column(columnService.getById(post.getColumnId()))
                 .author(userService.getById(post.getAuthorId()))
                 .publishAt(post.getPublishAt())

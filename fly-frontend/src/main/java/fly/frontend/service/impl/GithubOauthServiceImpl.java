@@ -9,7 +9,6 @@ import fly.frontend.entity.vo.GithubUserInfo;
 import fly.frontend.service.OauthAccountService;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +38,7 @@ public class GithubOauthServiceImpl implements OauthService {
     @Value("${oauth.github.redirect-uri}")
     private String redirectUri;
 
-    @Autowired
+    @Resource
     private RestTemplate restTemplate;
 
     @Resource
@@ -51,7 +50,7 @@ public class GithubOauthServiceImpl implements OauthService {
     @Resource
     private UserMapper userMapper;
 
-    @Autowired
+    @Resource
     private HttpSession httpSession;
 
     @Override

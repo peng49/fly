@@ -145,10 +145,9 @@ public class PostController {
         PostVO post = postService.get(id);
         boolean allowEdit = false;
         UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
-        if (user != null && user.getId() == post.getAuthor().getId()) {
+        if (user != null && user.getId().equals(post.getAuthor().getId())) {
             allowEdit = true;
         }
-        log.info(post.toString());
 
         if (post.getStatus() != 1 && (user == null || user.getId() != post.getAuthor().getId())) {
             //不是作者不能看未发布的文章
@@ -168,7 +167,12 @@ public class PostController {
         } else {
             view.setViewName("/post/detail");
         }
-        postService.viewCountInc(id);
+
+        Thread thread = new Thread(() -> {
+            postService.viewCountInc(id);
+        });
+        thread.start();
+
         return view;
     }
 
