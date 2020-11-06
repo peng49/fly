@@ -1,17 +1,14 @@
 package fly.frontend.service.impl;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.model.OauthAccount;
 import fly.frontend.entity.model.User;
-import fly.frontend.entity.model.UserMessage;
-import fly.frontend.pojo.GiteeOauthResponse;
 import fly.frontend.entity.vo.GiteeUserInfo;
+import fly.frontend.pojo.GiteeOauthResponse;
 import fly.frontend.service.OauthAccountService;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

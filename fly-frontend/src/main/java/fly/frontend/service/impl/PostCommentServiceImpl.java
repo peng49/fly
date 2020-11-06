@@ -1,21 +1,17 @@
 package fly.frontend.service.impl;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import fly.frontend.dao.PostMapper;
-import fly.frontend.dao.UserMapper;
+import fly.frontend.dao.PostCommentMapper;
 import fly.frontend.entity.dto.PostDTO;
+import fly.frontend.entity.from.PostCommentAddFrom;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
-import fly.frontend.entity.model.UserMessage;
 import fly.frontend.entity.vo.PostCommentVO;
 import fly.frontend.event.CommentEvent;
-import fly.frontend.dao.PostCommentMapper;
-import fly.frontend.entity.from.PostCommentAddFrom;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
@@ -24,7 +20,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;

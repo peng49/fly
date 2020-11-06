@@ -1,8 +1,6 @@
 package fly.frontend.controller;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import fly.frontend.entity.model.OauthAccount;
-import fly.frontend.entity.model.UserMessage;
 import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
