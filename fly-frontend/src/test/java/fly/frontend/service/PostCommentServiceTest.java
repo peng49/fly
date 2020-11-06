@@ -17,18 +17,8 @@ public class PostCommentServiceTest {
     private PostCommentService postCommentService;
 
     @Test
-    public void getByUserId()
+    public void serviceTest()
     {
-        System.out.println(postCommentService.get(1));
-    }
 
-    @Test
-    public void getUsersByContentTest()
-    {
-        String content = "@T002 这是什么?@peng49 回复消息";
-
-        List<User> users = postCommentService.getUsersByContent(content);
-
-        System.out.println(users);
     }
 }

@@ -18,27 +18,20 @@ public class PostCommentAgreeServiceTest {
 
     @Test
     public void createTest(){
-        User user = new User();
-        user.setId(1);
-        PostComment comment = PostComment.builder()
-                .id(2).build();
-        PostCommentAgree postCommentAgree = new PostCommentAgree();
-        postCommentAgree.setUser(user);
-        postCommentAgree.setPostComment(comment);
-        System.out.println(postCommentAgreeService.create(postCommentAgree));
+
     }
 
     @Test
     public void isExistedTest(){
         User user = new User();
-        user.setId(1);
-        System.out.println(postCommentAgreeService.isExisted(user,2));
+        user.setId(1L);
+        System.out.println(postCommentAgreeService.isExisted(user,2L));
     }
 
     @Test
     public void deleteTest(){
         User user = new User();
-        user.setId(1);
-        postCommentAgreeService.delete(user,2);
+        user.setId(1L);
+        postCommentAgreeService.delete(user,2L);
     }
 }

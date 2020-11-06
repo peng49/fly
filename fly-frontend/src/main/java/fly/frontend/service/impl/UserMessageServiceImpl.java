@@ -7,6 +7,6 @@ import fly.frontend.service.UserMessageService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserMessage> implements UserMessageService<UserMessage> {
+public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserMessage> implements UserMessageService {
 
 }

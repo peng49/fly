@@ -26,7 +26,7 @@ public class HomepageController {
     private PostService postService;
 
     @Resource
-    private UserService<BaseMapper<UserMessage>> userService;
+    private UserService userService;
 
     @Resource
     private PostCommentService postCommentService;
@@ -34,7 +34,7 @@ public class HomepageController {
     @RequestMapping("/")
     public ModelAndView index(HttpServletRequest request,
                               ModelAndView view,
-                              @RequestParam(value = "list",defaultValue = "all") String list,
+                              @RequestParam(value = "list", defaultValue = "all") String list,
                               @RequestParam(value = "orderBy", defaultValue = "") String orderBy) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setList(list);
@@ -60,13 +60,12 @@ public class HomepageController {
 
 
     @GetMapping("/u/{id}")
-    public ModelAndView index(@PathVariable("id") int id, ModelAndView view, HttpServletRequest request) {
+    public ModelAndView index(@PathVariable("id") Long id, ModelAndView view, HttpServletRequest request) {
         view.addObject("user", userService.get(id));
 
         view.addObject("posts", postService.findAllPublishByAuthorId(id));
 
-        view.addObject("comments", postCommentService.getByUserId(id));
-
+        view.addObject("comments", postCommentService.getByUserId(new Page<>(1, 8), id));
 
         if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/user/home");

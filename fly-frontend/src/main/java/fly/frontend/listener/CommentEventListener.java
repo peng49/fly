@@ -20,7 +20,7 @@ public class CommentEventListener {
     private PostService postService;
 
     @Resource
-    private UserMessageService<UserMessage> userMessageService;
+    private UserMessageService userMessageService;
 
     @Resource
     private PostCommentService postCommentService;

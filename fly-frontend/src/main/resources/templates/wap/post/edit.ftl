@@ -53,11 +53,11 @@
         el: "#post-edit",
         data: {
             editor: '',
-            postId: '${(post.id)!}',
+            postId: '${(post.id?c)!}',
             postStatus: '${(post.status)!}',
             postForm: {
                 action: '',
-                columnId: '${(post.column.id)!1}',
+                columnId: '${(post.columnId)!1}',
                 title: "${(post.title)!}",
                 originalContent: "",
                 content: ""

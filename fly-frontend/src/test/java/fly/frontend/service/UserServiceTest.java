@@ -25,7 +25,7 @@ import java.util.UUID;
 public class UserServiceTest {
 
     @Autowired
-    private UserService<BaseMapper<UserMessage>> userService;
+    private UserService userService;
 
     @Test
     public void lombokTest()

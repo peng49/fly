@@ -51,7 +51,7 @@ public class ColumnController {
         IPage<PostVO> posts = postService.getByCondition(page, condition);
         view.addObject("posts", posts.getRecords());
 
-        Column column = columnService.get(id);
+        Column column = columnService.getById(id);
         view.addObject("column", column);
 
         view.addObject("list_total", posts.getTotal());

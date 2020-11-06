@@ -24,7 +24,7 @@
                     </div>
                     <div class="content">
                         <div class="title">
-                            <a href="/post/detail/${post.id}">${post.title}</a>
+                            <a href="/post/detail/${post.id?c}">${post.title}</a>
                         </div>
                         <div class="bottom">
                             <span><a class="column" href="">${(post.column.name)!}</a></span>

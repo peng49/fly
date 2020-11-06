@@ -10,9 +10,9 @@ import java.sql.Timestamp;
 @Builder
 @TableName(value = "posts")
 public class Post {
-    private int id;
+    private Long id;
     private Integer columnId;
-    private Integer authorId;
+    private Long authorId;
     private String title;
     private String originalContent;
     private String content;

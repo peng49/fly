@@ -48,7 +48,7 @@
           </span>
                 </div>
                 <div class="detail-about">
-                    <a class="fly-avatar" href="/u/${post.author.id}">
+                    <a class="fly-avatar" href="/u/${post.author.id?c}">
                         <img src="${(post.author.avatar)!}"
                              alt="${post.author.username}">
                     </a>
@@ -61,7 +61,7 @@
                     <div class="detail-hits">
                         <#if allowEdit == true>
                             <span class="layui-btn layui-btn-xs jie-admin" type="edit">
-                                <a href="/post/edit/${post.id}">编辑此贴</a>
+                                <a href="/post/edit/${post.id?c}">编辑此贴</a>
                             </span>
                         </#if>
                         &nbsp
@@ -83,13 +83,13 @@
 
                 <ul class="jieda" id="jieda">
                     <#list comments as comment>
-                        <li id="reply${comment.id}" class="jieda-daan">
+                        <li id="reply${comment.id?c}" class="jieda-daan">
                             <div class="detail-about detail-about-reply">
-                                <a class="fly-avatar" href="/u/${(comment.user.id)!}">
+                                <a class="fly-avatar" href="/u/${(comment.user.id?c)!}">
                                     <img src="${(comment.user.avatar)!}" alt=" ">
                                 </a>
                                 <div class="fly-detail-user">
-                                    <a href="/u/${comment.user.id}" class="fly-link">
+                                    <a href="/u/${comment.user.id?c}" class="fly-link">
                                         <cite>${comment.user.username}</cite>
                                     </a>
                                     <#if post.author.id == comment.user.id >
@@ -108,7 +108,7 @@
                                             <i class="iconfont icon-zan"></i>
                                             <em>${comment.agreeCount}</em>
                                         </span>
-                                <span @click="reply($event)" data-id="${comment.id}"
+                                <span @click="reply($event)" data-id="${comment.id?c}"
                                       data-username="${comment.user.username}">
                                             <i class="iconfont icon-svgmoban53"></i>回复
                                         </span>
@@ -166,7 +166,7 @@
                 content: "回复的内容"
             },
             comment: {
-                postId: '${post.id}',
+                postId: '${post.id?c}',
                 content: "",
                 parentId: 0
             }

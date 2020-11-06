@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 @Data
 @Builder
 public class UserVO {
-    private int id;
+    private Long id;
     private String username;
     private String email;
     private String avatar;

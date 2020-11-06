@@ -34,7 +34,7 @@
                         <#if post.essence?? && post.essence == 1 >
                             <span class="jing">精</span>
                         </#if>
-                        <a href="/post/detail/${post.id}" class="title">${post.title}</a>
+                        <a href="/post/detail/${post.id?c}" class="title">${post.title}</a>
                         <i>${(post.publishAt)!}</i>
                         <em class="hide-xs">${post.viewCount}阅/${post.replyCount}答</em>
                     </li>

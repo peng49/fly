@@ -69,13 +69,13 @@
         el: "#post-container",
         data: {
             editor: '',
-            postId: '${(post.id)!}',
+            postId: '${(post.id?c)!}',
             postStatus: '${(post.status)!}',
             saveUrl: window.location.pathname,
             postForm: {
                 action: 'update',
-                postId: '${(post.id)!}',
-                columnId: '${(post.column.id)!1}',
+                postId: '${(post.id?c)!}',
+                columnId: '${(post.columnId)!1}',
                 title: "${(post.title)!}",
                 originalContent: "",
                 content: ""

@@ -10,11 +10,11 @@ import java.sql.Timestamp;
 @Data
 @Builder
 public class PostCommentVO {
-    private int id;
+    private Long id;
     private int level;
     private User user;
     private PostDTO post;
-    private int parentId;
+    private Long parentId;
     private String content;
     private int agreeCount;
     private Timestamp createdAt;

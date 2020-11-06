@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @SpringBootTest(classes = {FlyFrontendApplication.class})
 public class UserMessageServiceTest {
     @Resource
-    private UserMessageService<UserMessage> userMessageService;
+    private UserMessageService userMessageService;
 
     @Test
     public void searchTest()

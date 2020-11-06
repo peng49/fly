@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Data
 @Builder
 public class PostVO {
-    private int id;
+    private Long id;
     private Column column;
     private User author;
     private String title;

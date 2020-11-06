@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import fly.frontend.dao.ColumnMapper;
 import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.model.Column;
@@ -16,6 +17,7 @@ import fly.frontend.dao.PostMapper;
 import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.vo.PostVO;
+import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
@@ -29,31 +31,32 @@ import java.util.*;
 import java.util.function.Function;
 
 @Service
-public class PostServiceImpl implements PostService {
+public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements PostService {
     @Resource
     private PostMapper postMapper;
 
     @Resource
-    private ColumnMapper columnMapper;
+    private ColumnService columnService;
 
     @Resource
-    private UserMapper userMapper;
+    private UserService userService;
 
 
     public IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition query) {
         Wrapper<Post> queryWrapper = Wrappers.<Post>lambdaQuery()
                 .eq(Post::getStatus, 1)
                 .eq(query.getColumnId() != 0, Post::getColumnId, query.getColumnId())
-                .eq("essence".equals(query.getList()),Post::getEssence,1);
+                .eq("essence".equals(query.getList()),Post::getEssence,1)
+                .orderByDesc(Post::getHeat);
 
-        Page<Post> items = postMapper.selectPage(page, queryWrapper);
+        Page<Post> items = page(page, queryWrapper);
 
         return items.convert(post -> PostVO.builder()
                 .id(post.getId())
                 .status(post.getStatus())
                 .essence(post.getEssence())
-                .column(columnMapper.get(post.getColumnId()))
-                .author(userMapper.selectById(post.getAuthorId()))
+                .column(columnService.getById(post.getColumnId()))
+                .author(userService.getById(post.getAuthorId()))
                 .publishAt(post.getPublishAt())
                 .title(post.getTitle())
                 .viewCount(post.getViewCount())
@@ -61,23 +64,23 @@ public class PostServiceImpl implements PostService {
                 .build());
     }
 
-    public List<Post> findAllByAuthorId(int id) {
+    public List<Post> findAllByAuthorId(Long id) {
         return postMapper.selectList(Wrappers.lambdaQuery(Post.class).eq(Post::getAuthorId, id));
     }
 
-    public List<Post> findAllPublishByAuthorId(int id) {
+    public List<Post> findAllPublishByAuthorId(Long id) {
         return postMapper.selectList(Wrappers.lambdaQuery(Post.class).eq(Post::getAuthorId,id).eq(Post::getStatus,PostService.PUBLISH_STATUS));
     }
 
-    public PostVO get(int id) {
+    public PostVO get(Long id) {
         Post post = postMapper.selectById(id);
 
         return PostVO.builder()
                 .id(post.getId())
                 .status(post.getStatus())
                 .essence(post.getEssence())
-                .column(columnMapper.selectById(post.getColumnId()))
-                .author(userMapper.selectById(post.getAuthorId()))
+                .column(columnService.getById(post.getColumnId()))
+                .author(userService.getById(post.getAuthorId()))
                 .publishAt(post.getPublishAt())
                 .title(post.getTitle())
                 .originalContent(post.getOriginalContent())
@@ -85,11 +88,11 @@ public class PostServiceImpl implements PostService {
                 .build();
     }
 
-    public Post create(PostEditFrom postEditFrom, User user) {
+    public Post create(PostEditFrom postEditFrom, Long userId) {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Post.PostBuilder builder = Post.builder()
-                .authorId(user.getId())
+                .authorId(userId)
                 .columnId(postEditFrom.getColumnId())
                 .title(postEditFrom.getTitle())
                 .originalContent(postEditFrom.getOriginalContent())
@@ -118,12 +121,12 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    public void replyCountInc(int postId) {
+    public void replyCountInc(Long postId) {
         Post post = postMapper.selectById(postId);
         postMapper.updateById(Post.builder().id(postId).replyCount(post.getReplyCount() + 1).build());
     }
 
-    public void viewCountInc(int postId) {
+    public void viewCountInc(Long postId) {
         Post post = postMapper.selectById(postId);
         post.setViewCount(post.getViewCount() + 1);
         postMapper.updateById(post);

@@ -16,23 +16,5 @@ public class UserPostServiceTest {
     @Resource
     private UserPostService userPostService;
 
-    @Test
-    public void createTest()
-    {
-        User user = new User();
-        user.setId(1);
-
-        System.out.println(userPostService.create(user,14));
-    }
-
-
-    @Test
-    public void deleteTest()
-    {
-        User user = new User();
-        user.setId(1);
-
-        userPostService.delete(user,10);
-    }
 
 }

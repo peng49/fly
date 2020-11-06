@@ -13,11 +13,11 @@ import java.sql.Timestamp;
 @Builder
 @TableName(value = "post_comments")
 public class PostComment {
-    private int id;
+    private Long id;
     private int level;
-    private int userId;
-    private int postId;
-    private int parentId;
+    private Long userId;
+    private Long postId;
+    private Long parentId;
     private String content;
     private int agreeCount;
     private Timestamp createdAt;
