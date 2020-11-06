@@ -63,12 +63,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post findOne(int id) {
+    public Post findOne(Long id) {
         return postRepository.getOne(id);
     }
 
     @Override
-    public PostVO get(int id) {
+    public PostVO get(Long id) {
         Post post = findOne(id);
         User user = userRepository.findById(post.getAuthorId()).orElse(new User());
         return PostVO.builder()
@@ -108,7 +108,7 @@ public class PostServiceImpl implements PostService {
         Page<Post> posts = postRepository.findAll(specification, PageRequest.of(page - 1, pageSize, Sort.by("id").descending()));
         List<PostVO> items = new ArrayList<>();
 
-        ArrayList<Integer> userIds = new ArrayList<>();
+        ArrayList<Long> userIds = new ArrayList<>();
         ArrayList<Integer> columnIds = new ArrayList<>();
         posts.forEach(post -> {
             userIds.add(post.getAuthorId());
@@ -118,7 +118,7 @@ public class PostServiceImpl implements PostService {
         List<User> users = userRepository.findUsersByIdIn(userIds);
         List<Column> columns = columnRepository.findColumnsByIdIn(columnIds);
 
-        Map<Integer, User> userMap = users.stream().collect(Collectors.toMap(User::getId, Function.identity()));
+        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(User::getId, Function.identity()));
 
         Map<Integer, Column> columnMap = columns.stream().collect(Collectors.toMap(Column::getId, Function.identity()));
 

@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
-public interface PostRepository extends JpaRepository<Post, Integer>, JpaSpecificationExecutor<Post> {
-    List<Post> findPostsByIdIn(List<Integer> postIds);
+public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
+    List<Post> findPostsByIdIn(List<Long> postIds);
 
-    int countByAuthorId(int authorId);
+    int countByAuthorId(Long authorId);
 }

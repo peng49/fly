@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
-    List<User> findUsersByIdIn(List<Integer> userIds);
+public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+    List<User> findUsersByIdIn(List<Long> userIds);
 }

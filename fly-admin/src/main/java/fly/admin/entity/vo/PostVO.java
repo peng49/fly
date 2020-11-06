@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Data
 @Builder
 public class PostVO {
-    private Integer id;
+    private Long id;
 
     private Column column;
     private UserDTO author;

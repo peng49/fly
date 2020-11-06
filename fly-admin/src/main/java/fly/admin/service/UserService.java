@@ -14,9 +14,9 @@ public interface UserService {
 
     User update(User user);
 
-    User findOne(int id);
+    User findOne(Long id);
 
-    UserVO get(int id);
+    UserVO get(Long id);
 
     ResultVO search(int page, int pageSize, Map<String,Object> query);
 }

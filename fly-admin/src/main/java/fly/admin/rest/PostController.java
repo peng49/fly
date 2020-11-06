@@ -38,7 +38,7 @@ public class PostController {
 
     @ApiOperation(value = "删除文章")
     @DeleteMapping("/{id}")
-    public Object delete(@PathVariable("id") int id) {
+    public Object delete(@PathVariable("id") Long id) {
         postService.delete(postService.findOne(id));
         return ResultVO.builder()
                 .code("success")
@@ -48,7 +48,7 @@ public class PostController {
 
     @ApiOperation(value = "修改文章")
     @PutMapping("/{id}")
-    public Object update(@PathVariable("id") int id, @RequestBody EditPostRequest request) {
+    public Object update(@PathVariable("id") Long id, @RequestBody EditPostRequest request) {
         Post post = postService.findOne(id);
 
         post.setAuthorId(request.getAuthorId());
@@ -65,7 +65,7 @@ public class PostController {
 
     @ApiOperation(value = "获取文章信息")
     @GetMapping("/{id}")
-    public Object get(@PathVariable("id") int id) {
+    public Object get(@PathVariable("id") Long id) {
         return ResultVO.builder()
                 .code("success")
                 .message("Success")

@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findOne(int id) {
+    public User findOne(Long id) {
         return userRepository.getOne(id);
     }
 
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO get(int id) {
+    public UserVO get(Long id) {
         User user = userRepository.getOne(id);
 
         return UserVO.builder()

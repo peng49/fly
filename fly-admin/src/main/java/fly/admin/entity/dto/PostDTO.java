@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Data
 @Builder
 public class PostDTO {
-    private Integer id;
+    private Long id;
     private String title;
     private UserDTO author;
 

@@ -206,7 +206,7 @@ public class UserController {
     @PostMapping("/uploadAvatar")
     @ResponseBody
     public Object uploadAvatar(HttpServletRequest request, HttpSession session) throws IOException {
-        User user = (User) session.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = (UserVO) session.getAttribute(UserService.LOGIN_KEY);
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
         if (multipartResolver.isMultipart(request)) {
             //将request变成多部分request
@@ -222,7 +222,7 @@ public class UserController {
                     String path = userDir + filename;
                     //上传
                     file.transferTo(new File(path));
-                    userService.updateAvatar(user, "/static/" + filename);
+                    userService.updateAvatar(userService.getById(user.getId()), "/static/" + filename);
                 }
             }
         }

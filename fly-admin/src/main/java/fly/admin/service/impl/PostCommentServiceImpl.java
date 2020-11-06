@@ -50,12 +50,12 @@ public class PostCommentServiceImpl implements PostCommentService {
     }
 
     @Override
-    public PostComment findOne(int id) {
+    public PostComment findOne(Long id) {
         return postCommentRepository.getOne(id);
     }
 
     @Override
-    public PostCommentVO get(int id) {
+    public PostCommentVO get(Long id) {
         PostComment comment = findOne(id);
         return PostCommentVO.builder()
                 .id(comment.getId())
@@ -67,8 +67,8 @@ public class PostCommentServiceImpl implements PostCommentService {
     public ResultVO search(int page, int pageSize,Map<String, Object> query) {
         Page<PostComment> comments = postCommentRepository.findAll(PageRequest.of(page - 1, pageSize));
         List<PostCommentVO> items = new ArrayList<>();
-        List<Integer> userIds = new ArrayList<>();
-        List<Integer> postIds = new ArrayList<>();
+        List<Long> userIds = new ArrayList<>();
+        List<Long> postIds = new ArrayList<>();
 
         comments.forEach(comment -> {
             userIds.add(comment.getUserId());
@@ -82,10 +82,10 @@ public class PostCommentServiceImpl implements PostCommentService {
 
         List<User> users = userRepository.findUsersByIdIn(userIds);
 
-        Map<Integer, Post> postMap = posts.stream()
+        Map<Long, Post> postMap = posts.stream()
                 .collect(Collectors.toMap(Post::getId, Function.identity()));
 
-        Map<Integer, User> userMap = users.stream()
+        Map<Long, User> userMap = users.stream()
                 .collect(Collectors.toMap(User::getId, Function.identity()));
 
         comments.forEach(comment -> {

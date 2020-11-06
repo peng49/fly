@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class PostCommentVO {
-    private int id;
+    private Long id;
     private int level;
     private UserDTO user;
     private PostDTO post;
