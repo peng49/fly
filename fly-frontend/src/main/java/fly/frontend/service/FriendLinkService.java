@@ -5,5 +5,5 @@ import fly.frontend.entity.model.FriendLink;
 import java.util.List;
 
 public interface FriendLinkService {
-    List<FriendLink> getAll();
+
 }

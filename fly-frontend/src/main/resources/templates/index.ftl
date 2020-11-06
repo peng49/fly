@@ -21,15 +21,15 @@
                 <ul class="fly-list">
                     <#list posts as post>
                         <li>
-                            <a href="/u/${(post.author.id)!}" class="fly-avatar">
+                            <a href="/u/${(post.author.id?c)!}" class="fly-avatar">
                                 <img src="${(post.author.avatar)!}" alt="${(post.author.username)!}">
                             </a>
                             <h2>
                                 <a class="layui-badge">${(post.column.name)!}</a>
-                                <a href="/post/detail/${post.id}">${post.title}</a>
+                                <a href="/post/detail/${post.id?c}">${post.title}</a>
                             </h2>
                             <div class="fly-list-info">
-                                <a href="/u/${(post.author.id)!}" link>
+                                <a href="/u/${(post.author.id?c)!}" link>
                                     <cite>${(post.author.username)!}</cite>
                                 </a>
                                 <span>${(post.publishAt)!}</span>

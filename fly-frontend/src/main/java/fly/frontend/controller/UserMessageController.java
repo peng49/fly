@@ -1,6 +1,5 @@
 package fly.frontend.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.model.UserMessage;
 import fly.frontend.entity.vo.UserVO;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/userMessage")
 public class UserMessageController {
     @Resource
-    private UserMessageService<UserMessage> userMessageService;
+    private UserMessageService userMessageService;
 
     @GetMapping
     public Object get(@RequestParam(name = "page", defaultValue = "1") int page,

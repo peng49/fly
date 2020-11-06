@@ -1,5 +1,6 @@
 package fly.frontend.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import fly.frontend.entity.model.PostCommentAgree;
 import fly.frontend.entity.model.User;
 import fly.frontend.dao.PostCommentAgreeMapper;
@@ -9,27 +10,14 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 @Service
-public class PostCommentAgreeServiceImpl implements PostCommentAgreeService {
-
-    @Resource
-    private PostCommentAgreeMapper postCommentAgreeMapper;
-
+public class PostCommentAgreeServiceImpl extends ServiceImpl<PostCommentAgreeMapper, PostCommentAgree> implements PostCommentAgreeService {
     @Override
-    public PostCommentAgree create(PostCommentAgree postCommentAgree) {
-        int res = postCommentAgreeMapper.create(postCommentAgree);
-        if (res != 1) {
-            throw new RuntimeException("新增数据失败");
-        }
-        return postCommentAgree;
+    public boolean isExisted(User user, Long commentId) {
+        return getOne(lambdaQuery().eq(PostCommentAgree::getUserId, user.getId()).eq(PostCommentAgree::getPostCommentId, commentId)) != null;
     }
 
     @Override
-    public boolean isExisted(User user, int commentId) {
-        return postCommentAgreeMapper.isExisted(user, commentId);
-    }
-
-    @Override
-    public void delete(User user, int commentId) {
-        postCommentAgreeMapper.delete(user, commentId);
+    public void delete(User user, Long commentId) {
+        lambdaUpdate().eq(PostCommentAgree::getUserId, user.getId()).eq(PostCommentAgree::getPostCommentId, commentId).remove();
     }
 }

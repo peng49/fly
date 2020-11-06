@@ -2,6 +2,7 @@ package fly.frontend.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
@@ -11,7 +12,7 @@ import fly.frontend.entity.vo.PostVO;
 
 import java.util.*;
 
-public interface PostService {
+public interface PostService extends IService<Post> {
     double DEFAULT_HEAD = 10.0;
 
     /**
@@ -34,21 +35,21 @@ public interface PostService {
     IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition condition);
 
 
-    List<Post> findAllByAuthorId(int id);
+    List<Post> findAllByAuthorId(Long id);
 
-    List<Post> findAllPublishByAuthorId(int id);
+    List<Post> findAllPublishByAuthorId(Long id);
 
-    PostVO get(int id);
+    PostVO get(Long id);
 
-    Post create(PostEditFrom postEditFrom, User user);
+    Post create(PostEditFrom postEditFrom, Long userId);
 
     void update(Post post);
 
     void updateHeat(Post post);
 
-    void replyCountInc(int postId);
+    void replyCountInc(Long postId);
 
-    void viewCountInc(int postId);
+    void viewCountInc(Long postId);
 
     void top(Post post);
 

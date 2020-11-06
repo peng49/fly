@@ -1,6 +1,7 @@
 package fly.frontend.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.dao.PostMapper;
 import fly.frontend.entity.model.Post;
@@ -59,7 +60,7 @@ public class PostController {
 
     @GetMapping("/add")
     public ModelAndView add(ModelAndView view, HttpServletRequest request) {
-        view.addObject("columns", columnService.getAll());
+        view.addObject("columns", columnService.list());
 
         if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/post/edit");
@@ -72,26 +73,23 @@ public class PostController {
     @PostMapping("/add")
     @ResponseBody
     public Object add(@RequestBody @Validated PostEditFrom postEditFrom, HttpSession httpSession) throws Exception {
-        User user = (User) httpSession.getAttribute("login-user");
+        UserVO user = (UserVO) httpSession.getAttribute("login-user");
         if (user == null) {
             throw new Exception("请先登录");
         }
-        Post post = postService.create(postEditFrom, user);
+        Post post = postService.create(postEditFrom, user.getId());
 
-      /* todo clear draft
-        PostAutoDraft draft = postAutoDraftService.getForUser(post.getAuthor());
+        PostAutoDraft draft = postAutoDraftService.getForUserId(post.getAuthorId());
         if (draft != null) {
-            postAutoDraftService.delete(draft.getId());
-        }*/
-
-
+            postAutoDraftService.removeById(draft.getId());
+        }
         return HttpUtils.success(post);
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable("id") int id, ModelAndView view, HttpServletRequest request) {
+    public ModelAndView edit(@PathVariable("id") Long id, ModelAndView view, HttpServletRequest request) {
         Post post = postMapper.selectById(id);
-        view.addObject("columns", columnService.getAll());
+        view.addObject("columns", columnService.list());
         view.addObject("post", post);
         if (HttpUtils.isMobile(request)) {
             view.setViewName("/wap/post/edit");
@@ -104,44 +102,45 @@ public class PostController {
     @PostMapping("/draft")
     @ResponseBody
     public Object draft(@Valid @RequestBody PostEditFrom postEditFrom, HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
         PostAutoDraft.PostAutoDraftBuilder draftBuilder = PostAutoDraft.builder()
-                .user(user)
+                .userId(user.getId())
                 .title(postEditFrom.getTitle())
                 .content(postEditFrom.getOriginalContent());
 
         PostAutoDraft postAutoDraft;
-        if (postEditFrom.getPostId() > 0) {
-            Post post = postMapper.selectById(postEditFrom.getPostId());
-            draftBuilder.post(post);
+        Long postId = postEditFrom.getPostId();
+        if (postId > 0) {
+            draftBuilder.postId(postId);
+            Post post = postService.getById(postId);
             postAutoDraft = postAutoDraftService.getForPost(post);
         } else {
-            postAutoDraft = postAutoDraftService.getForUser(user);
+            postAutoDraft = postAutoDraftService.getForUserId(user.getId());
         }
 
         if (postAutoDraft != null) {
             draftBuilder.id(postAutoDraft.getId());
-            postAutoDraftService.update(draftBuilder.build());
+            postAutoDraftService.saveOrUpdate(draftBuilder.build());
         } else {
-            postAutoDraftService.add(draftBuilder.build());
+            postAutoDraftService.saveOrUpdate(draftBuilder.build());
         }
         return HttpUtils.success();
     }
 
     @PostMapping("/edit/{id}")
     @ResponseBody
-    public Object edit(@PathVariable("id") int id, @RequestBody @Validated PostEditFrom postEditFrom) {
+    public Object edit(@PathVariable("id") Long id, @RequestBody @Validated PostEditFrom postEditFrom) {
         Post post = postMapper.selectById(id);
         postService.edit(post, postEditFrom);
         PostAutoDraft draft = postAutoDraftService.getForPost(post);
         if (draft != null) {
-            postAutoDraftService.delete(draft.getId());
+            postAutoDraftService.removeById(draft.getId());
         }
         return HttpUtils.success();
     }
 
     @GetMapping("/detail/{id}")
-    public ModelAndView detail(@PathVariable("id") int id, ModelAndView view, HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView detail(@PathVariable("id") Long id, ModelAndView view, HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
         PostVO post = postService.get(id);
         boolean allowEdit = false;
         UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);

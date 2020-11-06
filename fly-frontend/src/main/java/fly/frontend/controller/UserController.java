@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 @Controller
@@ -34,7 +35,7 @@ public class UserController {
     private String userDir;
 
     @Resource
-    private UserService<BaseMapper<UserMessage>> userService;
+    private UserService userService;
 
     @Resource
     private PostService postService;
@@ -171,9 +172,9 @@ public class UserController {
 
     @PostMapping("/collection")
     @ResponseBody
-    public Object collection(@RequestBody @Validated Map<String,@NotBlank(message = "值不能为空") Integer> request, HttpSession httpSession) {
+    public Object collection(@RequestBody @Validated Map<String,@NotBlank(message = "值不能为空") Long> request, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        Integer postId = request.get("postId");
+        Long postId = request.get("postId");
         if (userPostService.isExisted(user.getId(), postId)) {
            userPostService.delete(user, postId);
         } else {
@@ -184,18 +185,18 @@ public class UserController {
 
     @PostMapping("/commentAgree")
     @ResponseBody
-    public Object commentAgree(@RequestBody Map<String,Integer> request,HttpSession httpSession)
+    public Object commentAgree(@RequestBody Map<String,Long> request,HttpSession httpSession)
     {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        Integer commentId = request.get("commentId");
+        Long commentId = request.get("commentId");
         if(postCommentAgreeService.isExisted(user,commentId)){
             postCommentAgreeService.delete(user,commentId);
             postCommentService.commentAgreeDec(commentId);
         }else{
             PostCommentAgree postCommentAgree = new PostCommentAgree();
-            postCommentAgree.setUser(user);
-            postCommentAgree.setPostComment(PostComment.builder().id(commentId).build());
-            postCommentAgreeService.create(postCommentAgree);
+            postCommentAgree.setUserId(user.getId());
+            postCommentAgree.setPostCommentId(commentId);
+            postCommentAgreeService.save(postCommentAgree);
             postCommentService.commentAgreeInc(commentId);
         }
 

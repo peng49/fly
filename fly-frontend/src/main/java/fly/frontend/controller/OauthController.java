@@ -31,7 +31,7 @@ public class OauthController {
     private OauthService githubOauthService;
 
     @Resource
-    private UserService<BaseMapper<UserMessage>> userService;
+    private UserService userService;
 
     @GetMapping("/{platform}/redirect")
     public void redirect(HttpServletResponse response,

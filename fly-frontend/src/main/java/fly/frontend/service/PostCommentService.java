@@ -2,28 +2,24 @@ package fly.frontend.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import fly.frontend.entity.from.PostCommentAddFrom;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.PostCommentVO;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public interface PostCommentService {
-    PostComment create(Integer userId, PostCommentAddFrom postCommentAddFrom);
+public interface PostCommentService extends IService<PostComment> {
+    PostComment create(Long userId, PostCommentAddFrom postCommentAddFrom);
 
-    PostComment get(int id);
+    List<PostCommentVO> getByUserId(IPage<PostComment> page, Long userId);
 
-    List<PostCommentVO> getByUserId(int userId);
+    void commentAgreeInc(Long commentId);
 
-    List<PostComment> getCommentsByCommentIds(ArrayList<Integer> commentIds);
-
-    void commentAgreeInc(int commentId);
-
-    void commentAgreeDec(int commentId);
+    void commentAgreeDec(Long commentId);
 
     List<User> getUsersByContent(String content);
 
-    IPage<PostCommentVO> getByPostId(Page<PostComment> page, Integer postId);
+    IPage<PostCommentVO> getByPostId(Page<PostComment> page, Long postId);
 }

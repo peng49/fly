@@ -1,17 +1,12 @@
 package fly.frontend.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostAutoDraft;
-import fly.frontend.entity.model.User;
 
-public interface PostAutoDraftService{
-    PostAutoDraft add(PostAutoDraft draft);
-
-    PostAutoDraft getForUser(User user);
+public interface PostAutoDraftService extends IService<PostAutoDraft> {
 
     PostAutoDraft getForPost(Post post);
 
-    PostAutoDraft update(PostAutoDraft draft);
-
-    void delete(int id);
+    PostAutoDraft getForUserId(Long id);
 }

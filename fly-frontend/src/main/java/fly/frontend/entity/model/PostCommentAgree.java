@@ -1,10 +1,12 @@
 package fly.frontend.entity.model;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
+@TableName("post_comment_agree")
 public class PostCommentAgree {
-    private int id;
-    private User user;
-    private PostComment postComment;
+    private Long id;
+    private Long userId;
+    private Long postCommentId;
 }

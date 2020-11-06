@@ -1,51 +1,27 @@
 package fly.frontend.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import fly.frontend.dao.PostAutoDraftMapper;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostAutoDraft;
-import fly.frontend.entity.model.User;
-import fly.frontend.dao.PostAutoDraftMapper;
 import fly.frontend.service.PostAutoDraftService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-
 @Service
-public class PostAutoDraftServiceImpl implements PostAutoDraftService {
-
-    @Resource
-    private PostAutoDraftMapper postAutoDraftMapper;
-
-    @Override
-    public PostAutoDraft add(PostAutoDraft draft) {
-        if(draft.getPost() == null){
-            draft.setPost(Post.builder().id(0).build());//post_id 默认设置为0
-        }
-
-        int row = postAutoDraftMapper.add(draft);
-        if (row == 0) {
-            throw new RuntimeException("添加草稿失败");
-        }
-        return draft;
-    }
-
-    @Override
-    public PostAutoDraft getForUser(User user) {
-        return postAutoDraftMapper.getForUser(user);
-    }
+public class PostAutoDraftServiceImpl extends ServiceImpl<PostAutoDraftMapper, PostAutoDraft> implements PostAutoDraftService {
 
     @Override
     public PostAutoDraft getForPost(Post post) {
-        return postAutoDraftMapper.getForPost(post);
+        return getOne(Wrappers.lambdaQuery(PostAutoDraft.class).
+                eq(PostAutoDraft::getUserId, post.getAuthorId())
+                .eq(PostAutoDraft::getPostId, post.getId()), false);
     }
 
     @Override
-    public PostAutoDraft update(PostAutoDraft draft) {
-        postAutoDraftMapper.update(draft);
-        return draft;
-    }
-
-    @Override
-    public void delete(int id) {
-        postAutoDraftMapper.delete(id);
+    public PostAutoDraft getForUserId(Long userId) {
+        return getOne(Wrappers.lambdaQuery(PostAutoDraft.class).
+                eq(PostAutoDraft::getUserId, userId)
+                .eq(PostAutoDraft::getPostId, 0), false);
     }
 }

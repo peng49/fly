@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import fly.frontend.dao.PostMapper;
 import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.dto.PostDTO;
@@ -23,6 +24,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,21 +32,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class PostCommentServiceImpl implements PostCommentService {
+public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostComment> implements PostCommentService {
     @Resource
     private PostService postService;
 
     @Resource
-    private PostMapper postMapper;
-
-    @Resource
-    private UserMapper userMapper;
-
-    @Resource
-    private PostCommentMapper postCommentMapper;
-
-    @Resource
-    private UserService<BaseMapper<UserMessage>> userService;
+    private UserService userService;
 
     @Resource
     private ApplicationEventPublisher publisher;
@@ -63,8 +56,9 @@ public class PostCommentServiceImpl implements PostCommentService {
         return content;
     }
 
-    public PostComment create(Integer userId, PostCommentAddFrom postCommentAddFrom) {
-        Post post = postMapper.selectById(postCommentAddFrom.getPostId());
+    public PostComment create(Long userId, PostCommentAddFrom postCommentAddFrom) {
+        Post post = postService.getById(postCommentAddFrom.getPostId());
+
         if (post == null || post.getStatus() != PostService.PUBLISH_STATUS) {
             throw new RuntimeException("文章还未发布，不能进行评论");
         }
@@ -85,7 +79,7 @@ public class PostCommentServiceImpl implements PostCommentService {
 
         PostComment comment = commentBuilder.build();
 
-        postCommentMapper.insert(comment);
+        save(comment);
 
         publisher.publishEvent(new CommentEvent(comment));
         return comment;
@@ -104,28 +98,25 @@ public class PostCommentServiceImpl implements PostCommentService {
         return items;
     }
 
-    public List<PostCommentVO> getByUserId(int userId) {
-        return convert(postCommentMapper.selectList(Wrappers.<PostComment>lambdaQuery().eq(PostComment::getUserId, userId)));
-    }
-
-    public List<PostComment> getCommentsByCommentIds(ArrayList<Integer> commentIds) {
-        return postCommentMapper.selectList(Wrappers.<PostComment>lambdaQuery().in(PostComment::getId, commentIds));
+    public List<PostCommentVO> getByUserId(IPage<PostComment> pageObj, Long userId) {
+        return convert(page(pageObj, Wrappers.<PostComment>lambdaQuery()
+                .eq(PostComment::getUserId, userId)).getRecords());
     }
 
 
     @Override
-    public void commentAgreeInc(int commentId) {
-        PostComment postComment = postCommentMapper.selectById(commentId);
-        postCommentMapper.updateById(PostComment.builder()
+    public void commentAgreeInc(Long commentId) {
+        PostComment postComment = getById(commentId);
+        updateById(PostComment.builder()
                 .id(postComment.getId())
                 .agreeCount(postComment.getAgreeCount() + 1)
                 .build());
     }
 
     @Override
-    public void commentAgreeDec(int commentId) {
-        PostComment postComment = postCommentMapper.selectById(commentId);
-        postCommentMapper.updateById(PostComment.builder()
+    public void commentAgreeDec(Long commentId) {
+        PostComment postComment = getById(commentId);
+        updateById(PostComment.builder()
                 .id(postComment.getId())
                 .agreeCount(postComment.getAgreeCount() - 1)
                 .build());
@@ -149,8 +140,8 @@ public class PostCommentServiceImpl implements PostCommentService {
     }
 
     @Override
-    public IPage<PostCommentVO> getByPostId(Page<PostComment> page, Integer postId) {
-        Page<PostComment> comments = postCommentMapper.selectPage(
+    public IPage<PostCommentVO> getByPostId(Page<PostComment> page, Long postId) {
+        Page<PostComment> comments = page(
                 page, Wrappers.<PostComment>lambdaQuery().
                         eq(PostComment::getPostId, postId)
         );
@@ -160,12 +151,8 @@ public class PostCommentServiceImpl implements PostCommentService {
                 .createdAt(comment.getCreatedAt())
                 .content(comment.getContent())
                 .post(PostDTO.builder().build())
-                .user(userMapper.selectById(comment.getUserId()))
+                .user(userService.getById(comment.getUserId()))
                 .level(comment.getLevel())
                 .build());
-    }
-
-    public PostComment get(int id) {
-        return postCommentMapper.selectById(id);
     }
 }

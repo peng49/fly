@@ -2,6 +2,7 @@ package fly.frontend.service.impl;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
@@ -23,12 +24,9 @@ import javax.annotation.Resource;
 import java.sql.Timestamp;
 
 @Service
-public class UserServiceImpl implements UserService<BaseMapper<UserMessage>> {
+public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
     @Resource
     private UserMapper userMapper;
-
-    @Resource
-    private UserPostService userPostService;
 
     @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -127,7 +125,7 @@ public class UserServiceImpl implements UserService<BaseMapper<UserMessage>> {
     }
 
     @Override
-    public UserVO get(int id) {
+    public UserVO get(Long id) {
         User user = userMapper.selectById(id);
         return UserVO.builder()
                 .id(user.getId())

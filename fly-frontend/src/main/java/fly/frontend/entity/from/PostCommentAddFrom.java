@@ -9,9 +9,9 @@ import javax.validation.constraints.NotBlank;
 public class PostCommentAddFrom {
 
     @Min(value = 1,message = "文章Id不能为空")
-    private int postId;
+    private Long postId;
 
-    private int parentId;
+    private Long parentId;
 
     @NotBlank(message = "评论内容不能为空")
     private String content;

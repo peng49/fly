@@ -1,6 +1,7 @@
 package fly.frontend.service.impl;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.model.OauthAccount;
 import fly.frontend.entity.model.User;
@@ -44,7 +45,7 @@ public class GiteeOauthServiceImpl implements OauthService {
     private OauthAccountService oauthAccountService;
 
     @Resource
-    private UserService<BaseMapper<UserMessage>> userService;
+    private UserService userService;
 
     @Resource
     private UserMapper userMapper;
@@ -91,7 +92,12 @@ public class GiteeOauthServiceImpl implements OauthService {
 
         int oauthId = Objects.requireNonNull(userInfo).getId();
 
-        OauthAccount oauthAccount = oauthAccountService.get(String.valueOf(oauthId), PLATFORM);
+        OauthAccount oauthAccount = oauthAccountService.getOne(
+                Wrappers.<OauthAccount>lambdaQuery()
+                        .eq(OauthAccount::getOpenid, oauthId)
+                        .eq(OauthAccount::getPlatform, PLATFORM)
+        );
+
         if (oauthAccount == null) {
             User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
             if (user == null) {//如果是已登录状态，直接绑定gitee账号，如果未登录,新建账号
@@ -104,7 +110,8 @@ public class GiteeOauthServiceImpl implements OauthService {
             account.setOpenid(String.valueOf(oauthId));
             account.setPlatform(PLATFORM);
             account.setUser(user);
-            oauthAccount = oauthAccountService.add(account);
+            oauthAccountService.save(account);
+            oauthAccount = account;
         }
         return oauthAccount;
     }

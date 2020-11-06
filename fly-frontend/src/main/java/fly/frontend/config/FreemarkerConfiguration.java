@@ -1,5 +1,6 @@
 package fly.frontend.config;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.model.Column;
 import fly.frontend.service.ColumnService;
 import freemarker.template.Configuration;
@@ -24,7 +25,8 @@ public class FreemarkerConfiguration {
      */
     @PostConstruct
     public void setFreeMarkerShareVariables() throws TemplateModelException {
-        List<Column> columns = columnService.getAll();
+        Page<Column> page = new Page<>(1,6);
+        List<Column> columns = columnService.page(page).getRecords();
         configuration.setSharedVariable("columns",columns);
     }
 }

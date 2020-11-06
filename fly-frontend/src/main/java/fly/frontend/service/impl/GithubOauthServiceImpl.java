@@ -1,6 +1,7 @@
 package fly.frontend.service.impl;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.model.OauthAccount;
 import fly.frontend.entity.model.User;
@@ -47,7 +48,7 @@ public class GithubOauthServiceImpl implements OauthService {
     private OauthAccountService oauthAccountService;
 
     @Resource
-    private UserService<BaseMapper<UserMessage>> userService;
+    private UserService userService;
 
     @Resource
     private UserMapper userMapper;
@@ -92,7 +93,11 @@ public class GithubOauthServiceImpl implements OauthService {
 
         GithubUserInfo userInfo = responseEntity.getBody();
 
-        OauthAccount oauthAccount = oauthAccountService.get(Objects.requireNonNull(userInfo).getOpenid(), PLATFORM);
+        OauthAccount oauthAccount = oauthAccountService.getOne(
+                Wrappers.<OauthAccount>lambdaQuery()
+                        .eq(OauthAccount::getOpenid, Objects.requireNonNull(userInfo).getOpenid())
+                        .eq(OauthAccount::getPlatform, PLATFORM)
+        );
         if (oauthAccount == null) {
             User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
             if (user == null) {//如果是已登录状态，直接绑定gitee账号，如果未登录,新建账号
@@ -105,7 +110,9 @@ public class GithubOauthServiceImpl implements OauthService {
             account.setOpenid(userInfo.getOpenid());
             account.setPlatform(PLATFORM);
             account.setUser(user);
-            oauthAccount = oauthAccountService.add(account);
+            oauthAccountService.save(account);
+
+            oauthAccount = account;
         }
         return oauthAccount;
     }
