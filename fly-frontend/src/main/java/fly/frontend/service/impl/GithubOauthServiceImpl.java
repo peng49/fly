@@ -1,11 +1,9 @@
 package fly.frontend.service.impl;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.model.OauthAccount;
 import fly.frontend.entity.model.User;
-import fly.frontend.entity.model.UserMessage;
 import fly.frontend.entity.vo.GithubOauthToken;
 import fly.frontend.entity.vo.GithubUserInfo;
 import fly.frontend.service.OauthAccountService;

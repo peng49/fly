@@ -1,6 +1,5 @@
 package fly.frontend.service.impl;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import fly.frontend.dao.UserMapper;
@@ -9,10 +8,8 @@ import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;
 import fly.frontend.entity.from.UserRegisterFrom;
 import fly.frontend.entity.model.User;
-import fly.frontend.entity.model.UserMessage;
 import fly.frontend.entity.vo.UserVO;
 import fly.frontend.event.RegisteredEvent;
-import fly.frontend.service.UserPostService;
 import fly.frontend.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.javassist.NotFoundException;

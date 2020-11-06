@@ -1,13 +1,11 @@
 package fly.frontend.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import fly.frontend.dao.PostCommentAgreeMapper;
 import fly.frontend.entity.model.PostCommentAgree;
 import fly.frontend.entity.model.User;
-import fly.frontend.dao.PostCommentAgreeMapper;
 import fly.frontend.service.PostCommentAgreeService;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 @Service
 public class PostCommentAgreeServiceImpl extends ServiceImpl<PostCommentAgreeMapper, PostCommentAgree> implements PostCommentAgreeService {
