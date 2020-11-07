@@ -13,7 +13,7 @@
 <#else>
     <#assign end_page = page_count />
 </#if>
-    
+
 <#if page_count gt 1 >
     <div id="${page_count}" class="laypage-main">
         <#if current_page gt 1>
