@@ -10,6 +10,10 @@ import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.*;
 import fly.frontend.utils.HttpUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -70,11 +74,23 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public Object login(@RequestBody @Validated UserLoginFrom login, HttpSession httpSession) throws Exception {
-        System.out.println(login);
-        UserVO user = userService.login(login);
-        httpSession.setAttribute(UserService.LOGIN_KEY, user);
-        return HttpUtils.success(user);
+    public Object login(@RequestBody @Validated UserLoginFrom from) {
+        // 从SecurityUtils里边创建一个 subject
+        Subject subject = SecurityUtils.getSubject();
+        // 在认证提交前准备 token（令牌）
+        UsernamePasswordToken token = new UsernamePasswordToken(from.getUsername(), from.getPassword());
+        // 执行认证登陆
+        try {
+            subject.login(token);
+            if (subject.isAuthenticated()) {
+                return HttpUtils.success();
+            } else {
+                token.clear();
+                return HttpUtils.fail("登录失败！");
+            }
+        } catch (AuthenticationException ae) {
+            return HttpUtils.fail("用户名或密码不正确！");
+        }
     }
 
     @GetMapping("/logout")
