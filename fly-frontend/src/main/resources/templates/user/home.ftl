@@ -45,7 +45,7 @@
                             <#if post.essence?? && post.essence == 1 >
                                 <span class="fly-jing">精</span>
                             </#if>
-                            <a href="/post/detail/${post.id}" class="jie-title">${post.title!''}</a>
+                            <a href="/post/detail/${post.id?c}" class="jie-title">${post.title!''}</a>
                             <i>${post.publishAt!''}</i>
                             <em class="layui-hide-xs">${post.viewCount}阅/${post.replyCount}答</em>
                         </li>
@@ -64,7 +64,7 @@
                         <li>
                             <p>
                                 <span>${comment.createdAt}</span>
-                                在<a href="/post/detail/${(comment.post.id)!}"
+                                在<a href="/post/detail/${(comment.post.id?c)!}"
                                     target="_blank">${(comment.post.title)!}</a>中回答：
                             </p>
                             <div class="home-dacontent">

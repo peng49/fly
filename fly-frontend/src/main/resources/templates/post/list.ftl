@@ -49,10 +49,9 @@
                         </li>
                     </#list>
                 </ul>
-                <div style="text-align: center">
+                <div style="text-align: left;  padding-left: 15px;">
                     <#include "../common/pager.ftl" />
                 </div>
-
             </div>
         </div>
         <div class="layui-col-md4">
