@@ -1,5 +1,7 @@
 package fly.frontend.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;
@@ -7,6 +9,7 @@ import fly.frontend.entity.from.UserRegisterFrom;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostCommentAgree;
 import fly.frontend.entity.model.User;
+import fly.frontend.entity.vo.PostVO;
 import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.*;
 import fly.frontend.utils.HttpUtils;
@@ -43,7 +46,6 @@ public class UserController {
 
     @Resource
     private PostService postService;
-
 
 
     @Resource
@@ -128,9 +130,9 @@ public class UserController {
 
     @GetMapping("/center")
     public ModelAndView home(ModelAndView view, HttpSession httpSession, HttpServletRequest request) {
-        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = HttpUtils.getCurrentUser();
+        System.out.println(user);
         view.addObject("user", user);
-
         if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/user/center");
         } else {
@@ -142,25 +144,24 @@ public class UserController {
     @GetMapping("/posts")
     @ResponseBody
     public Object posts(@RequestParam("type") String type,
-                        @RequestParam(name = "page",defaultValue = "1") int page,
-                        @RequestParam(name = "pageSize",defaultValue = "10") int pageSize,
+                        @RequestParam(name = "page", defaultValue = "1") int page,
+                        @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
                         HttpSession httpSession) {
-        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = HttpUtils.getCurrentUser();
 
-
-        List<Post> posts;
+        IPage<PostVO> list;
         if ("my".equals(type)) {
-            posts = postService.findAllByAuthorId(user.getId());
+            list = postService.findAllByAuthorId(new Page<>(page, pageSize), user.getId());
         } else {
-            posts = userPostService.findByUserId(user.getId());
+            list = postService.findUserPost(new Page<>(page, pageSize),user.getId());
         }
-        return HttpUtils.success(posts);
+        return HttpUtils.success(list);
     }
 
     @GetMapping("/info")
     @ResponseBody
     public Object info(HttpSession session) {
-        UserVO user = (UserVO) session.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = HttpUtils.getCurrentUser();
         user = userService.get(user.getId());
         return HttpUtils.success(user);
     }
@@ -188,11 +189,11 @@ public class UserController {
 
     @PostMapping("/collection")
     @ResponseBody
-    public Object collection(@RequestBody @Validated Map<String,@NotBlank(message = "值不能为空") Long> request, HttpSession httpSession) {
+    public Object collection(@RequestBody @Validated Map<String, @NotBlank(message = "值不能为空") Long> request, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         Long postId = request.get("postId");
         if (userPostService.isExisted(user.getId(), postId)) {
-           userPostService.delete(user, postId);
+            userPostService.delete(user, postId);
         } else {
             userPostService.create(user, postId);
         }
@@ -201,14 +202,13 @@ public class UserController {
 
     @PostMapping("/commentAgree")
     @ResponseBody
-    public Object commentAgree(@RequestBody Map<String,Long> request,HttpSession httpSession)
-    {
+    public Object commentAgree(@RequestBody Map<String, Long> request, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
         Long commentId = request.get("commentId");
-        if(postCommentAgreeService.isExisted(user,commentId)){
-            postCommentAgreeService.delete(user,commentId);
+        if (postCommentAgreeService.isExisted(user, commentId)) {
+            postCommentAgreeService.delete(user, commentId);
             postCommentService.commentAgreeDec(commentId);
-        }else{
+        } else {
             PostCommentAgree postCommentAgree = new PostCommentAgree();
             postCommentAgree.setUserId(user.getId());
             postCommentAgree.setPostCommentId(commentId);

@@ -4,7 +4,6 @@ import fly.frontend.entity.model.User;
 import fly.frontend.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -42,10 +41,8 @@ public class ShiroConfiguration {
         return factoryBean;
     }
 
-    @Bean
-    public SecurityManager securityManager() {
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-
+    private AuthorizingRealm getAuthorizingRealm()
+    {
         /**
          * 设置一个用户认证的 realm
          */
@@ -55,20 +52,19 @@ public class ShiroConfiguration {
                 // 加这一步的目的是在Post请求的时候会先进认证，然后在到请求
                 log.info(authenticationToken.toString());
                 if (authenticationToken.getPrincipal() == null) {
+                    log.info("======>"+authenticationToken.toString());
                     return null;
                 }
                 // 获取用户信息
                 String username = authenticationToken.getPrincipal().toString();
                 log.info(username);
                 User user = userService.getByUsername(username);
-                log.info(user.toString());
                 if (user == null) {
                     // 这里返回后会报出对应异常
-                    return null;
-                } else {
-                    // 这里验证authenticationToken和simpleAuthenticationInfo的信息
-                    return new SimpleAuthenticationInfo(username,user.getPassword(), getName());
+                    throw new UnknownAccountException("用户不存在");
                 }
+                // 这里验证authenticationToken和simpleAuthenticationInfo的信息
+                return new SimpleAuthenticationInfo(user,user.getPassword(), getName());
             }
 
             @Override
@@ -88,8 +84,14 @@ public class ShiroConfiguration {
             return BCrypt.checkpw(plaintext, hashed);
         });
 
-        securityManager.setRealm(authorizingRealm);
+        return authorizingRealm;
+    }
 
+    @Bean
+    public SecurityManager securityManager() {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+
+        securityManager.setRealm(getAuthorizingRealm());
         return securityManager;
     }
 

@@ -1,6 +1,9 @@
 package fly.frontend.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import fly.frontend.entity.model.User;
+import fly.frontend.entity.vo.UserVO;
+import org.apache.shiro.SecurityUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -71,5 +74,16 @@ public class HttpUtils {
         HashMap<Object, Object> resp = HttpUtils.response(code, message);
         resp.put("data", data);
         return resp;
+    }
+
+    public static UserVO getCurrentUser()
+    {
+        User user  = (User) SecurityUtils.getSubject().getPrincipal();
+        return UserVO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .isAdmin(user.getIsAdmin())
+                .avatar(user.getAvatar())
+                .build();
     }
 }

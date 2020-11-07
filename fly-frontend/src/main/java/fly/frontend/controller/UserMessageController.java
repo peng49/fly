@@ -23,7 +23,7 @@ public class UserMessageController {
     public Object get(@RequestParam(name = "page", defaultValue = "1") int page,
                       @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
                       HttpSession httpSession) {
-        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = HttpUtils.getCurrentUser();
 
         Page<UserMessage> pageObject = new Page<>();
         pageObject.setCurrent(page).setSize(pageSize);
@@ -39,9 +39,9 @@ public class UserMessageController {
 
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") Long messageId, HttpSession httpSession) {
-        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = HttpUtils.getCurrentUser();
         UserMessage message = userMessageService.getById(messageId);
-        log.info(message != null?message.toString():"null");
+        log.info(message != null ? message.toString() : "null");
         log.info(messageId.toString());
         log.info(user.getId().toString());
         if (message == null || !message.getReceiverId().equals(user.getId())) {
@@ -53,7 +53,7 @@ public class UserMessageController {
 
     @DeleteMapping("/all")
     public Object delete(HttpSession httpSession) {
-        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = HttpUtils.getCurrentUser();
         userMessageService.lambdaUpdate()
                 .eq(UserMessage::getReceiverId, user.getId())
                 .remove();

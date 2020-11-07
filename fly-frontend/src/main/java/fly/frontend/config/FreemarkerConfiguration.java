@@ -1,6 +1,7 @@
 package fly.frontend.config;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jagregory.shiro.freemarker.ShiroTags;
 import fly.frontend.entity.model.Column;
 import fly.frontend.service.ColumnService;
 import freemarker.template.Configuration;
@@ -28,5 +29,6 @@ public class FreemarkerConfiguration {
         Page<Column> page = new Page<>(1,6);
         List<Column> columns = columnService.page(page).getRecords();
         configuration.setSharedVariable("columns",columns);
+        configuration.setSharedVariable("shiro",new ShiroTags());
     }
 }
