@@ -6,10 +6,10 @@
     </p>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script src="https://cdn.staticfile.org/vue/2.6.9/vue.min.js"></script>
+<script src="https://cdn.staticfile.org/axios/0.21.0/axios.min.js"></script>
 
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
 <script src="/static/common.js"></script>
 

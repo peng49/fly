@@ -1,22 +1,38 @@
 package fly.frontend.config;
 
-import fly.frontend.interceptor.ExceptionResponseInterceptor;
-import fly.frontend.interceptor.UserAuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
 
-
+@Configuration
 public class InterceptorConfiguration {
+    private List<Integer> errorCodeList = Arrays.asList(404, 403, 500, 501);
 
-    @Resource
-    private UserAuthInterceptor userAuthInterceptor;
-
-    @Resource
-    private ExceptionResponseInterceptor exceptionResponseInterceptor;
+    private HandlerInterceptorAdapter getHandlerInterceptorAdapter()
+    {
+        class Inner extends HandlerInterceptorAdapter {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+                if (errorCodeList.contains(response.getStatus())) {
+                    ModelAndView mv = new ModelAndView("page/404");
+                    mv.setStatus(HttpStatus.NOT_FOUND);
+                    throw new ModelAndViewDefiningException(mv);
+                }
+                return super.preHandle(request, response, handler);
+            }
+        }
+        return new Inner();
+    }
 
     @Bean
     public WebMvcConfigurer registerInterceptor() {
@@ -27,17 +43,8 @@ public class InterceptorConfiguration {
              */
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
-                registry.addInterceptor(userAuthInterceptor)
-                        .addPathPatterns("/user/**")
-                        .addPathPatterns("/post/**")
-                        .addPathPatterns("/userMessage/**")
-                        .excludePathPatterns("/user/index/{id}")
-                        .excludePathPatterns("/user/login")
-                        .excludePathPatterns("/user/register")
-                        .excludePathPatterns("/user/forget")
-                        .excludePathPatterns("/post/detail/{id}");
-                registry.addInterceptor(exceptionResponseInterceptor)
-                        .addPathPatterns("/**");
+                //添加一个针对所有路径的拦截器，处理异常响应
+                registry.addInterceptor(getHandlerInterceptorAdapter()).addPathPatterns("/**");
             }
         };
     }

@@ -11,12 +11,12 @@
                 </li>
             </#list>
 
-            <#if Session["login-user"]??>
+            <@shiro.user>
                 <!-- 用户登入后显示 -->
                 <li class="layui-hide-xs layui-show-md-inline-block">
                     <a href="/user/center">个人中心</a>
                 </li>
-            </#if>
+            </@shiro.user>
         </ul>
 
         <div class="fly-column-right layui-hide-xs">
@@ -36,8 +36,8 @@
                 let column = columns[i]
                 // console.log(column)
                 let a = column.getElementsByTagName('a')[0]
-                if(a.getAttribute("href") === window.location.pathname){
-                    column.setAttribute("class",column.getAttribute("class")+" layui-this")
+                if (a.getAttribute("href") === window.location.pathname) {
+                    column.setAttribute("class", column.getAttribute("class") + " layui-this")
                 }
             }
         }

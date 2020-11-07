@@ -1,11 +1,14 @@
 package fly.frontend.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import fly.frontend.dao.UserPostMapper;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.model.UserPost;
+import fly.frontend.entity.vo.PostVO;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserPostService;
 import org.springframework.stereotype.Service;
@@ -42,12 +45,5 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
         return getOne(lambdaQuery()
                 .eq(UserPost::getUserId, userId)
                 .eq(UserPost::getPostId, postId)) != null;
-    }
-
-    @Override
-    public List<Post> findByUserId(Long userId) {
-        List<UserPost> list = list(Wrappers.lambdaQuery(UserPost.class).eq(UserPost::getUserId, userId));
-        List<Long> postIds = list.stream().map(UserPost::getPostId).collect(Collectors.toList());
-        return postService.list(Wrappers.lambdaQuery(Post.class).in(Post::getId, postIds));
     }
 }

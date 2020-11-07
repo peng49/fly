@@ -19,12 +19,12 @@ public interface PostService extends IService<Post> {
      * 草稿状态
      */
     int DRAFT_STATUS = 0;
-    
+
     /**
      * 发布状态
      */
     int PUBLISH_STATUS = 1;
-    
+
     int DELETE_STATUS = 2;
 
     /**
@@ -34,8 +34,9 @@ public interface PostService extends IService<Post> {
 
     IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition condition);
 
+    IPage<PostVO> findAllByAuthorId(IPage<Post> page, Long id);
 
-    List<Post> findAllByAuthorId(Long id);
+    IPage<PostVO> findUserPost(IPage page, Long userId);
 
     List<Post> findAllPublishByAuthorId(Long id);
 

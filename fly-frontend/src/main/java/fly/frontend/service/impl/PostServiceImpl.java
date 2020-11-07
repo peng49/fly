@@ -3,21 +3,26 @@ package fly.frontend.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import fly.frontend.dao.PostMapper;
 import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.UserPost;
 import fly.frontend.entity.vo.PostVO;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
+import fly.frontend.service.UserPostService;
 import fly.frontend.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements PostService {
@@ -26,6 +31,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
 
     @Resource
     private ColumnService columnService;
+
+    @Resource
+    private UserPostService userPostService;
 
     @Resource
     private UserService userService;
@@ -51,6 +59,53 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
                 .viewCount(post.getViewCount())
                 .replyCount(post.getReplyCount())
                 .build());
+    }
+
+    @Override
+    public IPage<PostVO> findAllByAuthorId(IPage<Post> page, Long id) {
+        IPage<Post> items = lambdaQuery().eq(Post::getAuthorId, id).page(page);
+
+        return items.convert(post -> PostVO.builder()
+                .id(post.getId())
+                .status(post.getStatus())
+                .essence(post.getEssence())
+                .column(columnService.getById(post.getColumnId()))
+                .author(userService.getById(post.getAuthorId()))
+                .publishAt(post.getPublishAt())
+                .title(post.getTitle())
+                .viewCount(post.getViewCount())
+                .replyCount(post.getReplyCount())
+                .build());
+    }
+
+    @Override
+    public IPage<PostVO> findUserPost(IPage page, Long userId) {
+        Page<UserPost> list = userPostService.page(new Page<>(page.getCurrent(), page.getSize()), Wrappers.lambdaQuery(UserPost.class).eq(UserPost::getUserId, userId));
+        List<Long> postIds = list.getRecords().stream().map(UserPost::getPostId).collect(Collectors.toList());
+
+        List<Post> posts = lambdaQuery().in(Post::getId, postIds).list();
+
+
+        Page<PostVO> item = new Page<>(list.getCurrent(),list.getSize());
+        item.setTotal(list.getTotal());
+
+        ArrayList<PostVO> records = new ArrayList<>();
+        posts.forEach(post -> {
+            records.add(PostVO.builder()
+                    .id(post.getId())
+                    .status(post.getStatus())
+                    .essence(post.getEssence())
+                    .column(columnService.getById(post.getColumnId()))
+                    .author(userService.getById(post.getAuthorId()))
+                    .publishAt(post.getPublishAt())
+                    .title(post.getTitle())
+                    .viewCount(post.getViewCount())
+                    .replyCount(post.getReplyCount())
+                    .build());
+        });
+
+        item.setRecords(records);
+        return item;
     }
 
     public List<Post> findAllByAuthorId(Long id) {
