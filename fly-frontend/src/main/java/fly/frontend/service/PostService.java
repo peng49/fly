@@ -3,6 +3,7 @@ package fly.frontend.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.google.common.collect.Maps;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
@@ -11,6 +12,7 @@ import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.vo.PostVO;
 
 import java.util.*;
+import java.util.function.Function;
 
 public interface PostService extends IService<Post> {
     double DEFAULT_HEAD = 10.0;

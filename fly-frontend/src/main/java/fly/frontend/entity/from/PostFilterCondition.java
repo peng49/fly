@@ -1,6 +1,9 @@
 package fly.frontend.entity.from;
 
+import fly.frontend.entity.model.Post;
 import lombok.Data;
+
+import java.util.function.Function;
 
 @Data
 public class PostFilterCondition {
