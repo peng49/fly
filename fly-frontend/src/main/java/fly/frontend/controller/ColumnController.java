@@ -40,9 +40,9 @@ public class ColumnController {
         condition.setStatus(PostService.PUBLISH_STATUS);//已发布的
 
         if (filter.getOrderBy() != null && PostService.ALLOW_ORDER_FIELD.contains(filter.getOrderBy())) {
-            condition.setOrderBy(filter.getOrderBy() + " desc");
+            condition.setOrderBy(filter.getOrderBy());
         } else {
-            condition.setOrderBy("heat desc");
+            condition.setOrderBy("heat");
         }
 
 

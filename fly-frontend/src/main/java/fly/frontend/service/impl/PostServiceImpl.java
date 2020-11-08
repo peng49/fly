@@ -1,6 +1,7 @@
 package fly.frontend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
@@ -22,6 +23,7 @@ import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,13 +42,23 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
 
 
     public IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition query) {
-        Wrapper<Post> queryWrapper = Wrappers.<Post>lambdaQuery()
+        LambdaQueryChainWrapper<Post> queryChainWrapper = lambdaQuery()
                 .eq(Post::getStatus, 1)
                 .eq(query.getColumnId() != 0, Post::getColumnId, query.getColumnId())
-                .eq("essence".equals(query.getList()),Post::getEssence,1)
-                .orderByDesc(Post::getHeat);
+                .eq("essence".equals(query.getList()), Post::getEssence, 1);
 
-        Page<Post> items = page(page, queryWrapper);
+
+        if(query.getOrderBy() == null || "heat".equals(query.getOrderBy())){
+            queryChainWrapper.orderByDesc(Post::getHeat);
+        }
+        if("publish_at".equals(query.getOrderBy())){
+            queryChainWrapper.orderByDesc(Post::getPublishAt);
+        }
+        if("reply_count".equals(query.getOrderBy())){
+            queryChainWrapper.orderByDesc(Post::getReplyCount);
+        }
+
+        Page<Post> items = queryChainWrapper.page(page);
 
         return items.convert(post -> PostVO.builder()
                 .id(post.getId())

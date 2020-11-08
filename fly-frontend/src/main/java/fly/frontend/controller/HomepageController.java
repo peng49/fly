@@ -41,9 +41,9 @@ public class HomepageController {
         condition.setStatus(PostService.PUBLISH_STATUS);//已发布的
 
         if (!"".equals(orderBy) && PostService.ALLOW_ORDER_FIELD.contains(orderBy)) {
-            condition.setOrderBy(orderBy + " desc");
+            condition.setOrderBy(orderBy);
         } else {
-            condition.setOrderBy("heat desc");
+            condition.setOrderBy("heat");
         }
 
         Page<Post> page = new Page<>();
