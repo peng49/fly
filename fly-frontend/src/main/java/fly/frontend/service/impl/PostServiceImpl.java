@@ -238,6 +238,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
         //100个查看等于一个回复
         double user = post.getViewCount() * 0.01 + post.getReplyCount();
 
+        if(post.getPublishAt() == null){
+            return 0.00;
+        }
+
         double time = (System.currentTimeMillis() - post.getPublishAt().getTime()) / 1000.00 / 3600.00;
 
         if (time <= 1) {

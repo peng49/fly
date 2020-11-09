@@ -10,7 +10,6 @@
                     </a>
                 </li>
             </#list>
-
             <@shiro.user>
                 <!-- 用户登入后显示 -->
                 <li class="layui-hide-xs layui-show-md-inline-block">
