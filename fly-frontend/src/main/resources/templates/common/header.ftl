@@ -3,7 +3,7 @@
         <ul id="columns" class="layui-clear">
             <li class="column"><a href="/">首页</a></li>
 
-            <#list columns as column>
+            <#list globalColumnList as column>
                 <li class="column">
                     <a href="/column/${column.id}">
                         ${column.name}

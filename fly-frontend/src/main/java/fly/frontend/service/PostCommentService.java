@@ -13,7 +13,7 @@ import java.util.List;
 public interface PostCommentService extends IService<PostComment> {
     PostComment create(Long userId, PostCommentAddFrom postCommentAddFrom);
 
-    List<PostCommentVO> getByUserId(IPage<PostComment> page, Long userId);
+    IPage<PostCommentVO> getByUserId(IPage<PostComment> page, Long userId);
 
     void commentAgreeInc(Long commentId);
 

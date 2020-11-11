@@ -21,10 +21,12 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostComment> implements PostCommentService {
@@ -80,22 +82,29 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
         return comment;
     }
 
-    private List<PostCommentVO> convert(List<PostComment> comments) {
-        List<PostCommentVO> items = new ArrayList<>();
-        comments.forEach(comment -> {
-            items.add(PostCommentVO.builder()
+    private Function<PostComment, PostCommentVO> getCovertFunction(Map<Long, Post> posts) {
+        return comment -> {
+            Post post = Optional.ofNullable(posts.get(comment.getId())).orElse(new Post());
+            return PostCommentVO.builder()
                     .id(comment.getId())
-                    .post(PostDTO.builder().title("TEST").build())
+                    .post(PostDTO.builder().id(post.getId()).title(post.getTitle()).build())
                     .content(comment.getContent())
                     .createdAt(comment.getCreatedAt())
-                    .build());
-        });
-        return items;
+                    .build();
+        };
     }
 
-    public List<PostCommentVO> getByUserId(IPage<PostComment> pageObj, Long userId) {
-        return convert(page(pageObj, Wrappers.<PostComment>lambdaQuery()
-                .eq(PostComment::getUserId, userId)).getRecords());
+    public IPage<PostCommentVO> getByUserId(IPage<PostComment> pageObj, Long userId) {
+        IPage<PostComment> comments = lambdaQuery().eq(PostComment::getUserId, userId).page(pageObj);
+        List<Long> postIds = comments.getRecords().stream().map(PostComment::getPostId).collect(Collectors.toList());
+
+        Map<Long, Post> posts = postService.lambdaQuery()
+                .in(Post::getId, postIds)
+                .list()
+                .stream()
+                .collect(Collectors.toMap(Post::getId, Function.identity()));
+
+        return comments.convert(getCovertFunction(posts));
     }
 
 

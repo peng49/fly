@@ -28,7 +28,7 @@ public class FreemarkerConfiguration {
     public void setFreeMarkerShareVariables() throws TemplateModelException {
         Page<Column> page = new Page<>(1,6);
         List<Column> columns = columnService.page(page).getRecords();
-        configuration.setSharedVariable("columns",columns);
+        configuration.setSharedVariable("globalColumnList",columns);
         configuration.setSharedVariable("shiro",new ShiroTags());
     }
 }

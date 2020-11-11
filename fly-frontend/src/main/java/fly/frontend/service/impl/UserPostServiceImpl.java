@@ -1,22 +1,15 @@
 package fly.frontend.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import fly.frontend.dao.UserPostMapper;
-import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.model.UserPost;
-import fly.frontend.entity.vo.PostVO;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserPostService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> implements UserPostService {

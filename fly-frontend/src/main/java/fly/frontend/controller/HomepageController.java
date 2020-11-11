@@ -68,7 +68,7 @@ public class HomepageController {
 
         view.addObject("posts", postService.findAllPublishByAuthorId(id));
 
-        view.addObject("comments", postCommentService.getByUserId(new Page<>(1, 8), id));
+        view.addObject("comments", postCommentService.getByUserId(new Page<>(1, 8), id).getRecords());
 
         if (HttpUtils.isMobile(request)) {
             view.setViewName("wap/user/home");
