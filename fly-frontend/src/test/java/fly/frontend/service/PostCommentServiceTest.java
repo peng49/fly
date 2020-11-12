@@ -1,5 +1,6 @@
 package fly.frontend.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.FlyFrontendApplication;
 import fly.frontend.entity.model.User;
 import org.junit.Test;
@@ -19,6 +20,6 @@ public class PostCommentServiceTest {
     @Test
     public void serviceTest()
     {
-
+        postCommentService.getByUserId(new Page<>(1,10),1L);
     }
 }
