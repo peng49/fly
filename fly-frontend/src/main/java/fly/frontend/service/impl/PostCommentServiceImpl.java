@@ -16,6 +16,7 @@ import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
 import fly.frontend.utils.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostComment> implements PostCommentService {
     @Resource
     private PostService postService;
@@ -84,7 +86,7 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
 
     private Function<PostComment, PostCommentVO> getCovertFunction(Map<Long, Post> posts) {
         return comment -> {
-            Post post = Optional.ofNullable(posts.get(comment.getId())).orElse(new Post());
+            Post post = Optional.ofNullable(posts.get(comment.getPostId())).orElse(new Post());
             return PostCommentVO.builder()
                     .id(comment.getId())
                     .post(PostDTO.builder().id(post.getId()).title(post.getTitle()).build())
@@ -95,7 +97,11 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
     }
 
     public IPage<PostCommentVO> getByUserId(IPage<PostComment> pageObj, Long userId) {
-        IPage<PostComment> comments = lambdaQuery().eq(PostComment::getUserId, userId).page(pageObj);
+        IPage<PostComment> comments = lambdaQuery()
+                .eq(PostComment::getUserId, userId)
+                .orderByDesc(PostComment::getId)
+                .page(pageObj);
+
         List<Long> postIds = comments.getRecords().stream().map(PostComment::getPostId).collect(Collectors.toList());
 
         Map<Long, Post> posts = postService.lambdaQuery()
@@ -145,11 +151,7 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
 
     @Override
     public IPage<PostCommentVO> getByPostId(Page<PostComment> page, Long postId) {
-        Page<PostComment> comments = page(
-                page, Wrappers.<PostComment>lambdaQuery().
-                        eq(PostComment::getPostId, postId)
-        );
-
+        Page<PostComment> comments = lambdaQuery().eq(PostComment::getPostId, postId).page(page);
         return comments.convert(comment -> PostCommentVO.builder()
                 .id(comment.getId())
                 .createdAt(comment.getCreatedAt())
