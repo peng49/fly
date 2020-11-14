@@ -50,11 +50,8 @@ public class HomepageController {
         page.setCurrent(1).setSize(20);
         view.addObject("posts", postService.getByCondition(page, condition).getRecords());
 
-        if (HttpUtils.isMobile(request)) {
-            view.setViewName("wap/index");
-        } else {
-            view.setViewName("index");
-        }
+        HttpUtils.selectViewName("index", request, view);
+
         return view;
     }
 
@@ -63,18 +60,12 @@ public class HomepageController {
     public ModelAndView index(@PathVariable("id") Long id, ModelAndView view, HttpServletRequest request) {
         view.addObject("user", userService.get(id));
 
-        Collection<Object> keys = SecurityUtils.getSubject().getSession().getAttributeKeys();
-        System.out.println(keys);
-
         view.addObject("posts", postService.findAllPublishByAuthorId(id));
 
         view.addObject("comments", postCommentService.getByUserId(new Page<>(1, 8), id).getRecords());
 
-        if (HttpUtils.isMobile(request)) {
-            view.setViewName("wap/user/home");
-        } else {
-            view.setViewName("user/home");
-        }
+        HttpUtils.selectViewName("user/home", request, view);
+
         return view;
     }
 }

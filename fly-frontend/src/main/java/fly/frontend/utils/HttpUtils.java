@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.UserVO;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -85,5 +86,18 @@ public class HttpUtils {
                 .isAdmin(user.getIsAdmin())
                 .avatar(user.getAvatar())
                 .build();
+    }
+
+    /**
+     *  选择模板页面
+     * @param viewName
+     * @param request
+     * @param view
+     */
+    public static void selectViewName(String viewName, HttpServletRequest request, ModelAndView view) {
+        view.setViewName(viewName);
+        if (isMobile(request)) {
+            view.setViewName("wap/" + viewName);
+        }
     }
 }
