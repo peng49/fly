@@ -1,7 +1,5 @@
 package fly.frontend.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
@@ -11,26 +9,26 @@ import fly.frontend.dao.PostMapper;
 import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.User;
 import fly.frontend.entity.model.UserPost;
 import fly.frontend.entity.vo.PostVO;
+import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserPostService;
 import fly.frontend.service.UserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements PostService {
-    @Resource
-    private PostMapper postMapper;
-
+public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
     @Resource
     private ColumnService columnService;
 
@@ -48,13 +46,13 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
                 .eq("essence".equals(query.getList()), Post::getEssence, 1);
 
 
-        if(query.getOrderBy() == null || "heat".equals(query.getOrderBy())){
+        if (query.getOrderBy() == null || "heat".equals(query.getOrderBy())) {
             queryChainWrapper.orderByDesc(Post::getHeat);
         }
-        if("publish_at".equals(query.getOrderBy())){
+        if ("publish_at".equals(query.getOrderBy())) {
             queryChainWrapper.orderByDesc(Post::getPublishAt);
         }
-        if("reply_count".equals(query.getOrderBy())){
+        if ("reply_count".equals(query.getOrderBy())) {
             queryChainWrapper.orderByDesc(Post::getReplyCount);
         }
 
@@ -98,7 +96,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
         List<Post> posts = lambdaQuery().in(Post::getId, postIds).list();
 
 
-        Page<PostVO> item = new Page<>(list.getCurrent(),list.getSize());
+        Page<PostVO> item = new Page<>(list.getCurrent(), list.getSize());
         item.setTotal(list.getTotal());
 
         ArrayList<PostVO> records = new ArrayList<>();
@@ -121,15 +119,28 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
     }
 
     public List<Post> findAllByAuthorId(Long id) {
-        return postMapper.selectList(Wrappers.lambdaQuery(Post.class).eq(Post::getAuthorId, id));
+        return lambdaQuery().eq(Post::getAuthorId, id).list();
     }
 
     public List<Post> findAllPublishByAuthorId(Long id) {
-        return postMapper.selectList(Wrappers.lambdaQuery(Post.class).eq(Post::getAuthorId,id).eq(Post::getStatus,PostService.PUBLISH_STATUS));
+        return lambdaQuery().eq(Post::getAuthorId, id).eq(Post::getStatus, PostService.PUBLISH_STATUS).list();
     }
 
     public PostVO get(Long id) {
-        Post post = postMapper.selectById(id);
+        Post post = getById(id);
+
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        boolean collected = false;
+        boolean recommended = false;
+        if (user != null) {
+            Long userId = user.getId();
+            collected = userPostService.lambdaQuery()
+                    .eq(UserPost::getUserId, userId)
+                    .eq(UserPost::getPostId, post.getId())
+                    .list().size() > 0;
+        }
+
+
 
         return PostVO.builder()
                 .id(post.getId())
@@ -143,6 +154,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
                 .title(post.getTitle())
                 .originalContent(post.getOriginalContent())
                 .content(post.getContent())
+                .collected(collected)
+                .recommended(false)
                 .build();
     }
 
@@ -166,28 +179,28 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
         }
 
         Post post = builder.build();
-        postMapper.insert(post);
+        save(post);
         return post;
     }
 
     public void update(Post post) {
-        postMapper.updateById(post);
+        updateById(post);
     }
 
     public void updateHeat(Post post) {
-        postMapper.updateById(post);
+        updateById(post);
     }
 
 
     public void replyCountInc(Long postId) {
-        Post post = postMapper.selectById(postId);
-        postMapper.updateById(Post.builder().id(postId).replyCount(post.getReplyCount() + 1).build());
+        Post post = getById(postId);
+        updateById(Post.builder().id(postId).replyCount(post.getReplyCount() + 1).build());
     }
 
     public void viewCountInc(Long postId) {
-        Post post = postMapper.selectById(postId);
+        Post post = getById(postId);
         post.setViewCount(post.getViewCount() + 1);
-        postMapper.updateById(post);
+        updateById(post);
     }
 
     public void top(Post post) {
@@ -196,7 +209,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
         } else {
             post.setTop(1);
         }
-        postMapper.updateById(post);
+        updateById(post);
     }
 
     public void essence(Post post) {
@@ -205,7 +218,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
         } else {
             post.setEssence(1);
         }
-        postMapper.updateById(post);
+        updateById(post);
     }
 
     public void edit(Post post, PostEditFrom postEditFrom) {
@@ -222,7 +235,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
             post.setUpdateAt(timestamp);
         }
 
-        postMapper.updateById(post);
+        updateById(post);
     }
 
     /**
@@ -238,7 +251,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
         //100个查看等于一个回复
         double user = post.getViewCount() * 0.01 + post.getReplyCount();
 
-        if(post.getPublishAt() == null){
+        if (post.getPublishAt() == null) {
             return 0.00;
         }
 
@@ -254,6 +267,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements Pos
     @Override
     public void move2delete(Post post) {
         post.setStatus(PostService.DELETE_STATUS);
-        postMapper.updateById(post);
+        updateById(post);
     }
 }
