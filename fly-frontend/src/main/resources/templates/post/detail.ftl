@@ -73,12 +73,11 @@
                 <div class="detail-handle" style="text-align: center">
 
                     <a href="javascript:" @click="collection">
-                        <#if  post.collected>
-                            <i class="icon-coll-yes"></i> 已收藏(0)
+                        <#if post.collected>
+                            <i class="icon-coll-yes"></i> 已收藏(${post.collectedCount})
                         <#else>
-                            <i class="icon-coll"></i> 收藏(0)
+                            <i class="icon-coll"></i> 收藏(${post.collectedCount})
                         </#if>
-
                     </a>
                     <a href="javascript:"><i class="icon-recommend"></i>推荐</a>
                 </div>
@@ -160,18 +159,16 @@
     new Vue({
         el: "#post-container",
         data: {
+            postId:'${post.id?c}',
             post: {
                 top: '${(post.top)!0}',
                 essence: '${(post.essence)!0}',
                 status: '${(post.status)!}',
             },
-            postCollection: {
-                postId: '${post.id?c}'
-            },
             editor: null,
             parentCon: {
-                username: "回复用户",
-                content: "回复的内容"
+                username: "",
+                content: ""
             },
             comment: {
                 postId: '${post.id?c}',
@@ -279,7 +276,7 @@
                 this.comment.parentId = 0;
             },
             collection: function () {
-                axios.post('/user/collection', this.postCollection)
+                axios.post('/user/collection', {postId:this.postId})
                     .then(function (response) {
                         if (response.code === "success") {
                             layer.msg('操作成功');

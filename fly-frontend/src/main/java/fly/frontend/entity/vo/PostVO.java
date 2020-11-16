@@ -29,8 +29,12 @@ public class PostVO {
      * 是否收藏
      */
     private boolean collected;
+
+    private Integer collectedCount;
     /**
      * 是否推荐
      */
     private boolean recommended;
+
+    private Integer recommendedCount;
 }

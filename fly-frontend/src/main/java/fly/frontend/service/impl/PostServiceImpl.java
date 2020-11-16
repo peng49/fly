@@ -142,6 +142,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
 
 
+
         return PostVO.builder()
                 .id(post.getId())
                 .status(post.getStatus())
@@ -155,6 +156,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .originalContent(post.getOriginalContent())
                 .content(post.getContent())
                 .collected(collected)
+                .collectedCount(userPostService.lambdaQuery().eq(UserPost::getPostId,post.getId()).count())
                 .recommended(false)
                 .build();
     }
