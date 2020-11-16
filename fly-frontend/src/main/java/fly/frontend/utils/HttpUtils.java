@@ -77,9 +77,12 @@ public class HttpUtils {
         return resp;
     }
 
-    public static UserVO getCurrentUser()
-    {
-        User user  = (User) SecurityUtils.getSubject().getPrincipal();
+    public static UserVO getCurrentUser() {
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        if (user == null) {
+            return null;
+        }
+
         return UserVO.builder()
                 .id(user.getId())
                 .username(user.getUsername())

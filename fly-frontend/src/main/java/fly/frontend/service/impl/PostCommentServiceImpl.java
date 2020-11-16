@@ -104,11 +104,16 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
 
         List<Long> postIds = comments.getRecords().stream().map(PostComment::getPostId).collect(Collectors.toList());
 
-        Map<Long, Post> posts = postService.lambdaQuery()
-                .in(Post::getId, postIds)
-                .list()
-                .stream()
-                .collect(Collectors.toMap(Post::getId, Function.identity()));
+        Map<Long, Post> posts = new HashMap<>();
+        if (postIds.size() > 0) {
+            posts = postService.lambdaQuery()
+                    .in(Post::getId, postIds)
+                    .list()
+                    .stream()
+                    .collect(Collectors.toMap(Post::getId, Function.identity()));
+        }
+
+
 
         return comments.convert(getCovertFunction(posts));
     }
