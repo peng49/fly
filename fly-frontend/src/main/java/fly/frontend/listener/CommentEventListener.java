@@ -42,7 +42,7 @@ public class CommentEventListener {
         //获取评论 @ 的所有用户
         List<User> users = postCommentService.getUsersByContent(postComment.getContent());
         for (User user : users) {
-            if (user.getId() == postComment.getUserId()) {
+            if (user.getId().equals(postComment.getUserId())) {
                 //@自己不用发送信息
                 continue;
             }
