@@ -189,13 +189,13 @@ public class UserController {
 
     @PostMapping("/collection")
     @ResponseBody
-    public Object collection(@RequestBody @Validated Map<String, @NotBlank(message = "值不能为空") Long> request, HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+    public Object collection(@RequestBody @Validated Map<String, @NotBlank(message = "值不能为空") Long> request) {
+        UserVO user = HttpUtils.getCurrentUser();
         Long postId = request.get("postId");
         if (userPostService.isExisted(user.getId(), postId)) {
-            userPostService.delete(user, postId);
+            userPostService.delete(user.getId(), postId);
         } else {
-            userPostService.create(user, postId);
+            userPostService.create(user.getId(), postId);
         }
         return HttpUtils.success();
     }
