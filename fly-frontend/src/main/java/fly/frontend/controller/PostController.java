@@ -144,12 +144,12 @@ public class PostController {
     public ModelAndView detail(@PathVariable("id") Long id, ModelAndView view, HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
         PostVO post = postService.get(id);
         boolean allowEdit = false;
-        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
+        UserVO user = HttpUtils.getCurrentUser();
         if (user != null && user.getId().equals(post.getAuthor().getId())) {
             allowEdit = true;
         }
 
-        if (post.getStatus() != 1 && (user == null || user.getId() != post.getAuthor().getId())) {
+        if (post.getStatus() != 1 && (user == null || !user.getId().equals(post.getAuthor().getId()))) {
             //不是作者不能看未发布的文章
             response.setStatus(404);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

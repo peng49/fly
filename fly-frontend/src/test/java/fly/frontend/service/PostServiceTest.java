@@ -27,10 +27,7 @@ public class PostServiceTest {
     @Test
     public void serviceTest()
     {
-
-        Page<Column> page = new Page<>(1,5);
-        List<Column> columns = columnService.page(page).getRecords();
-        System.out.println(columns);
+        postService.get(1324596586339127300L);
     }
 
 }
