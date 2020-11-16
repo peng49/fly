@@ -140,9 +140,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                     .list().size() > 0;
         }
 
-
-
-
         return PostVO.builder()
                 .id(post.getId())
                 .status(post.getStatus())

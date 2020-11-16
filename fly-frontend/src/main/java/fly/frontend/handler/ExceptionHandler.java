@@ -33,6 +33,7 @@ public class ExceptionHandler {
         map.put("code", "exception");
         map.put("name", ex.getClass().getName());
         map.put("message", ex.getLocalizedMessage());
+        map.put("trace",ex.getStackTrace());
 
         log.error(Arrays.toString(ex.getStackTrace()));
         return map;
