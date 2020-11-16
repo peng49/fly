@@ -18,25 +18,25 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
     private PostService postService;
 
     @Override
-    public boolean create(User user, Long postId) {
+    public boolean create(Long userId, Long postId) {
         return save(UserPost.builder()
-                .userId(user.getId())
+                .userId(userId)
                 .postId(postId)
                 .createdAt(new Timestamp(System.currentTimeMillis()))
                 .build());
     }
 
     @Override
-    public void delete(User user, Long postId) {
+    public void delete(Long userId, Long postId) {
         lambdaUpdate().eq(UserPost::getPostId, postId)
-                .eq(UserPost::getUserId, user.getId())
+                .eq(UserPost::getUserId, userId)
                 .remove();
     }
 
     @Override
     public boolean isExisted(Long userId, Long postId) {
-        return getOne(lambdaQuery()
+        return lambdaQuery()
                 .eq(UserPost::getUserId, userId)
-                .eq(UserPost::getPostId, postId)) != null;
+                .eq(UserPost::getPostId, postId).list().size() > 0;
     }
 }

@@ -71,8 +71,8 @@
                     ${post.content}
                 </div>
                 <div class="detail-handle" style="text-align: center">
-                    <a href="javascript:" @click="collection"><i class="layui-icon"></i> 收藏(0)</a>
-                    <a href="javascript:">推荐</a>
+                    <a href="javascript:" @click="collection"><i class="icon-coll"></i> 收藏(0)</a>
+                    <a href="javascript:"><i class="icon-recommend"></i>推荐</a>
                 </div>
             </div>
 
@@ -158,7 +158,7 @@
                 status: '${(post.status)!}',
             },
             postCollection: {
-                postId: '${post.id}'
+                postId: '${post.id?c}'
             },
             editor: null,
             parentCon: {
