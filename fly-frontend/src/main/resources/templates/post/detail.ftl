@@ -71,7 +71,15 @@
                     ${post.content}
                 </div>
                 <div class="detail-handle" style="text-align: center">
-                    <a href="javascript:" @click="collection"><i class="icon-coll"></i> 收藏(0)</a>
+
+                    <a href="javascript:" @click="collection">
+                        <#if  post.collected>
+                            <i class="icon-coll-yes"></i> 已收藏(0)
+                        <#else>
+                            <i class="icon-coll"></i> 收藏(0)
+                        </#if>
+
+                    </a>
                     <a href="javascript:"><i class="icon-recommend"></i>推荐</a>
                 </div>
             </div>

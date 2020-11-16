@@ -46,6 +46,7 @@ public class ShiroConfiguration {
                     response.getWriter().write(new ObjectMapper().writeValueAsString(HttpUtils.fail("未登录或者登录已失效")));
                 } else {
                     //重定向
+
                     String loginUrl = this.getLoginUrl();
                     WebUtils.issueRedirect(request, response, loginUrl);
                 }

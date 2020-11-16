@@ -24,4 +24,13 @@ public class PostVO {
     private Timestamp updateAt;
     private Integer essence;
     private Integer top;
+
+    /**
+     * 是否收藏
+     */
+    private boolean collected;
+    /**
+     * 是否推荐
+     */
+    private boolean recommended;
 }
