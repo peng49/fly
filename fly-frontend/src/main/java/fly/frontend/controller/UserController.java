@@ -65,12 +65,7 @@ public class UserController {
         }
         view.addObject("redirect", redirect);
 
-        if (HttpUtils.isMobile(request)) {
-            view.setViewName("wap/user/login");
-        } else {
-            view.setViewName("user/login");
-        }
-
+        HttpUtils.selectViewName("user/login",request,view);
         return view;
     }
 
@@ -103,21 +98,13 @@ public class UserController {
 
     @GetMapping("/register")
     public ModelAndView register(ModelAndView view, HttpServletRequest request) {
-        if (HttpUtils.isMobile(request)) {
-            view.setViewName("wap/user/register");
-        } else {
-            view.setViewName("user/register");
-        }
+        HttpUtils.selectViewName("user/register",request,view);
         return view;
     }
 
     @GetMapping("/forget")
     public ModelAndView forget(ModelAndView view, HttpServletRequest request) {
-        if (HttpUtils.isMobile(request)) {
-            view.setViewName("wap/user/forget");
-        } else {
-            view.setViewName("user/forget");
-        }
+        HttpUtils.selectViewName("user/forget",request,view);
         return view;
     }
 
@@ -133,11 +120,8 @@ public class UserController {
         UserVO user = HttpUtils.getCurrentUser();
         System.out.println(user);
         view.addObject("user", user);
-        if (HttpUtils.isMobile(request)) {
-            view.setViewName("wap/user/center");
-        } else {
-            view.setViewName("user/center");
-        }
+
+        HttpUtils.selectViewName("user/center", request, view);
         return view;
     }
 
