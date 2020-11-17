@@ -61,11 +61,8 @@ public class ColumnController {
 
         view.addObject("next_url", HttpUtils.setUrlParam(HttpUtils.getCurrentUrl(request), "page", String.valueOf(posts.getCurrent() + 1)));
 
-        if (HttpUtils.isMobile(request)) {
-            view.setViewName("wap/post/list");
-        } else {
-            view.setViewName("post/list");
-        }
+        HttpUtils.selectViewName("post/list", request, view);
+
         return view;
     }
 }

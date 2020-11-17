@@ -63,11 +63,7 @@ public class PostController {
     public ModelAndView add(ModelAndView view, HttpServletRequest request) {
         view.addObject("columns", columnService.list());
 
-        if (HttpUtils.isMobile(request)) {
-            view.setViewName("wap/post/edit");
-        } else {
-            view.setViewName("/post/edit");
-        }
+        HttpUtils.selectViewName("/post/edit", request, view);
         return view;
     }
 
@@ -92,11 +88,9 @@ public class PostController {
         Post post = postMapper.selectById(id);
         view.addObject("columns", columnService.list());
         view.addObject("post", post);
-        if (HttpUtils.isMobile(request)) {
-            view.setViewName("/wap/post/edit");
-        } else {
-            view.setViewName("/post/edit");
-        }
+
+        HttpUtils.selectViewName("/post/edit", request, view);
+
         return view;
     }
 
@@ -162,11 +156,8 @@ public class PostController {
         IPage<PostCommentVO> comments = postCommentService.getByPostId(page, post.getId());
         view.addObject("comments", comments.getRecords());
         view.addObject("allowEdit", allowEdit);
-        if (HttpUtils.isMobile(request)) {
-            view.setViewName("wap/post/detail");
-        } else {
-            view.setViewName("/post/detail");
-        }
+
+        HttpUtils.selectViewName("/post/detail", request, view);
 
         Thread thread = new Thread(() -> {
             postService.viewCountInc(id);
