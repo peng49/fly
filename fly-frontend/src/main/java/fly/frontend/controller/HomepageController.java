@@ -33,7 +33,8 @@ public class HomepageController {
     public ModelAndView index(HttpServletRequest request,
                               ModelAndView view,
                               @RequestParam(value = "list", defaultValue = "all") String list,
-                              @RequestParam(value = "orderBy", defaultValue = "") String orderBy) {
+                              @RequestParam(value = "orderBy", defaultValue = "") String orderBy,
+                              @RequestParam(value = "page",defaultValue = "1") Integer page) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setList(list);
         condition.setStatus(PostService.PUBLISH_STATUS);//已发布的
@@ -44,9 +45,7 @@ public class HomepageController {
             condition.setOrderBy("heat");
         }
 
-        Page<Post> page = new Page<>();
-        page.setCurrent(1).setSize(20);
-        view.addObject("posts", postService.getByCondition(page, condition).getRecords());
+        view.addObject("posts", postService.getByCondition(new Page<>(page,20), condition).getRecords());
 
         HttpUtils.selectViewName("index", request, view);
 
