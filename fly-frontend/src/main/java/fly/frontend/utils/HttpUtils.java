@@ -80,9 +80,8 @@ public class HttpUtils {
     public static UserVO getCurrentUser() {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         if (user == null) {
-            return null;
+            throw new RuntimeException("请先登录");
         }
-
         return UserVO.builder()
                 .id(user.getId())
                 .username(user.getUsername())

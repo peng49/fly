@@ -116,7 +116,7 @@ public class UserController {
     }
 
     @GetMapping("/center")
-    public ModelAndView home(ModelAndView view, HttpSession httpSession, HttpServletRequest request) {
+    public ModelAndView home(ModelAndView view, HttpServletRequest request) {
         UserVO user = HttpUtils.getCurrentUser();
         System.out.println(user);
         view.addObject("user", user);
@@ -144,7 +144,7 @@ public class UserController {
 
     @GetMapping("/info")
     @ResponseBody
-    public Object info(HttpSession session) {
+    public Object info() {
         UserVO user = HttpUtils.getCurrentUser();
         user = userService.get(user.getId());
         return HttpUtils.success(user);
