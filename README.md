@@ -1,5 +1,7 @@
 # FLY
 [![Build Status](https://travis-ci.com/peng49/fly.svg?branch=master)](https://travis-ci.com/peng49/fly)
+[![java](https://img.shields.io/badge/language-java-orange.svg)](https://github.com/peng49/fly)
+[![MIT](https://img.shields.io/badge/license-MIT-blue.svg)]((https://github.com/peng49/fly))
 
 # 模块说明
 ```
