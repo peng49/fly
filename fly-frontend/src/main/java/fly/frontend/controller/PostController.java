@@ -69,11 +69,8 @@ public class PostController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Object add(@RequestBody @Validated PostEditFrom postEditFrom, HttpSession httpSession) throws Exception {
-        UserVO user = (UserVO) httpSession.getAttribute("login-user");
-        if (user == null) {
-            throw new Exception("请先登录");
-        }
+    public Object add(@RequestBody @Validated PostEditFrom postEditFrom) {
+        UserVO user = HttpUtils.getCurrentUser();
         Post post = postService.create(postEditFrom, user.getId());
 
         PostAutoDraft draft = postAutoDraftService.getForUserId(post.getAuthorId());
@@ -96,8 +93,8 @@ public class PostController {
 
     @PostMapping("/draft")
     @ResponseBody
-    public Object draft(@Valid @RequestBody PostEditFrom postEditFrom, HttpSession httpSession) {
-        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
+    public Object draft(@Valid @RequestBody PostEditFrom postEditFrom) {
+        UserVO user = HttpUtils.getCurrentUser();
         PostAutoDraft.PostAutoDraftBuilder draftBuilder = PostAutoDraft.builder()
                 .userId(user.getId())
                 .title(postEditFrom.getTitle())
@@ -175,8 +172,8 @@ public class PostController {
 
     @PostMapping("/addComment")
     @ResponseBody
-    public Object addComment(@RequestBody @Validated PostCommentAddFrom postCommentAddFrom, HttpSession httpSession) {
-        UserVO user = (UserVO) httpSession.getAttribute(UserService.LOGIN_KEY);
+    public Object addComment(@RequestBody @Validated PostCommentAddFrom postCommentAddFrom) {
+        UserVO user = HttpUtils.getCurrentUser();
         PostComment comment = postCommentService.create(user.getId(), postCommentAddFrom);
         return HttpUtils.success(comment);
     }
