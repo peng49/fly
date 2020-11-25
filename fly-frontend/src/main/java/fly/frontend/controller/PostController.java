@@ -138,10 +138,16 @@ public class PostController {
     public ModelAndView detail(@PathVariable("id") Long id, ModelAndView view, HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
         PostVO post = postService.get(id);
         boolean allowEdit = false;
-        UserVO user = HttpUtils.getCurrentUser();
-        if (user != null && user.getId().equals(post.getAuthor().getId())) {
-            allowEdit = true;
+        UserVO user = null;
+        try {
+            user = HttpUtils.getCurrentUser();
+            if (user != null && user.getId().equals(post.getAuthor().getId())) {
+                allowEdit = true;
+            }
+        } catch (RuntimeException ex) {
+
         }
+
 
         if (post.getStatus() != 1 && (user == null || !user.getId().equals(post.getAuthor().getId()))) {
             //不是作者不能看未发布的文章
