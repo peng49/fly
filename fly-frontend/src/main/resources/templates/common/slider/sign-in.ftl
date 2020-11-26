@@ -1,15 +1,6 @@
 <div class="fly-panel">
-    <#if Session["login-user"]??>
-        <div class="fly-panel-title">
-            用户信息
-        </div>
-        <div class="fly-panel-main">
-            <div class="avatar" style="width: 80px;height: 80px;display: inline-block">
-                <img style="width: 100%;height: 100%;border-radius: 40px;" src="${(Session["login-user"].avatar)!}"
-                     alt="${(Session["login-user"].username)!}">
-            </div>
-        </div>
-    <#else>
+    <@shiro.guest>
+        <#-- 游客(未登录)        -->
         <div class="fly-panel-title">
             登录
         </div>
@@ -32,5 +23,18 @@
                 </div>
             </form>
         </div>
-    </#if>
+    </@shiro.guest>
+
+    <@shiro.user>
+        <#-- 已登录   -->
+        <div class="fly-panel-title">
+            用户信息
+        </div>
+        <div class="fly-panel-main">
+            <div class="avatar" style="width: 80px;height: 80px;display: inline-block">
+                <img style="width: 100%;height: 100%;border-radius: 40px;" src="<@shiro.principal property="avatar"/>"
+                     alt="<@shiro.principal property="username"/>">
+            </div>
+        </div>
+    </@shiro.user>
 </div>
