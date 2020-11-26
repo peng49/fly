@@ -3,7 +3,7 @@ package fly.frontend.entity.model;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @TableName("users")
@@ -16,7 +16,7 @@ public class User {
     private String city;
     private int experience;
     private String signature;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private int isAdmin;
 }

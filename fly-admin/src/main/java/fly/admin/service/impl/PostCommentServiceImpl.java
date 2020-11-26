@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +43,7 @@ public class PostCommentServiceImpl implements PostCommentService {
     private PostRepository postRepository;
 
     @Resource
-    private SimpleDateFormat simpleDateFormat;
+    private DateTimeFormatter dateTimeFormatter;
 
     @Override
     public void delete(PostComment comment) {
@@ -112,7 +113,7 @@ public class PostCommentServiceImpl implements PostCommentService {
                                     .email(author.getEmail())
                                     .build())
                             .build())
-                    .commentTime(comment.getCommentTime() == null ? null : simpleDateFormat.format(comment.getCommentTime()))
+                    .commentTime(comment.getCreatedAt() == null ? null : dateTimeFormatter.format(comment.getCreatedAt()))
                     .build());
         });
 

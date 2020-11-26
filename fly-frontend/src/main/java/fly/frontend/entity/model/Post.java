@@ -1,10 +1,11 @@
 package fly.frontend.entity.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 import lombok.experimental.Tolerate;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -20,9 +21,9 @@ public class Post {
     private Integer replyCount;
     private Double heat;
     private Integer status;
-    private Timestamp publishAt;
-    private Timestamp createdAt;
-    private Timestamp updateAt;
+    private LocalDateTime publishAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
     private Integer essence;
     private Integer top;
 

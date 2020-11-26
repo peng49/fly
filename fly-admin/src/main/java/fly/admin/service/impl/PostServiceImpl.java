@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.persistence.criteria.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +44,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post add(Post post) {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        post.setCreatedAt(timestamp);
-        post.setUpdateAt(timestamp);
+        post.setCreatedAt(LocalDateTime.now());
+        post.setUpdateAt(LocalDateTime.now());
         post.setViewCount(0);
         post.setReplyCount(0);
         post.setTop(0);

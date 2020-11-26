@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -153,27 +155,25 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .originalContent(post.getOriginalContent())
                 .content(post.getContent())
                 .collected(collected)
-                .collectedCount(userPostService.lambdaQuery().eq(UserPost::getPostId,post.getId()).count())
+                .collectedCount(userPostService.lambdaQuery().eq(UserPost::getPostId, post.getId()).count())
                 .recommended(recommended)
                 .build();
     }
 
     public Post create(PostEditFrom postEditFrom, Long userId) {
-
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Post.PostBuilder builder = Post.builder()
                 .authorId(userId)
                 .columnId(postEditFrom.getColumnId())
                 .title(postEditFrom.getTitle())
                 .originalContent(postEditFrom.getOriginalContent())
                 .content(postEditFrom.getContent())
-                .createdAt(timestamp)
-                .updateAt(timestamp);
+                .createdAt(LocalDateTime.now())
+                .updateAt(LocalDateTime.now());
 
         //发布
         if ("publish".equals(postEditFrom.getAction())) {
             builder.status(PostService.PUBLISH_STATUS)
-                    .publishAt(timestamp)
+                    .publishAt(LocalDateTime.now())
                     .heat(PostService.DEFAULT_HEAD);
         }
 
@@ -226,12 +226,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         post.setTitle(postEditFrom.getTitle());
         post.setColumnId(postEditFrom.getColumnId());
 
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         //发布
         if ("publish".equals(postEditFrom.getAction())) {
             post.setStatus(PostService.PUBLISH_STATUS);
-            post.setPublishAt(timestamp);
-            post.setUpdateAt(timestamp);
+            post.setPublishAt(LocalDateTime.now());
+            post.setUpdateAt(LocalDateTime.now());
         }
         updateById(post);
     }
@@ -253,7 +252,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             return 0.00;
         }
 
-        double time = (System.currentTimeMillis() - post.getPublishAt().getTime()) / 1000.00 / 3600.00;
+        double time = (System.currentTimeMillis() - post.getPublishAt()
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli()) / 1000.00 / 3600.00;
 
         if (time <= 1) {
             time = 1.00;

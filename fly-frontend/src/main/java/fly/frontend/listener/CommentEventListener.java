@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -36,7 +37,7 @@ public class CommentEventListener {
 
         commentMessage.setReceiverId(postService.get(postComment.getPostId()).getAuthor().getId());
         commentMessage.setContent(postComment.getContent());
-        commentMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        commentMessage.setCreatedAt(LocalDateTime.now());
         userMessageService.save(commentMessage);
 
         //获取评论 @ 的所有用户
@@ -51,7 +52,7 @@ public class CommentEventListener {
             userMessage.setSenderId(postComment.getUserId());
             userMessage.setReceiverId(user.getId());
             userMessage.setContent(postComment.getContent());
-            userMessage.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            userMessage.setCreatedAt(LocalDateTime.now());
             userMessageService.save(userMessage);
         }
     }

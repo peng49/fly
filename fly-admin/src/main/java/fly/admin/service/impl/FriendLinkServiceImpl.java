@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Service
@@ -21,9 +22,8 @@ public class FriendLinkServiceImpl implements FriendLinkService {
 
     @Override
     public FriendLink add(FriendLink link) {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        link.setCreatedAt(timestamp);
-        link.setUpdatedAt(timestamp);
+        link.setCreatedAt(LocalDateTime.now());
+        link.setUpdatedAt(LocalDateTime.now());
         return friendLinkRepository.save(link);
     }
 
@@ -34,7 +34,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
 
     @Override
     public FriendLink update(FriendLink link) {
-        link.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        link.setUpdatedAt(LocalDateTime.now());
         return friendLinkRepository.save(link);
     }
 

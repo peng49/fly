@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -19,9 +20,9 @@ public class PostVO {
     private Integer viewCount;
     private Integer replyCount;
     private Integer status;
-    private Timestamp publishAt;
-    private Timestamp createdAt;
-    private Timestamp updateAt;
+    private LocalDateTime publishAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
     private Integer essence;
     private Integer top;
 

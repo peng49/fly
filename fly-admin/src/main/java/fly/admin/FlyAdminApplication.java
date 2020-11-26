@@ -3,7 +3,7 @@ package fly.admin;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 @SpringBootApplication
 public class FlyAdminApplication {
@@ -12,8 +12,7 @@ public class FlyAdminApplication {
     }
 
     @Bean
-    public SimpleDateFormat getSimpleDateFormat()
-    {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public DateTimeFormatter getSimpleDateFormat() {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     }
 }
