@@ -44,6 +44,9 @@ public class PostController {
     @Resource
     private PostService postService;
 
+    @Resource
+    private UserService userService;
+
     @Value("${user.avatar-dir}")
     private String userDir;
 
@@ -186,16 +189,16 @@ public class PostController {
      */
     @PostMapping("/top")
     @ResponseBody
-    public Object top(@RequestParam(value = "postId") int postId, HttpSession httpSession) throws Exception {
-        adminCheck(httpSession);
+    public Object top(@RequestParam(value = "postId") Long postId, HttpSession httpSession) throws Exception {
+        adminCheck();
         Post post = postMapper.selectById(postId);
         postService.top(post);
         return HttpUtils.success(post);
     }
 
-    private void adminCheck(HttpSession httpSession) throws Exception {
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        if (user.getIsAdmin() != 1) {
+    private void adminCheck() throws Exception {
+        UserVO user = HttpUtils.getCurrentUser();
+        if (userService.getById(user.getId()).getIsAdmin() != 1) {
             throw new Exception("您不是管理员，不能进行此操作");
         }
     }
@@ -204,14 +207,13 @@ public class PostController {
      * 加精
      *
      * @param postId      文章Id
-     * @param httpSession session
      * @return map response json
      * @throws Exception
      */
     @PostMapping("/essence")
     @ResponseBody
-    public Object essence(@RequestParam("postId") int postId, HttpSession httpSession) throws Exception {
-        adminCheck(httpSession);
+    public Object essence(@RequestParam("postId") Long postId) throws Exception {
+        adminCheck();
         Post post = postMapper.selectById(postId);
         postService.essence(post);
         return HttpUtils.success(post);
@@ -219,8 +221,8 @@ public class PostController {
 
     @GetMapping("/delete/{id}")
     @ResponseBody
-    public Object delete(@PathVariable("id") int postId, HttpSession httpSession) throws Exception {
-        adminCheck(httpSession);
+    public Object delete(@PathVariable("id") Long postId) throws Exception {
+        adminCheck();
         Post post = postMapper.selectById(postId);
         post.setStatus(PostService.DELETE_STATUS);
         postService.move2delete(post);
