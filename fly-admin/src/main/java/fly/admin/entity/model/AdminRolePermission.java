@@ -1,12 +1,11 @@
 package fly.admin.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.models.auth.In;
 import lombok.*;
 
-import javax.persistence.*;
 import javax.persistence.Column;
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "admin_role_permissions")
@@ -28,7 +27,7 @@ public class AdminRolePermission {
     @Column(name = "permission_id")
     private int permissionId;
 
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 }

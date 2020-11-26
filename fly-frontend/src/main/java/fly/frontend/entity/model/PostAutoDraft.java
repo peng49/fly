@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -16,8 +16,8 @@ public class PostAutoDraft {
     private Long userId;
     private String title;
     private String content;
-    private Timestamp createdAt;
-    private Timestamp updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
 
     @Tolerate
     public PostAutoDraft(){}

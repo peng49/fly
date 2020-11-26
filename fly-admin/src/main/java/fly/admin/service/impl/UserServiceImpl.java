@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Resource
-    private SimpleDateFormat simpleDateFormat;
+    private DateTimeFormatter dateTimeFormatter;
 
     @Resource
     private PostRepository postRepository;
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
                 .signature(user.getSignature())
                 .postCount(postRepository.countByAuthorId(user.getId()))
                 .commentCount(postCommentRepository.countByUserId(user.getId()))
-                .createdAt(user.getCreatedAt() == null ? null : simpleDateFormat.format(user.getCreatedAt()))
+                .createdAt(user.getCreatedAt() == null ? null : dateTimeFormatter.format(user.getCreatedAt()))
                 .build();
     }
 
@@ -108,7 +109,7 @@ public class UserServiceImpl implements UserService {
                     .avatar(user.getAvatar())
                     .isAdmin(user.getIsAdmin())
                     .signature(user.getSignature())
-                    .createdAt(user.getCreatedAt() == null ? null : simpleDateFormat.format(user.getCreatedAt()))
+                    .createdAt(user.getCreatedAt() == null ? null : dateTimeFormatter.format(user.getCreatedAt()))
                     .build());
         });
         return ResultVO.builder()

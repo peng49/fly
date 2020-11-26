@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "post_comments")
@@ -24,6 +24,6 @@ public class PostComment {
     private Long postId;
     private Long parentId;
     private String content;
-    private Timestamp commentTime;
     private Integer agreeCount;
+    private LocalDateTime createdAt;
 }

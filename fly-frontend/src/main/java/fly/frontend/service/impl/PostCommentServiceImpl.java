@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import java.util.function.Function;
@@ -63,7 +64,7 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
         }
 
         PostComment.PostCommentBuilder commentBuilder = PostComment.builder()
-                .createdAt(new Timestamp(System.currentTimeMillis()))
+                .createdAt(LocalDateTime.now())
                 .content(parseCommentContent(postCommentAddFrom.getContent()))
                 .postId(post.getId())
                 .level(post.getReplyCount() + 1)

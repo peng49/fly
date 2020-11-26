@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "posts")
@@ -29,9 +29,9 @@ public class Post {
     private Integer replyCount;
     private Double heat;
     private Integer status;
-    private Timestamp publishAt;
-    private Timestamp createdAt;
-    private Timestamp updateAt;
+    private LocalDateTime publishAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
     private Integer essence;
     private Integer top;
 }

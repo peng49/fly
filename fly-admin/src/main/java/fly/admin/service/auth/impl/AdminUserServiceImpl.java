@@ -1,6 +1,9 @@
 package fly.admin.service.auth.impl;
 
-import fly.admin.entity.model.*;
+import fly.admin.entity.model.AdminRole;
+import fly.admin.entity.model.AdminUser;
+import fly.admin.entity.model.AdminUserPermission;
+import fly.admin.entity.model.AdminUserRole;
 import fly.admin.entity.request.EditAdminUserRequest;
 import fly.admin.entity.vo.AdminUserVO;
 import fly.admin.entity.vo.UserLoginVO;
@@ -18,8 +21,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,7 +37,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     private AdminRoleRepository adminRoleRepository;
 
     @Resource
-    private SimpleDateFormat simpleDateFormat;
+    private DateTimeFormatter dateTimeFormatter;
 
     @Resource
     private AdminUserRoleRepository adminUserRoleRepository;
@@ -64,7 +67,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     @Transactional
     public AdminUser update(AdminUser user, EditAdminUserRequest request) {
-        user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        user.setUpdatedAt(LocalDateTime.now());
 
         saveUserPermissions(user, request.getPermissionIds());
         saveUserRoles(user, request.getRoleIds());
@@ -130,8 +133,8 @@ public class AdminUserServiceImpl implements AdminUserService {
                                             .map(AdminUserPermission::getPermissionId)
                                             .collect(Collectors.toList())
                             )
-                            .updatedAt(user.getUpdatedAt() == null ? null : simpleDateFormat.format(user.getUpdatedAt()))
-                            .createdAt(user.getCreatedAt() == null ? null : simpleDateFormat.format(user.getCreatedAt()))
+                            .updatedAt(user.getUpdatedAt() == null ? null : dateTimeFormatter.format(user.getUpdatedAt()))
+                            .createdAt(user.getCreatedAt() == null ? null : dateTimeFormatter.format(user.getCreatedAt()))
                             .build()
             );
         });

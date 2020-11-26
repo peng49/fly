@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -56,8 +57,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setUsername(register.getUsername());
         user.setEmail(register.getEmail());
         user.setPassword(getPassword(register.getPassword()));
-        user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
 
         save(user);
 

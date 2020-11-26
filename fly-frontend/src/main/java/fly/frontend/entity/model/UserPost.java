@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -14,7 +14,7 @@ public class UserPost {
     private Long id;
     private Long userId;
     private Long postId;
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @Tolerate
     public UserPost() {

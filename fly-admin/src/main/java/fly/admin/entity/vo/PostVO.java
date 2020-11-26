@@ -6,7 +6,7 @@ import fly.admin.entity.model.Column;
 import lombok.Builder;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -24,13 +24,13 @@ public class PostVO {
     private Integer status;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp publishAt;
+    private LocalDateTime publishAt;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp updateAt;
+    private LocalDateTime updateAt;
     private Integer essence;
     private Integer top;
 }

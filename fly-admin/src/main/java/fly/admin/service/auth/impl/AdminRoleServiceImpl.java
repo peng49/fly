@@ -11,12 +11,10 @@ import fly.admin.repository.AdminRoleRepository;
 import fly.admin.service.auth.AdminRoleService;
 import org.springframework.stereotype.Service;
 
-
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class AdminRoleServiceImpl implements AdminRoleService {
     private AdminPermissionRepository adminPermissionRepository;
 
     @Resource
-    private SimpleDateFormat simpleDateFormat;
+    private DateTimeFormatter dateTimeFormatter;
 
     @Override
     public AdminRole add(EditAdminRoleRequest request) {
@@ -154,8 +152,8 @@ public class AdminRoleServiceImpl implements AdminRoleService {
                     .name(role.getName())
                     .slug(role.getSlug())
                     .permissions(rolePermissions)
-                    .createdAt(role.getCreatedAt() == null ? null : simpleDateFormat.format(role.getCreatedAt()))
-                    .updatedAt(role.getUpdatedAt() == null ? null : simpleDateFormat.format(role.getUpdatedAt()))
+                    .createdAt(role.getCreatedAt() == null ? null : dateTimeFormatter.format(role.getCreatedAt()))
+                    .updatedAt(role.getUpdatedAt() == null ? null : dateTimeFormatter.format(role.getUpdatedAt()))
                     .build());
         }
         return result;

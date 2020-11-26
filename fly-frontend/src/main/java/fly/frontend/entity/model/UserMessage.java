@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @TableName("user_message")
@@ -15,5 +15,5 @@ public class UserMessage {
     private Long senderId;
     private Long receiverId;
     private String content;
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 }

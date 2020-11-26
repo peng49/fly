@@ -5,8 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -20,7 +19,7 @@ public class PostComment {
     private Long parentId;
     private String content;
     private int agreeCount;
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @Tolerate
     public PostComment() {
