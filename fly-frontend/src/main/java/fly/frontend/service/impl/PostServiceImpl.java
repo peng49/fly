@@ -154,7 +154,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .content(post.getContent())
                 .collected(collected)
                 .collectedCount(userPostService.lambdaQuery().eq(UserPost::getPostId,post.getId()).count())
-                .recommended(false)
+                .recommended(recommended)
                 .build();
     }
 
@@ -233,7 +233,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             post.setPublishAt(timestamp);
             post.setUpdateAt(timestamp);
         }
-
         updateById(post);
     }
 

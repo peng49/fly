@@ -222,7 +222,7 @@
             top: function () {//置顶
                 let _this = this
                 var formData = new FormData();
-                formData.append("postId", ${post.id});
+                formData.append("postId", this.postId);
 
                 axios.post('/post/top', formData)
                     .then(function (response) {
@@ -240,7 +240,7 @@
             essence: function () {//加精
                 let _this = this
                 var formData = new FormData();
-                formData.append("postId", ${post.id});
+                formData.append("postId", this.postId);
                 axios.post('/post/essence', formData)
                     .then(function (response) {
                         if (response.code === "success") {
@@ -303,7 +303,7 @@
             },
             move2delete: function () {
                 let _this = this;
-                axios.get('/post/delete/${post.id}').then(function (response) {
+                axios.get('/post/delete/'+this.postId).then(function (response) {
                     if (response.code === 'success') {
                         layer.msg('操作成功');
                         _this.post.status = response.post.status
