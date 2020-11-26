@@ -30,6 +30,7 @@ public class UserServiceTest {
     @Test
     public void lombokTest()
     {
+        System.out.println(userService.getByUsername("admin12412"));
     }
 
 

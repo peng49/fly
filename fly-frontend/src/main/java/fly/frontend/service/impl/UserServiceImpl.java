@@ -19,11 +19,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
-    @Resource
-    private UserMapper userMapper;
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -33,7 +32,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 
 
     public UserVO login(UserLoginFrom login) throws Exception {
-        User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, login.getUsername()));
+        User user = getByUsername(login.getUsername());
         if (user == null) {
             throw new NotFoundException("用户不存在");
         }
@@ -47,20 +46,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     }
 
     public User register(UserRegisterFrom register) throws Exception {
-        User user = new User();
-        User existed = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, register.getUsername()));
+
+        User existed = getByUsername(register.getUsername());
         System.out.println(existed);
         if (existed != null) {
             throw new Exception("用户名已存在");
         }
-
+        User user = new User();
         user.setUsername(register.getUsername());
         user.setEmail(register.getEmail());
         user.setPassword(getPassword(register.getPassword()));
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
-        userMapper.insert(user);
+        save(user);
 
         publisher.publishEvent(new RegisteredEvent(user));
 
@@ -80,13 +79,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         user.setUsername(userInfo.getUsername());
         user.setCity(userInfo.getCity());
         user.setSignature(userInfo.getSignature());
-        userMapper.updateById(user);
+        updateById(user);
         return user;
     }
 
     public User updateAvatar(User user, String avatar) {
         user.setAvatar(avatar);
-        userMapper.updateById(user);
+        updateById(user);
         return user;
     }
 
@@ -118,12 +117,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         User model = new User();
         model.setId(user.getId());
         model.setPassword(getPassword(updatePassword.getPassword()));
-        userMapper.updateById(model);
+        updateById(model);
     }
 
     @Override
     public UserVO get(Long id) {
-        User user = userMapper.selectById(id);
+        User user = getById(id);
         return UserVO.builder()
                 .id(user.getId())
                 .avatar(user.getAvatar())
@@ -133,6 +132,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 
     @Override
     public User getByUsername(String username) {
-        return userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
+        return getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername,username), false);
     }
 }
