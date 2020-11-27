@@ -3,16 +3,13 @@ package fly.frontend.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.google.common.collect.Maps;
-import fly.frontend.entity.model.Post;
-import fly.frontend.entity.model.PostComment;
-import fly.frontend.entity.model.User;
 import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.from.PostFilterCondition;
+import fly.frontend.entity.model.Post;
 import fly.frontend.entity.vo.PostVO;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.List;
 
 public interface PostService extends IService<Post> {
     double DEFAULT_HEAD = 10.0;
@@ -38,7 +35,7 @@ public interface PostService extends IService<Post> {
 
     IPage<PostVO> findAllByAuthorId(IPage<Post> page, Long id);
 
-    IPage<PostVO> findUserPost(IPage page, Long userId);
+    IPage<PostVO> findUserPost(IPage<Object> page, Long userId);
 
     List<Post> findAllPublishByAuthorId(Long id);
 

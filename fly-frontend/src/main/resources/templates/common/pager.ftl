@@ -1,6 +1,6 @@
-<#assign current_page= current_page />
-<#assign page_size = page_size />
-<#assign page_count = (list_total / page_size)?ceiling />
+<#assign current_page= currentPage />
+<#assign page_size = pageSize />
+<#assign page_count = (listTotal / pageSize)?ceiling />
 
 <#if current_page - 3 gte 1>
     <#assign start_page = current_page - 3 />

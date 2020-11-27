@@ -1,8 +1,9 @@
 package fly.frontend.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.from.PostFilterCondition;
-import fly.frontend.entity.model.Post;
+import fly.frontend.entity.vo.PostVO;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
@@ -34,7 +35,8 @@ public class HomepageController {
                               ModelAndView view,
                               @RequestParam(value = "list", defaultValue = "all") String list,
                               @RequestParam(value = "orderBy", defaultValue = "") String orderBy,
-                              @RequestParam(value = "page",defaultValue = "1") Integer page) {
+                              @RequestParam(value = "page",defaultValue = "1") Integer page,
+                              @RequestParam(value = "pageSize",defaultValue = "20") Integer pageSize) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setList(list);
         condition.setStatus(PostService.PUBLISH_STATUS);//已发布的
@@ -45,7 +47,13 @@ public class HomepageController {
             condition.setOrderBy("heat");
         }
 
-        view.addObject("posts", postService.getByCondition(new Page<>(page,20), condition).getRecords());
+        IPage<PostVO> posts = postService.getByCondition(new Page<>(page, pageSize), condition);
+
+        view.addObject("posts", posts.getRecords());
+
+        view.addObject("listTotal", posts.getTotal());
+        view.addObject("currentPage", posts.getCurrent());
+        view.addObject("pageSize", posts.getSize() > 0 ? posts.getSize() : 10);
 
         HttpUtils.selectViewName("index", request, view);
 
