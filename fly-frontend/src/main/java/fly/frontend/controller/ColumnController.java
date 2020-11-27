@@ -54,12 +54,12 @@ public class ColumnController {
         Column column = columnService.getById(id);
         view.addObject("column", column);
 
-        view.addObject("list_total", posts.getTotal());
-        view.addObject("current_page", posts.getCurrent());
+        view.addObject("listTotal", posts.getTotal());
+        view.addObject("currentPage", posts.getCurrent());
 
-        view.addObject("page_size", posts.getSize() > 0 ? posts.getSize() : 10);
+        view.addObject("pageSize", posts.getSize() > 0 ? posts.getSize() : 10);
 
-        view.addObject("next_url", HttpUtils.setUrlParam(HttpUtils.getCurrentUrl(request), "page", String.valueOf(posts.getCurrent() + 1)));
+        view.addObject("nextUrl", HttpUtils.setUrlParam(HttpUtils.getCurrentUrl(request), "page", String.valueOf(posts.getCurrent() + 1)));
 
         HttpUtils.selectViewName("post/list", request, view);
 

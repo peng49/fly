@@ -42,7 +42,7 @@
         </#list>
     </ul>
     <div class="weui-panel__ft">
-        <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
+        <a href="/?page=${currentPage + 1}" class="weui-cell weui-cell_access weui-cell_link">
             <div class="weui-cell__bd">下一页</div>
             <span class="weui-cell__ft"></span>
         </a>

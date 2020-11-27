@@ -48,10 +48,8 @@
                         </li>
                     </#list>
                 </ul>
-                <div style="text-align: center">
-                    <div class="laypage-main">
-                        <a href="javascript:" class="laypage-next">更多</a>
-                    </div>
+                <div style="text-align: left;  padding-left: 15px;">
+                    <#include "common/pager.ftl" />
                 </div>
             </div>
         </div>

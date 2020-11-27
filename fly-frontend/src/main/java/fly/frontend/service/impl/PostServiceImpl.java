@@ -12,17 +12,14 @@ import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.model.UserPost;
 import fly.frontend.entity.vo.PostVO;
-import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserPostService;
 import fly.frontend.service.UserService;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -91,7 +88,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     @Override
-    public IPage<PostVO> findUserPost(IPage page, Long userId) {
+    public IPage<PostVO> findUserPost(IPage<Object> page, Long userId) {
         Page<UserPost> list = userPostService.page(new Page<>(page.getCurrent(), page.getSize()), Wrappers.lambdaQuery(UserPost.class).eq(UserPost::getUserId, userId));
         List<Long> postIds = list.getRecords().stream().map(UserPost::getPostId).collect(Collectors.toList());
 
