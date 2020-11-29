@@ -6,11 +6,11 @@
 # 模块说明
 ```
 fly
- |--fly-admin 后台管理接口
- |--fly-cache
- |--fly-core
- |--fly-frontend 前端模块
- |--fly-search 查询模块
+├─fly-admin 后台管理接口
+├─fly-cache 缓存管理（待开发）
+├─fly-common 公共模块 （待开发）
+├─fly-frontend 前端页面模块 
+└─fly-search 查询模块 (待开发)
 ```
 
 
