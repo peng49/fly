@@ -120,7 +120,7 @@
     ];
     editor.create();
     $('body').on('click', '#submit-comment', function () {
-        let postId = ${post.id}
+        let postId = '${post.id?c}';
         if (!editor.txt.text().trim()) {
             return $.toast("评论内容不能为空", 'cancel');
         }
