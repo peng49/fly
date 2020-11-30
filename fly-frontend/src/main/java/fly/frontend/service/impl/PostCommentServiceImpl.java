@@ -67,7 +67,7 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
                 .level(post.getReplyCount() + 1)
                 .userId(userId);
 
-        if (postCommentAddFrom.getParentId() != 0) {
+        if (postCommentAddFrom.getParentId() != null) {
             commentBuilder.parentId(postCommentAddFrom.getParentId());
         }
 

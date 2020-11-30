@@ -59,6 +59,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         return items.convert(post -> PostVO.builder()
                 .id(post.getId())
+                .top(post.getTop())
                 .status(post.getStatus())
                 .essence(post.getEssence())
                 .column(columnService.getById(post.getColumnId()))
@@ -76,6 +77,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         return items.convert(post -> PostVO.builder()
                 .id(post.getId())
+                .top(post.getTop())
                 .status(post.getStatus())
                 .essence(post.getEssence())
                 .column(columnService.getById(post.getColumnId()))
@@ -103,6 +105,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             records.add(PostVO.builder()
                     .id(post.getId())
                     .status(post.getStatus())
+                    .top(post.getTop())
                     .essence(post.getEssence())
                     .column(columnService.getById(post.getColumnId()))
                     .author(userService.getById(post.getAuthorId()))
@@ -142,6 +145,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         return PostVO.builder()
                 .id(post.getId())
                 .status(post.getStatus())
+                .top(post.getTop())
                 .essence(post.getEssence())
                 .viewCount(post.getViewCount())
                 .replyCount(post.getReplyCount())

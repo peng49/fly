@@ -260,14 +260,13 @@
                 this.parentCon.username = dom.getAttribute("data-username");
                 this.parentCon.content = $(dom).parents('li').find(".comment-content").html();
 
-                let appendContent = '<div class="reply-content">\n' +
-                    '        <div>\n' +
-                    '            @<a class="fly-link" href="#">' + this.parentCon.username + '</a>\n' +
-                    '            <div>' + this.parentCon.content + '</div>\n' +
-                    '        </div>\n' +
-                    '    </div>';
+                let appendContent = '<p>@' + this.parentCon.username + ' </p>';
 
-                this.editor.txt.append(appendContent)
+                if(this.editor.txt.text()){
+                    this.editor.txt.append(appendContent)
+                }else{
+                    this.editor.txt.html(appendContent)
+                }
 
                 document.getElementById("reply").scrollIntoView();
                 this.editor.selection.restoreSelection()
@@ -280,6 +279,8 @@
                     .then(function (response) {
                         if (response.code === "success") {
                             layer.msg('操作成功');
+
+                            window.location.reload()
                             return;
                         }
                         layer.msg(response.message)
