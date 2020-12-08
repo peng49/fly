@@ -124,8 +124,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         return lambdaQuery().eq(Post::getAuthorId, id).list();
     }
 
-    public List<Post> findAllPublishByAuthorId(Long id) {
-        return lambdaQuery().eq(Post::getAuthorId, id).eq(Post::getStatus, PostService.PUBLISH_STATUS).list();
+    public IPage<Post> findPublishByAuthorId(Long id, IPage<Post> page) {
+        return lambdaQuery()
+                .eq(Post::getAuthorId, id)
+                .eq(Post::getStatus, PostService.PUBLISH_STATUS)
+                .page(page);
     }
 
     public PostVO get(Long id) {

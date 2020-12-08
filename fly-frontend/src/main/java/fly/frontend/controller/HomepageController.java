@@ -65,9 +65,9 @@ public class HomepageController {
     public ModelAndView index(@PathVariable("id") Long id, ModelAndView view, HttpServletRequest request) {
         view.addObject("user", userService.get(id));
 
-        view.addObject("posts", postService.findAllPublishByAuthorId(id));
+        view.addObject("posts", postService.findPublishByAuthorId(id,new Page<>(1, 10)).getRecords());
 
-        view.addObject("comments", postCommentService.getByUserId(new Page<>(1, 8), id).getRecords());
+        view.addObject("comments", postCommentService.getByUserId(new Page<>(1, 5), id).getRecords());
 
         HttpUtils.selectViewName("user/home", request, view);
 

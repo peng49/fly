@@ -20,12 +20,12 @@
 
 
     <p class="fly-home-info">
-        注册: <span>${user.createTime!''} </span>
-        文章: <span style="color: #FF7200;">${user.experience!''}</span>
-        回复: <span style="color: #FF7200;">${user.experience!''}</span>
+        注册: <span>${user.registerAt!''} </span>
+        文章: <span style="color: #FF7200;">${user.publishCount!''}</span>
+        回复: <span style="color: #FF7200;">${user.commentCount!''}</span>
     </p>
 
-    <p class="fly-home-sign">（${user.signature!''}）</p>
+    <p class="fly-home-sign">（${user.signature!'无'}）</p>
 
     <div class="fly-sns" data-user="">
         <a href="javascript:;" class="layui-btn layui-btn-primary fly-imActive" data-type="addFriend">关注</a>
