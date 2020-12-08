@@ -3,6 +3,8 @@ package fly.frontend.entity.vo;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class UserVO {
@@ -19,6 +21,6 @@ public class UserVO {
     private int commentCount;
 
     private String registerAt;
-    private String[] bindPlatform;
+    private List<String> bindPlatform;
     private int isAdmin;
 }
