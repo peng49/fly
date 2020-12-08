@@ -212,6 +212,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         } else {
             post.setTop(1);
         }
+        post.setHeat(calculationHeat(post));
         updateById(post);
     }
 
@@ -246,7 +247,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
      * @return 热度值
      */
     public double calculationHeat(Post post) {
-
+        if(Integer.valueOf(1).equals(post.getTop())){
+            return PostService.DEFAULT_HEAD + 1.00;
+        }
         // 1*click + 5*favor + 10*comment + 20*share
 
         //100个查看等于一个回复

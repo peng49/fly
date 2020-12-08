@@ -61,6 +61,7 @@ public class ShiroConfiguration {
         factoryBean.setSecurityManager(securityManager);
         factoryBean.setLoginUrl("/user/login");
 
+
         // 设置filter 返回json数据
         Map<String, Filter> filters = new HashMap<>();
         filters.put("authc", getUserFilter());
@@ -72,6 +73,8 @@ public class ShiroConfiguration {
         map.put("/column/*", "anon"); //列表同上
         map.put("/u/*", "anon"); //个人主页
         map.put("/post/detail/*", "anon"); //详情同上
+
+        map.put("/user/logout","logout");
 
         map.put("/**", "authc");
         factoryBean.setFilterChainDefinitionMap(map);
