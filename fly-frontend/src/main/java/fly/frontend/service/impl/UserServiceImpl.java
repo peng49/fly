@@ -7,9 +7,13 @@ import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;
 import fly.frontend.entity.from.UserRegisterFrom;
+import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.UserVO;
 import fly.frontend.event.RegisteredEvent;
+import fly.frontend.service.PostCommentService;
+import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -18,9 +22,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
@@ -30,6 +33,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private ApplicationEventPublisher publisher;
+
+    @Resource
+    private PostService postService;
+
+    @Resource
+    private DateTimeFormatter dateTimeFormatter;
+
+    @Resource
+    private PostCommentService postCommentService;
 
 
     public UserVO login(UserLoginFrom login) throws Exception {
@@ -128,11 +140,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .id(user.getId())
                 .avatar(user.getAvatar())
                 .username(user.getUsername())
+                .registerAt(dateTimeFormatter.format(user.getCreatedAt()))
+                .commentCount(
+                        postCommentService.lambdaQuery()
+                                .eq(PostComment::getUserId, user.getId())
+                                .count()
+                )
+                .publishCount(
+                        postService.lambdaQuery()
+                                .eq(Post::getStatus, PostService.PUBLISH_STATUS)
+                                .eq(Post::getAuthorId, user.getId())
+                                .count()
+                )
                 .build();
     }
 
     @Override
     public User getByUsername(String username) {
-        return getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername,username), false);
+        return getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username), false);
     }
 }

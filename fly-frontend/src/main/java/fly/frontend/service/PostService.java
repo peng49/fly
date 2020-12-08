@@ -37,7 +37,7 @@ public interface PostService extends IService<Post> {
 
     IPage<PostVO> findUserPost(IPage<Object> page, Long userId);
 
-    List<Post> findAllPublishByAuthorId(Long id);
+    IPage<Post> findPublishByAuthorId(Long id,IPage<Post> page);
 
     PostVO get(Long id);
 
