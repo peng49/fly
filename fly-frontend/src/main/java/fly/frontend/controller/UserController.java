@@ -6,7 +6,6 @@ import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;
 import fly.frontend.entity.from.UserRegisterFrom;
-import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostCommentAgree;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.PostVO;
@@ -33,7 +32,10 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
@@ -152,9 +154,9 @@ public class UserController {
 
     @PostMapping("/updateInfo")
     @ResponseBody
-    public Object updateInfo(@RequestBody UpdateUserInfoFrom userInfo, HttpSession session) {
-        User user = (User) session.getAttribute(UserService.LOGIN_KEY);
-        User res = userService.updateInfo(user, userInfo);
+    public Object updateInfo(@RequestBody UpdateUserInfoFrom userInfo) {
+        UserVO userVO = HttpUtils.getCurrentUser();
+        User res = userService.updateInfo(userService.getById(userVO.getId()), userInfo);
         return HttpUtils.success(res);
     }
 
@@ -163,8 +165,8 @@ public class UserController {
     @ResponseBody
     public Object updatePassword(@RequestBody @Validated UpdatePasswordFrom updatePassword,
                                  HttpSession httpSession) throws Exception {
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
-        userService.updatePassword(user, updatePassword);
+        UserVO userVO = HttpUtils.getCurrentUser();
+        userService.updatePassword(userService.getById(userVO.getId()), updatePassword);
 
         //退出重新登录
         httpSession.removeAttribute(UserService.LOGIN_KEY);

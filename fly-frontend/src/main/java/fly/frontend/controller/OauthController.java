@@ -43,7 +43,7 @@ public class OauthController {
                          HttpServletResponse response,
                          HttpSession httpSession) throws IOException, ModelAndViewDefiningException {
         OauthAccount account = getOauthService(platform).get(code);
-        UserVO user = userService.get(account.getUser().getId());
+        UserVO user = userService.get(account.getUserId());
 
         httpSession.setAttribute(UserService.LOGIN_KEY, user);
         response.sendRedirect("/user/center");

@@ -106,7 +106,7 @@ public class GiteeOauthServiceImpl implements OauthService {
             OauthAccount account = new OauthAccount();
             account.setOpenid(String.valueOf(oauthId));
             account.setPlatform(PLATFORM);
-            account.setUser(user);
+            account.setUserId(user.getId());
             oauthAccountService.save(account);
             oauthAccount = account;
         }

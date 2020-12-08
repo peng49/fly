@@ -9,5 +9,5 @@ public class OauthAccount {
     private Long id;
     private String platform;
     private String openid;
-    private User user;
+    private Long userId;
 }

@@ -106,7 +106,7 @@ public class GithubOauthServiceImpl implements OauthService {
             OauthAccount account = new OauthAccount();
             account.setOpenid(userInfo.getOpenid());
             account.setPlatform(PLATFORM);
-            account.setUser(user);
+            account.setUserId(user.getId());
             oauthAccountService.save(account);
 
             oauthAccount = account;
