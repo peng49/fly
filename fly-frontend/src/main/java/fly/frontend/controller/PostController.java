@@ -8,7 +8,6 @@ import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostAutoDraft;
 import fly.frontend.entity.model.PostComment;
-import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.PostCommentVO;
 import fly.frontend.entity.vo.PostVO;
 import fly.frontend.entity.vo.UserVO;
@@ -149,7 +148,7 @@ public class PostController {
         }
 
 
-        if (post.getStatus() != 1 && (user == null || !user.getId().equals(post.getAuthor().getId()))) {
+        if (!Integer.valueOf(1).equals(post.getStatus()) && (user == null || !user.getId().equals(post.getAuthor().getId()))) {
             //不是作者不能看未发布的文章
             response.setStatus(404);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

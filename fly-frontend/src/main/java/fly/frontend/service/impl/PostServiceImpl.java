@@ -134,6 +134,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     public PostVO get(Long id) {
         Post post = getById(id);
 
+        if(post == null){
+            throw new RuntimeException("文章不存在");
+        }
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         boolean collected = false;
         boolean recommended = false;
