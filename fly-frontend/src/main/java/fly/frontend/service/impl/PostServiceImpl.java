@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +37,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private DateTimeFormatter dateTimeFormatter;
 
 
     public IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition query) {
@@ -64,7 +68,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .essence(post.getEssence())
                 .column(columnService.getById(post.getColumnId()))
                 .author(userService.getById(post.getAuthorId()))
-                .publishAt(post.getPublishAt())
+                .publishAt(post.getPublishAt() != null ? dateTimeFormatter.format(post.getPublishAt()) : "")
                 .title(post.getTitle())
                 .viewCount(post.getViewCount())
                 .replyCount(post.getReplyCount())
@@ -82,7 +86,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .essence(post.getEssence())
                 .column(columnService.getById(post.getColumnId()))
                 .author(userService.getById(post.getAuthorId()))
-                .publishAt(post.getPublishAt())
+                .publishAt(post.getPublishAt() != null ? dateTimeFormatter.format(post.getPublishAt()) : "")
                 .title(post.getTitle())
                 .viewCount(post.getViewCount())
                 .replyCount(post.getReplyCount())
@@ -109,7 +113,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                     .essence(post.getEssence())
                     .column(columnService.getById(post.getColumnId()))
                     .author(userService.getById(post.getAuthorId()))
-                    .publishAt(post.getPublishAt())
+                    .publishAt(post.getPublishAt() != null ? dateTimeFormatter.format(post.getPublishAt()) : "")
                     .title(post.getTitle())
                     .viewCount(post.getViewCount())
                     .replyCount(post.getReplyCount())
@@ -157,7 +161,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .replyCount(post.getReplyCount())
                 .column(columnService.getById(post.getColumnId()))
                 .author(userService.getById(post.getAuthorId()))
-                .publishAt(post.getPublishAt())
+                .publishAt(post.getPublishAt() != null ? dateTimeFormatter.format(post.getPublishAt()) : "")
                 .title(post.getTitle())
                 .originalContent(post.getOriginalContent())
                 .content(post.getContent())
