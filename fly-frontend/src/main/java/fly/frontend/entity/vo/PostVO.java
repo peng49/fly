@@ -5,9 +5,6 @@ import fly.frontend.entity.model.User;
 import lombok.Builder;
 import lombok.Data;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 @Data
 @Builder
 public class PostVO {
@@ -20,9 +17,9 @@ public class PostVO {
     private Integer viewCount;
     private Integer replyCount;
     private Integer status;
-    private LocalDateTime publishAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updateAt;
+    private String publishAt;
+    private String createdAt;
+    private String updateAt;
     private Integer essence;
     private Integer top;
 

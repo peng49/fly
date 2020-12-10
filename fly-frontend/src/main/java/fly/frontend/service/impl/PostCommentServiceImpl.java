@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -38,6 +39,9 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
 
     @Resource
     private ApplicationEventPublisher publisher;
+
+    @Resource
+    private DateTimeFormatter dateTimeFormatter;
 
     private String parseCommentContent(String content) {
         //获取所有有效的用户
@@ -89,7 +93,7 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
                     .id(comment.getId())
                     .post(PostDTO.builder().id(post.getId()).title(post.getTitle()).build())
                     .content(comment.getContent())
-                    .createdAt(comment.getCreatedAt())
+                    .createdAt(comment.getCreatedAt() != null?dateTimeFormatter.format(comment.getCreatedAt()):"")
                     .build();
         };
     }
@@ -157,7 +161,7 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
         Page<PostComment> comments = lambdaQuery().eq(PostComment::getPostId, postId).page(page);
         return comments.convert(comment -> PostCommentVO.builder()
                 .id(comment.getId())
-                .createdAt(comment.getCreatedAt())
+                .createdAt(comment.getCreatedAt() != null?dateTimeFormatter.format(comment.getCreatedAt()):"")
                 .content(comment.getContent())
                 .post(PostDTO.builder().build())
                 .user(userService.getById(comment.getUserId()))

@@ -5,8 +5,6 @@ import fly.frontend.entity.model.User;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 @Builder
 public class PostCommentVO {
@@ -17,5 +15,5 @@ public class PostCommentVO {
     private Long parentId;
     private String content;
     private int agreeCount;
-    private LocalDateTime createdAt;
+    private String createdAt;
 }
