@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.model.UserMessage;
 import fly.frontend.entity.vo.UserVO;
 import fly.frontend.service.UserMessageService;
-import fly.frontend.service.UserService;
 import fly.frontend.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

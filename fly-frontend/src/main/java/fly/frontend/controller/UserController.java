@@ -207,8 +207,8 @@ public class UserController {
 
     @PostMapping("/uploadAvatar")
     @ResponseBody
-    public Object uploadAvatar(HttpServletRequest request, HttpSession session) throws IOException {
-        UserVO user = (UserVO) session.getAttribute(UserService.LOGIN_KEY);
+    public Object uploadAvatar(HttpServletRequest request) throws IOException {
+        UserVO user = HttpUtils.getCurrentUser();
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
         if (multipartResolver.isMultipart(request)) {
             //将request变成多部分request
