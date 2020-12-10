@@ -48,10 +48,11 @@
         data: function () {
             return {
                 navs: [
-                    {label: "我的主页", icon: "&#xe609;", href: "/u/${user.id}", component: ""},
+                    {label: "我的主页", icon: "&#xe609;", href: "/u/${user.id?c}", component: ""},
                     {label: "用户中心", icon: "&#xe612;", href: "javascript:", component: "user-center"},
                     {label: "基本设置", icon: "&#xe620;", href: "javascript:", component: "user-setting"},
                     {label: "我的消息", icon: "&#xe611;", href: "javascript:", component: "user-message"},
+                    {label: "退出", icon: "x", href: "/user/logout", component: ""},
                 ],
                 active: 1
             }
