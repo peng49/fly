@@ -26,7 +26,7 @@
                     <span v-if="post.essence == 1" class="layui-badge layui-bg-red">精帖</span>
 
 
-                    <div class="fly-admin-box" data-id="123">
+                    <div class="fly-admin-box">
                         <#if user?? && user.isAdmin == 1 >
                             <span @click="move2delete" class="layui-btn layui-btn-xs jie-admin">删除</span>
 
@@ -111,7 +111,7 @@
                                 <div class="comment-content">${comment.content}</div>
                             </div>
                             <div class="jieda-reply">
-                                        <span class="jieda-zan" @click="commentAgree(${comment.id})">
+                                        <span class="jieda-zan" @click="commentAgree('${comment.id?c}')">
                                             <i class="iconfont icon-zan"></i>
                                             <em>${comment.agreeCount}</em>
                                         </span>

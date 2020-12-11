@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class PostCommentAgreeServiceImpl extends ServiceImpl<PostCommentAgreeMapper, PostCommentAgree> implements PostCommentAgreeService {
     @Override
     public boolean isExisted(User user, Long commentId) {
-        return getOne(lambdaQuery().eq(PostCommentAgree::getUserId, user.getId()).eq(PostCommentAgree::getPostCommentId, commentId)) != null;
+        return lambdaQuery().eq(PostCommentAgree::getUserId, user.getId()).eq(PostCommentAgree::getPostCommentId, commentId).list().size() > 0;
     }
 
     @Override

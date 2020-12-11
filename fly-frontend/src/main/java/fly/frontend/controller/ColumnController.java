@@ -6,7 +6,7 @@ import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.model.Column;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.vo.PostVO;
-import fly.frontend.pojo.PostFilter;
+import fly.frontend.entity.dto.PostFilterDTO;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
 import fly.frontend.utils.HttpUtils;
@@ -31,7 +31,7 @@ public class ColumnController {
     @RequestMapping("/{id}")
     public ModelAndView show(
             @PathVariable("id") int id,
-            PostFilter filter,
+            PostFilterDTO filter,
             ModelAndView view,
             HttpServletRequest request) {
         PostFilterCondition condition = new PostFilterCondition();

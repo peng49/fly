@@ -1,9 +1,9 @@
-package fly.frontend.pojo;
+package fly.frontend.entity.dto;
 
 import lombok.Data;
 
 @Data
-public class PostFilter {
+public class PostFilterDTO {
     public final static int DEFAULT_PAGE_SIZE = 10;
 
     private int page = 1;
@@ -11,5 +11,6 @@ public class PostFilter {
     private int pageSize  = DEFAULT_PAGE_SIZE;
 
     private String list;
+
     private String orderBy;
 }
