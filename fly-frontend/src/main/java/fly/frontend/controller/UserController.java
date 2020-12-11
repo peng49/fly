@@ -6,6 +6,7 @@ import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;
 import fly.frontend.entity.from.UserRegisterFrom;
+import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.PostCommentAgree;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.PostVO;
@@ -32,6 +33,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -188,16 +190,20 @@ public class UserController {
 
     @PostMapping("/commentAgree")
     @ResponseBody
-    public Object commentAgree(@RequestBody Map<String, Long> request, HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+    public Object commentAgree(@RequestBody Map<String, Long> request) {
+        User user = userService.getById(HttpUtils.getCurrentUser().getId());
         Long commentId = request.get("commentId");
         if (postCommentAgreeService.isExisted(user, commentId)) {
             postCommentAgreeService.delete(user, commentId);
             postCommentService.commentAgreeDec(commentId);
         } else {
+            PostComment comment = postCommentService.getById(commentId);
+
             PostCommentAgree postCommentAgree = new PostCommentAgree();
             postCommentAgree.setUserId(user.getId());
+            postCommentAgree.setPostId(comment.getPostId());
             postCommentAgree.setPostCommentId(commentId);
+            postCommentAgree.setCreatedAt(LocalDateTime.now());
             postCommentAgreeService.save(postCommentAgree);
             postCommentService.commentAgreeInc(commentId);
         }

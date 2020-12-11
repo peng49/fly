@@ -165,6 +165,7 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
                 .content(comment.getContent())
                 .post(PostDTO.builder().build())
                 .user(userService.getById(comment.getUserId()))
+                .agreeCount(comment.getAgreeCount())
                 .level(comment.getLevel())
                 .build());
     }

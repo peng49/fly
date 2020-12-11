@@ -15,5 +15,6 @@ public class PostCommentVO {
     private Long parentId;
     private String content;
     private int agreeCount;
+    private boolean userIsAgree;
     private String createdAt;
 }
