@@ -11,7 +11,7 @@
  Target Server Version : 50642
  File Encoding         : 65001
 
- Date: 10/12/2020 17:29:22
+ Date: 11/12/2020 17:51:08
 */
 
 SET NAMES utf8mb4;
@@ -322,13 +322,20 @@ CREATE TABLE `post_auto_draft`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `post_comment_agree`;
 CREATE TABLE `post_comment_agree`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL DEFAULT 0 COMMENT '用户Id',
-  `post_id` int(11) NOT NULL DEFAULT 0,
-  `comment_id` int(11) NOT NULL DEFAULT 0,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(11) NOT NULL DEFAULT 0 COMMENT '用户Id',
+  `post_id` bigint(11) NOT NULL DEFAULT 0,
+  `post_comment_id` bigint(11) NOT NULL DEFAULT 0,
   `created_at` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `post_comment_id`(`post_comment_id`, `user_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1337273744463273987 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of post_comment_agree
+-- ----------------------------
+INSERT INTO `post_comment_agree` VALUES (1337242484147761154, 1336960357791449089, 1336963516165324801, 1336965897653329922, '2020-12-11 11:47:08');
+INSERT INTO `post_comment_agree` VALUES (1337273744463273986, 1336960357791449089, 1336963516165324801, 1336965984680943618, '2020-12-11 13:51:21');
 
 -- ----------------------------
 -- Table structure for post_comments
@@ -350,9 +357,9 @@ CREATE TABLE `post_comments`  (
 -- ----------------------------
 -- Records of post_comments
 -- ----------------------------
-INSERT INTO `post_comments` VALUES (1336965538293751809, 1336960357791449089, 1336963516165324801, 0, 0, 1, '2020-12-10 17:26:39', '<p>test</p>', NULL);
-INSERT INTO `post_comments` VALUES (1336965897653329922, 1336960357791449089, 1336963516165324801, 0, 0, 2, '2020-12-10 17:28:04', '<p>test</p>', NULL);
-INSERT INTO `post_comments` VALUES (1336965984680943618, 1336960357791449089, 1336963516165324801, 1336965538293751809, 0, 3, '2020-12-10 17:28:25', '<p>@<a href=\'/u/1336960357791449089\'>admin</a>  测试@</p>', NULL);
+INSERT INTO `post_comments` VALUES (1336965538293751809, 1336960357791449089, 1336963516165324801, 0, 0, 0, '2020-12-10 17:26:39', '<p>test</p>', NULL);
+INSERT INTO `post_comments` VALUES (1336965897653329922, 1336960357791449089, 1336963516165324801, 0, 1, 0, '2020-12-10 17:28:04', '<p>test</p>', NULL);
+INSERT INTO `post_comments` VALUES (1336965984680943618, 1336960357791449089, 1336963516165324801, 1336965538293751809, 1, 0, '2020-12-10 17:28:25', '<p>@<a href=\'/u/1336960357791449089\'>admin</a>  测试@</p>', NULL);
 
 -- ----------------------------
 -- Table structure for posts
@@ -380,7 +387,7 @@ CREATE TABLE `posts`  (
 -- ----------------------------
 -- Records of posts
 -- ----------------------------
-INSERT INTO `posts` VALUES (1336963516165324801, 1, 1336960357791449089, 'Hello World', '```\necho \"hello world\"；\n```', '<pre class=\"prettyprint linenums prettyprinted\" style=\"\"><ol class=\"linenums\"><li class=\"L0\"><code><span class=\"pln\">echo </span><span class=\"str\">\"hello world\"</span><span class=\"pun\">；</span></code></li></ol></pre>', 1, 3, 11, '2020-12-10 17:18:36', 13.1100, '2020-12-10 17:18:36', '2020-12-10 17:18:36', 0, 0);
+INSERT INTO `posts` VALUES (1336963516165324801, 1, 1336960357791449089, 'Hello World', '```\necho \"hello world\"；\n```', '<pre class=\"prettyprint linenums prettyprinted\" style=\"\"><ol class=\"linenums\"><li class=\"L0\"><code><span class=\"pln\">echo </span><span class=\"str\">\"hello world\"</span><span class=\"pun\">；</span></code></li></ol></pre>', 1, 3, 91, '2020-12-10 17:18:36', 0.5668, '2020-12-10 17:18:36', '2020-12-10 17:18:36', 0, 0);
 
 -- ----------------------------
 -- Table structure for user_message
@@ -395,11 +402,6 @@ CREATE TABLE `user_message`  (
   `created_at` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of user_message
--- ----------------------------
-INSERT INTO `user_message` VALUES (1336965897699467266, 1336960357791449089, 1336960357791449089, 'comment', '<p>test</p>', '2020-12-10 17:28:04');
 
 -- ----------------------------
 -- Table structure for user_posts
@@ -455,6 +457,6 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1336960357791449089, 'admin', '$2a$10$DehVZ/XTnlHbPpwaVkAyj.5Cc2kGb/vUajFtwymja7PfvyoMKV82G', 'mail@t.com', NULL, '/static/b1031017-2e3e-4076-93b9-79c490cf4654.png', 'S', 'VB', 0, 0, '2020-12-10 17:06:03', '2020-12-10 17:06:03');
+INSERT INTO `users` VALUES (1336960357791449089, 'admin', '$2a$10$9jA84HsIZjgj58ELhKURCO22SdWImAdwGorUSkwTUUBX/peRNedTG', 'mail@t.com', NULL, '/static/b1031017-2e3e-4076-93b9-79c490cf4654.png', 'S', 'VB', 0, 0, '2020-12-10 17:35:28', '2020-12-10 17:06:03');
 
 SET FOREIGN_KEY_CHECKS = 1;
