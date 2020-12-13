@@ -53,7 +53,7 @@
                              alt="${post.author.username}">
                     </a>
                     <div class="fly-detail-user">
-                        <a href="/u/${post.author.id}" class="fly-link">
+                        <a href="/u/${post.author.id?c}" class="fly-link">
                             <cite>${post.author.username}</cite>
                         </a>
                         <span>${(post.publishAt)!}</span>
