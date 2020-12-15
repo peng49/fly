@@ -25,11 +25,11 @@
             </span>
         </div>
         <div class="post-about">
-            <a href="/u/${(post.author.id)!}" class="avatar">
+            <a href="/u/${(post.author.id)!?c}" class="avatar">
                 <img src="${(post.author.avatar)!''}" alt="knight">
             </a>
             <div class="post-author">
-                <a href="/u/${(post.author.id)!}" class="link">
+                <a href="/u/${(post.author.id)!?c}" class="link">
                     <cite>${(post.author.username)!}</cite>
                 </a>
                 <span>${(post.publishAt)!}</span>

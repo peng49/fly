@@ -55,7 +55,7 @@
                     <li>
                         <p>
                             <span>${(comment.createdAt)!}</span>
-                            在<a href="/post/detail/${comment.post.id}"><strong>${comment.post.title}</strong></a>中回答：
+                            在<a href="/post/detail/${comment.post.id?c}"><strong>${comment.post.title}</strong></a>中回答：
                         </p>
                         <div class="content">
                             ${comment.content}
