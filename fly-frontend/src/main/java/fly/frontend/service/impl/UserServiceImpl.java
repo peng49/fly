@@ -12,6 +12,7 @@ import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.UserVO;
+import fly.frontend.enums.PostStatus;
 import fly.frontend.event.RegisteredEvent;
 import fly.frontend.service.OauthAccountService;
 import fly.frontend.service.PostCommentService;
@@ -180,7 +181,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 )
                 .publishCount(
                         postService.lambdaQuery()
-                                .eq(Post::getStatus, PostService.PUBLISH_STATUS)
+                                .eq(Post::getStatus, PostStatus.PUBLISHED.getStatus())
                                 .eq(Post::getAuthorId, user.getId())
                                 .count()
                 )

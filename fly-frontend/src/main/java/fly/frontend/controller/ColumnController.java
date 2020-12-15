@@ -7,6 +7,7 @@ import fly.frontend.entity.model.Column;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.vo.PostVO;
 import fly.frontend.entity.dto.PostFilterDTO;
+import fly.frontend.enums.PostStatus;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
 import fly.frontend.utils.HttpUtils;
@@ -37,7 +38,7 @@ public class ColumnController {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setColumnId(id);
         condition.setList(filter.getList());
-        condition.setStatus(PostService.PUBLISH_STATUS);//已发布的
+        condition.setStatus(PostStatus.PUBLISHED.getStatus());//已发布的
 
         if (filter.getOrderBy() != null && PostService.ALLOW_ORDER_FIELD.contains(filter.getOrderBy())) {
             condition.setOrderBy(filter.getOrderBy());

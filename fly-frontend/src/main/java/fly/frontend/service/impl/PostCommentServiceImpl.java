@@ -10,6 +10,7 @@ import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.PostCommentVO;
+import fly.frontend.enums.PostStatus;
 import fly.frontend.event.CommentEvent;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
@@ -60,7 +61,7 @@ public class PostCommentServiceImpl extends ServiceImpl<PostCommentMapper, PostC
     public PostComment create(Long userId, PostCommentAddFrom postCommentAddFrom) {
         Post post = postService.getById(postCommentAddFrom.getPostId());
 
-        if (post == null || post.getStatus() != PostService.PUBLISH_STATUS) {
+        if (post == null || post.getStatus() != PostStatus.PUBLISHED.getStatus()) {
             throw new RuntimeException("文章还未发布，不能进行评论");
         }
 

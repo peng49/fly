@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.vo.PostVO;
+import fly.frontend.enums.PostStatus;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
@@ -39,7 +40,7 @@ public class HomepageController {
                               @RequestParam(value = "pageSize",defaultValue = "20") Integer pageSize) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setList(list);
-        condition.setStatus(PostService.PUBLISH_STATUS);//已发布的
+        condition.setStatus(PostStatus.PUBLISHED.getStatus());//已发布的
 
         if (!"".equals(orderBy) && PostService.ALLOW_ORDER_FIELD.contains(orderBy)) {
             condition.setOrderBy(orderBy);
