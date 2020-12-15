@@ -83,13 +83,12 @@ public class AvatarUtils {
 
         Random random = new Random();
 
-        //230, 230, 230
-        ig2.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)));
+        //设置背景颜色 230, 230, 230
+//        ig2.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)));
+        ig2.setColor(new Color(230,230,230));
         ig2.fillRect(0, 0, GITHUB_AVATAR_ROWS, GITHUB_AVATAR_COLS);
 
         boolean[][] vertex = getGithubAvatarVertex();
-
-
 
 //        int[] rgb = COLOR_POOL_RGB[random.nextInt(COLOR_GREY_BGR.length)];
         Color color = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
@@ -128,7 +127,6 @@ public class AvatarUtils {
                 }
             }
         }
-
         return bi;
     }
 }

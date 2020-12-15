@@ -72,6 +72,8 @@ public class ShiroConfiguration {
         map.put("/", "anon"); //首页同上
         map.put("/column/*", "anon"); //列表同上
         map.put("/u/*", "anon"); //个人主页
+        map.put("/user/register", "anon"); //注册
+        map.put("/user/forget", "anon"); //忘记密码
         map.put("/post/detail/*", "anon"); //详情同上
 
         map.put("/user/logout","logout");
