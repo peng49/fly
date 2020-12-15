@@ -15,18 +15,6 @@ public interface PostService extends IService<Post> {
     double DEFAULT_HEAD = 10.0;
 
     /**
-     * 草稿状态
-     */
-    int DRAFT_STATUS = 0;
-
-    /**
-     * 发布状态
-     */
-    int PUBLISH_STATUS = 1;
-
-    int DELETE_STATUS = 2;
-
-    /**
      * 允许排序的字段
      */
     List<String> ALLOW_ORDER_FIELD = Arrays.asList("heat", "publish_at", "reply_count");

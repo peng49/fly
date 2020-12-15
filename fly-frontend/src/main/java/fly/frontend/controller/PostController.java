@@ -11,6 +11,7 @@ import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.vo.PostCommentVO;
 import fly.frontend.entity.vo.PostVO;
 import fly.frontend.entity.vo.UserVO;
+import fly.frontend.enums.PostStatus;
 import fly.frontend.service.*;
 import fly.frontend.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -223,7 +224,7 @@ public class PostController {
     public Object delete(@PathVariable("id") Long postId) throws Exception {
         adminCheck();
         Post post = postMapper.selectById(postId);
-        post.setStatus(PostService.DELETE_STATUS);
+        post.setStatus(PostStatus.DELETE.getStatus());
         postService.move2delete(post);
         return HttpUtils.success();
     }

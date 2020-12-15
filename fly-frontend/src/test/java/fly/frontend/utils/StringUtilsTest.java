@@ -8,12 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {FlyFrontendApplication.class})
@@ -27,12 +24,7 @@ public class StringUtilsTest {
 
     @Test
     public void arrayTest(){
-        Integer[] array = {1,2,2,2,2,2,2,3};
 
-//        System.out.println(array);
-        //去重
-        ArrayList<Integer> ids = new ArrayList<Integer>(new HashSet<Integer>(Arrays.asList(array)));
-        System.out.println(ids);
     }
 
     @Test

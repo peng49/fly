@@ -12,6 +12,7 @@ import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.model.UserPost;
 import fly.frontend.entity.vo.PostVO;
+import fly.frontend.enums.PostStatus;
 import fly.frontend.service.ColumnService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserPostService;
@@ -131,7 +132,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     public IPage<Post> findPublishByAuthorId(Long id, IPage<Post> page) {
         return lambdaQuery()
                 .eq(Post::getAuthorId, id)
-                .eq(Post::getStatus, PostService.PUBLISH_STATUS)
+                .eq(Post::getStatus, PostStatus.PUBLISHED.getStatus())
                 .page(page);
     }
 
@@ -183,9 +184,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         //发布
         if ("publish".equals(postEditFrom.getAction())) {
-            builder.status(PostService.PUBLISH_STATUS)
+            builder.status(PostStatus.PUBLISHED.getStatus())
                     .publishAt(LocalDateTime.now())
                     .heat(PostService.DEFAULT_HEAD);
+        } else {
+            builder.status(PostStatus.DRAFT.getStatus());
         }
 
         Post post = builder.build();
@@ -240,7 +243,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         //发布
         if ("publish".equals(postEditFrom.getAction())) {
-            post.setStatus(PostService.PUBLISH_STATUS);
+            post.setStatus(PostStatus.PUBLISHED.getStatus());
             post.setPublishAt(LocalDateTime.now());
             post.setUpdateAt(LocalDateTime.now());
         }
@@ -280,7 +283,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Override
     public void move2delete(Post post) {
-        post.setStatus(PostService.DELETE_STATUS);
+        post.setStatus(PostStatus.DELETE.getStatus());
         updateById(post);
     }
 }
