@@ -17,15 +17,22 @@ import fly.frontend.service.OauthAccountService;
 import fly.frontend.service.PostCommentService;
 import fly.frontend.service.PostService;
 import fly.frontend.service.UserService;
+import fly.frontend.utils.AvatarUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.javassist.NotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,6 +56,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private OauthAccountService oauthAccountService;
 
+    @Value("${user.avatar-dir}")
+    private String userDir;
+
 
     public UserVO login(UserLoginFrom login) throws Exception {
         User user = getByUsername(login.getUsername());
@@ -64,6 +74,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return UserVO.builder().id(user.getId()).username(user.getUsername()).avatar(user.getAvatar()).build();
     }
 
+    private String getRandomAvatarUrl() {
+        BufferedImage bi = new AvatarUtils().getARandomAvatar();
+        String filename = UUID.randomUUID() + ".png";
+        File file = new File(userDir + "/" + filename);
+        try {
+            ImageIO.write(bi, "PNG", file);
+            return "/static/" + filename;
+        } catch (IOException e) {
+            return "";
+        }
+    }
+
     public User register(UserRegisterFrom register) throws Exception {
 
         User existed = getByUsername(register.getUsername());
@@ -75,6 +97,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setUsername(register.getUsername());
         user.setEmail(register.getEmail());
         user.setPassword(getPassword(register.getPassword()));
+        user.setAvatar(getRandomAvatarUrl());
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
 
