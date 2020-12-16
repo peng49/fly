@@ -28,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
@@ -92,12 +91,6 @@ public class UserController {
         } catch (AuthenticationException ae) {
             return HttpUtils.fail("用户名或密码不正确！");
         }
-    }
-
-    @GetMapping("/logout")
-    public void logout(HttpServletResponse response, HttpSession httpSession) throws IOException {
-        httpSession.removeAttribute(UserService.LOGIN_KEY);
-        response.sendRedirect("/");//重定向到首页
     }
 
     @GetMapping("/register")
