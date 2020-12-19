@@ -23,7 +23,7 @@ public class CalculationHeatTask {
     @Resource
     private PostMapper postMapper;
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/15 * * * ?")
     public void execute()
     {
         int page = 1;
