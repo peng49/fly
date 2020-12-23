@@ -2392,3 +2392,6 @@ body .fly-user-main {
     float: left;
     margin: 0 5px;
 }
+
+.slider-menu .fly-panel-main{line-height: 1.8}
+.slider-menu .fly-panel-main .sub-list{margin-left: 15px}
