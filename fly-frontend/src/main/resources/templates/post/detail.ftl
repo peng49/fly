@@ -337,7 +337,7 @@
         if(rootLevel == level){
             tree.push({id:id,name:con,target:target,level:level,parentId:0})
 
-            parents = [{id:id,level:level}]
+            parents = [{id:0,level:1},{id:id,level:level}]
         }else{
             if(level - parents[parents.length - 1].level < 0){
                 parents.pop()
