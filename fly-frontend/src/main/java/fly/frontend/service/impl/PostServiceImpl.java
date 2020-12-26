@@ -26,6 +26,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,7 +63,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         Page<Post> items = queryChainWrapper.page(page);
 
-        return items.convert(post -> PostVO.builder()
+        return items.convert(post2VO());
+    }
+
+    protected Function<Post, PostVO> post2VO() {
+        return post -> PostVO.builder()
                 .id(post.getId())
                 .top(post.getTop())
                 .status(post.getStatus())
@@ -73,25 +78,14 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .title(post.getTitle())
                 .viewCount(post.getViewCount())
                 .replyCount(post.getReplyCount())
-                .build());
+                .build();
     }
 
     @Override
     public IPage<PostVO> findAllByAuthorId(IPage<Post> page, Long id) {
         IPage<Post> items = lambdaQuery().eq(Post::getAuthorId, id).page(page);
 
-        return items.convert(post -> PostVO.builder()
-                .id(post.getId())
-                .top(post.getTop())
-                .status(post.getStatus())
-                .essence(post.getEssence())
-                .column(columnService.getById(post.getColumnId()))
-                .author(userService.getById(post.getAuthorId()))
-                .publishAt(post.getPublishAt() != null ? dateTimeFormatter.format(post.getPublishAt()) : "")
-                .title(post.getTitle())
-                .viewCount(post.getViewCount())
-                .replyCount(post.getReplyCount())
-                .build());
+        return items.convert(post2VO());
     }
 
     @Override
