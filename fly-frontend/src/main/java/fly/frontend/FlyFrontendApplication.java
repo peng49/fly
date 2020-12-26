@@ -7,13 +7,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
 
 @SpringBootApplication
 @MapperScan("fly.frontend.dao")
 public class FlyFrontendApplication {
     public static void main(String[] args) {
         org.springframework.boot.SpringApplication.run(FlyFrontendApplication.class, args);
+    }
+
+    /**
+     * 统一设置时区
+     */
+    @PostConstruct
+    public void started()
+    {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Chongqing"));
     }
 
     @Bean
