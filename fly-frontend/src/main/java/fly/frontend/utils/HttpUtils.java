@@ -99,7 +99,7 @@ public class HttpUtils {
     public static void selectViewName(String viewName, HttpServletRequest request, ModelAndView view) {
         view.setViewName(viewName);
         if (isMobile(request)) {
-            view.setViewName("wap/" + viewName);
+            view.setViewName("wap/" + viewName.replaceFirst("^/",""));
         }
     }
 }
