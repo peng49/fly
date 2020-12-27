@@ -141,7 +141,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     public PostVO get(Long id) {
         Post post = getById(id);
 
-        if(post == null){
+        if (post == null) {
             throw new RuntimeException("文章不存在");
         }
         User user = (User) SecurityUtils.getSubject().getPrincipal();
@@ -259,7 +259,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
      * @return 热度值
      */
     public double calculationHeat(Post post) {
-        if(Integer.valueOf(1).equals(post.getTop())){
+        if (Integer.valueOf(1).equals(post.getTop())) {
             return PostService.DEFAULT_HEAD + 1.00;
         }
         // 1*click + 5*favor + 10*comment + 20*share
