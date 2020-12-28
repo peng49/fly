@@ -74,11 +74,34 @@ function renderTree(items, level) {
             level++
             childrenHtml = "<ul class='sub-list d" + level + "'>" + renderTree(item.children, level) + "</ul>"
         }
-        ul += "<li><a href='#" + item.target + "'>" + item.name + "</a>" + childrenHtml + "</li>"
+        ul += "<li><a href='javascript:' data-target='" + item.target + "'>" + item.name + "</a>" + childrenHtml + "</li>"
     }
     return ul
 }
 
-let ul = "<ul>" + renderTree(result, 1) + "</ul>";
+let ul = "<ul id='post-menus'>" + renderTree(result, 1) + "</ul>";
 
-$("#slider").append('<div class="fly-panel slider-menu"><div class="fly-panel-title">目录</div><div class="fly-panel-main">' + ul + '</div></div>');
+$("#slider").append('<div id="menu-box" class="fly-panel slider-menu"><div class="fly-panel-title">目录</div><div class="fly-panel-main">' + ul + '</div></div>');
+
+$("body").on("click", "#post-menus a", function (e) {
+    let id = $(e.target).attr("data-target")
+    $(window).scrollTop(document.getElementById(id).offsetTop)
+})
+
+let menuDom = $('.slider-menu')
+let offsetTop = $('#slider').offset().top
+let width = $('#slider').width()
+let menuOffsetTop = $("#menu-box").offset().top
+let scrollFlag = true
+$(window).scroll(function () {
+    console.log(scrollFlag)
+    if ($(window).scrollTop() > menuOffsetTop) {
+        if (scrollFlag) {
+            menuDom.css({position: "fixed", top: offsetTop, width: width})
+            scrollFlag = false
+        }
+    } else {
+        menuDom.attr("style", "")
+        scrollFlag = true
+    }
+})
