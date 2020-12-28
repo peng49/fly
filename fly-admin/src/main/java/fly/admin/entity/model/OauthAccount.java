@@ -19,9 +19,9 @@ import java.time.LocalDateTime;
 public class OauthAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    private Integer userId;
+    private Long userId;
 
     private String platform;
 
