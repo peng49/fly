@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class GiteeUserInfo {
-    private int id;
+    private String id;
     private String login;
     private String name;
     @JsonProperty("avatar_url")

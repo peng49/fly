@@ -1,9 +1,12 @@
 package fly.frontend.controller;
 
 import fly.frontend.entity.model.OauthAccount;
-import fly.frontend.entity.vo.UserVO;
+import fly.frontend.entity.model.User;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +18,9 @@ import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@Slf4j
 @Controller
 @RequestMapping("/oauth")
 public class OauthController {
@@ -40,12 +43,14 @@ public class OauthController {
     @GetMapping("/{platform}/callback")
     public void callback(@RequestParam("code") String code,
                          @PathVariable("platform") String platform,
-                         HttpServletResponse response,
-                         HttpSession httpSession) throws IOException, ModelAndViewDefiningException {
-        OauthAccount account = getOauthService(platform).get(code);
-        UserVO user = userService.get(account.getUserId());
+                         HttpServletResponse response) throws IOException, ModelAndViewDefiningException {
+        log.info(platform+" code:"+code);
 
-        httpSession.setAttribute(UserService.LOGIN_KEY, user);
+        OauthAccount account = getOauthService(platform).get(code);
+        User user = userService.getById(account.getUserId());
+
+        Subject subject = SecurityUtils.getSubject();
+
         response.sendRedirect("/user/center");
     }
 

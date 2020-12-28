@@ -100,6 +100,7 @@ public class ShiroConfiguration {
                 // 获取用户信息
                 String username = authenticationToken.getPrincipal().toString();
                 log.info(username);
+
                 User user = userService.getByUsername(username);
                 if (user == null) {
                     // 这里返回后会报出对应异常

@@ -1,7 +1,5 @@
 package fly.frontend.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import fly.frontend.dao.UserMapper;
 import fly.frontend.entity.model.OauthAccount;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.GithubOauthToken;
@@ -9,6 +7,7 @@ import fly.frontend.entity.vo.GithubUserInfo;
 import fly.frontend.service.OauthAccountService;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,7 +18,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Objects;
@@ -36,12 +34,6 @@ public class GithubOauthServiceImpl implements OauthService {
 
     @Resource
     private UserService userService;
-
-    @Resource
-    private UserMapper userMapper;
-
-    @Resource
-    private HttpSession httpSession;
 
     @Resource
     private SystemConfigServiceImpl systemConfigService;
@@ -90,19 +82,23 @@ public class GithubOauthServiceImpl implements OauthService {
 
         GithubUserInfo userInfo = responseEntity.getBody();
 
-        OauthAccount oauthAccount = oauthAccountService.getOne(
-                Wrappers.<OauthAccount>lambdaQuery()
-                        .eq(OauthAccount::getOpenid, Objects.requireNonNull(userInfo).getOpenid())
-                        .eq(OauthAccount::getPlatform, PLATFORM)
-        );
+        if(userInfo == null){
+            throw new RuntimeException("获取token失败");
+        }
+
+        OauthAccount oauthAccount = oauthAccountService.getPlatformAccount(PLATFORM,userInfo.getOpenid());
+
         if (oauthAccount == null) {
-            User user = (User) httpSession.getAttribute(UserService.LOGIN_KEY);
+            User user =  (User) SecurityUtils.getSubject().getPrincipal();
             if (user == null) {//如果是已登录状态，直接绑定gitee账号，如果未登录,新建账号
                 user = new User();
                 user.setUsername(userService.getUniqueUsername(userInfo.getLogin()));
                 user.setAvatar(userInfo.getAvatarUrl());
-                userMapper.insert(user);
+                user.setExperience(0);
+                user.setIsAdmin(0);
+                userService.save(user);
             }
+
             OauthAccount account = new OauthAccount();
             account.setOpenid(userInfo.getOpenid());
             account.setPlatform(PLATFORM);
