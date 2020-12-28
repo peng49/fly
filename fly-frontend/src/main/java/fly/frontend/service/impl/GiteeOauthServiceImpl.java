@@ -9,7 +9,6 @@ import fly.frontend.pojo.GiteeOauthResponse;
 import fly.frontend.service.OauthAccountService;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,20 +25,14 @@ import java.util.Objects;
 public class GiteeOauthServiceImpl implements OauthService {
     public static final String PLATFORM = "gitee";
 
-    @Value("${oauth.gitee.client-id}")
-    private String clientId;
-
-    @Value("${oauth.gitee.client-secret}")
-    private String clientSecret;
-
-    @Value("${oauth.gitee.redirect-uri}")
-    private String redirectUri;
-
     @Resource
     private RestTemplate restTemplate;
 
     @Resource
     private OauthAccountService oauthAccountService;
+
+    @Resource
+    private SystemConfigServiceImpl systemConfigService;
 
     @Resource
     private UserService userService;
@@ -52,11 +45,18 @@ public class GiteeOauthServiceImpl implements OauthService {
 
     @Override
     public String getRedirectUrl() throws UnsupportedEncodingException {
+        String clientId = systemConfigService.getValue("gitee_oauth_client_id");
+        String redirectUri = systemConfigService.getValue("gitee_oauth_redirect_uri");
+
         return String.format("https://gitee.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", clientId, URLEncoder.encode(redirectUri,"UTF-8"));
     }
 
     @Override
     public OauthAccount get(String code) {
+        String clientId = systemConfigService.getValue("gitee_oauth_client_id");
+        String redirectUri = systemConfigService.getValue("gitee_oauth_redirect_uri");
+        String clientSecret = systemConfigService.getValue("gitee_oauth_client_secret");
+
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("grant_type", "authorization_code");
         parameters.add("code", code);
