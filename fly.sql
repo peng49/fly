@@ -292,8 +292,8 @@ CREATE TABLE `message_queue`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `oauth_account`;
 CREATE TABLE `oauth_account`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
   `platform` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `openid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `created_at` datetime(0) NULL DEFAULT NULL,
@@ -458,5 +458,28 @@ CREATE TABLE `users`  (
 -- Records of users
 -- ----------------------------
 INSERT INTO `users` VALUES (1336960357791449089, 'admin', '$2a$10$9jA84HsIZjgj58ELhKURCO22SdWImAdwGorUSkwTUUBX/peRNedTG', 'mail@t.com', NULL, '/static/b1031017-2e3e-4076-93b9-79c490cf4654.png', 'S', 'VB', 0, 0, '2020-12-10 17:35:28', '2020-12-10 17:06:03');
+
+
+DROP TABLE IF EXISTS `system_config`;
+CREATE TABLE `system_config`  (
+                                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                                  `attribute` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+                                  `created_at` datetime(0) NOT NULL,
+                                  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+                                  `updated_at` datetime(0) NOT NULL,
+                                  `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+                                  PRIMARY KEY (`id`) USING BTREE,
+                                  UNIQUE INDEX `attribute_unique`(`attribute`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of system_config
+-- ----------------------------
+INSERT INTO `system_config` VALUES (1, 'gitee_oauth_client_id', '2020-12-28 13:57:22', '', '2020-12-28 17:17:47', '');
+INSERT INTO `system_config` VALUES (2, 'gitee_oauth_client_secret', '2020-12-28 13:57:22', '', '2020-12-28 13:57:22', '');
+INSERT INTO `system_config` VALUES (3, 'gitee_oauth_redirect_uri', '2020-12-28 13:57:22', '', '2020-12-28 13:57:22', 'http://localhost:8001/oauth/gitee/callback');
+INSERT INTO `system_config` VALUES (4, 'github_oauth_client_id', '2020-12-28 13:57:22', '', '2020-12-28 16:31:21', 'sdfgsg');
+INSERT INTO `system_config` VALUES (5, 'github_oauth_client_secret', '2020-12-28 13:57:22', 'github oauth 秘钥', '2020-12-28 17:06:29', 'asdfag');
+INSERT INTO `system_config` VALUES (6, 'github_oauth_redirect_uri', '2020-12-28 13:57:22', '', '2020-12-28 13:57:22', '');
 
 SET FOREIGN_KEY_CHECKS = 1;
