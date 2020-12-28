@@ -1,17 +1,15 @@
 package fly.frontend.service;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import fly.frontend.FlyFrontendApplication;
 import fly.frontend.entity.from.UserLoginFrom;
-import fly.frontend.entity.model.UserMessage;
+import fly.frontend.entity.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
+import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -27,21 +25,22 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
+    @Resource
+    private OauthAccountService oauthAccountService;
+
     @Test
     public void lombokTest()
     {
-        System.out.println(userService.getByUsername("admin12412"));
+       User user = new User();
+        user.setUsername(userService.getUniqueUsername("WE"));
+        user.setAvatar("");
+        userService.save(user);
     }
 
 
     @Test
     public void findAllTest() {
-//        System.out.println(userService.findAll());
-
-        String encode = new BCryptPasswordEncoder().encode("123");
-        System.out.println(encode);
-
-        System.out.println(new BCryptPasswordEncoder().matches("1234", encode));
+        System.out.println(oauthAccountService.getPlatformAccount("gitee","123"));
     }
 
     @Test
