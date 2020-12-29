@@ -88,16 +88,18 @@ $("body").on("click", "#post-menus a", function (e) {
     $(window).scrollTop(document.getElementById(id).offsetTop)
 })
 
-let menuDom = $('.slider-menu')
+let menuDom = $('#menu-box')
 let offsetTop = $('#slider').offset().top
 let width = $('#slider').width()
 let menuOffsetTop = $("#menu-box").offset().top
 let scrollFlag = true
+let clientHeight = $(window).height();
 $(window).scroll(function () {
     console.log(scrollFlag)
     if ($(window).scrollTop() > menuOffsetTop) {
         if (scrollFlag) {
             menuDom.css({position: "fixed", top: offsetTop, width: width})
+            menuDom.find('.fly-panel-main').css({overflowY:'scroll',maxHeight:clientHeight+'px'});
             scrollFlag = false
         }
     } else {
