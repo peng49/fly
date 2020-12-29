@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.ValidationException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,23 +26,19 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public final Map<String,Object> handleAllExceptions(Exception ex, WebRequest request) throws ModelAndViewDefiningException {
+    public final Object handleAllExceptions(Exception ex, WebRequest request) throws ModelAndViewDefiningException {
         if ("XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
             Map<String, Object> map = new HashMap<>();
             map.put("code", "exception");
             map.put("name", ex.getClass().getName());
             map.put("message", ex.getLocalizedMessage());
             map.put("trace",ex.getStackTrace());
-
-            log.error(Arrays.toString(ex.getStackTrace()));
             return map;
         } else {
             ModelAndView mv = new ModelAndView("page/tips");
             mv.addObject("message",ex.getLocalizedMessage());
-            throw new ModelAndViewDefiningException(mv);
+            return mv;
         }
-
     }
 
     @ExceptionHandler(ResponseStatusException.class)
@@ -52,7 +47,6 @@ public class GlobalExceptionHandler {
             ModelAndView mv = new ModelAndView("page/404");
             log.info("404 page");
             mv.setStatus(HttpStatus.NOT_FOUND);
-//            throw new ModelAndViewDefiningException(mv);
             return mv;
         }
         return null;
