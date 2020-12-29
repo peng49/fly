@@ -24,6 +24,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -46,9 +47,18 @@ public class ShiroConfiguration {
                     response.getWriter().write(new ObjectMapper().writeValueAsString(HttpUtils.fail("未登录或者登录已失效")));
                 } else {
                     //重定向
-
+                    StringBuilder url = new StringBuilder();
+                    url.append(req.getScheme())
+                            .append("://")
+                            .append(req.getServerName())
+                            .append(":")
+                            .append(req.getServerPort())
+                            .append(req.getServletPath());
+                    if (req.getQueryString() != null) {
+                        url.append("?").append(req.getQueryString());
+                    }
                     String loginUrl = this.getLoginUrl();
-                    WebUtils.issueRedirect(request, response, loginUrl);
+                    WebUtils.issueRedirect(request, response, loginUrl+"?redirect="+URLEncoder.encode(url.toString(), "UTF-8"));
                 }
             }
         }
