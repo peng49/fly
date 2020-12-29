@@ -116,7 +116,11 @@ function getActiveMenu()
     let scrollTop = $(window).scrollTop()
     for(let i in allMenu){
         let menu = allMenu[i];
-        if(menu.offsetTop > scrollTop){
+        let margin = 0;
+        if ($('.fly-column').get(0)) {
+            margin = $('.fly-column').get(0).clientHeight
+        }
+        if (menu.offsetTop - margin > scrollTop) {
             return menu
         }
     }
@@ -124,7 +128,6 @@ function getActiveMenu()
 }
 
 $(window).scroll(function () {
-    console.log(scrollFlag);
     if ($(window).scrollTop() > menuOffsetTop) {
         if (scrollFlag) {
             menuDom.css({position: "fixed", top: offsetTop, width: width});
