@@ -4,6 +4,7 @@ import fly.frontend.entity.model.OauthAccount;
 import fly.frontend.entity.model.User;
 import fly.frontend.service.OauthService;
 import fly.frontend.service.UserService;
+import fly.frontend.shiro.OauthToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -49,7 +50,11 @@ public class OauthController {
         OauthAccount account = getOauthService(platform).get(code);
         User user = userService.getById(account.getUserId());
 
+        OauthToken oauthToken = new OauthToken(user);
+
         Subject subject = SecurityUtils.getSubject();
+
+        subject.login(oauthToken);
 
         response.sendRedirect("/user/center");
     }

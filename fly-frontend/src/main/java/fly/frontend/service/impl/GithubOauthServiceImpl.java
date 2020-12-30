@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Service("GithubOauthServiceImpl")
@@ -94,8 +95,8 @@ public class GithubOauthServiceImpl implements OauthService {
                 user = new User();
                 user.setUsername(userService.getUniqueUsername(userInfo.getLogin()));
                 user.setAvatar(userInfo.getAvatarUrl());
-                user.setExperience(0);
-                user.setIsAdmin(0);
+                user.setUpdatedAt(LocalDateTime.now());
+                user.setCreatedAt(LocalDateTime.now());
                 userService.save(user);
             }
 
