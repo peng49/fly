@@ -25,13 +25,13 @@ CREATE TABLE `admin_menu`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT 0,
   `sort` int(11) NOT NULL DEFAULT 0,
-  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `uri` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `component` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `permission` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `created_at` datetime(0) NULL DEFAULT NULL,
-  `updated_at` datetime(0) NULL DEFAULT NULL,
+  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `uri` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '',
+  `component` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '',
+  `permission` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '',
+  `created_at` datetime(0) NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` datetime(0) NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
@@ -296,9 +296,8 @@ CREATE TABLE `oauth_account`  (
   `user_id` bigint(20) NOT NULL,
   `platform` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `openid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `created_at` datetime(0) NULL DEFAULT NULL,
-  `update_at` datetime(0) NULL DEFAULT NULL,
-  `updated_at` datetime(0) NULL DEFAULT NULL,
+  `created_at` datetime(0) NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` datetime(0) NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '第三方授权账户信息' ROW_FORMAT = Compact;
 
