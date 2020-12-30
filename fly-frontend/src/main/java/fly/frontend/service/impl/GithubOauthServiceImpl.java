@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -52,6 +53,7 @@ public class GithubOauthServiceImpl implements OauthService {
      * @return
      */
     @Override
+    @Transactional
     public OauthAccount get(String code) {
         String clientId = systemConfigService.getValue("github_oauth_client_id");
         String redirectUri = systemConfigService.getValue("github_oauth_redirect_uri");

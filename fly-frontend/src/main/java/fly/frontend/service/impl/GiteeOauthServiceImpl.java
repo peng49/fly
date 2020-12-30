@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -47,6 +48,7 @@ public class GiteeOauthServiceImpl implements OauthService {
     }
 
     @Override
+    @Transactional
     public OauthAccount get(String code) {
         String clientId = systemConfigService.getValue("gitee_oauth_client_id");
         String redirectUri = systemConfigService.getValue("gitee_oauth_redirect_uri");
