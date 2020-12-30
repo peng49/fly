@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Slf4j
@@ -92,6 +93,8 @@ public class GiteeOauthServiceImpl implements OauthService {
                 user = new User();
                 user.setUsername(userService.getUniqueUsername(userInfo.getName()));
                 user.setAvatar(userInfo.getAvatarUrl());
+                user.setUpdatedAt(LocalDateTime.now());
+                user.setCreatedAt(LocalDateTime.now());
                 userService.save(user);
             }
             OauthAccount account = new OauthAccount();

@@ -3,12 +3,14 @@ package fly.frontend.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fly.frontend.entity.model.User;
 import fly.frontend.service.UserService;
+import fly.frontend.shiro.OauthToken;
 import fly.frontend.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.web.filter.authc.UserFilter;
@@ -25,9 +27,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Configuration
 @Slf4j
@@ -140,11 +140,49 @@ public class ShiroConfiguration {
         return authorizingRealm;
     }
 
+
+    private AuthorizingRealm getOauthRealm()
+    {
+        class OauthRealm extends AuthorizingRealm{
+            @Override
+            protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+                return null;
+            }
+
+            /**
+             * 认证
+             * @param authenticationToken
+             * @return
+             * @throws AuthenticationException
+             */
+            @Override
+            protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+                if (authenticationToken.getPrincipal() == null) {
+                    return null;
+                }
+
+                User user = (User) authenticationToken.getPrincipal();
+
+                return new SimpleAuthenticationInfo(user,user.getId(),getName());
+            }
+        }
+
+        OauthRealm oauthRealm = new OauthRealm();
+        oauthRealm.setAuthenticationTokenClass(OauthToken.class);
+        return oauthRealm;
+    }
+
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 
-        securityManager.setRealm(getAuthorizingRealm());
+        AuthorizingRealm authorizingRealm = getAuthorizingRealm();
+        Collection<Realm> realms = new ArrayList<>(2);
+        realms.add(authorizingRealm);
+        realms.add(getOauthRealm());
+
+        securityManager.setRealms(realms);
+
         return securityManager;
     }
 

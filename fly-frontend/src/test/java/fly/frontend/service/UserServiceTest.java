@@ -1,12 +1,18 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
+import fly.frontend.config.ShiroConfiguration;
 import fly.frontend.entity.from.UserLoginFrom;
 import fly.frontend.entity.model.User;
+import fly.frontend.shiro.OauthToken;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -20,6 +26,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {FlyFrontendApplication.class})
+@Import(ShiroConfiguration.class)
 public class UserServiceTest {
 
     @Autowired
@@ -28,13 +35,20 @@ public class UserServiceTest {
     @Resource
     private OauthAccountService oauthAccountService;
 
+    @Resource
+    private DefaultWebSecurityManager defaultWebSecurityManager;
+
     @Test
     public void lombokTest()
     {
-       User user = new User();
-        user.setUsername(userService.getUniqueUsername("WE"));
-        user.setAvatar("");
-        userService.save(user);
+        User admin = userService.getByUsername("peng49");
+        OauthToken oauthToken = new OauthToken(admin);
+
+        SecurityUtils.setSecurityManager(defaultWebSecurityManager);
+        Subject subject = SecurityUtils.getSubject();
+
+
+        subject.login(oauthToken);
     }
 
 
