@@ -135,6 +135,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         return lambdaQuery()
                 .eq(Post::getAuthorId, id)
                 .eq(Post::getStatus, PostStatus.PUBLISHED.getStatus())
+                .orderByDesc(Post::getPublishAt)
                 .page(page);
     }
 
