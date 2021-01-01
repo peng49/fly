@@ -83,7 +83,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Override
     public IPage<PostVO> findAllByAuthorId(IPage<Post> page, Long id) {
-        IPage<Post> items = lambdaQuery().eq(Post::getAuthorId, id).page(page);
+        IPage<Post> items = lambdaQuery().eq(Post::getAuthorId, id).orderByDesc(Post::getId).page(page);
 
         return items.convert(post2VO());
     }
