@@ -43,6 +43,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Resource
     private DateTimeFormatter dateTimeFormatter;
 
+    @Resource
+    private PostMapper postMapper;
+
 
     public IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition query) {
         LambdaQueryChainWrapper<Post> queryChainWrapper = lambdaQuery()
@@ -89,42 +92,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     @Override
-    public IPage<PostVO> findUserPost(IPage<Object> page, Long userId) {
-        Page<UserPost> list = userPostService.page(
-                new Page<>(page.getCurrent(), page.getSize()),
-                Wrappers.lambdaQuery(UserPost.class).eq(UserPost::getUserId, userId)
-        );
-
-        List<Long> postIds = list.getRecords().stream().map(UserPost::getPostId).collect(Collectors.toList());
-
-        if (postIds.size() == 0) {
-            return new Page<>();
-        }
-
-        List<Post> posts = lambdaQuery().in(Post::getId, postIds).list();
-
-
-        Page<PostVO> item = new Page<>(list.getCurrent(), list.getSize());
-        item.setTotal(list.getTotal());
-
-        ArrayList<PostVO> records = new ArrayList<>();
-        posts.forEach(post -> {
-            records.add(PostVO.builder()
-                    .id(post.getId())
-                    .status(post.getStatus())
-                    .top(post.getTop())
-                    .essence(post.getEssence())
-                    .column(columnService.getById(post.getColumnId()))
-                    .author(userService.getById(post.getAuthorId()))
-                    .publishAt(post.getPublishAt() != null ? dateTimeFormatter.format(post.getPublishAt()) : "")
-                    .title(post.getTitle())
-                    .viewCount(post.getViewCount())
-                    .replyCount(post.getReplyCount())
-                    .build());
-        });
-
-        item.setRecords(records);
-        return item;
+    public IPage<PostVO> findUserPost(IPage page, Long userId) {
+        IPage<Post> items = postMapper.findForUserCollection(userId, page);
+        return items.convert(post2VO());
     }
 
     public List<Post> findAllByAuthorId(Long id) {
