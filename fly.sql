@@ -379,6 +379,17 @@ CREATE TABLE `posts`  (
 -- ----------------------------
 INSERT INTO `posts` VALUES (1336963516165324801, 1, 1336960357791449089, 'Hello World', '```\necho \"hello world\"；\n```', '<pre class=\"prettyprint linenums prettyprinted\" style=\"\"><ol class=\"linenums\"><li class=\"L0\"><code><span class=\"pln\">echo </span><span class=\"str\">\"hello world\"</span><span class=\"pun\">；</span></code></li></ol></pre>', 1, 3, 91, '2020-12-10 17:18:36', 0.5668, '2020-12-10 17:18:36', '2020-12-10 17:18:36', 0, 0);
 
+
+DROP TABLE IF EXISTS `post_agree`;
+CREATE TABLE `post_agree` (
+  `id` bigint(20) NOT NULL DEFAULT 0,
+  `user_id` bigint(20) NOT NULL DEFAULT 0,
+  `post_id` bigint(20) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `post_id` (`post_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ----------------------------
 -- Table structure for system_config
 -- ----------------------------
