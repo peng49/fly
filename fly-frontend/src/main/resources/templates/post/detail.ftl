@@ -78,7 +78,7 @@
                             <i class="icon-coll"></i> 收藏(${post.collectedCount})
                         </#if>
                     </a>
-                    <a href="javascript:"><i class="icon-recommend"></i>推荐</a>
+                    <a href="javascript:" @click="removeOrAddAgree"><i class="icon-recommend"></i>推荐</a>
                 </div>
             </div>
 
@@ -272,6 +272,17 @@
             },
             replyCancel: function () {
                 this.comment.parentId = 0;
+            },
+            removeOrAddAgree:function(){
+                $.post('/postAgree/removeOrAdd',{postId:this.postId},function(resp){
+                    if (resp.code === "success") {
+                        layer.msg('操作成功');
+
+                        window.location.reload()
+                        return;
+                    }
+                    layer.msg(resp.message)
+                });
             },
             collection: function () {
                 axios.post('/user/collection', {postId:this.postId})
