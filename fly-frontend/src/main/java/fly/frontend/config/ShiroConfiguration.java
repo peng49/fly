@@ -58,7 +58,7 @@ public class ShiroConfiguration {
                         url.append("?").append(req.getQueryString());
                     }
                     String loginUrl = this.getLoginUrl();
-                    WebUtils.issueRedirect(request, response, loginUrl+"?redirect="+URLEncoder.encode(url.toString(), "UTF-8"));
+                    WebUtils.issueRedirect(request, response, loginUrl + "?redirect=" + URLEncoder.encode(url.toString(), "UTF-8"));
                 }
             }
         }
@@ -85,10 +85,10 @@ public class ShiroConfiguration {
         map.put("/user/register", "anon"); //注册
         map.put("/user/forget", "anon"); //忘记密码
         map.put("/post/detail/*", "anon"); //详情同上
-        map.put("/oauth/**","anon");
-        map.put("/error/**","anon");
+        map.put("/oauth/**", "anon");
+        map.put("/error/**", "anon");
 
-        map.put("/user/logout","logout");
+        map.put("/user/logout", "logout");
         map.put("/**", "authc");
         factoryBean.setFilterChainDefinitionMap(map);
         return factoryBean;
@@ -141,9 +141,8 @@ public class ShiroConfiguration {
     }
 
 
-    private AuthorizingRealm getOauthRealm()
-    {
-        class OauthRealm extends AuthorizingRealm{
+    private AuthorizingRealm getOauthRealm() {
+        class OauthRealm extends AuthorizingRealm {
             @Override
             protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
                 return null;
@@ -163,7 +162,7 @@ public class ShiroConfiguration {
 
                 User user = (User) authenticationToken.getPrincipal();
 
-                return new SimpleAuthenticationInfo(user,user.getId(),getName());
+                return new SimpleAuthenticationInfo(user, user.getId(), getName());
             }
         }
 

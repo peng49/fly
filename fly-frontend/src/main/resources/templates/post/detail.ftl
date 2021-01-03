@@ -78,7 +78,13 @@
                             <i class="icon-coll"></i> 收藏(${post.collectedCount})
                         </#if>
                     </a>
-                    <a href="javascript:" @click="removeOrAddAgree"><i class="icon-recommend"></i>推荐</a>
+                    <a href="javascript:" @click="removeOrAddAgree">
+                        <#if  post.agree>
+                            <i class="icon-recommend-yes"></i>推荐(${post.agreeCount})
+                        <#else>
+                            <i class="icon-recommend"></i>推荐(${post.agreeCount})
+                        </#if>
+                    </a>
                 </div>
             </div>
 

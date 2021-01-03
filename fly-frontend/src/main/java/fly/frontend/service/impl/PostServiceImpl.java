@@ -9,14 +9,12 @@ import fly.frontend.dao.PostMapper;
 import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.model.Post;
+import fly.frontend.entity.model.PostAgree;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.model.UserPost;
 import fly.frontend.entity.vo.PostVO;
 import fly.frontend.enums.PostStatus;
-import fly.frontend.service.ColumnService;
-import fly.frontend.service.PostService;
-import fly.frontend.service.UserPostService;
-import fly.frontend.service.UserService;
+import fly.frontend.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +37,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private PostAgreeService postAgreeService;
 
     @Resource
     private DateTimeFormatter dateTimeFormatter;
@@ -117,13 +118,12 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         boolean collected = false;
-        boolean recommended = false;
+        boolean agree = false;
         if (user != null) {
             Long userId = user.getId();
-            collected = userPostService.lambdaQuery()
-                    .eq(UserPost::getUserId, userId)
-                    .eq(UserPost::getPostId, post.getId())
-                    .list().size() > 0;
+            collected = userPostService.isExisted(userId,post.getId());
+
+            agree = postAgreeService.exists(post.getId(),userId);
         }
 
         return PostVO.builder()
@@ -141,7 +141,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .content(post.getContent())
                 .collected(collected)
                 .collectedCount(userPostService.lambdaQuery().eq(UserPost::getPostId, post.getId()).count())
-                .recommended(recommended)
+                .agree(agree)
+                .agreeCount(postAgreeService.lambdaQuery().eq(PostAgree::getPostId,post.getId()).count())
                 .build();
     }
 
