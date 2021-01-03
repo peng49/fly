@@ -16,22 +16,4 @@ public class PostCommentAgreeServiceTest {
     @Autowired
     private PostCommentAgreeService postCommentAgreeService;
 
-    @Test
-    public void createTest(){
-
-    }
-
-    @Test
-    public void isExistedTest(){
-        User user = new User();
-        user.setId(1L);
-        System.out.println(postCommentAgreeService.isExisted(user,2L));
-    }
-
-    @Test
-    public void deleteTest(){
-        User user = new User();
-        user.setId(1L);
-        postCommentAgreeService.delete(user,2L);
-    }
 }

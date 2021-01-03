@@ -1,11 +1,12 @@
 package fly.frontend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import fly.frontend.entity.model.PostComment;
 import fly.frontend.entity.model.PostCommentAgree;
 import fly.frontend.entity.model.User;
 
 public interface PostCommentAgreeService extends IService<PostCommentAgree> {
-    boolean isExisted(User user,Long commentId);
+    boolean exists(PostComment postComment, User user);
 
-    void delete(User user,Long commentId);
+    void removeOrAdd(PostComment postComment, User user);
 }
