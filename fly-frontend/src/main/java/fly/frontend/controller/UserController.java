@@ -51,8 +51,7 @@ public class UserController {
     private PostService postService;
 
 
-    @Resource
-    private UserPostService userPostService;
+
 
     @Resource
     private PostCommentAgreeService postCommentAgreeService;
@@ -165,19 +164,6 @@ public class UserController {
 
         //退出重新登录
         httpSession.removeAttribute(UserService.LOGIN_KEY);
-        return HttpUtils.success();
-    }
-
-    @PostMapping("/collection")
-    @ResponseBody
-    public Object collection(@RequestBody @Validated Map<String, @NotBlank(message = "值不能为空") Long> request) {
-        UserVO user = HttpUtils.getCurrentUser();
-        Long postId = request.get("postId");
-        if (userPostService.isExisted(user.getId(), postId)) {
-            userPostService.delete(user.getId(), postId);
-        } else {
-            userPostService.create(user.getId(), postId);
-        }
         return HttpUtils.success();
     }
 

@@ -430,10 +430,10 @@ CREATE TABLE `user_message`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Table structure for user_posts
+-- Table structure for user_collection
 -- ----------------------------
-DROP TABLE IF EXISTS `user_posts`;
-CREATE TABLE `user_posts`  (
+DROP TABLE IF EXISTS `user_collection`;
+CREATE TABLE `user_collection`  (
   `id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
   `user_id` bigint(20) NOT NULL DEFAULT 0,
   `post_id` bigint(20) NOT NULL DEFAULT 0,
@@ -442,9 +442,9 @@ CREATE TABLE `user_posts`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Records of user_posts
+-- Records of user_collection
 -- ----------------------------
-INSERT INTO `user_posts` VALUES (1336965494991757314, 1336960357791449089, 1336963516165324801, '2020-12-10 17:26:28');
+INSERT INTO `user_collection` VALUES (1336965494991757314, 1336960357791449089, 1336963516165324801, '2020-12-10 17:26:28');
 
 -- ----------------------------
 -- Table structure for user_token

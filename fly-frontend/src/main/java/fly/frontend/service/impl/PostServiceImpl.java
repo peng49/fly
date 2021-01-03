@@ -1,7 +1,6 @@
 package fly.frontend.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,7 +10,7 @@ import fly.frontend.entity.from.PostFilterCondition;
 import fly.frontend.entity.model.Post;
 import fly.frontend.entity.model.PostAgree;
 import fly.frontend.entity.model.User;
-import fly.frontend.entity.model.UserPost;
+import fly.frontend.entity.model.UserCollection;
 import fly.frontend.entity.vo.PostVO;
 import fly.frontend.enums.PostStatus;
 import fly.frontend.service.*;
@@ -22,10 +21,8 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
@@ -33,7 +30,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     private ColumnService columnService;
 
     @Resource
-    private UserPostService userPostService;
+    private UserCollectionService userCollectionService;
 
     @Resource
     private UserService userService;
@@ -98,10 +95,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         return items.convert(post2VO());
     }
 
-    public List<Post> findAllByAuthorId(Long id) {
-        return lambdaQuery().eq(Post::getAuthorId, id).list();
-    }
-
     public IPage<Post> findPublishByAuthorId(Long id, IPage<Post> page) {
         return lambdaQuery()
                 .eq(Post::getAuthorId, id)
@@ -121,7 +114,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         boolean agree = false;
         if (user != null) {
             Long userId = user.getId();
-            collected = userPostService.isExisted(userId,post.getId());
+            collected = userCollectionService.exists(user,post.getId());
 
             agree = postAgreeService.exists(post.getId(),userId);
         }
@@ -140,7 +133,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .originalContent(post.getOriginalContent())
                 .content(post.getContent())
                 .collected(collected)
-                .collectedCount(userPostService.lambdaQuery().eq(UserPost::getPostId, post.getId()).count())
+                .collectedCount(userCollectionService.lambdaQuery().eq(UserCollection::getPostId, post.getId()).count())
                 .agree(agree)
                 .agreeCount(postAgreeService.lambdaQuery().eq(PostAgree::getPostId,post.getId()).count())
                 .build();
