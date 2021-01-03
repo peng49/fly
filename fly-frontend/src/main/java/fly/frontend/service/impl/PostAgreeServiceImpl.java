@@ -7,19 +7,20 @@ import fly.frontend.service.PostAgreeService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class PostAgreeServiceImpl extends ServiceImpl<PostAgreeMapper, PostAgree> implements PostAgreeService {
+    @Override
+    public boolean exists(Long postId, Long userId) {
+        return lambdaQuery()
+                .eq(PostAgree::getPostId, postId)
+                .eq(PostAgree::getUserId, userId)
+                .list().size() > 0;
+    }
 
     @Override
     public void removeOrAdd(Long postId, Long userId) {
-        List<PostAgree> list = lambdaQuery()
-                .eq(PostAgree::getPostId, postId)
-                .eq(PostAgree::getUserId, userId)
-                .list();
-
-        if (list.size() > 0) {
+        if (exists(postId, userId)) {
             lambdaUpdate().eq(PostAgree::getPostId, postId)
                     .eq(PostAgree::getUserId, userId)
                     .remove();

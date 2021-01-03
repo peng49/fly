@@ -29,10 +29,11 @@ public class PostVO {
     private boolean collected;
 
     private Integer collectedCount;
+
     /**
      * 是否推荐
      */
-    private boolean recommended;
+    private boolean agree;
 
-    private Integer recommendedCount;
+    private int agreeCount;
 }
