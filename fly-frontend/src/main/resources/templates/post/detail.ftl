@@ -291,19 +291,15 @@
                 });
             },
             collection: function () {
-                axios.post('/user/collection', {postId:this.postId})
-                    .then(function (response) {
-                        if (response.code === "success") {
-                            layer.msg('操作成功');
+                $.post('/userCollection/removeOrAdd',{postId:this.postId},function(resp){
+                    if (resp.code === "success") {
+                        layer.msg('操作成功');
 
-                            window.location.reload()
-                            return;
-                        }
-                        layer.msg(response.message)
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                        window.location.reload()
+                        return;
+                    }
+                    layer.msg(resp.message)
+                });
             },
             commentAgree: function (commentId) {
                 axios.post('/user/commentAgree', {commentId: commentId})

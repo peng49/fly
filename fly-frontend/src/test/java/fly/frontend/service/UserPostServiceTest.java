@@ -1,7 +1,6 @@
 package fly.frontend.service;
 
 import fly.frontend.FlyFrontendApplication;
-import fly.frontend.entity.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +13,14 @@ import javax.annotation.Resource;
 public class UserPostServiceTest {
 
     @Resource
-    private UserPostService userPostService;
+    private UserCollectionService userPostService;
+
+
+    @Test
+    public void removeOrAddTest()
+    {
+
+    }
 
 
 }

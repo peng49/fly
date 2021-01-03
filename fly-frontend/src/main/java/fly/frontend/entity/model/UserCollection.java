@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@TableName("user_posts")
-public class UserPost {
+@TableName("user_collection")
+public class UserCollection {
     private Long id;
     private Long userId;
     private Long postId;
     private LocalDateTime createdAt;
 
     @Tolerate
-    public UserPost() {
+    public UserCollection() {
     }
 }
