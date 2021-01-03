@@ -167,29 +167,6 @@ public class UserController {
         return HttpUtils.success();
     }
 
-    @PostMapping("/commentAgree")
-    @ResponseBody
-    public Object commentAgree(@RequestBody Map<String, Long> request) {
-        User user = userService.getById(HttpUtils.getCurrentUser().getId());
-        Long commentId = request.get("commentId");
-        if (postCommentAgreeService.isExisted(user, commentId)) {
-            postCommentAgreeService.delete(user, commentId);
-            postCommentService.commentAgreeDec(commentId);
-        } else {
-            PostComment comment = postCommentService.getById(commentId);
-
-            PostCommentAgree postCommentAgree = new PostCommentAgree();
-            postCommentAgree.setUserId(user.getId());
-            postCommentAgree.setPostId(comment.getPostId());
-            postCommentAgree.setPostCommentId(commentId);
-            postCommentAgree.setCreatedAt(LocalDateTime.now());
-            postCommentAgreeService.save(postCommentAgree);
-            postCommentService.commentAgreeInc(commentId);
-        }
-
-        return HttpUtils.success();
-    }
-
     @PostMapping("/uploadAvatar")
     @ResponseBody
     public Object uploadAvatar(HttpServletRequest request) throws IOException {

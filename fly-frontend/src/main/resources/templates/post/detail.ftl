@@ -302,17 +302,15 @@
                 });
             },
             commentAgree: function (commentId) {
-                axios.post('/user/commentAgree', {commentId: commentId})
-                    .then(function (response) {
-                        if (response.code === "success") {
-                            layer.msg('操作成功');
-                            return;
-                        }
-                        layer.msg(response.message)
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                $.post('/postCommentAgree/removeOrAdd',{commentId:commentId},function(resp){
+                    if (resp.code === "success") {
+                        layer.msg('操作成功');
+
+                        window.location.reload()
+                        return;
+                    }
+                    layer.msg(resp.message)
+                });
             },
             move2delete: function () {
                 let _this = this;
