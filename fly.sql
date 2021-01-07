@@ -485,4 +485,24 @@ CREATE TABLE `users`  (
 -- ----------------------------
 INSERT INTO `users` VALUES (1336960357791449089, 'admin', '$2a$10$9jA84HsIZjgj58ELhKURCO22SdWImAdwGorUSkwTUUBX/peRNedTG', 'mail@t.com', '', '/static/b1031017-2e3e-4076-93b9-79c490cf4654.png', 'S', 'VB', 0, 0, '2020-12-10 17:35:28', '2020-12-10 17:06:03');
 
+
+DROP TABLE IF EXISTS `user_follow`;
+CREATE TABLE `user_follow` (
+  `id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `follow_user_id` bigint(20) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `user_blacklist`;
+CREATE TABLE `user_blacklist` (
+  `id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `black_user_id` bigint(20) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 SET FOREIGN_KEY_CHECKS = 1;
