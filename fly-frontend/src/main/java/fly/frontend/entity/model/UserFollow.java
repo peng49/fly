@@ -1,11 +1,16 @@
 package fly.frontend.entity.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Setter
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @TableName("user_follow")
 public class UserFollow {
     private Long id;

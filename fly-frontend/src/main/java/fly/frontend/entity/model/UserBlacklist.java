@@ -1,11 +1,16 @@
 package fly.frontend.entity.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Setter
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @TableName("user_blacklist")
 public class UserBlacklist {
     private Long id;
