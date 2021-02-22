@@ -17,22 +17,22 @@ fly
 
 # 部分页面示例
 首页
-[![首页](https://peng49.gitee.io/images/fly/index.jpg)](https://peng49.gitee.io/images/fly/index.jpg)
+![首页](https://peng49.gitee.io/images/fly/index.jpg)
 
 列表
-[![首页](https://peng49.gitee.io/images/fly/list.jpg)](https://peng49.gitee.io/images/fly/list.jpg)
+![列表](https://peng49.gitee.io/images/fly/list.jpg)
 
 详情
-[![首页](https://peng49.gitee.io/images/fly/detail.jpg)](https://peng49.gitee.io/images/fly/detail.jpg)
+![详情](https://peng49.gitee.io/images/fly/detail.jpg)
 
 个人主页
-[![首页](https://peng49.gitee.io/images/fly/user-center.jpg)](https://peng49.gitee.io/images/fly/user-center.jpg)
+![个人主页](https://peng49.gitee.io/images/fly/user-center.jpg)
 
 登录
-[![首页](https://peng49.gitee.io/images/fly/login.jpg)](https://peng49.gitee.io/images/fly/login.jpg)
+![登录](https://peng49.gitee.io/images/fly/login.jpg)
 
 注册
-[![首页](https://peng49.gitee.io/images/fly/register.jpg)](https://peng49.gitee.io/images/fly/register.jpg)
+![注册](https://peng49.gitee.io/images/fly/register.jpg)
 
 
 ### 参考链接
