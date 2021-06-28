@@ -323,7 +323,7 @@
             }
         }
     });
-    document.querySelectorAll('img').forEach(img => {
+    document.querySelectorAll('.detail-body img').forEach(img => {
         if(img.naturalWidth > img.width){
             img.setAttribute('title', '点击图片放大');
             img.setAttribute('style', 'cursor: pointer;')
