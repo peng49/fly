@@ -323,6 +323,15 @@
             }
         }
     });
+    document.querySelectorAll('img').forEach(img => {
+        if(img.naturalWidth > img.width){
+            img.setAttribute('title', '点击图片放大');
+            img.setAttribute('style', 'cursor: pointer;')
+            img.addEventListener('click',function(){
+                layer.open({content:"<img style='width:100%' src='"+this.src+"' />",area:(this.naturalWidth+20) +'px'})
+            })        
+        }
+    });
 </script>
 <script type="text/javascript" src="/static/js/menu.js" ></script>
 </body>
