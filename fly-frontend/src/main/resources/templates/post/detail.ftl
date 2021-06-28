@@ -328,7 +328,7 @@
             img.setAttribute('title', '点击图片放大');
             img.setAttribute('style', 'cursor: pointer;')
             img.addEventListener('click',function(){
-                layer.open({content:"<img style='width:100%' src='"+this.src+"' />",area:(this.naturalWidth+20) +'px'})
+                layer.open({content:"<img src='"+this.src+"' />",area:(this.naturalWidth+40) +'px'})
             })        
         }
     });
