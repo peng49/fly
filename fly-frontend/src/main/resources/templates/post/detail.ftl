@@ -329,22 +329,26 @@
         img.dataset.index = index++ 
         images.push({
                 "alt": "图"+index,
-                "pid": img.data.index,
-                "src": img.src
+                "pid": img.dataset.index,
+                "src": img.src,
                 "thumb": img.src
         })
     })
     document.querySelectorAll('.detail-body img').forEach(img => {
-        let start = this.dataset.index
+        img.addEventListener('click',function(){
+            let start = this.dataset.index
 
-        console.log(start)
-        console.log(images)
-        layer.photos({photos:{            
-          "title": "", 
-          "id": 1, //相册id
-          "start": start, //初始显示的图片序号，默认0
-          "data":images
-        }})
+            console.log(start)
+            console.log(images)
+            layer.photos({
+                photos:{            
+                  "title": "", 
+                  "id": 1, //相册id
+                  "start": start, //初始显示的图片序号，默认0
+                  "data":images
+                }
+            })
+        })
     })
 })
 </script>
