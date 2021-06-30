@@ -350,7 +350,6 @@
             })
         })
     })
-})
 </script>
 <script type="text/javascript" src="/static/js/menu.js" ></script>
 </body>
