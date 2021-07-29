@@ -213,6 +213,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if ("publish".equals(postEditFrom.getAction())) {
             post.setStatus(PostStatus.PUBLISHED.getStatus());
             post.setPublishAt(LocalDateTime.now());
+            post.setHeat(calculationHeat(post));
         }
         updateById(post);
     }
