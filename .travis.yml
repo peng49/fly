@@ -19,6 +19,3 @@ script:
   - docker push peng49/fly-frontend:latest
   - docker push peng49/fly-admin:v0.1
   - docker push peng49/fly-admin:latest
-
-after_success:
-  - curl ${JENKINS_FRONTEND_WEBHOOKS}
