@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
-    <title>${post.title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="${post.title}">
-    <meta name="description" content="${post.title}">
+    <title>${post.title}- ${(__setting__.sitename)!''}</title>
+    <meta name="keywords" content="${post.title} ${(__setting__.sitename)!''}">
+    <meta name="description" content="${post.title} ${(__setting__.sitename)!''}">
     <#include "../common/link.ftl" />
     <link rel="stylesheet" href="/static/editor.md/css/editormd.min.css">
 </head>

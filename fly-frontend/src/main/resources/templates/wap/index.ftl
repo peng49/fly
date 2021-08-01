@@ -4,7 +4,9 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset='utf-8'>
-    <title>首页</title>
+    <title>${(__setting__.sitename)!''}</title>
+    <meta name="keywords" content="${(__setting__.site_keyword)!''}">
+    <meta name="description" content="${(__setting__.site_description)!''}">
     <#include "base/link.ftl" />
 </head>
 <body>
