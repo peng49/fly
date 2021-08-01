@@ -3,7 +3,9 @@ package fly.frontend.config;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jagregory.shiro.freemarker.ShiroTags;
 import fly.frontend.entity.model.Column;
+import fly.frontend.entity.model.Navigation;
 import fly.frontend.service.ColumnService;
+import fly.frontend.service.NavigationService;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
 
@@ -18,7 +20,7 @@ public class FreemarkerConfiguration {
     private Configuration configuration;
 
     @Resource
-    private ColumnService columnService;
+    private NavigationService navigationService;
 
     /**
      * 设置 freemarker 共享变量
@@ -26,9 +28,14 @@ public class FreemarkerConfiguration {
      */
     @PostConstruct
     public void setFreeMarkerShareVariables() throws TemplateModelException {
-        Page<Column> page = new Page<>(1,6);
-        List<Column> columns = columnService.page(page).getRecords();
-        configuration.setSharedVariable("globalColumnList",columns);
+        Page<Navigation> page = new Page<>();
+        page.setCurrent(1).setSize(10);
+
+        Page<Navigation> navigationPage = navigationService.lambdaQuery()
+                .eq(Navigation::getStatus, 1)
+                .orderByAsc(Navigation::getSort)
+                .page(page);
+        configuration.setSharedVariable("__nav__",navigationPage.getRecords());
         configuration.setSharedVariable("shiro",new ShiroTags());
     }
 }

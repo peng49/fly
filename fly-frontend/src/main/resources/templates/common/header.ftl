@@ -1,12 +1,10 @@
 <div class="fly-header fly-panel fly-column">
     <div class="layui-container">
         <ul id="columns" class="layui-clear">
-            <li class="column"><a href="/">首页</a></li>
-
-            <#list globalColumnList as column>
+            <#list __nav__ as nav>
                 <li class="column">
-                    <a href="/column/${column.id}">
-                        ${column.name}
+                    <a href="${nav.url}">
+                        ${nav.title}
                     </a>
                 </li>
             </#list>
