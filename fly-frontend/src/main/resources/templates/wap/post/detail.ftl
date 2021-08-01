@@ -4,7 +4,9 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset='utf-8'>
-    <title>详情页</title>
+    <title>${post.title}- ${__setting__.sitename}</title>
+    <meta name="keywords" content="${post.title} ${__setting__.sitename}">
+    <meta name="description" content="${post.title} ${__setting__.sitename}">
     <link rel="stylesheet" href="/static/editor.md/css/editormd.min.css"/>
     <#include "../base/link.ftl" />
 </head>

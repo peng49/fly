@@ -1,12 +1,10 @@
 <div class="nav-container">
     <div class="nav">
         <ul id="nav-list">
-            <li class=""><a href="/">全部</a></li>
-            <#list globalColumnList as column>
-                <li><a href="/column/${column.id}">${column.name}</a></li>
+            <#list __nav__ as nav>
+                <li><a href="${nav.url}">${nav.title}</a></li>
             </#list>
         </ul>
-
         <a class="" href="/post/add">发布</a></div>
 </div>
 <script type="text/javascript">

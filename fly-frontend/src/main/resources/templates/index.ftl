@@ -2,11 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>技术社区</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="未定">
-    <meta name="description" content="未定">
 
+    <title>${(__setting__.sitename)!''}</title>
+    <meta name="keywords" content="${(__setting__.site_keyword)!''}">
+    <meta name="description" content="${(__setting__.site_description)!''}">
     <#include "common/link.ftl"/>
 </head>
 <body>
