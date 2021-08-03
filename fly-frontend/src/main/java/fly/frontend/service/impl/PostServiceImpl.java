@@ -13,8 +13,10 @@ import fly.frontend.entity.model.User;
 import fly.frontend.entity.model.UserCollection;
 import fly.frontend.entity.vo.PostVO;
 import fly.frontend.enums.PostStatus;
+import fly.frontend.event.PostPublishEvent;
 import fly.frontend.service.*;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,6 +45,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Resource
     private PostMapper postMapper;
+
+    @Resource
+    private ApplicationEventPublisher publisher;
 
 
     public IPage<PostVO> getByCondition(Page<Post> page, PostFilterCondition query) {
@@ -160,6 +165,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         Post post = builder.build();
         save(post);
+
+        if ("publish".equals(postEditFrom.getAction())) {
+            publisher.publishEvent(new PostPublishEvent(post));
+        }
+
         return post;
     }
 
@@ -214,6 +224,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             post.setStatus(PostStatus.PUBLISHED.getStatus());
             post.setPublishAt(LocalDateTime.now());
             post.setHeat(calculationHeat(post));
+            publisher.publishEvent(new PostPublishEvent(post));
         }
         updateById(post);
     }

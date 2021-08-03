@@ -786,14 +786,14 @@ DROP TABLE IF EXISTS `user_post_archive`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_post_archive` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户Id',
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户Id',
   `year` int(4) NOT NULL DEFAULT '2021' COMMENT '年',
-  `mouth` int(11) NOT NULL DEFAULT '1' COMMENT '月',
+  `month` int(11) NOT NULL DEFAULT '1' COMMENT '月',
   `post_count` int(11) NOT NULL DEFAULT '0' COMMENT '文章数量',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_user_year_mouth` (`user_id`,`year`,`mouth`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `uk_user_year_mouth` (`user_id`,`year`,`month`)
+) ENGINE=InnoDB AUTO_INCREMENT=1422546445076037634 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -902,4 +902,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-02 13:22:33
+-- Dump completed on 2021-08-03 14:18:28

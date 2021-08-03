@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fly.frontend.FlyFrontendApplication;
 import fly.frontend.dao.PostMapper;
+import fly.frontend.entity.from.PostEditFrom;
 import fly.frontend.entity.model.Post;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,12 +26,6 @@ public class PostServiceTest {
     @Test
     public void serviceTest()
     {
-//        postService.findUserPost(new Page<>(1,10),1L);
-
-//        IPage<Post> posts = postMapper.findForUserCollection(1336960357791449089L, new Page<Post>(1, 10));
-
-        System.out.println(postMapper.findUserCollectionTotal(1336960357791449089L));
-
     }
 
 }

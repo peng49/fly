@@ -8,6 +8,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -21,23 +22,26 @@ public class PostEventListener {
 
         /*** 归档 ***/
         Long userId = post.getAuthorId();
+        LocalDateTime time = LocalDateTime.now();
 
         List<UserPostArchive> items = userPostArchiveService.lambdaQuery().eq(UserPostArchive::getUserId, userId)
-                .eq(UserPostArchive::getYear, 1)
-                .eq(UserPostArchive::getMouth, 1)
+                .eq(UserPostArchive::getYear, time.getYear())
+                .eq(UserPostArchive::getMonth, time.getMonthValue())
                 .list();
+
+        System.out.println(items);
 
         if (items.size() > 0) {
             //更新
             UserPostArchive archive = items.get(0);
             archive.setPostCount(archive.getPostCount() + 1);
-            userPostArchiveService.save(archive);
+            userPostArchiveService.updateById(archive);
         } else {
             //新建
             UserPostArchive archive = new UserPostArchive();
             archive.setUserId(userId);
-            archive.setYear(1);
-            archive.setMouth(1);
+            archive.setYear(time.getYear());
+            archive.setMonth(time.getMonthValue());
             archive.setPostCount(1);
             userPostArchiveService.save(archive);
         }

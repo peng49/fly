@@ -9,6 +9,6 @@ public class UserPostArchive {
     private Long id;
     private Long userId;
     private Integer year;
-    private Integer mouth;
+    private Integer month;
     private Integer postCount;
 }
