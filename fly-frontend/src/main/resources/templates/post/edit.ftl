@@ -48,6 +48,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="layui-form-item">
+                                分类
+                                <ul>
+                                    <li v-for="category in categories">
+                                        <input type="checkbox" name="categoryId" value="{{categoryId}}">
+                                        {{category.name}}
+                                    </li>
+                                </ul>
+
+                                <button type="button" v-on:click="createCategory">新增分类</button>
+                            </div>
                             <div class="layui-form-item layui-form-text">
                                 <div class="editor-block" style="height: 650px">
                                     <div id="editor"><textarea>${(post.originalContent)!}</textarea>
@@ -80,10 +91,9 @@
                 originalContent: "",
                 content: ""
             },
-            postDraft:{
-
-            },
-            draftLock: false
+            postDraft: {},
+            draftLock: false,
+            categories: []
         },
         mounted: function () {
             let _this = this;
@@ -137,17 +147,17 @@
                         _this.editor.imagePaste();
                     });
                 },
-                onchange:function(){
+                onchange: function () {
                     //保存到本地 localStorage
-                   /* if (!_this.postId && _this.editor.getMarkdown() !== localStorage.getItem("markdownContent")) {
-                        console.log("设置localStorage中的markdown");
-                        localStorage.setItem("markdownContent", _this.editor.getMarkdown())
-                    } else {
-                        console.log("没变动，不保存")
-                        return;
-                    }*/
+                    /* if (!_this.postId && _this.editor.getMarkdown() !== localStorage.getItem("markdownContent")) {
+                         console.log("设置localStorage中的markdown");
+                         localStorage.setItem("markdownContent", _this.editor.getMarkdown())
+                     } else {
+                         console.log("没变动，不保存")
+                         return;
+                     }*/
 
-                    if(!_this.draftLock){
+                    if (!_this.draftLock) {
                         console.log("save draft")
                         _this.draftLock = true
                         //5秒后保存
@@ -172,8 +182,25 @@
                 _this.postForm.action = $(this).data('action');
                 _this.postSubmit()
             });
+
+            _this.renderCategories();
         },
         methods: {
+            createCategory() {
+                layer.open({
+                    content:`<div>1243</div>`
+                })
+            },
+            renderCategories() {
+                let _this = this;
+                axios.get('/userCategory/get').then(function (res) {
+                    if (res.code === 'success') {
+                        _this.categories = res.data;
+                    } else {
+                        console.log(res)
+                    }
+                })
+            },
             postSubmit: function () {
                 let _this = this;
                 // console.log(this.editor.getMarkdown());
@@ -222,7 +249,7 @@
             getDraft: function () {
                 //
             },
-            useDraft: function(){
+            useDraft: function () {
 
             }
         }
