@@ -3,7 +3,7 @@ package fly.frontend.rest;
 import fly.frontend.entity.vo.ResultVO;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController(value = "RestUserController")
 public class UserController {
     /**
      * 登录

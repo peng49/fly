@@ -2394,7 +2394,7 @@ body .fly-user-main {
 }
 
 .slider-menu .fly-panel-main{line-height: 1.8}
-.slider-menu .fly-panel-main a{color: black;font-weight: 600}
+.slider-menu .fly-panel-main a{color: black;}
 .slider-menu .fly-panel-main a:hover,
 .slider-menu .fly-panel-main a.active{color: #009688;}
 .slider-menu .fly-panel-main .sub-list{margin-left: 15px;}
