@@ -55,7 +55,7 @@
 
                     _ajax(settings.imageUploadURL, forms, function (ret) {
                         if (ret.code === 'success') {
-                            $("." + classPrefix + "image-dialog").find("input[data-url]").val(ret.url);
+                            $("." + classPrefix + "image-dialog").find("input[data-url]").val(ret.data);
                             // cm.replaceSelection("![](" + ret.url  + ")");
                             // console.log(ret)
                         }
