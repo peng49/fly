@@ -1,10 +1,10 @@
-FROM openjdk:8u265-jre as builder
+FROM maven:3.8.6-openjdk-8 as builder
 
 WORKDIR /var/www/fly
 
 COPY . /var/www/fly
 
-RUN mvn clean && mvn package -am -amd -DskipTests=true
+RUN mvn clean -Dorg.slf4j.simpleLogger.defaultLogLevel=error && mvn package -am -amd -DskipTests=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 
 FROM openjdk:8u265-jre

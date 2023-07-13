@@ -6,12 +6,13 @@ import fly.frontend.entity.from.UpdatePasswordFrom;
 import fly.frontend.entity.from.UpdateUserInfoFrom;
 import fly.frontend.entity.from.UserLoginFrom;
 import fly.frontend.entity.from.UserRegisterFrom;
-import fly.frontend.entity.model.PostComment;
-import fly.frontend.entity.model.PostCommentAgree;
 import fly.frontend.entity.model.User;
 import fly.frontend.entity.vo.PostVO;
 import fly.frontend.entity.vo.UserVO;
-import fly.frontend.service.*;
+import fly.frontend.service.PostCommentAgreeService;
+import fly.frontend.service.PostCommentService;
+import fly.frontend.service.PostService;
+import fly.frontend.service.UserService;
 import fly.frontend.utils.HttpUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -29,12 +30,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -187,6 +185,9 @@ public class UserController {
                     //上传
                     file.transferTo(new File(path));
                     userService.updateAvatar(userService.getById(user.getId()), "/static/" + filename);
+                    user.setAvatar("/static/" + filename);
+                } else {
+                    return HttpUtils.fail("上传失败！！,请重新操作");
                 }
             }
         }
