@@ -16,9 +16,9 @@ public class UserVO {
     private int experience;
     private String signature;
 
-    private int publishCount;
+    private long publishCount;
 
-    private int commentCount;
+    private long commentCount;
 
     private String registerAt;
     private List<String> bindPlatform;

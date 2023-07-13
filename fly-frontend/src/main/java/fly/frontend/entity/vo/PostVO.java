@@ -28,12 +28,12 @@ public class PostVO {
      */
     private boolean collected;
 
-    private Integer collectedCount;
+    private long collectedCount;
 
     /**
      * 是否推荐
      */
     private boolean agree;
 
-    private int agreeCount;
+    private long agreeCount;
 }
