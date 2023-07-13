@@ -2,15 +2,14 @@
     <p><a href="/" target="_blank">技术社区</a> 2020 &copy; <a href="#" target="_blank">peng49 出品</a></p>
     <p>
         <a href="#" target="_blank">源码</a>
-<#--        <a href="#" target="_blank">微信公众号</a>-->
     </p>
 </div>
 
-<script src="https://cdn.staticfile.org/vue/2.6.9/vue.min.js"></script>
-<script src="https://cdn.staticfile.org/axios/0.21.0/axios.min.js"></script>
+<script src="/static/js/vue@2.6.9/vue.min.js"></script>
+<script src="/static/js/axios/axios.min.js"></script>
 
-<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
+<script src="/static/js/jquery@3.5.1/jquery.min.js"></script>
+<script src="/static/js/layer@3.5.1/layer.js"></script>
 <script src="/static/common.js"></script>
 
 <script type="text/javascript">
@@ -25,7 +24,7 @@
     });
     // 添加响应拦截器
     axios.interceptors.response.use(function (response) {
-        if (response.status != 200) {
+        if (response.status !== 200) {
             layer.alert("请求失败");
         }
         return response.data;
