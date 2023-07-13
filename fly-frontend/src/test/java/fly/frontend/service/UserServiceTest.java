@@ -59,7 +59,7 @@ public class UserServiceTest {
 
     @Test
     public void pathTest() throws FileNotFoundException {
-        System.out.println(System.getProperty("user.dir"));
+        System.out.println(System.getProperty("user"));
 
         System.out.println(UUID.randomUUID());
 
