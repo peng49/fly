@@ -31,7 +31,7 @@
     </properties>
 
     <modules>
-        <module>fly-frontend</module>
+        <module>fly-web</module>
         <module>fly-search</module>
         <module>fly-common</module>
         <module>fly-admin</module>

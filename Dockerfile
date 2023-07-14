@@ -4,7 +4,7 @@ WORKDIR /var/www/fly
 
 COPY . /var/www/fly
 
-RUN mvn clean -Dorg.slf4j.simpleLogger.defaultLogLevel=error && mvn package -am -amd -DskipTests=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+RUN mvn clean && mvn package -am -amd -pl fly-web -pl fly-admin -DskipTests=true
 
 
 FROM openjdk:8u265-jre
@@ -17,7 +17,7 @@ ENV DB_DATABASE=fly
 ENV DB_USERNAME=develop
 ENV DB_PASSWORD=123456
 
-COPY --from=builder /var/www/fly/fly-frontend/target/fly-frontend-1.0-SNAPSHOT.jar /var/www/frontend/applicatoin.jar
+COPY --from=builder /var/www/fly/fly-web/target/fly-web-1.0-SNAPSHOT.jar /var/www/frontend/applicatoin.jar
 
 COPY --from=builder /var/www/fly/fly-admin/target/fly-admin-1.0-SNAPSHOT.jar /var/www/admin/application.jar
 
