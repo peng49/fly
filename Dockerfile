@@ -20,6 +20,12 @@ ENV DB_DATABASE=fly
 ENV DB_USERNAME=root
 ENV DB_PASSWORD=password
 
+#RUN --mount=src=/usr/src/mymaven,dst=/tmp/dst,from=builder mkdir -p /var/www/fly-web /var/www/fly-admin /var/www/upload && \
+#    cp /tmp/dst/fly-web/target/fly-web-1.0-SNAPSHOT.jar /var/www/fly-web/application.jar && \
+#    cp /tmp/dst/fly-web/src/main/resources/application-prod.yml /var/www/fly-web/application.yml && \
+#    cp /tmp/dst/fly-admin/target/fly-admin-1.0-SNAPSHOT.jar /var/www/fly-admin/application.jar && \
+#    cp /tmp/dst/fly-admin/src/main/resources/application-prod.yml /var/www/fly-admin/application.yml
+
 COPY --from=builder /usr/src/mymaven/fly-web/target/fly-web-1.0-SNAPSHOT.jar /var/www/fly-web/application.jar
 COPY --from=builder /usr/src/mymaven/fly-web/src/main/resources/application-prod.yml /var/www/fly-web/application.yml
 
