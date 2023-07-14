@@ -1,0 +1,9 @@
+language: node_js
+services:
+  - docker
+node_js: 10
+script: 
+  - npm run test && npm run build:prod
+  - sh ./build.sh
+notifications:
+  email: false
