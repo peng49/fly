@@ -66,4 +66,16 @@
             <version>1.9.6</version>
         </dependency>-->
     </dependencies>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <includes>
+                    <include>*.yml</include>
+                    <include>META-INF/resources/**</include>
+                    <include>vue/dist/**</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>
