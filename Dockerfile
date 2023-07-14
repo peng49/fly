@@ -14,10 +14,12 @@ ENV SERVER_PORT=8001
 ENV DB_HOST=localhost
 ENV DB_PORT=3306
 ENV DB_DATABASE=fly
-ENV DB_USERNAME=develop
-ENV DB_PASSWORD=123456
+ENV DB_USERNAME=root
+ENV DB_PASSWORD=password
 
-COPY --from=builder /var/www/fly/fly-web/target/fly-web-1.0-SNAPSHOT.jar /var/www/frontend/applicatoin.jar
+COPY --from=builder /var/www/fly/fly-web/target/fly-web-1.0-SNAPSHOT.jar /var/www/fly-web/application.jar
+COPY --from=builder /var/www/fly/fly-web/src/main/resources/application-prod.yml /var/www/fly-web/application.yml
 
-COPY --from=builder /var/www/fly/fly-admin/target/fly-admin-1.0-SNAPSHOT.jar /var/www/admin/application.jar
+COPY --from=builder /var/www/fly/fly-admin/target/fly-admin-1.0-SNAPSHOT.jar /var/www/fly-admin/application.jar
+COPY --from=builder /var/www/fly/fly-admin/src/main/resources/application-prod.yml /var/www/fly-admin/application.yml
 
