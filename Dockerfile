@@ -26,7 +26,8 @@ COPY --from=builder /usr/src/mymaven/fly-web/src/main/resources/application-prod
 COPY --from=builder /usr/src/mymaven/fly-admin/target/fly-admin-1.0-SNAPSHOT.jar /var/www/fly-admin/application.jar
 COPY --from=builder /usr/src/mymaven/fly-admin/src/main/resources/application-prod.yml /var/www/fly-admin/application.yml
 
-#RUN chown -R www:www ./
-#
-#USER www
+COPY entrypoint.sh ./entrypoint.sh
 
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["/var/www/entrypoint.sh"]

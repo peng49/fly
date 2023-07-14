@@ -4,6 +4,32 @@
 [![Code Size](https://img.shields.io/github/languages/code-size/peng49/fly.svg)](https://github.com/peng49/fly)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)]((https://github.com/peng49/fly))
 
+# Docker一键启动
+启动fly-web
+```shell
+$ docker run -it -d --rm \
+     --name fly \
+     -p 8081:8080 \
+     -p 8211:8211 \
+     -e DB_HOST=192.168.56.1 \
+     -e DB_PORT=3310 \
+     -e DB_PASSWORD=Admin@123 \
+     -e DB_USERNAME=root \
+     -e DB_DATABASE=fly peng49/fly:latest
+```
+启动fly-admin
+```shell
+$ docker run -it -d --rm \
+     --name fly \
+     -p 8081:8080 \
+     -p 8211:8211 \
+     -e DB_HOST=192.168.56.1 \
+     -e DB_PORT=3310 \
+     -e DB_PASSWORD=Admin@123 \
+     -e DB_USERNAME=root \
+     -e DB_DATABASE=fly \
+     -e FRONTEND_URL=. peng49/fly:latest admin
+```
 
 # 模块说明
 ```
@@ -11,7 +37,7 @@ fly
  ├─fly-admin 后台管理接口
  ├─fly-cache 缓存管理（待开发）
  ├─fly-common 公共模块 （待开发）
- ├─fly-frontend 前端页面模块 
+ ├─fly-web 前端页面模块 
  └─fly-search 查询模块 (待开发)
 ```
 
