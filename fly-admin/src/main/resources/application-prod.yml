@@ -1,4 +1,8 @@
 spring:
+  mvc:
+    static-path-pattern: /vue/**
+  resources:
+    static-locations: classpath:/vue/
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai

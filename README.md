@@ -4,16 +4,27 @@
 [![Code Size](https://img.shields.io/github/languages/code-size/peng49/fly.svg)](https://github.com/peng49/fly)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)]((https://github.com/peng49/fly))
 
-# Docker一键启动
+# Docker启动
+启动容器需要先创建数据库
+
+```
+create database fly;
+```
+
+点击 [https://raw.githubusercontent.com/peng49/fly/master/fly.sql](https://raw.githubusercontent.com/peng49/fly/master/fly.sql)下载sql文件
+
+将下载的`fly.sql`导入数据库中初始化数据库结构
+
+启动容器
+
 启动fly-web
 ```shell
 $ docker run -it -d --rm \
      --name fly \
      -p 8081:8080 \
-     -p 8211:8211 \
      -e DB_HOST=192.168.56.1 \
-     -e DB_PORT=3310 \
-     -e DB_PASSWORD=Admin@123 \
+     -e DB_PORT=3306\
+     -e DB_PASSWORD=password \
      -e DB_USERNAME=root \
      -e DB_DATABASE=fly peng49/fly:latest
 ```
@@ -22,10 +33,9 @@ $ docker run -it -d --rm \
 $ docker run -it -d --rm \
      --name fly \
      -p 8081:8080 \
-     -p 8211:8211 \
-     -e DB_HOST=192.168.56.1 \
-     -e DB_PORT=3310 \
-     -e DB_PASSWORD=Admin@123 \
+     -e DB_HOST=localhost \
+     -e DB_PORT=3306\
+     -e DB_PASSWORD=password \
      -e DB_USERNAME=root \
      -e DB_DATABASE=fly \
      -e FRONTEND_URL=. peng49/fly:latest admin

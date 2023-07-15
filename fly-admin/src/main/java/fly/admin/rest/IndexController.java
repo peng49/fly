@@ -5,19 +5,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 @RestController
 @RequestMapping("/")
 public class IndexController {
     @GetMapping("")
     public String index() throws IOException {
-        URL url = getClass().getResource("/vue/dist/index.html");
-        assert url != null;
-        byte[] encoded = Files.readAllBytes(Paths.get(url.getPath().replaceAll("^/([A-Z]:)", "$1")));
-        return new String(encoded, StandardCharsets.UTF_8);
+        //读取jar中的内容失败
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/vue/dist/index.html");
+        assert inputStream != null;
+        Scanner scanner = new Scanner(inputStream).useDelimiter("\n");
+        StringBuilder content = new StringBuilder();
+        do {
+            content.append("\n").append(scanner.next());
+        } while (scanner.hasNext());
+        return String.valueOf(content);
     }
 }
