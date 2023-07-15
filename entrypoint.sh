@@ -14,9 +14,9 @@ params=${params/${project}/""}
 
 case "$project" in
   "web")
-      java -jar ${FLY_PATH}fly-web/application.jar -f ${FLY_PATH}fly-web/application.yml ${params}
+      java -jar ${FLY_PATH}fly-web/application.jar --spring.config.location=${FLY_PATH}fly-web/application.yml ${params}
     ;;
   "admin")
-      java -jar ${FLY_PATH}fly-admin/application.jar -f ${FLY_PATH}fly-admin/application.yml ${params}
+      java -jar ${FLY_PATH}fly-admin/application.jar --spring.config.location=${FLY_PATH}fly-admin/application.yml ${params}
     ;;
 esac
