@@ -55,9 +55,15 @@
 
                     _ajax(settings.imageUploadURL, forms, function (ret) {
                         if (ret.code === 'success') {
-                            $("." + classPrefix + "image-dialog").find("input[data-url]").val(ret.data);
-                            // cm.replaceSelection("![](" + ret.url  + ")");
-                            // console.log(ret)
+                            let time = 0;
+                            let index = setInterval(function () {
+                                time += 200
+                                let imageContainer = $("." + classPrefix + "image-dialog")
+                                if (imageContainer.length > 0 || time > 2000) {
+                                    clearInterval(index)
+                                    imageContainer.find("input[data-url]").val(ret.data);
+                                }
+                            }, 200)
                         }
                         console.log(ret.message);
                     })
