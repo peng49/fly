@@ -4,11 +4,9 @@ WORKDIR /usr/src/mymaven
 
 COPY . /usr/src/mymaven
 
-RUN apt update && apt install nodejs npm -y && npm -version
-
-RUN cd fly-admin/src/main/resources/vue && npm install && npm run build:prod
-
-RUN mvn clean && mvn package -am -amd -pl fly-web -pl fly-admin -DskipTests=true
+RUN apt update && apt install nodejs npm -y && npm -version && \
+    cd fly-admin/src/main/resources/vue && npm install && npm run build:prod \
+    cd /usr/src/mymaven && mvn clean && mvn package -am -amd -pl fly-web -pl fly-admin -DskipTests=true
 
 FROM openjdk:8u265-jre
 
