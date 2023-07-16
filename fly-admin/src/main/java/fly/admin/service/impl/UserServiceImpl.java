@@ -8,6 +8,7 @@ import fly.admin.repository.PostCommentRepository;
 import fly.admin.repository.PostRepository;
 import fly.admin.repository.UserRepository;
 import fly.admin.service.PostService;
+import fly.admin.service.SystemConfigService;
 import fly.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -27,9 +28,6 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Value("${frontend.url}")
-    private String frontendUrl;
-
     @Resource
     private UserRepository userRepository;
 
@@ -41,6 +39,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private PostCommentRepository postCommentRepository;
+
+    @Resource
+    private SystemConfigService configService;
 
     @Override
     public User add(User user) {
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
         if (user.getAvatar() != null && (user.getAvatar().startsWith("http") || user.getAvatar().startsWith("//:"))) {
             return user.getAvatar();
         }
-        return frontendUrl + "/" + user.getAvatar();
+        return configService.getAttribute("web_url") + "/" + user.getAvatar();
     }
 
     @Override

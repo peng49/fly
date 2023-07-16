@@ -14,5 +14,7 @@ public interface SystemConfigService {
 
     SystemConfig get(int id);
 
+    String getAttribute(String attribute);
+
     ResultVO search(int page, int pageSize, Map<String,Object> query);
 }

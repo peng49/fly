@@ -42,6 +42,12 @@ public class SystemConfigServiceImpl implements SystemConfigService {
         return systemConfigRepository.getOne(id);
     }
 
+    public String getAttribute(String attribute) {
+        SystemConfig config = systemConfigRepository.findByAttribute(attribute);
+
+        return config == null ? "" : config.getValue();
+    }
+
     @Override
     public ResultVO search(int page, int pageSize, Map<String, Object> query) {
         //构造查询条件
