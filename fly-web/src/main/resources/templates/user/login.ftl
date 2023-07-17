@@ -61,14 +61,13 @@
 </div>
 <#include "../common/footer.ftl" />
 <script type="text/javascript">
-    new Vue({
-        el: "#login-container",
-        data: {
+    Vue.createApp({
+        data: () => ({
             loginForm: {
                 username: "",
                 password: ""
             }
-        },
+        }),
         methods: {
             loginSubmit: function () {
                 axios.post('/user/login', this.loginForm)
@@ -92,7 +91,7 @@
                     });
             }
         }
-    })
+    }).mount('#login-container')
 </script>
 </body>
 </html>

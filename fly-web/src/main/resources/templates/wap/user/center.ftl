@@ -236,9 +236,38 @@
     </div>
 </div>
 <#include "../base/footer.ftl" />
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+<script src="/static/js/vue@3.3.4/vue.global.prod.js"></script>
+
 <script type="text/javascript">
-    Vue.component("center", {
+    let app = Vue.createApp({
+        data: () => ({
+            list: ['center'],
+            component: "center"
+        }),
+        methods: {
+            loadComponent: function (component) {
+                if (!component) {
+                    return false;
+                }
+                this.component = component
+                this.list.push(component)
+                console.log(this.list)
+            },
+            backOrLogout: function () {
+                if (this.component === "center") {
+                    //退出
+                    return window.location.href = "/user/logout";
+                }
+                this.list.pop();
+                let component = this.list.pop();
+                if (!component) {
+                    component = "center";
+                }
+                this.component = component
+            }
+        }
+    });
+    app.component("center", {
         data: function () {
             return {
                 items: [
@@ -250,10 +279,10 @@
                 ]
             }
         },
-        template: "#center-template",
+        template: document.querySelector("#center-template").innerHTML,
         methods: {}
     });
-    Vue.component("posts", {
+    app.component("posts", {
         data: function () {
             return {
                 posts: [
@@ -271,9 +300,9 @@
                 }
             })
         },
-        template: "#posts-template"
+        template: document.querySelector("#posts-template").innerHTML
     });
-    Vue.component("collection", {
+    app.component("collection", {
         data: function () {
             return {
                 posts: []
@@ -290,10 +319,10 @@
                 }
             })
         },
-        template: "#collection-template"
+        template: document.querySelector("#collection-template").innerHTML
     });
 
-    Vue.component("settings", {
+    app.component("settings", {
         data: function () {
             return {
                 user: {
@@ -319,7 +348,7 @@
                 }
             })
         },
-        template: "#settings-template",
+        template: document.querySelector("#settings-template").innerHTML,
         methods: {
             submitForm: function () {
                 let _this = this
@@ -353,7 +382,7 @@
             }
         }
     });
-    Vue.component("reset-password", {
+    app.component("reset-password", {
         data: function () {
             return {
                 resetData: {
@@ -363,7 +392,7 @@
                 }
             }
         },
-        template: "#reset-password-template",
+        template: document.querySelector("#reset-password-template").innerHTML,
         methods: {
             updatePassword: function () {
                 let _this = this
@@ -376,8 +405,8 @@
         }
     });
 
-    Vue.component("messages", {
-        template: "#user-message",
+    app.component("messages", {
+        template: document.querySelector("#user-message").innerHTML,
         data: function () {
             return {
                 messages: []
@@ -400,35 +429,7 @@
         }
     })
 
-    new Vue({
-        el: "#app",
-        data: {
-            list: ['center'],
-            component: "center"
-        },
-        methods: {
-            loadComponent: function (component) {
-                if (!component) {
-                    return false;
-                }
-                this.component = component
-                this.list.push(component)
-                console.log(this.list)
-            },
-            backOrLogout: function () {
-                if (this.component === "center") {
-                    //退出
-                    return window.location.href = "/user/logout";
-                }
-                this.list.pop();
-                let component = this.list.pop();
-                if (!component) {
-                    component = "center";
-                }
-                this.component = component
-            }
-        }
-    });
+    app.mount('#app')
 </script>
 </body>
 </html>

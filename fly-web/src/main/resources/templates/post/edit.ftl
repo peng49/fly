@@ -48,21 +48,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="layui-form-item">
-                                分类
-                                <ul>
-                                    <li v-for="category in categories">
-                                        <input type="checkbox" name="categoryId" value="{{categoryId}}">
-                                        {{category.name}}
-                                    </li>
-                                </ul>
-
-                                <button type="button" v-on:click="createCategory">新增分类</button>
-                            </div>
                             <div class="layui-form-item layui-form-text">
                                 <div class="editor-block" style="height: 650px">
-                                    <div id="editor"><textarea>${(post.originalContent)!}</textarea>
-                                    </div>
+                                    <div id="editor"><textarea>${(post.originalContent)!}</textarea></div>
                                 </div>
                             </div>
                         </form>
@@ -76,9 +64,8 @@
 <link rel="stylesheet" href="/static/editor.md/css/editormd.min.css"/>
 <script src="/static/editor.md/editormd.min.js"></script>
 <script type="text/javascript">
-    new Vue({
-        el: "#post-container",
-        data: {
+    Vue.createApp({
+        data: () => ({
             editor: '',
             postId: '${(post.id?c)!}',
             postStatus: '${(post.status)!}',
@@ -94,7 +81,7 @@
             postDraft: {},
             draftLock: false,
             categories: []
-        },
+        }),
         mounted: function () {
             let _this = this;
             let editorBar = ["undo", "redo", "|", "bold", "hr", "watch", "fullscreen"];
@@ -119,12 +106,6 @@
 
             _this.editor = editormd('editor', {
                 path: "/static/editor.md/lib/",
-                /**
-                 *  full:["undo","redo","|","bold","del","italic","quote","ucwords","uppercase","lowercase","|","h1","h2","h3","h4","h5","h6","|","list-ul","list-ol","hr","|","link","reference-link","image","code","preformatted-text","code-block","table","datetime","emoji","html-entities","pagebreak","|","goto-line","watch","preview","fullscreen","clear","search","|","help","info"],
-                 simple:["undo","redo","|","bold","del","italic","quote","uppercase","lowercase","|","h1","h2","h3","h4","h5","h6","|","list-ul","list-ol","hr","|","watch","preview","fullscreen","|","help","info"],
-                 mini:["undo","redo","|","watch","preview","|","help","info"]
-                 * @returns {string[]}
-                 */
                 toolbarIcons: function () {
                     return editorBar
                 },
@@ -148,15 +129,6 @@
                     });
                 },
                 onchange: function () {
-                    //保存到本地 localStorage
-                    /* if (!_this.postId && _this.editor.getMarkdown() !== localStorage.getItem("markdownContent")) {
-                         console.log("设置localStorage中的markdown");
-                         localStorage.setItem("markdownContent", _this.editor.getMarkdown())
-                     } else {
-                         console.log("没变动，不保存")
-                         return;
-                     }*/
-
                     if (!_this.draftLock) {
                         console.log("save draft")
                         _this.draftLock = true
@@ -186,11 +158,6 @@
             _this.renderCategories();
         },
         methods: {
-            createCategory() {
-                layer.open({
-                    content:`<div>1243</div>`
-                })
-            },
             renderCategories() {
                 let _this = this;
                 axios.get('/userCategory/get').then(function (res) {
@@ -200,6 +167,9 @@
                         console.log(res)
                     }
                 })
+            },
+            prepareSubmit() {
+
             },
             postSubmit: function () {
                 let _this = this;
@@ -245,15 +215,9 @@
                     .catch(function (error) {
                         console.log(error);
                     })
-            },
-            getDraft: function () {
-                //
-            },
-            useDraft: function () {
-
             }
         }
-    })
+    }).mount('#post-container')
 </script>
 </body>
 </html>

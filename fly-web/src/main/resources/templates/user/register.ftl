@@ -71,16 +71,15 @@
 </div>
 <#include "../common/footer.ftl" />
 <script type="text/javascript">
-    var app = new Vue({
-        el: "#register-container",
-        data: {
+    var app = Vue.createApp({
+        data: () => ({
             registerForm: {
                 email: "",
                 username: "",
                 password: "",
                 confirmPassword: ""
             }
-        },
+        }),
         methods: {
             registerSubmit: function (event) {
                 axios.post('/user/register', this.registerForm)
@@ -100,7 +99,7 @@
                     });
             }
         }
-    });
+    }).mount('#register-container');
 </script>
 </body>
 </html>

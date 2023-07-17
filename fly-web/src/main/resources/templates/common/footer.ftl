@@ -5,7 +5,7 @@
     </p>
 </div>
 
-<script src="/static/js/vue@2.6.9/vue.min.js"></script>
+<script src="/static/js/vue@3.3.4/vue.global.prod.js"></script>
 <script src="/static/js/axios/axios.min.js"></script>
 
 <script src="/static/js/jquery@3.5.1/jquery.min.js"></script>

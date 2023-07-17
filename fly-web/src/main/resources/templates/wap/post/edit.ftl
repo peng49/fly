@@ -46,12 +46,11 @@
 </div>
 <#include "../base/footer.ftl" />
 <link rel="stylesheet" href="/static/editor.md/css/editormd.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+<script src="/static/js/vue@3.3.4/vue.global.prod.js"></script>
 <script src="/static/editor.md/editormd.min.js"></script>
 <script type="text/javascript">
-    new Vue({
-        el: "#post-edit",
-        data: {
+    Vue.createApp({
+        data: () => ({
             editor: '',
             postId: '${(post.id?c)!}',
             postStatus: '${(post.status)!}',
@@ -62,7 +61,7 @@
                 originalContent: "",
                 content: ""
             }
-        },
+        }),
         mounted: function () {
             let _this = this;
             let editorBar = ["undo", "redo", "|", "bold", "hr", "watch", "fullscreen"];
@@ -163,7 +162,7 @@
                 });
             }
         }
-    });
+    }).mount('#post-edit');
 </script>
 </body>
 </html>

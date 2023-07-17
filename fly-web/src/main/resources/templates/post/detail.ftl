@@ -161,9 +161,8 @@
 <script type="text/javascript" src="/static/js/wangeditor@3.1.1/wangEditor.min.js"></script>
 <script type="text/javascript">
     initCopyButton();
-    new Vue({
-        el: "#post-container",
-        data: {
+    Vue.createApp({
+        data: () => ({
             postId:'${post.id?c}',
             post: {
                 top: '${(post.top)!0}',
@@ -180,7 +179,7 @@
                 content: "",
                 parentId: 0
             }
-        },
+        }),
         mounted() {
             this.initEditor()
             this.editor.txt.html(this.comment.content);
@@ -322,7 +321,7 @@
                 })
             }
         }
-    });
+    }).mount("#post-container");
     let index = 0
     let images = []
     document.querySelectorAll('.detail-body img').forEach(img => {

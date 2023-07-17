@@ -44,7 +44,13 @@
 <#include "../common/footer.ftl" />
 <script type="text/javascript" src="/static/js/vue-pagination-2.min.js"></script>
 <script type="text/javascript">
-    Vue.component('user-nav', {
+    let app = Vue.createApp({
+        data: () => ({
+            component: window.location.hash ? window.location.hash.slice(1) : "user-center",
+        }),
+        methods: {}
+    });
+    app.component('user-nav', {
         data: function () {
             return {
                 navs: [
@@ -96,7 +102,7 @@
             '    </li>' +
             '</ul>'
     });
-    Vue.component("user-center", {
+    app.component("user-center", {
         data: function () {
             return {
                 tabs: [
@@ -156,7 +162,7 @@
             </div>
         </div>`
     });
-    Vue.component("user-setting", {
+    app.component("user-setting", {
         components: {
             "info": {
                 data: function () {
@@ -394,7 +400,7 @@
             '            </div>' +
             '        </div>'
     });
-    Vue.component("user-message", {
+    app.component("user-message", {
         data: function () {
             return {
                 messages: []
@@ -440,13 +446,7 @@
         }
     });
 
-    new Vue({
-        el: "#user-center",
-        data: {
-            component: window.location.hash ? window.location.hash.slice(1) : "user-center",
-        },
-        methods: {}
-    })
+    app.mount('#user-center');
 </script>
 </body>
 </html>
