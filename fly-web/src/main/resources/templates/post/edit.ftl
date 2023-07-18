@@ -9,6 +9,7 @@
         .fly-header {
             z-index: 0
         }
+        .el-tag{margin-right: 5px}
     </style>
 </head>
 <body>
@@ -59,14 +60,43 @@
             </div>
         </div>
     </div>
+    <el-dialog v-model="publishDialogVisible" title="发布" width="45%">
+        <el-form :model="form" label-width="80px">
+            <el-form-item label="文章标签">
+                <el-tag v-for="tag in postForm.tags" closable @close="removeTag(tag)">{{tag.label}}</el-tag>
+            </el-form-item>
+            <el-form-item label="分类专栏">
+                <el-tag v-for="column in postForm.tags" closable @close="removeColumn(column)">{{tag.label}}</el-tag>
+            </el-form-item>
+            <el-form-item label="可见范围">
+                <el-radio-group v-model="postForm.access">
+                    <el-radio label="publish">全部可见</el-radio>
+                    <el-radio label="private">仅我可见</el-radio>
+                    <el-radio label="protect">粉丝可见</el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="publishDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="postSubmit">
+               发布
+            </el-button>
+          </span>
+        </template>
+    </el-dialog>
 </div>
 <#include "../common/footer.ftl" />
 <link rel="stylesheet" href="/static/editor.md/css/editormd.min.css"/>
+<link rel="stylesheet" href="/static/js/element-plus/index.css"/>
+<script src="/static/js/element-plus/index.full.min.js"></script>
+
 <script src="/static/editor.md/editormd.min.js"></script>
 <script type="text/javascript">
     Vue.createApp({
         data: () => ({
             editor: '',
+            publishDialogVisible:false,
             postId: '${(post.id?c)!}',
             postStatus: '${(post.status)!}',
             saveUrl: window.location.pathname,
@@ -76,7 +106,9 @@
                 columnId: '${(post.columnId)!1}',
                 title: "${(post.title)!}",
                 originalContent: "",
-                content: ""
+                content: "",
+                tags: [{id: 1, label: 'PHP'},{id: 2, label: 'JAVA'}],
+                access:'publish'
             },
             postDraft: {},
             draftLock: false,
@@ -152,7 +184,7 @@
             //通过jquery监听新加的按钮触发提交
             $('body').on('click', '.post-submit-btn', function () {
                 _this.postForm.action = $(this).data('action');
-                _this.postSubmit()
+                _this.prepareSubmit()
             });
 
             _this.renderCategories();
@@ -169,6 +201,12 @@
                 })
             },
             prepareSubmit() {
+                this.publishDialogVisible = true
+            },
+            removeTag(tag) {
+
+            },
+            removeColumn(column) {
 
             },
             postSubmit: function () {
@@ -176,23 +214,17 @@
                 // console.log(this.editor.getMarkdown());
                 // console.log(this.editor.getHTML());
                 // console.log(this.editor.watch().getPreviewedHTML());
-
                 let originWatch = this.editor.settings.watch;
-
                 _this.draftLock = true
-
                 //开启预览，获取预览html  (review -> onchange)
                 let previewContent = this.editor.watch().getPreviewedHTML();
                 if (!originWatch) {
                     //如果原本预览是关闭的,获取预览html后就关闭预览
                     this.editor.unwatch()
                 }
-
                 this.postForm.originalContent = this.editor.getMarkdown();
                 this.postForm.content = previewContent;
-
                 _this.draftLock = false
-
 
                 axios.post(_this.saveUrl, this.postForm)
                     .then(function (response) {
@@ -217,7 +249,7 @@
                     })
             }
         }
-    }).mount('#post-container')
+    }).use(ElementPlus).mount('#post-container')
 </script>
 </body>
 </html>
