@@ -83,6 +83,13 @@ public class PostController {
         return HttpUtils.success(post);
     }
 
+    @GetMapping("/{id}/get")
+    public Object get(@PathVariable("id") Long postId) {
+
+
+        return HttpUtils.success();
+    }
+
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") Long id, ModelAndView view, HttpServletRequest request) {
         Post post = postMapper.selectById(id);

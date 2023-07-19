@@ -80,6 +80,7 @@ public class ShiroConfiguration {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put("/static/**", "anon"); //静态文件可匿名访问
         map.put("/", "anon"); //首页同上
+        map.put("/favicon.ico", "anon");
         map.put("/column/*", "anon"); //列表同上
         map.put("/u/*", "anon"); //个人主页
         map.put("/user/register", "anon"); //注册

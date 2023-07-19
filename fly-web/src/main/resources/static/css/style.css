@@ -1363,6 +1363,7 @@ body .layui-edit-face .layui-layer-content {
     line-height: 20px;
     vertical-align: top;
     border-radius: 0;
+    margin-right: 5px;
 }
 
 .fly-detail-info .layui-btn + .layui-btn {
@@ -2185,6 +2186,7 @@ body .fly-user-main {
     font-weight: 400;
     padding: 1rem;
     display: inline-block;
+    margin: 0 5px;
 }
 
 
