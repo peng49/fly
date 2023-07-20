@@ -63,10 +63,10 @@
     <el-dialog v-model="publishDialogVisible" title="发布" width="45%">
         <el-form :model="form" label-width="80px">
             <el-form-item label="文章标签">
-                <el-tag v-for="tag in postForm.tags" closable @close="removeTag(tag)">{{tag.label}}</el-tag>
+                <el-tag v-for="tag in postForm.tags" closable @close="removeTag(tag)">{{tag.name}}</el-tag>
             </el-form-item>
             <el-form-item label="分类专栏">
-                <el-tag v-for="column in postForm.tags" closable @close="removeColumn(column)">{{tag.label}}</el-tag>
+                <el-tag v-for="column in postForm.columns" closable @close="removeColumn(column)">{{column.name}}</el-tag>
             </el-form-item>
             <el-form-item label="可见范围">
                 <el-radio-group v-model="postForm.access">
@@ -107,7 +107,8 @@
                 title: "${(post.title)!}",
                 originalContent: "",
                 content: "",
-                tags: [{id: 1, label: 'PHP'},{id: 2, label: 'JAVA'}],
+                tags: [],
+                columns: [],
                 access:'publish'
             },
             postDraft: {},
@@ -128,6 +129,10 @@
                 editorBar.push('publish');
                 editorBar.push('save2draft');
             }
+
+            fetch('/user-tag/search').then(resp => resp.json()).then(resp => {
+                _this.postForm.tags = resp.data
+            })
 
             //新增的时候取本地缓存的数据
             if (!_this.postId && localStorage && localStorage.getItem("markdownContent")) {
@@ -232,13 +237,12 @@
                             if (response.data && response.data.id) {
                                 //修改浏览器url
                                 history.pushState({}, "", '/post/edit/' + response.data.id);
-
                                 console.log("删除localStorage中的markdown内容");
                                 localStorage.removeItem("markdownContent");
                                 _this.postForm.postId = _this.postId = response.data.id
                                 _this.saveUrl = '/post/edit/' + response.data.id;
                             }
-                            console.log(response);
+                            _this.publishDialogVisible = false;
                             layer.msg('操作成功');
                             return;
                         }

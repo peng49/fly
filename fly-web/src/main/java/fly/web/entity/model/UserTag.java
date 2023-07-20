@@ -13,5 +13,5 @@ public class UserTag {
     private Long userId;
     private String name;
     private LocalDateTime createdAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 }

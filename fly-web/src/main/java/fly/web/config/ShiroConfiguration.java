@@ -78,6 +78,7 @@ public class ShiroConfiguration {
         factoryBean.setFilters(filters);
 
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put("/user-tag/**", "anon"); //静态文件可匿名访问
         map.put("/static/**", "anon"); //静态文件可匿名访问
         map.put("/", "anon"); //首页同上
         map.put("/favicon.ico", "anon");
