@@ -72,7 +72,7 @@ public class JwtUtil {
             DecodedJWT jwt = verifier.verify(token);
             return true;
         } catch (JWTVerificationException exception) {
-            throw new InvalidTokenException("token 无效，请重新获取");
+            throw new InvalidTokenException("The token is invalid. Please login again to refresh");
         }
     }
 }
