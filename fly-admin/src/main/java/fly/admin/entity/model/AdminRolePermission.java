@@ -27,7 +27,9 @@ public class AdminRolePermission {
     @Column(name = "permission_id")
     private int permissionId;
 
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    private LocalDateTime updatedAt;
+    @Builder.Default
+    private LocalDateTime updatedAt = LocalDateTime.now();
 }

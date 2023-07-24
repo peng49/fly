@@ -313,7 +313,7 @@ DROP TABLE IF EXISTS `friend_links`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `friend_links` (
-  `id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `id` bigint(20) unsigned NOT NULL DEFAULT 0 AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `status` tinyint(255) NOT NULL DEFAULT '0',
