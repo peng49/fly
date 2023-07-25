@@ -1,6 +1,7 @@
 package fly.web.controller;
 
 import fly.web.entity.model.UserTag;
+import fly.web.entity.vo.UserVO;
 import fly.web.service.UserTagService;
 import fly.web.utils.HttpUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,8 @@ public class UserTagController {
 
     @GetMapping("/search")
     public Object search() {
-        List<UserTag> tags = userTagService.lambdaQuery().list();
+        UserVO user = HttpUtils.getCurrentUser();
+        List<UserTag> tags = userTagService.lambdaQuery().eq(UserTag::getUserId, user.getId()).list();
 
         return HttpUtils.success(tags);
     }

@@ -63,13 +63,14 @@
     <el-dialog v-model="publishDialogVisible" title="发布" width="45%">
         <el-form :model="form" label-width="80px">
             <el-form-item label="文章标签">
-                <el-tag v-for="tag in postForm.tags" closable @close="removeTag(tag)">{{tag.name}}</el-tag>
-                <el-select style="margin-left: 15px" filterable v-model="postForm.tags">
+                <el-select style="margin-left: 15px" filterable multiple allow-create="true" @change="tagsChange" v-model="postForm.tags">
                     <el-option v-for="tag in tags" :value="tag.id" :key="tag.id" :label="tag.name"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="分类专栏">
-                <el-tag v-for="column in postForm.columns" closable @close="removeColumn(column)">{{column.name}}</el-tag>
+                <el-select style="margin-left: 15px" filterable multiple allow-create="true" @change="columnsChange" v-model="postForm.columns">
+                    <el-option v-for="column in columns" :value="column.id" :key="column.id" :label="column.name"></el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="可见范围">
                 <el-radio-group v-model="postForm.access">
@@ -104,6 +105,7 @@
             postStatus: '${(post.status)!}',
             saveUrl: window.location.pathname,
             tags: [],
+            columns: [],
             postForm: {
                 action: 'update',
                 postId: '${(post.id?c)!}',
@@ -136,7 +138,10 @@
 
             fetch('/user-tag/search').then(resp => resp.json()).then(resp => {
                 _this.tags = resp.data
-                console.log(_this.tags)
+            })
+
+            fetch('/user-column/search').then(resp => resp.json()).then(resp => {
+                _this.columns = resp.data
             })
 
             //新增的时候取本地缓存的数据
@@ -210,14 +215,14 @@
                     }
                 })
             },
+            columnsChange(value) {
+                console.log(value)
+            },
+            tagsChange(value) {
+                console.log(value)
+            },
             prepareSubmit() {
                 this.publishDialogVisible = true
-            },
-            removeTag(tag) {
-
-            },
-            removeColumn(column) {
-
             },
             postSubmit: function () {
                 let _this = this;
@@ -260,5 +265,10 @@
         }
     }).use(ElementPlus).mount('#post-container')
 </script>
+<style type="text/css">
+    .el-select {
+        width: 100%
+    }
+</style>
 </body>
 </html>

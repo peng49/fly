@@ -378,7 +378,7 @@ CREATE TABLE `navigations` (
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '上级Id',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 1 可用 0 禁用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -544,7 +544,7 @@ CREATE TABLE `post_tags` (
   `tag_id` bigint(20) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -636,7 +636,7 @@ CREATE TABLE `tags` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -688,7 +688,7 @@ CREATE TABLE `user_categories` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -793,7 +793,7 @@ CREATE TABLE `user_post_archive` (
   `post_count` int(11) NOT NULL DEFAULT '0' COMMENT '文章数量',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_user_year_mouth` (`user_id`,`year`,`month`)
-) ENGINE=InnoDB AUTO_INCREMENT=1422546445076037634 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1422546445076037634 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -814,13 +814,13 @@ DROP TABLE IF EXISTS `user_tags`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户Id',
+  `user_id` bigint NOT NULL DEFAULT '0' COMMENT '用户Id',
   `tag_id` int(11) NOT NULL DEFAULT '0' COMMENT '标签',
   `name` varchar(256) NOT NULL DEFAULT '' COMMENT '标签名称',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -830,6 +830,32 @@ CREATE TABLE `user_tags` (
 LOCK TABLES `user_tags` WRITE;
 /*!40000 ALTER TABLE `user_tags` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_tags` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_tags`
+--
+
+DROP TABLE IF EXISTS `user_columns`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_columns` (
+                             `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                             `user_id` bigint NOT NULL DEFAULT '0' COMMENT '用户Id',
+                             `name` varchar(256) NOT NULL DEFAULT '' COMMENT '栏目名称',
+                             `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                             `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                             PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_tags`
+--
+
+LOCK TABLES `user_columns` WRITE;
+/*!40000 ALTER TABLE `user_columns` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_columns` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
