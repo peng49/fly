@@ -13,5 +13,5 @@ export function editPermission(params) {
 }
 
 export function deletePermission(params) {
-  return request.delete('api/auth/permissions/' + params.id)
+  return request.delete('auth/permissions/' + params.id)
 }
