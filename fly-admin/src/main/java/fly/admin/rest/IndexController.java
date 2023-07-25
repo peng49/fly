@@ -15,6 +15,9 @@ public class IndexController {
     public String index() throws IOException {
         //读取jar中的内容失败
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/vue/dist/index.html");
+        if (inputStream == null) {
+            inputStream = getClass().getClassLoader().getResourceAsStream("vue/dist/index.html");
+        }
         assert inputStream != null;
         Scanner scanner = new Scanner(inputStream).useDelimiter("\n");
         StringBuilder content = new StringBuilder();

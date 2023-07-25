@@ -21,7 +21,7 @@ public class IndexTest extends TestCase {
         System.out.println(url.getFile());
 
 
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("application-prod.yml");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("vue/dist/index.html");
         System.out.println(inputStream);
 
         assert inputStream != null;
