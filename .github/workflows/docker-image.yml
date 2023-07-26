@@ -5,12 +5,13 @@ on:
     tags: [ "v*.*.*" ]
 #    branches: [ "develop" ]
 
+#    SSH_COMMAND: sshpass -p 'password' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no user@127.0.0.1 'command'
+# https://askubuntu.com/questions/87449/how-to-disable-strict-host-key-checking-in-ssh 跳过ssh主机验证
+# https://blog.benoitblanchon.fr/github-action-run-ssh-commands/ ssh远程执行命令
+
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
@@ -31,3 +32,23 @@ jobs:
           echo "${password}" | docker login -u "${username}" --password-stdin
           docker push peng49/fly:latest
           docker push peng49/fly:$(git describe --tags "$(git rev-list --tags --max-count=1)")
+
+      - name: SSH Deploy
+        env:
+          SSH_KEY: ${{secrets.SSH_KEY}}
+          SSH_HOST: ${{secrets.SSH_HOST}}
+          SSH_USER: ${{secrets.SSH_USER}}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/deploy.key
+          chmod 600 ~/.ssh/deploy.key
+          touch ~/.ssh/config
+          cat >> ~/.ssh/config <<END
+          Host deploy
+              HostName $SSH_HOST
+              User $SSH_USER
+              IdentityFile ~/.ssh/deploy.key
+              StrictHostKeyChecking no
+          END
+          ssh deploy bash deploy.sh
+          echo "deploy complete"
