@@ -1,5 +1,6 @@
 package fly.admin.service;
 
+import fly.admin.util.Tools;
 import junit.framework.TestCase;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -10,6 +11,12 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class IndexTest extends TestCase {
+    public void testClass2Code(){
+        System.out.println(
+                Tools.getCode(this)
+        );
+    }
+
     public void testReadIndex() throws IOException {
         String currentPath = new java.io.File(".").getCanonicalPath();
         System.out.println("Current dir:" + currentPath);

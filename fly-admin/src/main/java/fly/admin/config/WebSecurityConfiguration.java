@@ -14,6 +14,7 @@ import fly.admin.repository.AdminUserRoleRepository;
 import fly.admin.service.auth.AdminPermissionService;
 import fly.admin.service.auth.AdminUserService;
 import fly.admin.util.JwtUtil;
+import fly.admin.util.Tools;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -188,7 +189,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                             .print(
                                     new ObjectMapper()
                                             .writeValueAsString(
-                                                    ResultVO.builder().code("exception").message(ex.getMessage()).build()
+                                                    ResultVO.builder().code(Tools.getCode(ex)).message(ex.getMessage()).build()
                                             )
                             );
                 }
