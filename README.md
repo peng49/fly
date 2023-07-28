@@ -32,23 +32,12 @@ $ docker run -it -d --rm \
 ```shell
 $ docker run -it -d --rm \
      --name fly \
-     -p 8081:8080 \
+     -p 8082:8080 \
      -e DB_HOST=localhost \
      -e DB_PORT=3306\
      -e DB_PASSWORD=password \
      -e DB_USERNAME=root \
-     -e DB_DATABASE=fly \
-     -e FRONTEND_URL=. peng49/fly:latest admin
-```
-
-# 模块说明
-```
-fly
- ├─fly-admin 后台管理接口
- ├─fly-cache 缓存管理（待开发）
- ├─fly-common 公共模块 （待开发）
- ├─fly-web 前端页面模块 
- └─fly-search 查询模块 (待开发)
+     -e DB_DATABASE=fly peng49/fly:latest admin
 ```
 
 # 部分页面示例
