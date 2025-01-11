@@ -5,7 +5,7 @@ import fly.web.dao.UserFollowMapper;
 import fly.web.entity.model.User;
 import fly.web.entity.model.UserFollow;
 import fly.web.service.UserFollowService;
-import org.apache.shiro.SecurityUtils;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 public class UserFollowServiceImpl extends ServiceImpl<UserFollowMapper, UserFollow> implements UserFollowService {
     @Override
     public boolean exists(User followUser) {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
+//        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        User user = new User();
         return lambdaQuery()
                 .eq(UserFollow::getUserId, user.getId())
                 .eq(UserFollow::getFollowUserId, followUser.getId()).list().size() > 0;
@@ -22,7 +23,8 @@ public class UserFollowServiceImpl extends ServiceImpl<UserFollowMapper, UserFol
 
     @Override
     public void removeOrAdd(User followUser) {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
+//        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        User user = new User();
         if (exists(followUser)) {
             //remove
             lambdaUpdate().eq(UserFollow::getUserId, user.getId())

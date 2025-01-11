@@ -2,14 +2,14 @@ package fly.admin.rest;
 
 import fly.admin.entity.vo.ResultVO;
 import fly.admin.service.PostCommentService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 
-@Api(tags = "评论管理")
+@Tag(name = "评论管理")
 @RestController
 @RequestMapping("/api/post-comments")
 public class PostCommentController {
@@ -17,7 +17,7 @@ public class PostCommentController {
     @Resource
     private PostCommentService postCommentService;
 
-    @ApiOperation(value = "删除评论")
+    @Operation(summary = "删除评论")
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") Long id) {
         postCommentService.delete(postCommentService.findOne(id));
@@ -28,7 +28,7 @@ public class PostCommentController {
     }
 
 
-    @ApiOperation(value = "获取单个评论")
+    @Operation(summary = "获取单个评论")
     @GetMapping("/{id}")
     public Object get(@PathVariable("id") Long id) {
         return ResultVO.builder()
@@ -38,7 +38,7 @@ public class PostCommentController {
                 .build();
     }
 
-    @ApiOperation(value = "查询评论")
+    @Operation(summary = "查询评论")
     @GetMapping
     public Object search(
             @RequestParam(name = "page",defaultValue = "1") int page,

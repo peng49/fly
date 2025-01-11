@@ -45,7 +45,6 @@ $ docker run -it -d --rm \
 ```
 fly
  ├─fly-admin 后台管理接口
- ├─fly-cache 缓存管理（待开发）
  ├─fly-common 公共模块 （待开发）
  ├─fly-web 前端页面模块 
  └─fly-search 查询模块 (待开发)

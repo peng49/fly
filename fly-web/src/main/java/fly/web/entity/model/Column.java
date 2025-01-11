@@ -14,8 +14,8 @@ import lombok.*;
 @TableName(value = "columns")
 public class Column {
     @TableId(type = IdType.AUTO)
-    private int id;
+    private Integer id;
     private String name;
-    private int sort;
-    private int status;
+    private Integer sort;
+    private Integer status;
 }

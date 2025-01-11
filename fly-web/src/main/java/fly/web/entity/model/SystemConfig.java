@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @TableName(value = "system_config")
 public class SystemConfig {
     @TableId(type = IdType.AUTO)
-    private Integer id = 0;
+    private Integer id;
 
     private String attribute;
 

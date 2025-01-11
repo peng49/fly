@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xxl-job-admin
+  labels:
+    app: xxl-job-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xxl-job-admin
+  template:
+    metadata:
+      name: xxl-job-admin
+      labels:
+        app: xxl-job-admin
+    spec:
+      containers:
+        - name: xxl-job-admin
+          image: xuxueli/xxl-job-admin:2.4.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
+      

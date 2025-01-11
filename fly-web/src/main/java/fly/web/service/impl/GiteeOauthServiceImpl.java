@@ -8,7 +8,6 @@ import fly.web.service.OauthAccountService;
 import fly.web.service.OauthService;
 import fly.web.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
@@ -90,7 +89,8 @@ public class GiteeOauthServiceImpl implements OauthService {
         OauthAccount oauthAccount = oauthAccountService.getPlatformAccount(PLATFORM,oauthId);
 
         if (oauthAccount == null) {
-            User user =  (User) SecurityUtils.getSubject().getPrincipal();
+//            User user =  (User) SecurityUtils.getSubject().getPrincipal();
+            User user =  null;
             if (user == null) {//如果是已登录状态，直接绑定gitee账号，如果未登录,新建账号
                 user = new User();
                 user.setUsername(userService.getUniqueUsername(userInfo.getName()));

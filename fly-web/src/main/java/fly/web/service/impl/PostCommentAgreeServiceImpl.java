@@ -9,7 +9,7 @@ import fly.web.service.PostCommentAgreeService;
 import fly.web.service.PostCommentService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 
 @Service

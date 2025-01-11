@@ -4,14 +4,14 @@ import fly.admin.entity.model.AdminUser;
 import fly.admin.entity.request.EditAdminUserRequest;
 import fly.admin.entity.vo.ResultVO;
 import fly.admin.service.auth.AdminUserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
-@Api(tags = "后台用户管理")
+@Tag(name = "后台用户管理")
 @RestController("AdminUserController")
 @RequestMapping("/api/auth/users")
 public class UserController {
@@ -22,7 +22,7 @@ public class UserController {
     @Resource
     private PasswordEncoder passwordEncoder;
 
-    @ApiOperation(value = "登录")
+    @Operation(summary = "登录")
     @PostMapping("/login")
     public Object login(
             @RequestParam("username") String username,
@@ -36,7 +36,7 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "新增用户")
+    @Operation(summary = "新增用户")
     @PostMapping
     public Object add(@RequestBody EditAdminUserRequest request) {
         return ResultVO.builder()
@@ -52,7 +52,7 @@ public class UserController {
                 ).build();
     }
 
-    @ApiOperation(value = "删除用户")
+    @Operation(summary = "删除用户")
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") int id) {
         adminUserService.delete(adminUserService.get(id));
@@ -62,7 +62,7 @@ public class UserController {
                 .build();
     }
 
-    @ApiOperation(value = "更新用户")
+    @Operation(summary = "更新用户")
     @PutMapping("/{id}")
     public Object update(@PathVariable("id") int id, @RequestBody EditAdminUserRequest request) {
         AdminUser user = adminUserService.get(id);
@@ -82,7 +82,7 @@ public class UserController {
                 .build();
     }
 
-    @ApiOperation(value = "获取用户信息")
+    @Operation(summary = "获取用户信息")
     @GetMapping("/{id}")
     public Object get(@PathVariable("id") int id) {
         return ResultVO.builder()
@@ -92,7 +92,7 @@ public class UserController {
                 .build();
     }
 
-    @ApiOperation(value = "查询用户")
+    @Operation(summary = "查询用户")
     @GetMapping
     public Object search() {
         return ResultVO.builder()

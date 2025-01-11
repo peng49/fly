@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {FlyWebApplication.class})
 public class AvatarUtilsTest {
 

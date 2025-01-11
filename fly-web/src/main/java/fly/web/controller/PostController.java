@@ -14,22 +14,23 @@ import fly.web.entity.vo.UserVO;
 import fly.web.enums.PostStatus;
 import fly.web.service.*;
 import fly.web.utils.HttpUtils;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
@@ -63,10 +64,11 @@ public class PostController {
     private PostAutoDraftService postAutoDraftService;
 
     @GetMapping("/add")
-    public ModelAndView add(ModelAndView view, HttpServletRequest request) {
+    public ModelAndView add(ModelAndView view, @RequestHeader("User-Agent") String userAgent) {
         view.addObject("columns", columnService.list());
 
-        HttpUtils.selectViewName("/post/edit", request, view);
+        HttpUtils.selectViewName("/post/edit", userAgent, view);
+
         return view;
     }
 
@@ -91,12 +93,12 @@ public class PostController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable("id") Long id, ModelAndView view, HttpServletRequest request) {
+    public ModelAndView edit(@PathVariable("id") Long id, ModelAndView view, @RequestHeader("User-Agent") String userAgent) {
         Post post = postMapper.selectById(id);
         view.addObject("columns", columnService.list());
         view.addObject("post", post);
 
-        HttpUtils.selectViewName("/post/edit", request, view);
+        HttpUtils.selectViewName("/post/edit", userAgent, view);
 
         return view;
     }
@@ -142,7 +144,7 @@ public class PostController {
     }
 
     @GetMapping("/detail/{id}")
-    public ModelAndView detail(@PathVariable("id") Long id, ModelAndView view, HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView detail(@PathVariable("id") Long id, ModelAndView view, @RequestHeader("User-Agent") String userAgent) {
         PostVO post = postService.get(id);
         boolean allowEdit = false;
         UserVO user = null;
@@ -158,7 +160,6 @@ public class PostController {
 
         if (!Integer.valueOf(1).equals(post.getStatus()) && (user == null || !user.getId().equals(post.getAuthor().getId()))) {
             //不是作者不能看未发布的文章
-            response.setStatus(404);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
@@ -170,7 +171,7 @@ public class PostController {
         view.addObject("comments", comments.getRecords());
         view.addObject("allowEdit", allowEdit);
 
-        HttpUtils.selectViewName("/post/detail", request, view);
+        HttpUtils.selectViewName("/post/detail", userAgent, view);
 
         Thread thread = new Thread(() -> {
             postService.viewCountInc(id);
@@ -213,7 +214,7 @@ public class PostController {
     /**
      * 加精
      *
-     * @param postId      文章Id
+     * @param postId 文章Id
      * @return map response json
      * @throws Exception
      */
@@ -239,26 +240,19 @@ public class PostController {
 
     @PostMapping("/upload")
     @ResponseBody
-    public Object upload(HttpServletRequest request, HttpSession session) throws IOException {
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-        String url = "";
-        if (multipartResolver.isMultipart(request)) {
-            //将request变成多部分request
-            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-            //获取multiRequest 中所有的文件名
-            Iterator<String> iter = multiRequest.getFileNames();
-            while (iter.hasNext()) {
-                //一次遍历所有文件
-                MultipartFile file = multiRequest.getFile(iter.next());
-                if (file != null) {
-                    String filename = UUID.randomUUID() + Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().indexOf('.')).toLowerCase();
-                    String path = userDir + filename;
-                    //上传
-                    file.transferTo(new File(path));
-                    url = "/static/" + filename;
-                }
-            }
+    public Object upload(@RequestParam("file") MultipartFile file) throws IOException {
+        String uploadDir = userDir + File.separator + "post" + File.separator + "images" + File.separator;
+        File uploadFile = new File(uploadDir);
+        if (!uploadFile.exists()) uploadFile.mkdirs();
+
+        String filename = UUID.randomUUID() + file.getOriginalFilename().substring(file.getOriginalFilename().indexOf('.')).toLowerCase();
+        File dest = new File(uploadDir + filename);
+        try {
+            // 保存文件到指定目录
+            file.transferTo(dest);
+            return HttpUtils.success("/static/post/images/" + filename);
+        } catch (IOException e) {
+            return HttpUtils.fail("上传失败！！,请重新操作");
         }
-        return HttpUtils.success(url);
     }
 }

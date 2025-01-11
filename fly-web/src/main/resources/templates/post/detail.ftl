@@ -19,11 +19,11 @@
             <div class="fly-panel detail-box">
                 <h1>${post.title}</h1>
                 <div class="fly-detail-info">
-                    <span class="layui-badge layui-bg-green fly-detail-column">${post.column.name}</span>
+                    <span class="layui-btn layui-badge layui-bg-green fly-detail-column">${post.column.name}</span>
 
-                    <span v-if="post.top == 1" class="layui-badge layui-bg-black">置顶</span>
+                    <span v-if="post.top == 1" class="layui-btn layui-badge layui-bg-black">置顶</span>
 
-                    <span v-if="post.essence == 1" class="layui-badge layui-bg-red">精帖</span>
+                    <span v-if="post.essence == 1" class="layui-btn layui-badge layui-bg-red">精帖</span>
 
                     <div class="fly-admin-box">
                         <#if user?? && user.isAdmin == 1 >

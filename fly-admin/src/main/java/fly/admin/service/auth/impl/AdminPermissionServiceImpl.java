@@ -5,7 +5,7 @@ import fly.admin.repository.AdminPermissionRepository;
 import fly.admin.service.auth.AdminPermissionService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 @Service

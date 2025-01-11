@@ -11,8 +11,8 @@ import fly.admin.repository.AdminRoleRepository;
 import fly.admin.service.auth.AdminRoleService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
+import jakarta.annotation.Resource;
+import jakarta.transaction.Transactional;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;

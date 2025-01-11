@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 public class PostAgreeServiceImpl extends ServiceImpl<PostAgreeMapper, PostAgree> implements PostAgreeService {
     @Override
     public boolean exists(Long postId, Long userId) {
-        return lambdaQuery()
+        return !lambdaQuery()
                 .eq(PostAgree::getPostId, postId)
                 .eq(PostAgree::getUserId, userId)
-                .list().size() > 0;
+                .list().isEmpty();
     }
 
     @Override

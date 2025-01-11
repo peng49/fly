@@ -12,14 +12,18 @@ import fly.web.entity.model.PostAgree;
 import fly.web.entity.model.User;
 import fly.web.entity.model.UserCollection;
 import fly.web.entity.vo.PostVO;
+import fly.web.entity.vo.UserVO;
 import fly.web.enums.PostStatus;
 import fly.web.event.PostPublishEvent;
 import fly.web.service.*;
-import org.apache.shiro.SecurityUtils;
+import fly.web.utils.HttpUtils;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -113,10 +117,12 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (post == null) {
             throw new RuntimeException("文章不存在");
         }
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
+
         boolean collected = false;
         boolean agree = false;
-        if (user != null) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails userDetails) {
+            User user = userService.getByUsername(userDetails.getUsername());
             Long userId = user.getId();
             collected = userCollectionService.exists(user,post.getId());
 

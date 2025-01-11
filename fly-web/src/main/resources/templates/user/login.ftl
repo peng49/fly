@@ -70,7 +70,9 @@
         }),
         methods: {
             loginSubmit: function () {
-                axios.post('/user/login', this.loginForm)
+                const form = new FormData();
+                Object.keys(this.loginForm).forEach(key => form.append(key, this.loginForm[key]));
+                axios.post('/user/login', form)
                     .then(function (response) {
                         if (response.code === "success") {
                             //注册成功,转跳登录页面

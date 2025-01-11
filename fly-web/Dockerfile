@@ -1,4 +1,4 @@
-FROM openjdk:8u265-jre
+FROM openjdk:17.0
 
 ENV SERVER_PORT=8001
 
@@ -8,7 +8,7 @@ ENV DB_DATABASE=fly
 ENV DB_USERNAME=develop
 ENV DB_PASSWORD=123456
 
-COPY ./target/fly-web-1.0-SNAPSHOT.jar /var/www/fly/application.jar
+COPY ./target/fly-web-2.0.0.jar /var/www/fly/application.jar
 
 COPY ./src/main/resources/application-prod.yml /var/www/fly/application.yml
 

@@ -3,8 +3,8 @@ package fly.admin.entity.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity

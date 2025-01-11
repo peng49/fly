@@ -5,7 +5,6 @@ import fly.web.dao.UserBlacklistMapper;
 import fly.web.entity.model.User;
 import fly.web.entity.model.UserBlacklist;
 import fly.web.service.UserBlacklistService;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,7 +13,8 @@ import java.time.LocalDateTime;
 public class UserBlacklistServiceImpl extends ServiceImpl<UserBlacklistMapper, UserBlacklist> implements UserBlacklistService {
     @Override
     public boolean exists(User blackUser) {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
+//        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        User user = new User();
         return lambdaQuery()
                 .eq(UserBlacklist::getUserId, user.getId())
                 .eq(UserBlacklist::getBlackUserId, blackUser.getId()).list().size() > 0;
@@ -22,7 +22,8 @@ public class UserBlacklistServiceImpl extends ServiceImpl<UserBlacklistMapper, U
 
     @Override
     public void removeOrAdd(User blackUser) {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
+//        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        User user = new User();
         if (exists(blackUser)) {
             //remove
             lambdaUpdate().eq(UserBlacklist::getUserId, user.getId())

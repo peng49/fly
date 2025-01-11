@@ -3,7 +3,7 @@ package fly.admin;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
 

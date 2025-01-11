@@ -1,15 +1,30 @@
 package fly.web.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import fly.web.entity.model.User;
 import fly.web.entity.vo.UserVO;
-import org.apache.shiro.SecurityUtils;
+import fly.web.service.UserService;
+import fly.web.service.impl.UserServiceImpl;
+import jakarta.servlet.ServletContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
+@Component
 public class HttpUtils {
     public static String getCurrentUrl(HttpServletRequest request) {
         String url = request.getScheme() + "://" + request.getServerName()
@@ -20,6 +35,7 @@ public class HttpUtils {
         }
         return url;
     }
+
 
     public static String setUrlParam(String url, String name, String value) {
         if (url.matches(".*[&|?]" + name + "=.*")) {
@@ -35,12 +51,7 @@ public class HttpUtils {
         return url;
     }
 
-    public static boolean isMobile(HttpServletRequest request) {
-        String userAgent = request.getHeader("User-Agent");
-        if (userAgent == null) {
-            return false;
-        }
-
+    public static boolean isMobile(String userAgent) {
         return Pattern.matches(".*(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone).*", userAgent);
     }
 
@@ -78,10 +89,18 @@ public class HttpUtils {
     }
 
     public static UserVO getCurrentUser() {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
-        if (user == null) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User securityUser = (User) authentication.getPrincipal();
+        if (securityUser == null) {
             throw new RuntimeException("请先登录");
         }
+
+        ServletContext context = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getServletContext();
+        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(context);
+        UserService userService = webApplicationContext.getBean(UserService.class);
+
+        fly.web.entity.model.User user = userService.getByUsername(securityUser.getUsername());
+
         return UserVO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -91,15 +110,16 @@ public class HttpUtils {
     }
 
     /**
-     *  选择模板页面
+     * 选择模板页面
+     *
      * @param viewName
-     * @param request
+     * @param userAgent
      * @param view
      */
-    public static void selectViewName(String viewName, HttpServletRequest request, ModelAndView view) {
+    public static void selectViewName(String viewName, String userAgent, ModelAndView view) {
         view.setViewName(viewName);
-        if (isMobile(request)) {
-            view.setViewName("wap/" + viewName.replaceFirst("^/",""));
+        if (isMobile(userAgent)) {
+            view.setViewName("wap/" + viewName.replaceFirst("^/", ""));
         }
     }
 }

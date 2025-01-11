@@ -3,7 +3,7 @@ package fly.admin.service;
 import junit.framework.TestCase;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import sun.misc.IOUtils;
+
 
 import java.io.IOException;
 import java.io.InputStream;

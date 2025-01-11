@@ -6,14 +6,14 @@ import fly.admin.entity.request.EditFriendLinkRequest;
 import fly.admin.entity.request.EditPostRequest;
 import fly.admin.entity.vo.ResultVO;
 import fly.admin.service.FriendLinkService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 
-@Api(tags = "友链管理")
+@Tag(name = "友链管理")
 @RestController
 @RequestMapping("/api/friend-links")
 public class FriendLinkController {
@@ -21,7 +21,7 @@ public class FriendLinkController {
     @Resource
     private FriendLinkService friendLinkService;
 
-    @ApiOperation(value = "新增友链")
+    @Operation(summary = "新增友链")
     @PostMapping
     public Object add(@RequestBody EditFriendLinkRequest request) {
         return ResultVO.builder()
@@ -36,7 +36,7 @@ public class FriendLinkController {
                 ).build();
     }
 
-    @ApiOperation(value = "删除文章")
+    @Operation(summary = "删除文章")
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") int id) {
         friendLinkService.delete(friendLinkService.get(id));
@@ -46,7 +46,7 @@ public class FriendLinkController {
                 .build();
     }
 
-    @ApiOperation(value = "修改文章")
+    @Operation(summary = "修改文章")
     @PutMapping("/{id}")
     public Object update(@PathVariable("id") int id, @RequestBody EditFriendLinkRequest request) {
         FriendLink link = friendLinkService.get(id);
@@ -60,7 +60,7 @@ public class FriendLinkController {
                 .build();
     }
 
-    @ApiOperation(value = "获取文章信息")
+    @Operation(summary = "获取文章信息")
     @GetMapping("/{id}")
     public Object get(@PathVariable("id") int id) {
         return ResultVO.builder()
@@ -70,7 +70,7 @@ public class FriendLinkController {
                 .build();
     }
 
-    @ApiOperation(value = "查询文章")
+    @Operation(summary = "查询文章")
     @GetMapping
     public ResultVO search(
             @RequestParam(name = "page", defaultValue = "1") int page,

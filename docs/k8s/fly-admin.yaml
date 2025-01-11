@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fly-admin
+  labels:
+    app: fly-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fly-admin
+  template:
+    metadata:
+      name: fly-admin
+      labels:
+        app: fly-admin
+    spec:
+      containers:
+        - name: fly-admin
+          image: peng49/fly:latest
+          args: [ "admin" ]
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
+      

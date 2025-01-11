@@ -3,15 +3,15 @@ package fly.admin.rest;
 import fly.admin.entity.vo.ResultVO;
 import fly.admin.entity.vo.UserLoginVO;
 import fly.admin.service.auth.AdminUserService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
-@Api(tags = "后台")
+@Tag(name = "后台")
 @RestController
 @RequestMapping("/api")
 public class TokenController {

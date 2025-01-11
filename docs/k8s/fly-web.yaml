@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fly-web
+  labels:
+    app: fly-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fly-web
+  template:
+    metadata:
+      labels:
+        app: fly-web
+    spec:
+      containers:
+        - name: fly-web-container
+          image: peng49/fly:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
+
+      

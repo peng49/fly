@@ -4,10 +4,9 @@ import fly.web.entity.model.OauthAccount;
 import fly.web.entity.model.User;
 import fly.web.service.OauthService;
 import fly.web.service.UserService;
-import fly.web.shiro.OauthToken;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 @Slf4j
@@ -50,11 +48,11 @@ public class OauthController {
         OauthAccount account = getOauthService(platform).get(code);
         User user = userService.getById(account.getUserId());
 
-        OauthToken oauthToken = new OauthToken(user);
+//        OauthToken oauthToken = new OauthToken(user);
 
-        Subject subject = SecurityUtils.getSubject();
+      /*  Subject subject = SecurityUtils.getSubject();
 
-        subject.login(oauthToken);
+        subject.login(oauthToken);*/
 
         response.sendRedirect("/user/center");
     }

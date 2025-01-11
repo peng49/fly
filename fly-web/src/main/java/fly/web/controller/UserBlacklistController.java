@@ -3,9 +3,8 @@ package fly.web.controller;
 import fly.web.entity.vo.ResultVO;
 import fly.web.service.UserBlacklistService;
 import fly.web.service.UserService;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/userBlacklist")

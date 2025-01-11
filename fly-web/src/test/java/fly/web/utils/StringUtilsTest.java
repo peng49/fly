@@ -7,7 +7,10 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.Timestamp;
+import java.util.Enumeration;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +26,7 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void arrayTest(){
+    public void arrayTest() throws IOException {
 
     }
 

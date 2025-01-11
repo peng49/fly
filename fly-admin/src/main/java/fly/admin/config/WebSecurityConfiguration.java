@@ -14,32 +14,28 @@ import fly.admin.repository.AdminUserRoleRepository;
 import fly.admin.service.auth.AdminPermissionService;
 import fly.admin.service.auth.AdminUserService;
 import fly.admin.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.Resource;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
@@ -49,12 +45,8 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Configuration
-@EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration {
     private static final String[] ORIGINS = new String[]{"GET", "POST", "PUT", "DELETE", "OPTIONS"};
-
-    @Resource
-    private UserDetailsService userDetailsService;
 
     @Resource
     private AdminUserRepository adminUserRepository;
@@ -70,6 +62,75 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Resource
     private AdminPermissionRepository adminPermissionRepository;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                //允许跨域访问
+                .cors(cors -> {
+                    cors.configurationSource(request -> {
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.addAllowedHeader("*");
+                        configuration.setAllowedOrigins(Collections.singletonList("*"));
+                        configuration.setAllowedMethods(Arrays.asList(ORIGINS));
+                        return configuration;
+                    });
+                })
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/**"))//暂时禁用csrf
+                .authorizeHttpRequests(requests -> {
+                    requests.requestMatchers("/api/login", "/", "/vue/**","/dist/**","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                            .anyRequest().authenticated();
+                });
+
+        httpSecurity.addFilterBefore(new OncePerRequestFilter() {
+            @Override
+            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+                try {
+                    //请求是否带有token
+                    String token = request.getHeader("X-Token");
+                    //验证token是否有效 -> 通过token获取用户信息 -> 如果有效保存用户的相关信息
+                    if (token != null && JwtUtil.checkSign(token)) {
+                        String username = JwtUtil.getUserId(token);
+                        log.info("header token username:" + username);
+
+                        AdminUser adminUser = adminUserRepository.findByUsername(username);
+
+                        fly.admin.service.UserDetails details = new fly.admin.service.UserDetails(adminUser, adminUserService.getAuthorities(adminUser));
+                        log.info(details.getAuthorities().toString());
+
+                        if (!hasPermission(adminUser, request)) {
+                            throw new NotAllowAccessException("您没有操作权限，不能进行当前操作");
+                        }
+
+                        String uri = request.getRequestURI();
+                        log.info("request uri:" + uri);
+
+                        //userDetailsService
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                details, null, details.getAuthorities()
+                        );
+
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        //设置用户登录状态
+                        log.info("authenticated user {}, setting security context", token);
+
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
+                    filterChain.doFilter(request, response);
+                } catch (RuntimeException ex) {
+                    response.getWriter()
+                            .print(
+                                    new ObjectMapper()
+                                            .writeValueAsString(
+                                                    ResultVO.builder().code("exception").message(ex.getMessage()).build()
+                                            )
+                            );
+                }
+            }
+        }, UsernamePasswordAuthenticationFilter.class);
+        return httpSecurity.build();
+    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -123,93 +184,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return hasPermission.get();
     }
 
-
-    /**
-     * Spring Security (CORS)跨域资源访问配置
-     * https://www.cnblogs.com/famary/p/10336223.html
-     */
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                //允许跨域访问
-                .cors()
-                .and()
-                //基于token，所以不需要session
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/login", "/")
-                .permitAll()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/**")
-                .authenticated();
-
-        httpSecurity.csrf().disable();//暂时禁用csrf
-
-        httpSecurity.addFilterBefore(new OncePerRequestFilter() {
-            @Override
-            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-                try {
-                    //请求是否带有token
-                    String token = request.getHeader("X-Token");
-                    //验证token是否有效 -> 通过token获取用户信息 -> 如果有效保存用户的相关信息
-                    if (token != null && JwtUtil.checkSign(token)) {
-                        String username = JwtUtil.getUserId(token);
-                        log.info("header token username:" + username);
-
-                        AdminUser adminUser = adminUserRepository.findByUsername(username);
-
-                        fly.admin.service.UserDetails details = new fly.admin.service.UserDetails(adminUser, adminUserService.getAuthorities(adminUser));
-                        log.info(details.getAuthorities().toString());
-
-                        if (!hasPermission(adminUser, request)) {
-                            throw new NotAllowAccessException("您没有操作权限，不能进行当前操作");
-                        }
-
-                        String uri = request.getRequestURI();
-                        log.info("request uri:" + uri);
-
-                        //userDetailsService
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                                details, null, details.getAuthorities()
-                        );
-
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        //设置用户登录状态
-                        log.info("authenticated user {}, setting security context", token);
-
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
-                    filterChain.doFilter(request, response);
-                } catch (RuntimeException ex) {
-                    response.getWriter()
-                            .print(
-                                    new ObjectMapper()
-                                            .writeValueAsString(
-                                                    ResultVO.builder().code("exception").message(ex.getMessage()).build()
-                                            )
-                            );
-                }
-            }
-        }, UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Override
-    public void configure(WebSecurity webSecurity) {
-        //忽略拦截
-        webSecurity.ignoring()
-                .antMatchers("/swagger-ui.html");
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-    }
-
-
-    @Bean
+   /* @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedHeader("*");
@@ -219,5 +194,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
+    }*/
 }

@@ -49,7 +49,7 @@
 
                     // 创建FormData对象进行ajax上传
                     var forms = new FormData(document.forms[0]); //Filename
-                    forms.append(classPrefix + "image-file", file, "file_" + Date.parse(new Date()) + ".png"); // 文件
+                    forms.append("file", file, "file_" + Date.parse(new Date()) + ".png"); // 文件
 
                     _this.executePlugin("imageDialog", "image-dialog/image-dialog");
 

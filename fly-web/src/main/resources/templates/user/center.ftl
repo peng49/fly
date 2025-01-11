@@ -246,6 +246,7 @@
                 },
                 methods: {
                     uploadAvatar: function (event) {
+                        console.log(event)
                         let _this = this;
                         this.avatar = event.target.files[0];
                         let Form = new FormData();

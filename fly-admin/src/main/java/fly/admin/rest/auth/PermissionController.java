@@ -7,20 +7,20 @@ import fly.admin.entity.request.EditAdminRoleRequest;
 import fly.admin.entity.vo.ResultVO;
 import fly.admin.service.auth.AdminPermissionService;
 import fly.admin.service.auth.AdminRoleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
-@Api(tags = "权限管理")
+@Tag(name = "权限管理")
 @RestController("AdminPermissionController")
 @RequestMapping("/api/auth/permissions")
 public class PermissionController {
     @Resource
     private AdminPermissionService adminPermissionService;
 
-    @ApiOperation(value = "新增权限")
+    @Operation(summary = "新增权限")
     @PostMapping
     public Object add(@RequestBody EditAdminPermissionRequest request) {
         return ResultVO.builder()
@@ -37,7 +37,7 @@ public class PermissionController {
                 ).build();
     }
 
-    @ApiOperation(value = "删除权限")
+    @Operation(summary = "删除权限")
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") int id) {
         adminPermissionService.delete(adminPermissionService.get(id));
@@ -47,7 +47,7 @@ public class PermissionController {
                 .build();
     }
 
-    @ApiOperation(value = "更新权限")
+    @Operation(summary = "更新权限")
     @PutMapping("/{id}")
     public Object update(@PathVariable("id") int id, @RequestBody EditAdminPermissionRequest request) {
         AdminPermission permission = adminPermissionService.get(id);
@@ -64,7 +64,7 @@ public class PermissionController {
                 .build();
     }
 
-    @ApiOperation(value = "获取权限信息")
+    @Operation(summary = "获取权限信息")
     @GetMapping("/{id}")
     public Object get(@PathVariable("id") int id) {
         return ResultVO.builder()
@@ -74,7 +74,7 @@ public class PermissionController {
                 .build();
     }
 
-    @ApiOperation(value = "查询权限")
+    @Operation(summary = "查询权限")
     @GetMapping
     public Object search()
     {

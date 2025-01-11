@@ -13,7 +13,7 @@ public class SystemConfigServiceImpl extends ServiceImpl<SystemConfigMapper, Sys
     @Override
     public String getValue(String attribute) {
         List<SystemConfig> list = lambdaQuery().eq(SystemConfig::getAttribute, attribute).list();
-        if (list.size() == 0) {
+        if (list.isEmpty()) {
             return "";
         }
         return list.get(0).getValue();

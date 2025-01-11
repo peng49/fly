@@ -4,15 +4,15 @@ import fly.admin.entity.model.User;
 import fly.admin.entity.request.EditUserRequest;
 import fly.admin.entity.vo.ResultVO;
 import fly.admin.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 
-@Api(tags = "用户管理")
+@Tag(name = "用户管理")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -24,7 +24,7 @@ public class UserController {
     @Resource
     private PasswordEncoder passwordEncoder;
 
-    @ApiOperation(value = "新增用户")
+    @Operation(summary = "新增用户")
     @PostMapping
     public Object add(@RequestBody EditUserRequest request) {
         return ResultVO.builder()
@@ -41,7 +41,7 @@ public class UserController {
                 ).build();
     }
 
-    @ApiOperation(value = "删除用户")
+    @Operation(summary = "删除用户")
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") Long id) {
         userService.delete(userService.findOne(id));
@@ -51,7 +51,7 @@ public class UserController {
                 .build();
     }
 
-    @ApiOperation(value = "更新用户")
+    @Operation(summary = "更新用户")
     @PutMapping("/{id}")
     public Object update(@PathVariable("id") Long id, @RequestBody EditUserRequest request) {
         User user = userService.findOne(id);
@@ -71,7 +71,7 @@ public class UserController {
                 .build();
     }
 
-    @ApiOperation(value = "获取用户信息")
+    @Operation(summary = "获取用户信息")
     @GetMapping("/{id}")
     public Object get(@PathVariable("id") Long id) {
         return ResultVO.builder()
@@ -81,7 +81,7 @@ public class UserController {
                 .build();
     }
 
-    @ApiOperation(value = "查询用户")
+    @Operation(summary = "查询用户")
     @GetMapping
     public ResultVO search(
             @RequestParam(name = "page", defaultValue = "1") int page,

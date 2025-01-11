@@ -1,13 +1,8 @@
 package fly.web.service;
 
 import fly.web.FlyWebApplication;
-import fly.web.config.ShiroConfiguration;
 import fly.web.entity.from.UserLoginFrom;
 import fly.web.entity.model.User;
-import fly.web.shiro.OauthToken;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
+import org.springframework.util.Assert;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -26,7 +23,6 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {FlyWebApplication.class})
-@Import(ShiroConfiguration.class)
 public class UserServiceTest {
 
     @Autowired
@@ -35,20 +31,13 @@ public class UserServiceTest {
     @Resource
     private OauthAccountService oauthAccountService;
 
-    @Resource
-    private DefaultWebSecurityManager defaultWebSecurityManager;
 
     @Test
     public void lombokTest()
     {
         User admin = userService.getByUsername("peng49");
-        OauthToken oauthToken = new OauthToken(admin);
 
-        SecurityUtils.setSecurityManager(defaultWebSecurityManager);
-        Subject subject = SecurityUtils.getSubject();
-
-
-        subject.login(oauthToken);
+        Assert.isNull(admin,"vvv");
     }
 
 

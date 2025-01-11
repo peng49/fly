@@ -4,9 +4,9 @@ import fly.web.entity.vo.ResultVO;
 import fly.web.entity.vo.UserVO;
 import fly.web.service.PostAgreeService;
 import fly.web.utils.HttpUtils;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 
 /**
  * 文章点赞

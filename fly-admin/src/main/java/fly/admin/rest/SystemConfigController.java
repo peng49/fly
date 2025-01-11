@@ -3,22 +3,22 @@ package fly.admin.rest;
 import fly.admin.entity.model.SystemConfig;
 import fly.admin.entity.vo.ResultVO;
 import fly.admin.service.SystemConfigService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
-@Api(tags = "系统配置")
+@Tag(name = "系统配置")
 @RestController
 @RequestMapping("/api/system-config")
 public class SystemConfigController {
     @Resource
     private SystemConfigService systemConfigService;
 
-    @ApiOperation(value = "新增配置")
+    @Operation(summary = "新增配置")
     @PostMapping
     public Object add(@RequestBody SystemConfig config) {
         return ResultVO.builder().code("success")
@@ -35,7 +35,7 @@ public class SystemConfigController {
                 .build();
     }
 
-    @ApiOperation(value = "删除配置")
+    @Operation(summary = "删除配置")
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") int id) {
         systemConfigService.delete(systemConfigService.get(id));
@@ -45,7 +45,7 @@ public class SystemConfigController {
                 .build();
     }
 
-    @ApiOperation(value = "更新配置")
+    @Operation(summary = "更新配置")
     @PutMapping("/{id}")
     public Object update(@PathVariable("id") int id, @RequestBody SystemConfig request) {
         SystemConfig config = systemConfigService.get(id);
@@ -60,7 +60,7 @@ public class SystemConfigController {
                 .build();
     }
 
-    @ApiOperation(value = "获取配置", notes = "获取指定配置信息")
+    @Operation(summary = "获取配置", description = "获取指定配置信息")
     @GetMapping("/{id}")
     public Object get(@PathVariable("id") int id) {
         return ResultVO.builder()
@@ -70,7 +70,7 @@ public class SystemConfigController {
                 .build();
     }
 
-    @ApiOperation(value = "查询配置")
+    @Operation(summary = "查询配置")
     @GetMapping
     public ResultVO search(
             @RequestParam(name = "page", defaultValue = "1") int page,

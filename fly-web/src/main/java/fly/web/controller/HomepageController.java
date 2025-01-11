@@ -9,15 +9,10 @@ import fly.web.service.PostCommentService;
 import fly.web.service.PostService;
 import fly.web.service.UserService;
 import fly.web.utils.HttpUtils;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/")
@@ -32,8 +27,9 @@ public class HomepageController {
     private PostCommentService postCommentService;
 
     @RequestMapping("/")
-    public ModelAndView index(HttpServletRequest request,
-                              ModelAndView view,
+    public ModelAndView index(
+            @RequestHeader("User-Agent") String userAgent,
+            ModelAndView view,
                               @RequestParam(value = "list", defaultValue = "all") String list,
                               @RequestParam(value = "orderBy", defaultValue = "") String orderBy,
                               @RequestParam(value = "page",defaultValue = "1") Integer page,
@@ -56,21 +52,21 @@ public class HomepageController {
         view.addObject("currentPage", posts.getCurrent());
         view.addObject("pageSize", posts.getSize() > 0 ? posts.getSize() : 10);
 
-        HttpUtils.selectViewName("index", request, view);
+        HttpUtils.selectViewName("index", userAgent, view);
 
         return view;
     }
 
 
     @GetMapping("/u/{id}")
-    public ModelAndView index(@PathVariable("id") Long id, ModelAndView view, HttpServletRequest request) {
+    public ModelAndView index(@PathVariable("id") Long id, ModelAndView view, @RequestHeader("User-Agent") String userAgent) {
         view.addObject("user", userService.get(id));
 
         view.addObject("posts", postService.findPublishByAuthorId(id,new Page<>(1, 10)).getRecords());
 
         view.addObject("comments", postCommentService.getByUserId(new Page<>(1, 5), id).getRecords());
 
-        HttpUtils.selectViewName("user/home", request, view);
+        HttpUtils.selectViewName("user/home", userAgent, view);
 
         return view;
     }

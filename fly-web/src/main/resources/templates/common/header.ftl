@@ -8,12 +8,6 @@
                     </a>
                 </li>
             </#list>
-            <@shiro.user>
-                <!-- 用户登入后显示 -->
-                <li class="layui-hide-xs layui-show-md-inline-block">
-                    <a href="/user/center">个人中心</a>
-                </li>
-            </@shiro.user>
         </ul>
 
         <div class="fly-column-right layui-hide-xs">

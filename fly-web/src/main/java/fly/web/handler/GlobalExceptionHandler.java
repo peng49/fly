@@ -14,9 +14,10 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.util.WebUtils;
 
 import javax.validation.ConstraintViolationException;
-import javax.xml.bind.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,18 +33,22 @@ public class GlobalExceptionHandler {
             map.put("code", "exception");
             map.put("name", ex.getClass().getName());
             map.put("message", ex.getLocalizedMessage());
-            map.put("trace",ex.getStackTrace());
+            map.put("trace", ex.getStackTrace());
             return map;
         } else {
             ModelAndView mv = new ModelAndView("page/tips");
-            mv.addObject("message",ex.getLocalizedMessage());
+            if (ex instanceof NoHandlerFoundException) {
+                mv.addObject("message", "404 Not Found");
+            } else {
+                mv.addObject("message", ex.getLocalizedMessage());
+            }
             return mv;
         }
     }
 
     @ExceptionHandler(ResponseStatusException.class)
     public final ModelAndView handleResponseStatusException(ResponseStatusException ex, WebRequest request) throws ModelAndViewDefiningException {
-        if (HttpStatus.NOT_FOUND.equals(ex.getStatus())) {
+        if (HttpStatus.NOT_FOUND.equals(ex.getStatusCode())) {
             ModelAndView mv = new ModelAndView("page/404");
             log.info("404 page");
             mv.setStatus(HttpStatus.NOT_FOUND);
@@ -53,7 +58,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler(value = {BindException.class, MethodArgumentNotValidException.class})
     @ResponseBody
     public final Map<String, Object> handleValidateExceptions(Exception ex, WebRequest request) {
         Map<String, Object> map = new HashMap<>();

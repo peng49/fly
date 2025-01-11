@@ -11,13 +11,13 @@ import fly.web.enums.PostStatus;
 import fly.web.service.ColumnService;
 import fly.web.service.PostService;
 import fly.web.utils.HttpUtils;
+import jakarta.annotation.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/column")
@@ -34,7 +34,7 @@ public class ColumnController {
             @PathVariable("id") int id,
             PostFilterDTO filter,
             ModelAndView view,
-            HttpServletRequest request) {
+            @RequestHeader("User-Agent") String userAgent) {
         PostFilterCondition condition = new PostFilterCondition();
         condition.setColumnId(id);
         condition.setList(filter.getList());
@@ -60,9 +60,9 @@ public class ColumnController {
 
         view.addObject("pageSize", posts.getSize() > 0 ? posts.getSize() : 10);
 
-        view.addObject("nextUrl", HttpUtils.setUrlParam(HttpUtils.getCurrentUrl(request), "page", String.valueOf(posts.getCurrent() + 1)));
+        view.addObject("nextUrl", HttpUtils.setUrlParam("", "page", String.valueOf(posts.getCurrent() + 1)));
 
-        HttpUtils.selectViewName("post/list", request, view);
+        HttpUtils.selectViewName("post/list", userAgent, view);
 
         return view;
     }
