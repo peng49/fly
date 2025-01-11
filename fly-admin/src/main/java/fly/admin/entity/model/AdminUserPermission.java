@@ -24,7 +24,9 @@ public class AdminUserPermission {
 
     private int permissionId;
 
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    private LocalDateTime updatedAt;
+    @Builder.Default
+    private LocalDateTime updatedAt = LocalDateTime.now();
 }

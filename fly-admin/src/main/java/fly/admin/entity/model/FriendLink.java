@@ -23,13 +23,16 @@ public class FriendLink {
 
     private String name;
     private String url;
+
     private int status;
 
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updatedAt;
+    @Builder.Default
+    private LocalDateTime updatedAt = LocalDateTime.now();
 }

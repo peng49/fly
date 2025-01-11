@@ -4,7 +4,7 @@ server:
     uri-encoding: UTF-8
 spring:
   mvc:
-    static-path-pattern: /static/**,/favicon.ico
+    static-path-pattern: /static/**
   freemarker:
     template-loader-path: classpath:/templates/
     suffix: .ftl

@@ -326,6 +326,7 @@ pre:hover .code-copy {
     height: 20px;
     line-height: 20px;
     border-radius: 2px;
+    margin-right: 5px;
 }
 
 .fly-link {

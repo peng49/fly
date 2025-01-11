@@ -1,6 +1,8 @@
 package fly.web.handler;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.util.WebUtils;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +50,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResponseStatusException.class)
+    @Order(Ordered.HIGHEST_PRECEDENCE + 10)
     public final ModelAndView handleResponseStatusException(ResponseStatusException ex, WebRequest request) throws ModelAndViewDefiningException {
         if (HttpStatus.NOT_FOUND.equals(ex.getStatusCode())) {
             ModelAndView mv = new ModelAndView("page/404");
@@ -58,7 +62,8 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(value = {BindException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     @ResponseBody
     public final Map<String, Object> handleValidateExceptions(Exception ex, WebRequest request) {
         Map<String, Object> map = new HashMap<>();

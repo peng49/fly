@@ -1,19 +1,22 @@
 package fly.admin.service;
 
+import fly.admin.util.Tools;
 import junit.framework.TestCase;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class IndexTest extends TestCase {
+    public void testClass2Code(){
+        System.out.println(
+                Tools.getCode(this)
+        );
+    }
+
     public void testReadIndex() throws IOException {
         String currentPath = new java.io.File(".").getCanonicalPath();
         System.out.println("Current dir:" + currentPath);
@@ -25,7 +28,7 @@ public class IndexTest extends TestCase {
         System.out.println(url.getFile());
 
 
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("application-prod.yml");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("vue/dist/index.html");
         System.out.println(inputStream);
 
         assert inputStream != null;
