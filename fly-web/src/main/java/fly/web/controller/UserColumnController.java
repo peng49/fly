@@ -4,11 +4,12 @@ import fly.web.entity.model.UserColumn;
 import fly.web.entity.vo.UserVO;
 import fly.web.service.UserColumnService;
 import fly.web.utils.HttpUtils;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+
 import java.util.List;
 
 @RestController

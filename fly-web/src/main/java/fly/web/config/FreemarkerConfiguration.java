@@ -8,7 +8,6 @@ import fly.web.service.SystemConfigService;
 
 import freemarker.template.TemplateModelException;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
